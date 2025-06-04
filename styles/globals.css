@@ -1,0 +1,161 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bounce-animation {
+  animation: 10s animation-up infinite;
+}
+
+@keyframes animation-up {
+  0%,
+  100% {
+    transform: translateY(-25%);
+  }
+  50% {
+    transform: none;
+  }
+}
+
+@keyframes scroll-horizontal {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.scrolling-horizontal {
+  display: flex;
+  width: max-content;
+  animation: scroll-horizontal linear infinite;
+  animation-duration: var(--duration);
+}
+
+@keyframes scroll-vertical {
+  0% {
+    transform: translateY(0%);
+  }
+  100% {
+    transform: translateY(-50%);
+  }
+}
+
+.scrolling-vertical {
+  display: flex;
+  flex-direction: column;
+  height: max-content;
+  animation: scroll-vertical linear infinite;
+  animation-duration: var(--duration);
+}
+
+body {
+  overflow: hidden;
+}
+/* RTL Overrides CSS */
+
+/* General direction overrides */
+html[dir="rtl"] body {
+  text-align: right;
+}
+
+/* Flip margins and paddings for RTL */
+html[dir="rtl"] .md\:text-left {
+  text-align: right;
+}
+
+html[dir="rtl"] .md\:text-right {
+  text-align: left;
+}
+
+/* Flip margin and padding directions */
+html[dir="rtl"] .mr-auto {
+  margin-right: unset;
+  margin-left: auto;
+}
+
+html[dir="rtl"] .ml-auto {
+  margin-left: unset;
+  margin-right: auto;
+}
+
+html[dir="rtl"] .pr-8 {
+  padding-right: unset;
+  padding-left: 2rem; /* 8 in tailwind */
+}
+
+html[dir="rtl"] .pl-8 {
+  padding-left: unset;
+  padding-right: 2rem; /* 8 in tailwind */
+}
+
+/* Fix flexbox ordering for RTL */
+html[dir="rtl"] .md\:flex-row {
+  flex-direction: row-reverse;
+}
+
+html[dir="rtl"] .md\:flex-row-reverse {
+  flex-direction: row;
+}
+
+/* Fix icon directions */
+html[dir="rtl"] svg[aria-hidden="true"] {
+  transform: scaleX(-1);
+}
+
+/* Fix scrolling banner direction */
+html[dir="rtl"] [data-scrolling-banner] {
+  direction: ltr; /* Usually scrolling banners need to maintain ltr for proper animation */
+}
+
+/* Fix search inputs and other specific components */
+html[dir="rtl"] input[type="search"],
+html[dir="rtl"] input[type="text"] {
+  text-align: right;
+  direction: rtl;
+}
+
+/* Adjust borders for RTL */
+html[dir="rtl"] .border-l {
+  border-left: unset;
+  border-right: 1px solid;
+}
+
+html[dir="rtl"] .border-r {
+  border-right: unset;
+  border-left: 1px solid;
+}
+
+/* Fix any absolute positioning for RTL */
+html[dir="rtl"] .left-0 {
+  left: unset;
+  right: 0;
+}
+
+html[dir="rtl"] .right-0 {
+  right: unset;
+  left: 0;
+}
+
+/* Adjust any transformations */
+html[dir="rtl"] .rotate-\[223deg\] {
+  transform: rotate(43deg);
+}
+
+/* Fix dropdown menus and other positioned elements */
+html[dir="rtl"] .dropdown-menu {
+  left: unset;
+  right: 0;
+}
+
+/* Fix any scrollbars position */
+html[dir="rtl"] ::-webkit-scrollbar {
+  direction: rtl;
+}
+.reverse header {
+  flex-direction: row-reverse;
+}
+
+html {
+  scroll-behavior: smooth;
+}
