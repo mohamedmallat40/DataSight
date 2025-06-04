@@ -3,6 +3,7 @@ import { Card, Button, Image, Spinner } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
 import { BusinessCardData, emptyBusinessCardData } from "./types";
+import { extractBusinessCardData } from "@/config/api";
 
 export interface UploadImageStepProps {
   onImageUpload: (imageData: string, extractedData: BusinessCardData) => void;
@@ -16,11 +17,28 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
   setIsLoading,
 }) => {
   const [previewImage, setPreviewImage] = React.useState<string | null>(null);
+  const [currentFile, setCurrentFile] = React.useState<File | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file) return;
+
+    // Validate file type
+    const validTypes = ["image/jpeg", "image/jpg", "image/png"];
+    if (!validTypes.includes(file.type)) {
+      alert("Please select a valid image file (JPG, JPEG, or PNG)");
+      return;
+    }
+
+    // Validate file size (10MB limit)
+    const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+    if (file.size > maxSize) {
+      alert("File size must be less than 10MB");
+      return;
+    }
+
+    setCurrentFile(file); // Store the actual file for API call
 
     const reader = new FileReader();
     reader.onload = (e) => {
@@ -42,6 +60,22 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
     const file = e.dataTransfer.files?.[0];
     if (!file) return;
 
+    // Validate file type
+    const validTypes = ["image/jpeg", "image/jpg", "image/png"];
+    if (!validTypes.includes(file.type)) {
+      alert("Please select a valid image file (JPG, JPEG, or PNG)");
+      return;
+    }
+
+    // Validate file size (10MB limit)
+    const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+    if (file.size > maxSize) {
+      alert("File size must be less than 10MB");
+      return;
+    }
+
+    setCurrentFile(file); // Store the actual file for API call
+
     const reader = new FileReader();
     reader.onload = (e) => {
       const imageData = e.target?.result as string;
@@ -51,34 +85,32 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
   };
 
   const handleUpload = async () => {
-    if (!previewImage) return;
+    if (!previewImage || !currentFile) return;
 
     setIsLoading(true);
 
     try {
-      // Simulate API call to extract data from business card
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // Call the OCR API with the correct field name 'card'
+      const extractedData = await extractBusinessCardData(currentFile);
 
-      // Mock response data
-      const extractedData: BusinessCardData = {
-        full_name: "John Smith",
-        email: ["john.smith@example.com"],
-        phone_number: ["+1 (555) 123-4567"],
-        job_title: "Senior Marketing Manager",
-        company_name: "Acme Corporation",
-        address: "123 Business Ave, Suite 200",
-        website: "www.acmecorp.com",
-        linkedin: "linkedin.com/in/johnsmith",
-        fax: "+1 (555) 987-6543",
-        country: "United States",
-        city: "San Francisco",
-        raw_text:
-          "John Smith\nSenior Marketing Manager\nAcme Corporation\n123 Business Ave, Suite 200\nSan Francisco, CA\nPhone: +1 (555) 123-4567\nFax: +1 (555) 987-6543\nEmail: john.smith@example.com\nwww.acmecorp.com\nlinkedin.com/in/johnsmith",
-      };
-
+      // Pass the extracted data to parent component
       onImageUpload(previewImage, extractedData);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error processing image:", error);
+
+      // More detailed error handling
+      let errorMessage = "Failed to process business card. Please try again.";
+
+      if (error.response) {
+        // Server responded with error status
+        errorMessage = `Server error: ${error.response.status} - ${error.response.data?.message || "Unknown error"}`;
+      } else if (error.request) {
+        // Network error
+        errorMessage =
+          "Network error. Please check if the server is running on localhost:5000";
+      }
+
+      alert(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -86,6 +118,14 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
 
   const triggerFileInput = () => {
     fileInputRef.current?.click();
+  };
+
+  const clearImage = () => {
+    setPreviewImage(null);
+    setCurrentFile(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
   };
 
   return (
@@ -131,7 +171,7 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
                   variant="flat"
                   size="sm"
                   className="absolute top-2 right-2"
-                  onPress={() => setPreviewImage(null)}
+                  onPress={clearImage}
                 >
                   <Icon icon="lucide:x" width={16} />
                 </Button>

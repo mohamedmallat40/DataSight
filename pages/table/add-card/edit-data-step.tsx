@@ -1,20 +1,33 @@
-import React from "react";
-import { Input, Textarea, Button, Image, Card, Divider } from "@heroui/react";
+import React, { useState } from "react";
+import {
+  Input,
+  Textarea,
+  Button,
+  Image,
+  Card,
+  Divider,
+  addToast,
+} from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
 import { BusinessCardData } from "./types";
+import apiClient from "@/config/api";
 
 export interface EditDataStepProps {
   businessCardData: BusinessCardData;
   setBusinessCardData: (data: BusinessCardData) => void;
   uploadedImage: string | null;
+  onNextStep: () => void;
 }
 
 const EditDataStep: React.FC<EditDataStepProps> = ({
   businessCardData,
   setBusinessCardData,
   uploadedImage,
+  onNextStep,
 }) => {
+  const [loading, setLoading] = useState(false);
+
   const handleInputChange = (field: keyof BusinessCardData, value: string) => {
     if (field === "email" || field === "phone_number") {
       setBusinessCardData({
@@ -59,6 +72,35 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
     });
   };
 
+  const handleSubmit = async () => {
+    setLoading(true);
+    try {
+      const response = await apiClient.post(
+        "/update-card-info",
+        businessCardData
+      );
+
+      if (response.status === 201) {
+        onNextStep();
+      } else {
+        addToast({
+          title: "Unexpected Response",
+          description: `Received status ${response.status}`,
+          color: "warning",
+        });
+      }
+    } catch (error: any) {
+      console.error("Submission error:", error);
+      addToast({
+        title: "Error",
+        description: "Error occurred while saving data",
+        color: "danger",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+  
   return (
     <>
       <div className="text-3xl font-bold leading-9 text-default-foreground">
@@ -68,7 +110,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
         Review and edit the extracted information from the business card
       </div>
 
-      <div className="grid grid-cols-12 gap-6 py-8">
+      <div className="grid  gap-6 py-8">
         {/* {uploadedImage && (
           <Card className="col-span-12 md:col-span-4 p-4">
             <Image
@@ -255,18 +297,6 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             />
 
             <Input
-              label="Fax"
-              labelPlacement="outside"
-              placeholder="Fax Number"
-              value={businessCardData.fax}
-              onChange={(e) => handleInputChange("fax", e.target.value)}
-              className="col-span-12 md:col-span-6"
-              startContent={
-                <Icon icon="lucide:printer" className="text-default-400" />
-              }
-            />
-
-            <Input
               label="Address"
               labelPlacement="outside"
               placeholder="Address"
@@ -303,6 +333,16 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             />
           </div>
         </div>
+      </div>
+      <div className="flex justify-end mt-4">
+        <Button
+          color="primary"
+          isLoading={loading}
+          onPress={handleSubmit}
+          startContent={<Icon icon="lucide:save" />}
+        >
+          Save & Continue
+        </Button>
       </div>
     </>
   );

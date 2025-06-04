@@ -7,7 +7,6 @@ export interface BusinessCardData {
   address: string;
   website: string;
   linkedin: string;
-  fax: string;
   country: string;
   city: string;
   raw_text: string;
@@ -22,7 +21,6 @@ export const emptyBusinessCardData: BusinessCardData = {
   address: "",
   website: "",
   linkedin: "",
-  fax: "",
   country: "",
   city: "",
   raw_text: "",

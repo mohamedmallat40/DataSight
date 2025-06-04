@@ -83,59 +83,54 @@ const CompleteStep: React.FC<CompleteStepProps> = ({
                     </div>
                   ))}
 
-                  {businessCardData.fax && (
-                    <div className="flex items-center gap-2">
-                      <Icon
-                        icon="lucide:printer"
-                        className="text-default-400"
-                      />
-                      <span>{businessCardData.fax}</span>
-                    </div>
-                  )}
-                </div>
+                  <div className="space-y-3">
+                    <h3 className="text-medium font-semibold">
+                      Online Presence
+                    </h3>
 
-                <div className="space-y-3">
-                  <h3 className="text-medium font-semibold">Online Presence</h3>
+                    {businessCardData.website && (
+                      <div className="flex items-center gap-2">
+                        <Icon
+                          icon="lucide:globe"
+                          className="text-default-400"
+                        />
+                        <span>{businessCardData.website}</span>
+                      </div>
+                    )}
 
-                  {businessCardData.website && (
-                    <div className="flex items-center gap-2">
-                      <Icon icon="lucide:globe" className="text-default-400" />
-                      <span>{businessCardData.website}</span>
-                    </div>
-                  )}
+                    {businessCardData.linkedin && (
+                      <div className="flex items-center gap-2">
+                        <Icon
+                          icon="lucide:linkedin"
+                          className="text-default-400"
+                        />
+                        <span>{businessCardData.linkedin}</span>
+                      </div>
+                    )}
 
-                  {businessCardData.linkedin && (
-                    <div className="flex items-center gap-2">
-                      <Icon
-                        icon="lucide:linkedin"
-                        className="text-default-400"
-                      />
-                      <span>{businessCardData.linkedin}</span>
-                    </div>
-                  )}
+                    <h3 className="text-medium font-semibold mt-4">Location</h3>
 
-                  <h3 className="text-medium font-semibold mt-4">Location</h3>
+                    {businessCardData.address && (
+                      <div className="flex items-center gap-2">
+                        <Icon
+                          icon="lucide:map-pin"
+                          className="text-default-400"
+                        />
+                        <span>{businessCardData.address}</span>
+                      </div>
+                    )}
 
-                  {businessCardData.address && (
-                    <div className="flex items-center gap-2">
-                      <Icon
-                        icon="lucide:map-pin"
-                        className="text-default-400"
-                      />
-                      <span>{businessCardData.address}</span>
-                    </div>
-                  )}
-
-                  {(businessCardData.city || businessCardData.country) && (
-                    <div className="flex items-center gap-2">
-                      <Icon icon="lucide:map" className="text-default-400" />
-                      <span>
-                        {[businessCardData.city, businessCardData.country]
-                          .filter(Boolean)
-                          .join(", ")}
-                      </span>
-                    </div>
-                  )}
+                    {(businessCardData.city || businessCardData.country) && (
+                      <div className="flex items-center gap-2">
+                        <Icon icon="lucide:map" className="text-default-400" />
+                        <span>
+                          {[businessCardData.city, businessCardData.country]
+                            .filter(Boolean)
+                            .join(", ")}
+                        </span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>

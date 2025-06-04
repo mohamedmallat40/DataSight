@@ -76,6 +76,7 @@ export default function MultiStepWizard() {
             businessCardData={businessCardData}
             setBusinessCardData={setBusinessCardData}
             uploadedImage={uploadedImage}
+            onNextStep={onNext}
           />
         );
         break;

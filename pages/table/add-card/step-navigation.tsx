@@ -19,12 +19,12 @@ const StepNavigation = React.forwardRef<HTMLDivElement, StepNavigationProps>(
     <div
       ref={ref}
       className={cn(
-        "mx-auto my-6 flex w-full items-center justify-center gap-x-4 lg:mx-0",
+        "mx-auto my-6 flex w-full items-center justify-end gap-x-4 lg:mx-0",
         className
       )}
       {...props}
     >
-      <Button
+      {/* <Button
         className="rounded-medium border-default-200 text-medium font-medium text-default-500 lg:hidden"
         variant="bordered"
         onPress={onBack}
@@ -34,7 +34,7 @@ const StepNavigation = React.forwardRef<HTMLDivElement, StepNavigationProps>(
         Go Back
       </Button>
 
-      {/* <Button
+      <Button
         className="text-medium font-medium bg-gradient-to-r from-secondary to-danger text-white"
         type="button"
         onPress={onNext}
