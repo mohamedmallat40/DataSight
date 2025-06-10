@@ -29,8 +29,18 @@ export default function MultiStepWizard() {
   const [[page, direction], setPage] = React.useState([0, 0]);
   const [businessCardData, setBusinessCardData] =
     React.useState<BusinessCardData>(emptyBusinessCardData);
-  const [uploadedImage, setUploadedImage] = React.useState<string | null>(null);
+  const [uploadedImages, setUploadedImages] = React.useState<{
+    front: string | null;
+    back: string | null;
+  }>({ front: null, back: null });
   const [isLoading, setIsLoading] = React.useState(false);
+  React.useEffect(() => {
+    // Reset state when the component mounts
+    setBusinessCardData(emptyBusinessCardData);
+    setUploadedImages({ front: null, back: null });
+
+    setIsLoading(false);
+  }, []);
 
   const paginate = React.useCallback((newDirection: number) => {
     setPage((prev) => {
@@ -59,10 +69,9 @@ export default function MultiStepWizard() {
   const content = React.useMemo(() => {
     let component = (
       <UploadImageStep
-        onImageUpload={(imageData, extractedData) => {
-          setUploadedImage(imageData);
+        onImageUpload={(frontImage, backImage, extractedData) => {
+          setUploadedImages({ front: frontImage, back: backImage });
           setBusinessCardData(extractedData);
-          onNext();
         }}
         isLoading={isLoading}
         setIsLoading={setIsLoading}
@@ -75,7 +84,8 @@ export default function MultiStepWizard() {
           <EditDataStep
             businessCardData={businessCardData}
             setBusinessCardData={setBusinessCardData}
-            uploadedImage={uploadedImage}
+            uploadedImage={uploadedImages.front}
+            // uploadedBackImage={uploadedImages.back}
             onNextStep={onNext}
           />
         );
@@ -92,7 +102,8 @@ export default function MultiStepWizard() {
         component = (
           <CompleteStep
             businessCardData={businessCardData}
-            uploadedImage={uploadedImage}
+            uploadedImage={uploadedImages.front}
+            // uploadedBackImage={uploadedImages.back}
           />
         );
         break;
@@ -108,8 +119,8 @@ export default function MultiStepWizard() {
           exit="exit"
           initial="exit"
           transition={{
-            y: { ease: "backOut", duration: 0.35 },
-            opacity: { duration: 0.4 },
+            y: { ease: "backOut", duration: 0.7 },
+            opacity: { duration: 0.6 },
           }}
           variants={variants}
         >
@@ -117,7 +128,7 @@ export default function MultiStepWizard() {
         </m.div>
       </LazyMotion>
     );
-  }, [direction, page, businessCardData, uploadedImage, isLoading, onNext]);
+  }, [direction, page, businessCardData, uploadedImages, isLoading, onNext]); // <-- changed here
 
   return (
     <WizardSidebar

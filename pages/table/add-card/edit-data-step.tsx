@@ -6,7 +6,9 @@ import {
   Image,
   Card,
   Divider,
+  useToast,
   addToast,
+  // addToast should come from your toast context/provider or custom hook
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
@@ -27,9 +29,12 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
   onNextStep,
 }) => {
   const [loading, setLoading] = useState(false);
+  // Example toast hook
 
+  // Handles all single-value inputs or array fields reset if user types directly
   const handleInputChange = (field: keyof BusinessCardData, value: string) => {
     if (field === "email" || field === "phone_number") {
+      // Reset array to single value on direct edit
       setBusinessCardData({
         ...businessCardData,
         [field]: [value],
@@ -42,6 +47,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
     }
   };
 
+  // Handles change in a specific index of email or phone number arrays
   const handleArrayInputChange = (
     field: "email" | "phone_number",
     index: number,
@@ -55,6 +61,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
     });
   };
 
+  // Add empty string to email or phone_number arrays
   const addArrayItem = (field: "email" | "phone_number") => {
     setBusinessCardData({
       ...businessCardData,
@@ -62,6 +69,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
     });
   };
 
+  // Remove item at index from email or phone_number arrays, but keep at least one
   const removeArrayItem = (field: "email" | "phone_number", index: number) => {
     if (businessCardData[field].length <= 1) return;
 
@@ -72,6 +80,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
     });
   };
 
+  // Submit updated business card data
   const handleSubmit = async () => {
     setLoading(true);
     try {
@@ -100,7 +109,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
       setLoading(false);
     }
   };
-  
+
   return (
     <>
       <div className="text-3xl font-bold leading-9 text-default-foreground">
@@ -110,7 +119,8 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
         Review and edit the extracted information from the business card
       </div>
 
-      <div className="grid  gap-6 py-8">
+      <div className="grid flex-auto gap-6 py-8">
+        {/* Uncomment if you want to show image and raw text */}
         {/* {uploadedImage && (
           <Card className="col-span-12 md:col-span-4 p-4">
             <Image
