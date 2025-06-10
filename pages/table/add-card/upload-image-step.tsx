@@ -13,12 +13,14 @@ export interface UploadImageStepProps {
   ) => void;
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
+  onNextStep: () => void;
 }
 
 const UploadImageStep: React.FC<UploadImageStepProps> = ({
   onImageUpload,
   isLoading,
   setIsLoading,
+  onNextStep,
 }) => {
   const [frontImage, setFrontImage] = React.useState<string | null>(null);
   const [backImage, setBackImage] = React.useState<string | null>(null);
@@ -115,10 +117,14 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
 
     try {
       // Call the OCR API with the front side image
-      const extractedData = await extractBusinessCardData(frontFile);
+      const extractedData = await extractBusinessCardData(
+        frontFile,
+        backFile ?? undefined
+      );
 
       // Pass both images and the extracted data to parent component
       onImageUpload(frontImage, backImage, extractedData);
+      onNextStep();
     } catch (error: any) {
       console.error("Error processing image:", error);
 

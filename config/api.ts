@@ -34,9 +34,10 @@ apiClient.interceptors.response.use(
 );
 
 // OCR specific function
-export const extractBusinessCardData = async (imageFile: File) => {
+export const extractBusinessCardData = async (front: File, back?: File) => {
   const formData = new FormData();
-  formData.append("card", imageFile); // Changed from 'image' to 'card' to match your API
+  formData.append("front", front);
+  if (back) formData.append("back", back);
 
   const response = await apiClient.post("/ocr", formData, {
     headers: {
