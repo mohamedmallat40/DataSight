@@ -20,7 +20,6 @@ import {
   Chip,
   User,
   Pagination,
-  Tooltip,
   useDisclosure,
   ModalContent,
   Modal,
