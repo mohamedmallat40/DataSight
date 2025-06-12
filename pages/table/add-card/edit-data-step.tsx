@@ -12,7 +12,7 @@ import {
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
-import { BusinessCardData } from "./types";
+import { BusinessCardData } from "../../../types/types";
 import apiClient from "@/config/api";
 
 export interface EditDataStepProps {

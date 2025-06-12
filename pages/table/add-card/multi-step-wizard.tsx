@@ -1,6 +1,6 @@
 import React from "react";
 import { domAnimation, LazyMotion, m } from "framer-motion";
-import { BusinessCardData, emptyBusinessCardData } from "./types";
+import { BusinessCardData, emptyBusinessCardData } from "../../../types/types";
 import WizardSidebar from "./wizard-sidebar";
 import UploadImageStep from "./upload-image-step";
 import EditDataStep from "./edit-data-step";

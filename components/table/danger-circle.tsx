@@ -1,4 +1,4 @@
-export const SuccessCircleSvg = (
+export const DangerCircleSvg = () => (
   <svg
     fill="none"
     height="7"
@@ -6,6 +6,6 @@ export const SuccessCircleSvg = (
     width="7"
     xmlns="http://www.w3.org/2000/svg"
   >
-    <circle cx="3.5" cy="3.5" fill="#17C964" r="3.5" />
+    <circle cx="3.5" cy="3.5" fill="#F31260" r="3.5" />
   </svg>
 );

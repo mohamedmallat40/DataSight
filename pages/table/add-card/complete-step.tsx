@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Button, Image, Divider, Chip } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import { BusinessCardData } from "./types";
+import { BusinessCardData } from "../../../types/types";
 
 export interface CompleteStepProps {
   businessCardData: BusinessCardData;

@@ -1,3 +1,9 @@
+import type { SVGProps } from "react";
+
+export type IconSvgProps = SVGProps<SVGSVGElement> & {
+  size?: number;
+};
+
 export interface BusinessCardData {
   full_name: string;
   email: string[];

@@ -2,7 +2,7 @@ import React from "react";
 import { Card, Button, Image, Spinner } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
-import { BusinessCardData, emptyBusinessCardData } from "./types";
+import { BusinessCardData, emptyBusinessCardData } from "../../../types/types";
 import { extractBusinessCardData } from "@/config/api";
 
 export interface UploadImageStepProps {

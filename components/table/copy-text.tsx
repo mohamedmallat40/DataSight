@@ -1,4 +1,5 @@
-import { Button, Tooltip } from "@heroui/react";
+import { Button } from "@heroui/button";
+import { Tooltip } from "@heroui/tooltip";
 import React, { forwardRef, memo, useMemo } from "react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";

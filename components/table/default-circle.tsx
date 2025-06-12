@@ -1,4 +1,4 @@
-export const DefaultCircleSvg = (
+export const DefaultCircleSvg = () => (
   <svg
     className="text-foreground"
     fill="currentColor"

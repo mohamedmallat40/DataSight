@@ -10,7 +10,11 @@ import {
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
-import { BusinessCardData, EnrichmentSource, EnrichmentResult } from "./types";
+import {
+  BusinessCardData,
+  EnrichmentSource,
+  EnrichmentResult,
+} from "../../../types/types";
 
 export interface EnrichDataStepProps {
   businessCardData: BusinessCardData;

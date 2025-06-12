@@ -14,7 +14,7 @@ import { Navbar } from "@/components/navbar";
 
 import { Spinner } from "@heroui/spinner";
 import "@/styles/globals.css";
-import { ToastProvider } from "@heroui/react";
+import { ToastProvider } from "@heroui/toast";
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();

@@ -1,4 +1,4 @@
-import type { IconSvgProps } from "./types";
+import type { IconSvgProps } from "../../types/types";
 
 export const ArrowUpIcon = (props: IconSvgProps) => (
   <svg
