@@ -37,56 +37,70 @@ export type MemberInfo = {
 };
 
 export type Users = {
-  id: number;
-  workerID: number;
-  externalWorkerID: string;
-  memberInfo: MemberInfo;
-  country: {
-    name: string;
-    icon: React.ReactNode;
-  };
-  role: string;
-  workerType: "Contractor" | "Employee";
-  status: StatusOptions;
-  startDate: Date;
-  teams: Teams[];
+  id: string;
+  full_name: string;
+  first_name: string | null;
+  last_name: string | null;
+  job_title: string;
+  company_name: string;
+  website: string;
+  linkedin: string;
+  twitter: string | null;
+  facebook: string | null;
+  address: string;
+  street: string | null;
+  city: string;
+  state: string | null;
+  postal_code: string | null;
+  country: string;
+  industry: string | null;
+  logo_url: string | null;
+  notes: string | null;
+  source: string | null;
+  date_collected: string | null;
+  ocr_confidence: number | null;
+  card_image_url: string | null;
+  email: string[];
+  phone_number: string[];
+  raw_text: string;
+  gender: boolean | null;
+  front_image_link: string | null;
+  back_image_link: string | null;
+  collected_at: string | null;
 };
 
 export type ColumnsKey =
-  | "workerID"
-  | "externalWorkerID"
-  | "memberInfo"
+  | "full_name"
+  | "job_title"
+  | "company_name"
+  | "email"
+  | "phone_number"
   | "country"
-  | "role"
-  | "workerType"
-  | "status"
-  | "startDate"
-  | "teams"
+  | "industry"
+  | "date_collected"
   | "actions";
 
 export const INITIAL_VISIBLE_COLUMNS: ColumnsKey[] = [
-  "workerID",
-  "externalWorkerID",
-  "memberInfo",
+  "full_name",
+  "job_title",
+  "company_name",
+  "email",
+  "phone_number",
   "country",
-  "role",
-  "workerType",
-  "status",
-  "startDate",
-  "teams",
+  "industry",
+  "date_collected",
   "actions",
 ];
 
 export const columns = [
-  { name: "Worker ID", uid: "workerID" },
-  { name: "External Worker ID", uid: "externalWorkerID" },
-  { name: "Member", uid: "memberInfo", sortDirection: "ascending" },
+  { name: "Full Name", uid: "full_name" },
+  { name: "Job Title", uid: "job_title" },
+  { name: "Company", uid: "company_name" },
+  { name: "Email", uid: "email" },
+  { name: "Phone", uid: "phone_number" },
   { name: "Country", uid: "country" },
-  { name: "Role", uid: "role" },
-  { name: "Worker Type", uid: "workerType" },
-  { name: "Status", uid: "status", info: "The user's current status" },
-  { name: "Start Date", uid: "startDate", info: "The date the user started" },
-  { name: "Teams", uid: "teams" },
+  { name: "Industry", uid: "industry" },
+  { name: "Date Collected", uid: "date_collected" },
   { name: "Actions", uid: "actions" },
 ];
 
@@ -418,55 +432,3 @@ const countries = [
     ),
   },
 ];
-
-const generateMockUserData = (count: number): Users[] => {
-  const mockData: Users[] = [];
-
-  for (let i = 0; i < count; i++) {
-    const selectedName = names[Math.floor(Math.random() * names.length)];
-    const selectedRole = roles[Math.floor(Math.random() * roles.length)];
-    const selectedCountry =
-      countries[Math.floor(Math.random() * countries.length)];
-
-    const user: Users = {
-      id: i,
-      workerID: Math.floor(Math.random() * 1000),
-      externalWorkerID: `EXT-${Math.floor(Math.random() * 1000)}`,
-      memberInfo: {
-        avatar: `https://i.pravatar.cc/150?img=${i}`,
-        email: `${selectedName.toLowerCase().replace(/\s+/g, ".")}@example.com`,
-        name: selectedName,
-      },
-      country: selectedCountry,
-      role: selectedRole,
-      workerType: Math.random() > 0.5 ? "Contractor" : "Employee",
-      status:
-        Math.random() > 0.5
-          ? "Active"
-          : Math.random() > 0.5
-            ? "Paused"
-            : Math.random() > 0.5
-              ? "Vacation"
-              : "Inactive",
-      startDate: new Date(
-        new Date().getTime() - Math.random() * (24 * 60 * 60 * 1000 * 40)
-      ),
-      teams: [
-        "Design",
-        "Product",
-        "Marketing",
-        "Management",
-        "Engineering",
-        "Sales",
-        "Support",
-        "Other",
-      ].filter(() => Math.random() > 0.5),
-    };
-
-    mockData.push(user);
-  }
-
-  return mockData;
-};
-
-export const users: Users[] = generateMockUserData(100);

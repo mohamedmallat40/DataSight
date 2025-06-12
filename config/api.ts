@@ -4,7 +4,7 @@ import axios from "axios";
 // Create axios instance with base configuration
 const apiClient = axios.create({
   baseURL: "http://localhost:5000/api/v1",
-  timeout: 30000, // 30 seconds timeout for OCR processing
+  timeout: 60000, // 30 seconds timeout for OCR processing
   headers: {
     "Content-Type": "application/json",
   },

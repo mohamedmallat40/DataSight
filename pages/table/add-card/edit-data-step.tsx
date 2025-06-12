@@ -121,7 +121,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
 
       <div className="grid flex-auto gap-6 py-8">
         {/* Uncomment if you want to show image and raw text */}
-        {/* {uploadedImage && (
+        {uploadedImage && (
           <Card className="col-span-12 md:col-span-4 p-4">
             <Image
               src={uploadedImage}
@@ -139,7 +139,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               minRows={5}
             />
           </Card>
-        )} */}
+        )}
 
         <div
           className={cn(

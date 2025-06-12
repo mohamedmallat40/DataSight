@@ -25,7 +25,11 @@ const variants = {
   }),
 };
 
-export default function MultiStepWizard() {
+type MultiStepWizardProps = {
+  onClose: () => void;
+};
+
+export default function MultiStepWizard({ onClose }: MultiStepWizardProps) {
   const [[page, direction], setPage] = React.useState([0, 0]);
   const [businessCardData, setBusinessCardData] =
     React.useState<BusinessCardData>(emptyBusinessCardData);
@@ -82,7 +86,7 @@ export default function MultiStepWizard() {
             businessCardData={businessCardData}
             setBusinessCardData={setBusinessCardData}
             uploadedImage={uploadedImage}
-            onNextStep={onNext}
+            onNextStep={onClose}
           />
         );
         break;

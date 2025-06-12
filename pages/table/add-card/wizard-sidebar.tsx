@@ -82,14 +82,14 @@ const WizardSidebar = React.forwardRef<HTMLDivElement, WizardSidebarProps>(
                 title: "Edit Information",
                 description: "Review extracted data",
               },
-              {
-                title: "Enrich Data",
-                description: "Find additional information",
-              },
-              {
-                title: "Complete",
-                description: "Finalize contact details",
-              },
+              // {
+              //   title: "Enrich Data",
+              //   description: "Find additional information",
+              // },
+              // {
+              //   title: "Complete",
+              //   description: "Finalize contact details",
+              // },
             ]}
             onStepChange={onChangePage}
           />
@@ -109,12 +109,12 @@ const WizardSidebar = React.forwardRef<HTMLDivElement, WizardSidebarProps>(
                   {
                     title: "Edit",
                   },
-                  {
-                    title: "Enrich",
-                  },
-                  {
-                    title: "Complete",
-                  },
+                  // {
+                  //   title: "Enrich",
+                  // },
+                  // {
+                  //   title: "Complete",
+                  // },
                 ]}
                 onStepChange={onChangePage}
               />
