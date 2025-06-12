@@ -40,7 +40,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <I18nProvider locale={locale}>
       <HeroUIProvider navigate={router.push}>
         <ToastProvider />
-        <NextThemesProvider>
+        <NextThemesProvider defaultTheme="light">
           <Navbar setLocale={setLocale} />
           <Component {...pageProps} />
         </NextThemesProvider>
