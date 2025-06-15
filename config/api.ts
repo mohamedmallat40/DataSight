@@ -4,7 +4,7 @@ import axios from "axios";
 // Create axios instance with base configuration
 const apiClient = axios.create({
   baseURL: "https://all-care-demo.perla-it.com/api/v1",
-  timeout: 60000, // 30 seconds timeout for OCR processing
+  timeout: 300000,
   headers: {
     "Content-Type": "application/json",
   },

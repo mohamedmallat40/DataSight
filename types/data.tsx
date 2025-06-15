@@ -94,8 +94,6 @@ export const INITIAL_VISIBLE_COLUMNS: ColumnsKey[] = [
   "email",
   "phone_number",
   "country",
-  "industry",
-  "date_collected",
   "actions",
 ];
 

@@ -44,11 +44,11 @@ import apiClient from "@/config/api";
 import MultiStepWizard from "./add-card/multi-step-wizard";
 
 export default function Component(): JSX.Element {
-  // States
   const [userList, setUserList] = useState<Users[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
+  const [totalItems, setTotalItems] = useState<number>(0);
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
     column: "full_name",
     direction: "ascending",
@@ -60,7 +60,6 @@ export default function Component(): JSX.Element {
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
-  // Fetch users on page change
   useEffect(() => {
     fetchUsers();
   }, [page]);
@@ -69,9 +68,12 @@ export default function Component(): JSX.Element {
     setLoading(true);
     try {
       const { data } = await apiClient.get(`/card-info?page=${page}`);
-      if (data?.success && data?.data) {
+      if (data?.success && Array.isArray(data?.data)) {
         setUserList(data.data);
         setTotalPages(data.pagination?.totalPages ?? 1);
+        setTotalItems(data.pagination?.total ?? 0);
+      } else {
+        setUserList([]);
       }
     } catch (error) {
       console.error("Error fetching users:", error);
@@ -81,7 +83,6 @@ export default function Component(): JSX.Element {
     }
   }, [page]);
 
-  // Prepare columns with sorting applied
   const headerColumns = useMemo(() => {
     if (visibleColumns === "all") return columns;
 
@@ -94,36 +95,24 @@ export default function Component(): JSX.Element {
       .filter((column) => (visibleColumns as Set<Key>).has(column.uid));
   }, [visibleColumns, sortDescriptor]);
 
-  // Calculate pagination items slice
-  const rowsPerPage = 10;
-  const pages = Math.ceil(userList.length / rowsPerPage) || 1;
+  const items = useMemo(() => userList, [userList]); // FIX: no slicing here
 
-  const items = useMemo(() => {
-    const start = (page - 1) * rowsPerPage;
-    return userList.slice(start, start + rowsPerPage);
-  }, [page, userList]);
-
-  // Sort items by descriptor
   const sortedItems = useMemo(() => {
     return [...items].sort((a, b) => {
       const col = sortDescriptor.column as keyof Users;
       let first = a[col];
       let second = b[col];
 
-      // Handle email and phone arrays
       if (col === "email" || col === "phone_number") {
         first = Array.isArray(a[col]) ? (a[col][0] ?? "") : "";
         second = Array.isArray(b[col]) ? (b[col][0] ?? "") : "";
       }
 
-      // Compare string/number safely
       const cmp = first! < second! ? -1 : first! > second! ? 1 : 0;
-
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [items, sortDescriptor]);
 
-  // Selection keys filtered by visible items
   const filterSelectedKeys = useMemo(() => {
     if (selectedKeys === "all") return selectedKeys;
 
@@ -139,7 +128,6 @@ export default function Component(): JSX.Element {
     return resultKeys;
   }, [selectedKeys, userList]);
 
-  // Callbacks
   const onSelectionChange = useMemoizedCallback((keys: Selection) => {
     setSelectedKeys(keys);
   });
@@ -190,7 +178,7 @@ export default function Component(): JSX.Element {
             size="sm"
             variant="flat"
           >
-            {userList.length}
+            {totalItems}
           </Chip>
         </div>
         <Button
@@ -242,7 +230,7 @@ export default function Component(): JSX.Element {
         onSortChange={setSortDescriptor}
       >
         <TableHeader columns={headerColumns}>
-          {(column) => (
+          {(column: any) => (
             <TableColumn
               key={column.uid}
               align={column.uid === "actions" ? "end" : "start"}
@@ -253,18 +241,13 @@ export default function Component(): JSX.Element {
               ])}
             >
               {column.name}
-              {/* {column.sortDirection === "ascending" ? (
-                <ArrowUpIcon className="text-default-400" />
-              ) : column.sortDirection === "descending" ? (
-                <ArrowDownIcon className="text-default-400" />
-              ) : null} */}
             </TableColumn>
           )}
         </TableHeader>
         <TableBody emptyContent="No users found" items={sortedItems}>
-          {(item) => (
+          {(item: any) => (
             <TableRow key={item.id}>
-              {(columnKey) => (
+              {(columnKey: any) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}
             </TableRow>
