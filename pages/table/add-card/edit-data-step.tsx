@@ -500,61 +500,21 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                       </div>
                     </CardBody>
                   </Card>
-
-                  {/* Unknown Option */}
-                  <Card
-                    isPressable
-                    isHoverable
-                    className={cn(
-                      "border-2 transition-all duration-200 cursor-pointer",
-                      businessCardData.gender === null
-                        ? "border-default-400 bg-default-100 dark:bg-default-100/20"
-                        : "border-default-200 hover:border-default-300",
-                    )}
-                    onPress={() => handleGenderChange("unknown")}
-                  >
-                    <CardBody className="p-4">
-                      <div className="flex flex-col items-center gap-2 text-center">
-                        <div
-                          className={cn(
-                            "p-3 rounded-full transition-colors",
-                            businessCardData.gender === null
-                              ? "bg-default-500 text-white"
-                              : "bg-default-200 text-default-600",
-                          )}
-                        >
-                          <Icon
-                            icon="lucide:help-circle"
-                            width={24}
-                            height={24}
-                          />
-                        </div>
-                        <div>
-                          <h4
-                            className={cn(
-                              "font-semibold text-sm",
-                              businessCardData.gender === null
-                                ? "text-default-700 dark:text-default-300"
-                                : "text-default-700",
-                            )}
-                          >
-                            Not Specified
-                          </h4>
-                          <p className="text-xs text-default-500">
-                            Prefer not to say
-                          </p>
-                        </div>
-                        {businessCardData.gender === null && (
-                          <Icon
-                            icon="lucide:check-circle"
-                            className="text-default-500"
-                            width={16}
-                          />
-                        )}
-                      </div>
-                    </CardBody>
-                  </Card>
                 </div>
+
+                {/* Clear Selection Option */}
+                {businessCardData.gender !== null && (
+                  <Button
+                    size="sm"
+                    variant="light"
+                    color="default"
+                    startContent={<Icon icon="lucide:x" width={14} />}
+                    onPress={() => handleGenderChange("unknown")}
+                    className="self-start"
+                  >
+                    Clear Selection
+                  </Button>
+                )}
 
                 {/* Additional Context */}
                 <div className="flex items-center gap-2 text-xs text-default-500 mt-1">
