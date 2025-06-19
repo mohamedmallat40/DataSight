@@ -3,6 +3,14 @@
 import type { Selection, SortDescriptor } from "@heroui/react";
 import type { ColumnsKey, Users, ColumnDefinition } from "../../types/data";
 import type { Key } from "@react-types/shared";
+import type {
+  TableState,
+  FilterState,
+  TableAction,
+  PaginationState,
+  AsyncState,
+  ModalState,
+} from "../../types/components";
 
 import {
   Table,
@@ -49,6 +57,34 @@ import MultiStepWizard from "./add-card/multi-step-wizard";
 import UserDetailsDrawer from "../../components/user-details-drawer";
 import apiClient from "@/config/api";
 
+// Enhanced type definitions for API responses
+interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  pagination?: {
+    totalPages: number;
+    total: number;
+    currentPage: number;
+    pageSize: number;
+  };
+  message?: string;
+}
+
+interface TableComponentState extends TableState, FilterState {
+  // Modal states
+  isAddModalOpen: boolean;
+  isDrawerOpen: boolean;
+}
+
+// Filter types for better type safety
+type FilterValue = string;
+type FilterKey = "all" | "last7Days" | "last30Days" | "last60Days";
+
+// Enhanced column definition with sort information
+interface ExtendedColumnDefinition extends ColumnDefinition {
+  sortDirection?: "ascending" | "descending";
+}
+
 export default function Component(): JSX.Element {
   const [userList, setUserList] = useState<Users[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -77,7 +113,7 @@ export default function Component(): JSX.Element {
     onOpen: onDrawerOpen,
     onOpenChange: onDrawerOpenChange,
   } = useDisclosure();
-  
+
   useEffect(() => {
     fetchUsers();
   }, [page]);
@@ -620,7 +656,8 @@ export default function Component(): JSX.Element {
         </Button>
       </div>
     ),
-    [onOpen, filteredItems.length]);
+    [onOpen, filteredItems.length],
+  );
 
   const bottomContent = useMemo(
     () => (
