@@ -32,12 +32,15 @@ export default function UserDetailsDrawer({
   if (!userData) return null;
 
   const handleCopyContact = () => {
+    const emailList = emails.length > 0 ? emails.join(", ") : "N/A";
+    const phoneList = phones.length > 0 ? phones.join(", ") : "N/A";
+
     const contactInfo = `
 Name: ${userData.full_name}
 Title: ${userData.job_title || "N/A"}
 Company: ${userData.company_name || "N/A"}
-Email: ${Array.isArray(userData.email) ? userData.email.join(", ") : userData.email || "N/A"}
-Phone: ${Array.isArray(userData.phone_number) ? userData.phone_number.join(", ") : userData.phone_number || "N/A"}
+Emails (${emails.length}): ${emailList}
+Phones (${phones.length}): ${phoneList}
 Website: ${userData.website || "N/A"}
 LinkedIn: ${userData.linkedin || "N/A"}
 Industry: ${userData.industry || "N/A"}
