@@ -445,7 +445,7 @@ export default function Component(): JSX.Element {
                     >
                       <Radio value="all">All Countries</Radio>
                       {uniqueCountries.slice(0, 5).map((country) => (
-                        <Radio key={country} value={country}>
+                        <Radio key={country} value={country || ""}>
                           {country}
                         </Radio>
                       ))}
