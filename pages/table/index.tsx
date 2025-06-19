@@ -345,8 +345,14 @@ export default function Component(): JSX.Element {
               align={column.uid === "actions" ? "end" : "start"}
               className={cn([
                 column.uid === "actions"
-                  ? "flex items-center justify-end px-[20px]"
+                  ? "flex items-center justify-end px-[20px] w-[120px]"
                   : "",
+                column.uid === "full_name" ? "min-w-[250px]" : "",
+                column.uid === "job_title" ? "min-w-[180px]" : "",
+                column.uid === "company_name" ? "min-w-[200px]" : "",
+                column.uid === "email" ? "min-w-[280px]" : "",
+                column.uid === "phone_number" ? "min-w-[200px]" : "",
+                column.uid === "country" ? "min-w-[150px]" : "",
               ])}
             >
               {column.name}
