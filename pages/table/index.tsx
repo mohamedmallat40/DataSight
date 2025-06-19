@@ -133,6 +133,11 @@ export default function Component(): JSX.Element {
     setSelectedKeys(keys);
   });
 
+  const handleViewUser = useMemoizedCallback((user: Users) => {
+    setSelectedUser(user);
+    onDrawerOpen();
+  });
+
   const renderCell = useMemoizedCallback(
     (user: Users, columnKey: Key): React.ReactNode => {
       const userKey = columnKey as ColumnsKey;
