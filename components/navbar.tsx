@@ -285,10 +285,10 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
                 >
                   <Link
                     className={clsx(
-                      "flex items-center gap-3 w-full py-3 px-4 rounded-lg hover:bg-default-100 transition-all",
-                      "text-foreground hover:text-primary",
-                      router.asPath === item.href &&
-                        "bg-primary/10 text-primary",
+                      "flex items-center gap-3 w-full py-3 px-4 rounded-lg transition-all duration-200",
+                      router.asPath === item.href
+                        ? "bg-primary/15 text-primary font-semibold border border-primary/20"
+                        : "text-foreground hover:text-primary hover:bg-primary/5",
                     )}
                     href={item.href}
                     onClick={(e) => {
