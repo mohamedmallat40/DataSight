@@ -351,9 +351,13 @@ export default function Component(): JSX.Element {
         case "full_name":
           return (
             <User
-              avatarProps={{ radius: "lg", name: user.full_name }}
+              avatarProps={{
+                radius: "lg",
+                name: user.full_name || "User",
+                showFallback: true,
+              }}
               description={user.job_title || user.company_name || ""}
-              name={user.full_name}
+              name={user.full_name || "N/A"}
               classNames={{
                 wrapper: "min-w-0",
                 description: "truncate max-w-[200px]",
@@ -366,7 +370,7 @@ export default function Component(): JSX.Element {
             <div className="flex flex-col gap-0.5 min-w-0 max-w-[120px]">
               <p
                 className="text-small font-medium text-default-700 truncate"
-                title={user.job_title}
+                title={user.job_title || "No job title"}
               >
                 {user.job_title || "N/A"}
               </p>
@@ -385,7 +389,7 @@ export default function Component(): JSX.Element {
             <div className="flex flex-col gap-0.5 min-w-0">
               <p
                 className="text-small font-medium text-default-700 truncate"
-                title={user.company_name}
+                title={user.company_name || "No company"}
               >
                 {user.company_name || "N/A"}
               </p>
@@ -400,6 +404,7 @@ export default function Component(): JSX.Element {
                   rel="noopener noreferrer"
                   className="text-tiny text-primary hover:text-primary-600 transition-colors truncate"
                   title={user.website}
+                  onClick={(e: React.MouseEvent) => e.stopPropagation()}
                 >
                   {user.website}
                 </a>
@@ -409,26 +414,14 @@ export default function Component(): JSX.Element {
         case "email":
           return (
             <EmailList
-              emails={
-                Array.isArray(user.email)
-                  ? user.email
-                  : user.email
-                    ? [user.email]
-                    : []
-              }
+              emails={Array.isArray(user.email) ? user.email : []}
               maxVisible={2}
             />
           );
         case "phone_number":
           return (
             <PhoneList
-              phones={
-                Array.isArray(user.phone_number)
-                  ? user.phone_number
-                  : user.phone_number
-                    ? [user.phone_number]
-                    : []
-              }
+              phones={Array.isArray(user.phone_number) ? user.phone_number : []}
               maxVisible={2}
             />
           );
@@ -437,7 +430,7 @@ export default function Component(): JSX.Element {
             <div className="flex flex-col gap-0.5 min-w-0">
               <p
                 className="text-small font-medium text-default-700 truncate"
-                title={user.country}
+                title={user.country || "No country"}
               >
                 {user.country || "N/A"}
               </p>
@@ -451,27 +444,69 @@ export default function Component(): JSX.Element {
               )}
             </div>
           );
+        case "industry":
+          return (
+            <p
+              className="text-small text-default-700 truncate"
+              title={user.industry || "No industry"}
+            >
+              {user.industry || "N/A"}
+            </p>
+          );
+        case "date_collected":
+          return (
+            <p
+              className="text-small text-default-700 truncate"
+              title={user.date_collected || "No date"}
+            >
+              {user.date_collected
+                ? new Date(user.date_collected).toLocaleDateString()
+                : "N/A"}
+            </p>
+          );
         case "actions":
           return (
             <div className="flex gap-2 justify-end">
               <button
                 className="text-default-400 cursor-pointer hover:text-primary transition-colors p-1 rounded-small"
-                onClick={() => handleViewUser(user)}
-                aria-label={`View details for ${user.full_name}`}
+                onClick={(e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  handleViewUser(user);
+                }}
+                aria-label={`View details for ${user.full_name || "user"}`}
+                type="button"
               >
                 <EyeFilledIcon />
               </button>
-              <EditLinearIcon className="text-default-400 cursor-pointer" />
-              <DeleteFilledIcon className="text-default-400 cursor-pointer" />
+              <button
+                className="text-default-400 cursor-pointer hover:text-warning transition-colors p-1 rounded-small"
+                aria-label={`Edit ${user.full_name || "user"}`}
+                type="button"
+              >
+                <EditLinearIcon />
+              </button>
+              <button
+                className="text-default-400 cursor-pointer hover:text-danger transition-colors p-1 rounded-small"
+                aria-label={`Delete ${user.full_name || "user"}`}
+                type="button"
+              >
+                <DeleteFilledIcon />
+              </button>
             </div>
           );
         default:
+          // Type-safe fallback for unknown columns
+          const value = user[userKey as keyof Users];
+          const displayValue = Array.isArray(value)
+            ? value.join(", ")
+            : String(value || "N/A");
+
           return (
             <p
               className="text-small text-default-700 truncate"
-              title={String(user[userKey as keyof Users] || "")}
+              title={displayValue}
             >
-              {user[userKey as keyof Users] ?? "N/A"}
+              {displayValue}
             </p>
           );
       }
