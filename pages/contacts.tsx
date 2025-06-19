@@ -1,7 +1,7 @@
 "use client";
 
 import type { Selection, SortDescriptor } from "@heroui/react";
-import type { ColumnsKey, Users, ColumnDefinition } from "../../types/data";
+import type { ColumnsKey, Users, ColumnDefinition } from "../types/data";
 import type { Key } from "@react-types/shared";
 import type {
   TableState,
@@ -10,7 +10,7 @@ import type {
   PaginationState,
   AsyncState,
   ModalState,
-} from "../../types/components";
+} from "../types/components";
 
 import {
   Table,
@@ -44,18 +44,19 @@ import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
 
-import { CopyText } from "../../components/table/copy-text";
-import { EmailList } from "../../components/table/email-list";
-import { PhoneList } from "../../components/table/phone-list";
-import { EyeFilledIcon } from "../../components/table/eye";
-import { EditLinearIcon } from "../../components/table/edit";
-import { DeleteFilledIcon } from "../../components/table/delete";
-import { useMemoizedCallback } from "../../components/table/use-memoized-callback";
-import { columns, INITIAL_VISIBLE_COLUMNS } from "../../types/data";
+import { CopyText } from "../components/table/copy-text";
+import { EmailList } from "../components/table/email-list";
+import { PhoneList } from "../components/table/phone-list";
+import { EyeFilledIcon } from "../components/table/eye";
+import { EditLinearIcon } from "../components/table/edit";
+import { DeleteFilledIcon } from "../components/table/delete";
+import { useMemoizedCallback } from "../components/table/use-memoized-callback";
+import { columns, INITIAL_VISIBLE_COLUMNS } from "../types/data";
 
-import MultiStepWizard from "./add-card/multi-step-wizard";
-import UserDetailsDrawer from "../../components/user-details-drawer";
+import MultiStepWizard from "./table/add-card/multi-step-wizard";
+import UserDetailsDrawer from "../components/user-details-drawer";
 import apiClient from "@/config/api";
+import DefaultLayout from "@/layouts/default";
 
 // Enhanced type definitions for API responses
 interface ApiResponse<T> {
@@ -85,7 +86,7 @@ interface ExtendedColumnDefinition extends ColumnDefinition {
   sortDirection?: "ascending" | "descending";
 }
 
-export default function Component(): JSX.Element {
+export default function ContactsPage(): JSX.Element {
   // Table state management with proper typing
   const [userList, setUserList] = useState<Users[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -720,7 +721,7 @@ export default function Component(): JSX.Element {
       <div className="mb-[18px] flex items-center justify-between">
         <div className="flex w-[280px] items-center gap-2">
           <h1 className="text-2xl font-[700] leading-[32px] whitespace-nowrap">
-            Team Members
+            Contacts
           </h1>
           <Chip
             className="hidden items-center text-default-500 sm:flex"
@@ -735,7 +736,7 @@ export default function Component(): JSX.Element {
           endContent={<Icon icon="solar:add-circle-bold" width={20} />}
           onPress={onOpen}
         >
-          Add Member
+          Add Contact
         </Button>
       </div>
     ),
@@ -779,81 +780,85 @@ export default function Component(): JSX.Element {
   );
 
   return (
-    <div className="h-full w-full p-6">
-      {topBar}
-      <Table
-        isHeaderSticky
-        aria-label="Enhanced table with improved contact display and filters"
-        bottomContent={bottomContent}
-        bottomContentPlacement="outside"
-        topContent={topContent}
-        topContentPlacement="outside"
-        classNames={{
-          td: "before:bg-transparent py-3",
-          wrapper: "min-h-[400px]",
-          table: "min-w-[1200px]",
-        }}
-        selectedKeys={filterSelectedKeys}
-        selectionMode="multiple"
-        sortDescriptor={sortDescriptor}
-        onSelectionChange={onSelectionChange}
-        onSortChange={setSortDescriptor}
-      >
-        <TableHeader columns={headerColumns}>
-          {(column) => (
-            <TableColumn
-              key={column.uid}
-              align={column.uid === "actions" ? "end" : "start"}
-              className={cn([
-                column.uid === "actions"
-                  ? "flex items-center justify-end px-[20px] w-[120px]"
-                  : "",
-                column.uid === "full_name" ? "min-w-[250px]" : "",
-                column.uid === "job_title" ? "min-w-[120px] max-w-[120px]" : "",
-                column.uid === "company_name" ? "min-w-[200px]" : "",
-                column.uid === "email" ? "min-w-[280px]" : "",
-                column.uid === "phone_number" ? "min-w-[200px]" : "",
-                column.uid === "country" ? "min-w-[150px]" : "",
-              ])}
-            >
-              {column.name}
-            </TableColumn>
-          )}
-        </TableHeader>
-        <TableBody
-          emptyContent="No users found"
-          items={sortedItems}
-          loadingContent="Loading users..."
-          loadingState={loading ? "loading" : "idle"}
+    <DefaultLayout>
+      <div className="h-full w-full p-6">
+        {topBar}
+        <Table
+          isHeaderSticky
+          aria-label="Enhanced table with improved contact display and filters"
+          bottomContent={bottomContent}
+          bottomContentPlacement="outside"
+          topContent={topContent}
+          topContentPlacement="outside"
+          classNames={{
+            td: "before:bg-transparent py-3",
+            wrapper: "min-h-[400px]",
+            table: "min-w-[1200px]",
+          }}
+          selectedKeys={filterSelectedKeys}
+          selectionMode="multiple"
+          sortDescriptor={sortDescriptor}
+          onSelectionChange={onSelectionChange}
+          onSortChange={setSortDescriptor}
         >
-          {(item: Users) => (
-            <TableRow key={item.id}>
-              {(columnKey: Key) => (
-                <TableCell>{renderCell(item, columnKey)}</TableCell>
-              )}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+          <TableHeader columns={headerColumns}>
+            {(column) => (
+              <TableColumn
+                key={column.uid}
+                align={column.uid === "actions" ? "end" : "start"}
+                className={cn([
+                  column.uid === "actions"
+                    ? "flex items-center justify-end px-[20px] w-[120px]"
+                    : "",
+                  column.uid === "full_name" ? "min-w-[250px]" : "",
+                  column.uid === "job_title"
+                    ? "min-w-[120px] max-w-[120px]"
+                    : "",
+                  column.uid === "company_name" ? "min-w-[200px]" : "",
+                  column.uid === "email" ? "min-w-[280px]" : "",
+                  column.uid === "phone_number" ? "min-w-[200px]" : "",
+                  column.uid === "country" ? "min-w-[150px]" : "",
+                ])}
+              >
+                {column.name}
+              </TableColumn>
+            )}
+          </TableHeader>
+          <TableBody
+            emptyContent="No users found"
+            items={sortedItems}
+            loadingContent="Loading users..."
+            loadingState={loading ? "loading" : "idle"}
+          >
+            {(item: Users) => (
+              <TableRow key={item.id}>
+                {(columnKey: Key) => (
+                  <TableCell>{renderCell(item, columnKey)}</TableCell>
+                )}
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
 
-      <Modal
-        shouldBlockScroll
-        className="rounded-[16px]"
-        isOpen={isOpen}
-        onOpenChange={onOpenChange}
-      >
-        <ModalContent className="max-w-[1200px] rounded-[16px] p-0">
-          <ModalBody className="p-0">
-            <MultiStepWizard onClose={onOpenChange} onSuccess={fetchUsers} />
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+        <Modal
+          shouldBlockScroll
+          className="rounded-[16px]"
+          isOpen={isOpen}
+          onOpenChange={onOpenChange}
+        >
+          <ModalContent className="max-w-[1200px] rounded-[16px] p-0">
+            <ModalBody className="p-0">
+              <MultiStepWizard onClose={onOpenChange} onSuccess={fetchUsers} />
+            </ModalBody>
+          </ModalContent>
+        </Modal>
 
-      <UserDetailsDrawer
-        isOpen={isDrawerOpen}
-        onOpenChange={onDrawerOpenChange}
-        userData={selectedUser}
-      />
-    </div>
+        <UserDetailsDrawer
+          isOpen={isDrawerOpen}
+          onOpenChange={onDrawerOpenChange}
+          userData={selectedUser}
+        />
+      </div>
+    </DefaultLayout>
   );
 }

@@ -346,12 +346,12 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
 
         <div className="flex flex-col gap-2 mt-4">
           <Button
-            className="mx-auto px-8"
-            color="secondary"
+            color="primary"
             isDisabled={!frontImage || isLoading}
-            size="lg"
-            startContent={isLoading && <Spinner color="current" size="sm" />}
+            isLoading={isLoading}
+            startContent={!isLoading && <Icon icon="lucide:scan-text" />}
             onPress={handleUpload}
+            className="mx-auto"
           >
             {isLoading ? "Processing..." : "Extract Information"}
           </Button>

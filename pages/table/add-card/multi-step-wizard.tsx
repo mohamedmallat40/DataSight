@@ -29,9 +29,13 @@ const variants = {
 
 type MultiStepWizardProps = {
   onClose: () => void;
+  onSuccess?: () => void;
 };
 
-export default function MultiStepWizard({ onClose }: MultiStepWizardProps) {
+export default function MultiStepWizard({
+  onClose,
+  onSuccess,
+}: MultiStepWizardProps) {
   const [[page, direction], setPage] = React.useState([0, 0]);
   const [businessCardData, setBusinessCardData] =
     React.useState<BusinessCardData>(emptyBusinessCardData);
@@ -72,6 +76,13 @@ export default function MultiStepWizard({ onClose }: MultiStepWizardProps) {
     paginate(1);
   }, [paginate]);
 
+  const handleSuccess = React.useCallback(() => {
+    onClose(); // Close the modal
+    if (onSuccess) {
+      onSuccess(); // Refresh the users list
+    }
+  }, [onClose, onSuccess]);
+
   const content = React.useMemo(() => {
     let component = (
       <UploadImageStep
@@ -92,7 +103,7 @@ export default function MultiStepWizard({ onClose }: MultiStepWizardProps) {
             businessCardData={businessCardData}
             setBusinessCardData={setBusinessCardData}
             uploadedImage={uploadedImage}
-            onNextStep={onClose}
+            onNextStep={handleSuccess}
           />
         );
         break;

@@ -16,6 +16,8 @@ export interface BusinessCardData {
   country: string;
   city: string;
   raw_text: string;
+  notes: string;
+  gender: boolean | null; // true = male, false = female, null = unknown
 }
 
 export const emptyBusinessCardData: BusinessCardData = {
@@ -30,6 +32,8 @@ export const emptyBusinessCardData: BusinessCardData = {
   country: "",
   city: "",
   raw_text: "",
+  notes: "",
+  gender: null,
 };
 
 export interface EnrichmentSource {

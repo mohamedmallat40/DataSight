@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useRouter } from "next/router";
 import { useTheme } from "next-themes";
 import type { GetStaticProps, InferGetStaticPropsType } from "next";
 
@@ -88,7 +89,13 @@ const createLogoConfig = (theme: ThemeType): readonly LogoItem[] => {
 export default function IndexPage(
   props: InferGetStaticPropsType<typeof getStaticProps>,
 ): JSX.Element {
+  const router = useRouter();
   const { theme } = useTheme();
+
+  // Redirect to Statistics page by default
+  useEffect(() => {
+    router.replace("/statistics");
+  }, [router]);
 
   // Create logo configuration based on current theme
   const logos: readonly LogoItem[] = React.useMemo(

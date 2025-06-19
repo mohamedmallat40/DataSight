@@ -47,7 +47,6 @@ interface NavigationItem {
 
 export const Navbar = ({ setLocale }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const { locale } = useLocale();
@@ -80,32 +79,18 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
   };
 
   // Enhanced navigation items with icons and descriptions
-  const navigationItems: NavigationItem[] = [];
-
-  const searchInput = (
-    <Input
-      aria-label="Search"
-      classNames={{
-        base: "max-w-full sm:max-w-[12rem] h-10",
-        mainWrapper: "h-full",
-        input: "text-small",
-        inputWrapper:
-          "h-full font-normal text-default-500 bg-default-100/50 backdrop-blur-sm border border-default-200/50",
-      }}
-      placeholder="Search..."
-      size="sm"
-      startContent={
-        <SearchIcon className="text-default-400" width={16} height={16} />
-      }
-      endContent={
-        <Kbd className="hidden lg:inline-block" keys={["command"]}>
-          K
-        </Kbd>
-      }
-      type="search"
-      variant="bordered"
-    />
-  );
+  const navigationItems: NavigationItem[] = [
+    {
+      label: "Contacts",
+      href: "/contacts",
+      icon: "solar:users-group-two-rounded-linear",
+    },
+    {
+      label: "Statistics",
+      href: "/statistics",
+      icon: "lucide:line-chart",
+    },
+  ];
 
   const companyLogo = (
     <NextLink
@@ -129,21 +114,6 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
 
   const actionButtons = (
     <div className="flex items-center gap-2">
-      {/* Search Button for Mobile */}
-      <Button
-        isIconOnly
-        className="sm:hidden"
-        size="sm"
-        variant="light"
-        onPress={() => setIsSearchOpen(!isSearchOpen)}
-        aria-label="Search"
-      >
-        <SearchIcon width={18} height={18} />
-      </Button>
-
-      {/* Desktop Search */}
-      <div className="hidden sm:flex">{searchInput}</div>
-
       {/* CTA Button */}
       <Button
         as={Link}
@@ -250,8 +220,10 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
               <NavbarItem key={item.href}>
                 <Link
                   className={clsx(
-                    "flex items-center gap-2 text-foreground hover:text-primary transition-colors font-medium",
-                    router.asPath === item.href && "text-primary",
+                    "flex items-center gap-2 transition-all duration-200 font-medium px-3 py-2 rounded-lg",
+                    router.asPath === item.href
+                      ? "text-primary bg-primary/10 font-semibold"
+                      : "text-foreground hover:text-primary hover:bg-primary/5",
                   )}
                   href={item.href}
                   onClick={(e) => {
@@ -260,7 +232,14 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
                   }}
                 >
                   {item.icon && (
-                    <Icon icon={item.icon} width={18} height={18} />
+                    <Icon
+                      icon={item.icon}
+                      width={18}
+                      height={18}
+                      className={
+                        router.asPath === item.href ? "text-primary" : ""
+                      }
+                    />
                   )}
                   {item.label}
                   {item.badge && (
@@ -306,10 +285,10 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
                 >
                   <Link
                     className={clsx(
-                      "flex items-center gap-3 w-full py-3 px-4 rounded-lg hover:bg-default-100 transition-all",
-                      "text-foreground hover:text-primary",
-                      router.asPath === item.href &&
-                        "bg-primary/10 text-primary",
+                      "flex items-center gap-3 w-full py-3 px-4 rounded-lg transition-all duration-200",
+                      router.asPath === item.href
+                        ? "bg-primary/15 text-primary font-semibold border border-primary/20"
+                        : "text-foreground hover:text-primary hover:bg-primary/5",
                     )}
                     href={item.href}
                     onClick={(e) => {
@@ -384,30 +363,6 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
           </div>
         </NavbarMenu>
       </HeroUINavbar>
-
-      {/* Mobile Search Overlay */}
-      <AnimatePresence>
-        {isSearchOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="sm:hidden fixed top-16 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl border-b border-default-200/50 p-4"
-          >
-            <div className="flex items-center gap-2">
-              {searchInput}
-              <Button
-                isIconOnly
-                size="sm"
-                variant="light"
-                onPress={() => setIsSearchOpen(false)}
-              >
-                <Icon icon="solar:close-circle-linear" width={20} height={20} />
-              </Button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </>
   );
 };
