@@ -205,8 +205,8 @@ Source: ${userData.source || "N/A"}
                     </div>
                   </CardHeader>
                   <CardBody className="pt-0 space-y-4">
-                    {/* Email */}
-                    {primaryEmail && (
+                    {/* Emails */}
+                    {emails.length > 0 && (
                       <div className="flex gap-3 items-start">
                         <div className="flex items-center justify-center border-1 border-default-200/50 rounded-small w-10 h-10 mt-1">
                           <Icon
@@ -216,31 +216,52 @@ Source: ${userData.source || "N/A"}
                             height={18}
                           />
                         </div>
-                        <div className="flex flex-col gap-1 flex-1">
-                          <Link
-                            isExternal
-                            showAnchorIcon
-                            href={`mailto:${primaryEmail}`}
-                            className="text-medium text-foreground font-medium"
-                          >
-                            {primaryEmail}
-                          </Link>
-                          {secondaryEmail && (
-                            <Link
-                              isExternal
-                              href={`mailto:${secondaryEmail}`}
-                              className="text-small text-default-500"
-                            >
-                              {secondaryEmail}
-                            </Link>
-                          )}
-                          <p className="text-tiny text-default-400">Email</p>
+                        <div className="flex flex-col gap-2 flex-1">
+                          {emails.map((email, index) => (
+                            <div key={index} className="flex flex-col gap-0.5">
+                              <Link
+                                isExternal
+                                showAnchorIcon
+                                href={`mailto:${email}`}
+                                className={`${index === 0 ? "text-medium text-foreground font-medium" : "text-small text-default-600"}`}
+                              >
+                                {email}
+                              </Link>
+                              {index === 0 && emails.length > 1 && (
+                                <p className="text-tiny text-default-400">
+                                  Primary
+                                </p>
+                              )}
+                              {index > 0 && (
+                                <p className="text-tiny text-default-400">
+                                  Secondary {index > 1 ? index : ""}
+                                </p>
+                              )}
+                            </div>
+                          ))}
+                          <div className="flex items-center gap-1 mt-1">
+                            <p className="text-tiny text-default-400">
+                              {emails.length === 1
+                                ? "Email"
+                                : `${emails.length} Email addresses`}
+                            </p>
+                            {emails.length > 1 && (
+                              <Chip
+                                size="sm"
+                                variant="flat"
+                                color="primary"
+                                className="text-tiny"
+                              >
+                                {emails.length}
+                              </Chip>
+                            )}
+                          </div>
                         </div>
                       </div>
                     )}
 
-                    {/* Phone */}
-                    {primaryPhone && (
+                    {/* Phone Numbers */}
+                    {phones.length > 0 && (
                       <div className="flex gap-3 items-start">
                         <div className="flex items-center justify-center border-1 border-default-200/50 rounded-small w-10 h-10 mt-1">
                           <Icon
@@ -250,25 +271,46 @@ Source: ${userData.source || "N/A"}
                             height={18}
                           />
                         </div>
-                        <div className="flex flex-col gap-1 flex-1">
-                          <Link
-                            isExternal
-                            showAnchorIcon
-                            href={`tel:${primaryPhone}`}
-                            className="text-medium text-foreground font-medium"
-                          >
-                            {primaryPhone}
-                          </Link>
-                          {secondaryPhone && (
-                            <Link
-                              isExternal
-                              href={`tel:${secondaryPhone}`}
-                              className="text-small text-default-500"
-                            >
-                              {secondaryPhone}
-                            </Link>
-                          )}
-                          <p className="text-tiny text-default-400">Phone</p>
+                        <div className="flex flex-col gap-2 flex-1">
+                          {phones.map((phone, index) => (
+                            <div key={index} className="flex flex-col gap-0.5">
+                              <Link
+                                isExternal
+                                showAnchorIcon
+                                href={`tel:${phone}`}
+                                className={`${index === 0 ? "text-medium text-foreground font-medium" : "text-small text-default-600"}`}
+                              >
+                                {phone}
+                              </Link>
+                              {index === 0 && phones.length > 1 && (
+                                <p className="text-tiny text-default-400">
+                                  Primary
+                                </p>
+                              )}
+                              {index > 0 && (
+                                <p className="text-tiny text-default-400">
+                                  Secondary {index > 1 ? index : ""}
+                                </p>
+                              )}
+                            </div>
+                          ))}
+                          <div className="flex items-center gap-1 mt-1">
+                            <p className="text-tiny text-default-400">
+                              {phones.length === 1
+                                ? "Phone"
+                                : `${phones.length} Phone numbers`}
+                            </p>
+                            {phones.length > 1 && (
+                              <Chip
+                                size="sm"
+                                variant="flat"
+                                color="primary"
+                                className="text-tiny"
+                              >
+                                {phones.length}
+                              </Chip>
+                            )}
+                          </div>
                         </div>
                       </div>
                     )}
