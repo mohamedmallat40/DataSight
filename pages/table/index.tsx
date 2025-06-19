@@ -327,10 +327,14 @@ export default function Component(): JSX.Element {
       {topBar}
       <Table
         isHeaderSticky
-        aria-label="Example table with custom cells, pagination and sorting"
+        aria-label="Enhanced table with improved contact display"
         bottomContent={bottomContent}
         bottomContentPlacement="outside"
-        classNames={{ td: "before:bg-transparent" }}
+        classNames={{
+          td: "before:bg-transparent py-3",
+          wrapper: "min-h-[400px]",
+          table: "min-w-[1200px]",
+        }}
         selectedKeys={filterSelectedKeys}
         selectionMode="multiple"
         sortDescriptor={sortDescriptor}
