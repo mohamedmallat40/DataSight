@@ -1,7 +1,7 @@
 "use client";
 
 import type { Selection, SortDescriptor } from "@heroui/react";
-import type { ColumnsKey, Users, Column } from "../../types/data";
+import type { ColumnsKey, Users } from "../../types/data";
 import type { Key } from "@react-types/shared";
 
 import {
@@ -19,7 +19,6 @@ import {
   ModalContent,
   Modal,
   ModalBody,
-<<<<<<< HEAD
   Input,
   Dropdown,
   DropdownTrigger,
@@ -31,16 +30,11 @@ import {
   PopoverTrigger,
   PopoverContent,
   Divider,
-=======
-  Skeleton,
->>>>>>> 2aba11354c414b32b82cf5d2e2769f2b30bf9710
 } from "@heroui/react";
 import { SearchIcon } from "@heroui/shared-icons";
 import React, { useMemo, useState, useEffect, useCallback } from "react";
-
-import { SearchIcon } from "@heroui/shared-icons";
-import React, { useMemo, useState, useEffect, useCallback, JSX } from "react";
-
+import { Icon } from "@iconify/react";
+import { cn } from "@heroui/react";
 
 import { CopyText } from "../../components/table/copy-text";
 import { EmailList } from "../../components/table/email-list";
@@ -55,9 +49,6 @@ import MultiStepWizard from "./add-card/multi-step-wizard";
 import UserDetailsDrawer from "../../components/user-details-drawer";
 
 import apiClient from "@/config/api";
-
-const getPrimary = (list?: string[]): string =>
-  Array.isArray(list) && list.length > 0 ? list[0] : "N/A";
 
 export default function Component(): JSX.Element {
   const [userList, setUserList] = useState<Users[]>([]);
@@ -88,6 +79,10 @@ export default function Component(): JSX.Element {
     onOpenChange: onDrawerOpenChange,
   } = useDisclosure();
 
+  useEffect(() => {
+    fetchUsers();
+  }, [page]);
+
   const fetchUsers = useCallback(async (): Promise<void> => {
     setLoading(true);
     try {
@@ -98,7 +93,6 @@ export default function Component(): JSX.Element {
         setTotalPages(data.pagination?.totalPages ?? 1);
         setTotalItems(data.pagination?.total ?? 0);
       } else {
-        console.log("No data or unsuccessful response"); // Debug log
         setUserList([]);
       }
     } catch (error) {
@@ -109,23 +103,18 @@ export default function Component(): JSX.Element {
     }
   }, [page]);
 
-  // Fixed: Call fetchUsers on initial mount and page changes
-  useEffect(() => {
-    fetchUsers();
-  }, [fetchUsers]);
+  const headerColumns = useMemo(() => {
+    if (visibleColumns === "all") return columns;
 
-  const headerColumns = useMemo((): Column[] => {
-    if (visibleColumns === "all") return [...columns];
-
-    return columns.map((item) =>
+    return columns
+      .map((item) =>
         item.uid === sortDescriptor.column
           ? { ...item, sortDirection: sortDescriptor.direction }
           : item,
       )
-      .filter((col) => (visibleColumns as Set<Key>).has(col.uid));
+      .filter((column) => (visibleColumns as Set<Key>).has(column.uid));
   }, [visibleColumns, sortDescriptor]);
 
-<<<<<<< HEAD
   // Filter and search logic
   const itemFilter = useCallback(
     (user: Users) => {
@@ -201,41 +190,33 @@ export default function Component(): JSX.Element {
 
   const sortedItems = useMemo(() => {
     return [...items].sort((a, b) => {
-=======
-  const sortedItems = useMemo((): Users[] => {
-    return [...userList].sort((a, b) => {
->>>>>>> 2aba11354c414b32b82cf5d2e2769f2b30bf9710
       const col = sortDescriptor.column as keyof Users;
       let first = a[col];
       let second = b[col];
 
       if (col === "email" || col === "phone_number") {
-        first = getPrimary(a[col] as string[]);
-        second = getPrimary(b[col] as string[]);
+        first = Array.isArray(a[col]) ? (a[col][0] ?? "") : "";
+        second = Array.isArray(b[col]) ? (b[col][0] ?? "") : "";
       }
 
       const cmp = first! < second! ? -1 : first! > second! ? 1 : 0;
 
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
-  }, [userList, sortDescriptor]);
+  }, [items, sortDescriptor]);
 
-  const filterSelectedKeys = useMemo((): Selection => {
+  const filterSelectedKeys = useMemo(() => {
     if (selectedKeys === "all") return selectedKeys;
 
     const resultKeys = new Set<Key>();
-<<<<<<< HEAD
     const selected = selectedKeys as Set<string>;
 
     for (const item of filteredItems) {
       if (selected.has(String(item.id))) {
-=======
-    for (const item of userList) {
-      if ((selectedKeys as Set<string>).has(String(item.id))) {
->>>>>>> 2aba11354c414b32b82cf5d2e2769f2b30bf9710
         resultKeys.add(String(item.id));
       }
     }
+
     return resultKeys;
   }, [selectedKeys, filteredItems]);
 
@@ -266,7 +247,7 @@ export default function Component(): JSX.Element {
     return countries.sort();
   }, [userList]);
 
-  const onSelectionChange = useMemoizedCallback((keys: Selection): void => {
+  const onSelectionChange = useMemoizedCallback((keys: Selection) => {
     setSelectedKeys(keys);
   });
 
@@ -277,38 +258,9 @@ export default function Component(): JSX.Element {
 
   const renderCell = useMemoizedCallback(
     (user: Users, columnKey: Key): React.ReactNode => {
-      const key = columnKey as ColumnsKey;
+      const userKey = columnKey as ColumnsKey;
 
-      // If this is a skeleton item (loading state), return appropriate placeholder content
-      if (user.id.startsWith("skeleton-")) {
-        switch (key) {
-          case "full_name":
-            return (
-              <User
-                avatarProps={{ radius: "lg", name: "" }}
-                name=""
-                description=""
-                className="skeleton-placeholder"
-              />
-            );
-          case "email":
-          case "phone_number":
-            return <CopyText>---</CopyText>;
-          case "actions":
-            return (
-              <div className="flex gap-2 justify-end">
-                <EyeFilledIcon className="text-default-400 cursor-pointer" />
-                <EditLinearIcon className="text-default-400 cursor-pointer" />
-                <DeleteFilledIcon className="text-default-400 cursor-pointer" />
-              </div>
-            );
-          default:
-            return "---";
-        }
-      }
-
-      // Regular rendering for actual data
-      switch (key) {
+      switch (userKey) {
         case "full_name":
           return (
             <User
@@ -382,7 +334,6 @@ export default function Component(): JSX.Element {
           );
         case "phone_number":
           return (
-<<<<<<< HEAD
             <PhoneList
               phones={
                 Array.isArray(user.phone_number)
@@ -412,11 +363,6 @@ export default function Component(): JSX.Element {
                 </p>
               )}
             </div>
-=======
-            <CopyText>
-              {Array.isArray(user[key]) ? user[key].join(", ") : "N/A"}
-            </CopyText>
->>>>>>> 2aba11354c414b32b82cf5d2e2769f2b30bf9710
           );
         case "actions":
           return (
@@ -433,7 +379,6 @@ export default function Component(): JSX.Element {
             </div>
           );
         default:
-<<<<<<< HEAD
           return (
             <p
               className="text-small text-default-700 truncate"
@@ -442,9 +387,6 @@ export default function Component(): JSX.Element {
               {user[userKey as keyof Users] ?? "N/A"}
             </p>
           );
-=======
-          return user[key] ?? "N/A";
->>>>>>> 2aba11354c414b32b82cf5d2e2769f2b30bf9710
       }
     },
   );
@@ -714,46 +656,6 @@ export default function Component(): JSX.Element {
     ],
   );
 
-  // Create skeleton items for loading state that match Users type
-  const skeletonItems = useMemo((): Users[] => {
-    return Array.from({ length: 5 }).map((_, idx) => ({
-      id: `skeleton-${idx}`,
-      full_name: "",
-      first_name: null,
-      last_name: null,
-      job_title: "",
-      company_name: "",
-      website: "",
-      linkedin: "",
-      twitter: null,
-      facebook: null,
-      address: "",
-      street: null,
-      city: "",
-      state: null,
-      postal_code: null,
-      country: "",
-      industry: null,
-      logo_url: null,
-      notes: null,
-      source: null,
-      date_collected: null,
-      ocr_confidence: null,
-      card_image_url: null,
-      email: [],
-      phone_number: [],
-      raw_text: "",
-      gender: null,
-      front_image_link: null,
-      back_image_link: null,
-      collected_at: null,
-    }));
-  }, []);
-
-  // Use skeleton items when loading AND no data, otherwise use sorted items
-  const tableItems =
-    loading && sortedItems.length === 0 ? skeletonItems : sortedItems;
-
   return (
     <div className="h-full w-full p-6">
       {topBar}
@@ -776,10 +678,9 @@ export default function Component(): JSX.Element {
         onSortChange={setSortDescriptor}
       >
         <TableHeader columns={headerColumns}>
-          {(column: Column) => (
+          {(column: any) => (
             <TableColumn
               key={column.uid}
-<<<<<<< HEAD
               align={column.uid === "actions" ? "end" : "start"}
               className={cn([
                 column.uid === "actions"
@@ -792,41 +693,16 @@ export default function Component(): JSX.Element {
                 column.uid === "phone_number" ? "min-w-[200px]" : "",
                 column.uid === "country" ? "min-w-[150px]" : "",
               ])}
-=======
-              style={{
-                width: column.width ?? "auto",
-                minWidth: column.width,
-                ...(column.uid === "actions"
-                  ? {
-                      position: "sticky",
-                      right: 0,
-                      background: "white",
-                      zIndex: 10,
-                    }
-                  : {}),
-              }}
->>>>>>> 2aba11354c414b32b82cf5d2e2769f2b30bf9710
             >
               {column.name}
             </TableColumn>
           )}
         </TableHeader>
-
-        <TableBody
-          emptyContent={loading ? "Loading..." : "No users found"}
-          items={tableItems}
-        >
-          {(item: Users) => (
+        <TableBody emptyContent="No users found" items={sortedItems}>
+          {(item: any) => (
             <TableRow key={item.id}>
-              {(columnKey: Key) => (
-                <TableCell>
-                  <Skeleton
-                    isLoaded={!loading || !item.id.startsWith("skeleton-")}
-                    className="rounded-lg"
-                  >
-                    {renderCell(item, columnKey)}
-                  </Skeleton>
-                </TableCell>
+              {(columnKey: any) => (
+                <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}
             </TableRow>
           )}
