@@ -88,7 +88,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
     {
       label: "Statistics",
       href: "/statistics",
-      icon: "lucide:chart-bar",
+      icon: "lucide:line-chart",
     },
   ];
 
