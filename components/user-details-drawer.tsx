@@ -991,77 +991,171 @@ Source: ${userData.source || "N/A"}
         )}
       </DrawerContent>
 
-      {/* Image Modal */}
+      {/* Enhanced Image Modal */}
       <Modal
         isOpen={isImageModalOpen}
         onOpenChange={onImageModalOpenChange}
         size="5xl"
         backdrop="opaque"
         classNames={{
-          backdrop: "bg-black/80",
-          base: "border-none bg-transparent shadow-none",
-          wrapper: "items-center justify-center",
+          backdrop: "bg-black/90 backdrop-blur-sm",
+          base: "border-none bg-transparent shadow-none max-w-[95vw] max-h-[95vh]",
+          wrapper: "items-center justify-center p-4",
+        }}
+        motionProps={{
+          variants: {
+            enter: {
+              scale: 0.95,
+              opacity: 0,
+              transition: {
+                duration: 0.3,
+                ease: "easeOut",
+              },
+            },
+            exit: {
+              scale: 0.95,
+              opacity: 0,
+              transition: {
+                duration: 0.2,
+                ease: "easeIn",
+              },
+            },
+          },
         }}
       >
-        <ModalContent className="bg-transparent shadow-none">
+        <ModalContent className="bg-transparent shadow-none overflow-hidden">
           {(onClose) => (
             <>
-              <ModalHeader className="flex flex-col gap-1 bg-content1/90 backdrop-blur-md rounded-t-large">
+              {/* Enhanced Header */}
+              <ModalHeader className="flex flex-col gap-1 bg-content1/95 backdrop-blur-xl rounded-t-2xl border-b border-default-200/50 shadow-lg">
                 <div className="flex items-center justify-between w-full">
-                  <div className="flex items-center gap-2">
-                    <Icon
-                      icon="lucide:image"
-                      className="text-primary"
-                      width={20}
-                      height={20}
-                    />
-                    <h3 className="text-lg font-semibold">
-                      {selectedImage?.title}
-                    </h3>
+                  <div className="flex items-center gap-3">
+                    <div className="bg-primary/10 p-2 rounded-xl">
+                      <Icon
+                        icon="lucide:image"
+                        className="text-primary"
+                        width={20}
+                        height={20}
+                      />
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-semibold">
+                        {selectedImage?.title}
+                      </h3>
+                      <p className="text-tiny text-default-500">
+                        High resolution view
+                      </p>
+                    </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Button
-                      isIconOnly
-                      variant="light"
-                      onPress={() =>
-                        selectedImage &&
-                        window.open(selectedImage.url, "_blank")
-                      }
-                      className="text-default-500"
-                    >
-                      <Icon
-                        icon="lucide:external-link"
-                        width={18}
-                        height={18}
-                      />
-                    </Button>
-                    <Button
-                      isIconOnly
-                      variant="light"
-                      onPress={onClose}
-                      className="text-default-500"
-                    >
-                      <Icon icon="lucide:x" width={20} height={20} />
-                    </Button>
+                    <Tooltip content="Download image">
+                      <Button
+                        isIconOnly
+                        variant="flat"
+                        color="primary"
+                        size="sm"
+                        onPress={() =>
+                          selectedImage &&
+                          window.open(selectedImage.url, "_blank")
+                        }
+                        className="bg-primary/10 hover:bg-primary/20"
+                      >
+                        <Icon icon="lucide:download" width={16} height={16} />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip content="Open in new tab">
+                      <Button
+                        isIconOnly
+                        variant="flat"
+                        size="sm"
+                        onPress={() =>
+                          selectedImage &&
+                          window.open(selectedImage.url, "_blank")
+                        }
+                        className="bg-default-100 hover:bg-default-200"
+                      >
+                        <Icon
+                          icon="lucide:external-link"
+                          width={16}
+                          height={16}
+                        />
+                      </Button>
+                    </Tooltip>
+                    <Tooltip content="Close">
+                      <Button
+                        isIconOnly
+                        variant="flat"
+                        size="sm"
+                        onPress={onClose}
+                        className="bg-danger/10 hover:bg-danger/20 text-danger"
+                      >
+                        <Icon icon="lucide:x" width={16} height={16} />
+                      </Button>
+                    </Tooltip>
                   </div>
                 </div>
               </ModalHeader>
-              <ModalBody className="p-0">
+
+              {/* Enhanced Body */}
+              <ModalBody className="p-0 relative">
                 {selectedImage && (
-                  <div className="relative bg-content1 rounded-b-large overflow-hidden">
-                    <Image
-                      src={selectedImage.url}
-                      alt={selectedImage.alt}
-                      className="w-full max-h-[80vh] object-contain"
-                      classNames={{
-                        img: "rounded-none",
-                      }}
-                      fallbackSrc="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik0xODAgMTQwSDIyMFYxNDBIMTgwVjE0MFoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA+IGZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE2cHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSIxNjAiIHk9IjE4MCI+SW1hZ2UgTm90IEZvdW5kPC90ZXh0Pgo8L3N2Zz4K"
-                    />
-                    <div className="absolute bottom-4 right-4 bg-content1/80 backdrop-blur-sm rounded-small px-3 py-2">
-                      <p className="text-tiny text-default-600">
-                        Click outside or press ESC to close
-                      </p>
+                  <div className="relative bg-white rounded-b-2xl overflow-hidden shadow-2xl">
+                    {/* Image Container */}
+                    <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 min-h-[400px] flex items-center justify-center">
+                      <Image
+                        src={selectedImage.url}
+                        alt={selectedImage.alt}
+                        className="max-w-full max-h-[75vh] object-contain drop-shadow-lg"
+                        classNames={{
+                          img: "rounded-lg",
+                          wrapper: "bg-transparent",
+                        }}
+                        fallbackSrc="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik0xODAgMTQwSDIyMFYxNDBIMTgwVjE0MFoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA+IGZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE2cHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSIxNjAiIHk9IjE4MCI+SW1hZ2UgTm90IEZvdW5kPC90ZXh0Pgo8L3N2Zz4K"
+                      />
+
+                      {/* Decorative corners */}
+                      <div className="absolute top-4 left-4 w-6 h-6 border-l-2 border-t-2 border-primary/30 rounded-tl-lg"></div>
+                      <div className="absolute top-4 right-4 w-6 h-6 border-r-2 border-t-2 border-primary/30 rounded-tr-lg"></div>
+                      <div className="absolute bottom-4 left-4 w-6 h-6 border-l-2 border-b-2 border-primary/30 rounded-bl-lg"></div>
+                      <div className="absolute bottom-4 right-4 w-6 h-6 border-r-2 border-b-2 border-primary/30 rounded-br-lg"></div>
+                    </div>
+
+                    {/* Enhanced Footer */}
+                    <div className="bg-gradient-to-r from-content1 to-content2 p-4 border-t border-default-200">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-2 text-small">
+                            <Icon
+                              icon="lucide:info"
+                              className="text-primary"
+                              width={16}
+                              height={16}
+                            />
+                            <span className="text-default-600">
+                              Business Card Image
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="flex items-center gap-4 text-tiny text-default-500">
+                          <div className="flex items-center gap-1">
+                            <Icon
+                              icon="lucide:mouse-pointer-click"
+                              width={12}
+                              height={12}
+                            />
+                            <span>Click outside to close</span>
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <Icon
+                              icon="lucide:keyboard"
+                              width={12}
+                              height={12}
+                            />
+                            <span>Press ESC to close</span>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 )}
