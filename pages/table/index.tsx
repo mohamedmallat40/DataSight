@@ -1,7 +1,7 @@
 "use client";
 
 import type { Selection, SortDescriptor } from "@heroui/react";
-import type { ColumnsKey, Users } from "../../types/data";
+import type { ColumnsKey, Users, Column } from "../../types/data";
 import type { Key } from "@react-types/shared";
 
 import {
@@ -24,10 +24,11 @@ import {
   ModalContent,
   Modal,
   ModalBody,
+  Skeleton,
 } from "@heroui/react";
 
 import { SearchIcon } from "@heroui/shared-icons";
-import React, { useMemo, useState, useEffect, useCallback } from "react";
+import React, { useMemo, useState, useEffect, useCallback, JSX } from "react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
 
@@ -43,6 +44,9 @@ import { columns, INITIAL_VISIBLE_COLUMNS } from "../../types/data";
 import apiClient from "@/config/api";
 import MultiStepWizard from "./add-card/multi-step-wizard";
 
+const getPrimary = (list?: string[]): string =>
+  Array.isArray(list) && list.length > 0 ? list[0] : "N/A";
+
 export default function Component(): JSX.Element {
   const [userList, setUserList] = useState<Users[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -57,22 +61,22 @@ export default function Component(): JSX.Element {
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
     new Set<ColumnsKey>(INITIAL_VISIBLE_COLUMNS)
   );
+  const [selectedUser, setSelectedUser] = useState<Users | null>(null);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
-
-  useEffect(() => {
-    fetchUsers();
-  }, [page]);
 
   const fetchUsers = useCallback(async (): Promise<void> => {
     setLoading(true);
     try {
       const { data } = await apiClient.get(`/card-info?page=${page}`);
+      console.log("API Response:", data); // Debug log
+
       if (data?.success && Array.isArray(data?.data)) {
         setUserList(data.data);
         setTotalPages(data.pagination?.totalPages ?? 1);
         setTotalItems(data.pagination?.total ?? 0);
       } else {
+        console.log("No data or unsuccessful response"); // Debug log
         setUserList([]);
       }
     } catch (error) {
@@ -83,75 +87,107 @@ export default function Component(): JSX.Element {
     }
   }, [page]);
 
-  const headerColumns = useMemo(() => {
-    if (visibleColumns === "all") return columns;
+  // Fixed: Call fetchUsers on initial mount and page changes
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
+
+  const headerColumns = useMemo((): Column[] => {
+    if (visibleColumns === "all") return [...columns];
 
     return columns
-      .map((item) =>
-        item.uid === sortDescriptor.column
-          ? { ...item, sortDirection: sortDescriptor.direction }
-          : item
+      .map((col) =>
+        col.uid === sortDescriptor.column
+          ? { ...col, sortDirection: sortDescriptor.direction }
+          : col
       )
-      .filter((column) => (visibleColumns as Set<Key>).has(column.uid));
+      .filter((col) => (visibleColumns as Set<Key>).has(col.uid));
   }, [visibleColumns, sortDescriptor]);
 
-  const items = useMemo(() => userList, [userList]); // FIX: no slicing here
-
-  const sortedItems = useMemo(() => {
-    return [...items].sort((a, b) => {
+  const sortedItems = useMemo((): Users[] => {
+    return [...userList].sort((a, b) => {
       const col = sortDescriptor.column as keyof Users;
       let first = a[col];
       let second = b[col];
 
       if (col === "email" || col === "phone_number") {
-        first = Array.isArray(a[col]) ? (a[col][0] ?? "") : "";
-        second = Array.isArray(b[col]) ? (b[col][0] ?? "") : "";
+        first = getPrimary(a[col] as string[]);
+        second = getPrimary(b[col] as string[]);
       }
 
       const cmp = first! < second! ? -1 : first! > second! ? 1 : 0;
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
-  }, [items, sortDescriptor]);
+  }, [userList, sortDescriptor]);
 
-  const filterSelectedKeys = useMemo(() => {
+  const filterSelectedKeys = useMemo((): Selection => {
     if (selectedKeys === "all") return selectedKeys;
 
     const resultKeys = new Set<Key>();
-    const selected = selectedKeys as Set<string>;
-
     for (const item of userList) {
-      if (selected.has(String(item.id))) {
+      if ((selectedKeys as Set<string>).has(String(item.id))) {
         resultKeys.add(String(item.id));
       }
     }
-
     return resultKeys;
   }, [selectedKeys, userList]);
 
-  const onSelectionChange = useMemoizedCallback((keys: Selection) => {
+  const onSelectionChange = useMemoizedCallback((keys: Selection): void => {
     setSelectedKeys(keys);
   });
 
+  const handleViewDrawer = (user: Users) => {
+    setSelectedUser(user);
+    onOpen();
+  };
+
   const renderCell = useMemoizedCallback(
     (user: Users, columnKey: Key): React.ReactNode => {
-      const userKey = columnKey as ColumnsKey;
+      const key = columnKey as ColumnsKey;
 
-      switch (userKey) {
+      // If this is a skeleton item (loading state), return appropriate placeholder content
+      if (user.id.startsWith("skeleton-")) {
+        switch (key) {
+          case "full_name":
+            return (
+              <User
+                avatarProps={{ radius: "lg", name: "" }}
+                name=""
+                description=""
+                className="skeleton-placeholder"
+              />
+            );
+          case "email":
+          case "phone_number":
+            return <CopyText>---</CopyText>;
+          case "actions":
+            return (
+              <div className="flex gap-2 justify-end">
+                <EyeFilledIcon className="text-default-400 cursor-pointer" />
+                <EditLinearIcon className="text-default-400 cursor-pointer" />
+                <DeleteFilledIcon className="text-default-400 cursor-pointer" />
+              </div>
+            );
+          default:
+            return "---";
+        }
+      }
+
+      // Regular rendering for actual data
+      switch (key) {
         case "full_name":
           return (
             <User
               avatarProps={{ radius: "lg", name: user.full_name }}
               name={user.full_name}
-              description={
-                Array.isArray(user.email) ? (user.email[0] ?? "") : ""
-              }
+              description={getPrimary(user.email)}
             />
           );
         case "email":
         case "phone_number":
           return (
             <CopyText>
-              {Array.isArray(user[userKey]) ? user[userKey].join(", ") : "N/A"}
+              {Array.isArray(user[key]) ? user[key].join(", ") : "N/A"}
             </CopyText>
           );
         case "actions":
@@ -163,7 +199,7 @@ export default function Component(): JSX.Element {
             </div>
           );
         default:
-          return user[userKey as keyof Users] ?? "N/A";
+          return user[key] ?? "N/A";
       }
     }
   );
@@ -190,7 +226,7 @@ export default function Component(): JSX.Element {
         </Button>
       </div>
     ),
-    [onOpen, userList.length]
+    [totalItems]
   );
 
   const bottomContent = useMemo(
@@ -213,6 +249,46 @@ export default function Component(): JSX.Element {
     [page, totalPages]
   );
 
+  // Create skeleton items for loading state that match Users type
+  const skeletonItems = useMemo((): Users[] => {
+    return Array.from({ length: 5 }).map((_, idx) => ({
+      id: `skeleton-${idx}`,
+      full_name: "",
+      first_name: null,
+      last_name: null,
+      job_title: "",
+      company_name: "",
+      website: "",
+      linkedin: "",
+      twitter: null,
+      facebook: null,
+      address: "",
+      street: null,
+      city: "",
+      state: null,
+      postal_code: null,
+      country: "",
+      industry: null,
+      logo_url: null,
+      notes: null,
+      source: null,
+      date_collected: null,
+      ocr_confidence: null,
+      card_image_url: null,
+      email: [],
+      phone_number: [],
+      raw_text: "",
+      gender: null,
+      front_image_link: null,
+      back_image_link: null,
+      collected_at: null,
+    }));
+  }, []);
+
+  // Use skeleton items when loading AND no data, otherwise use sorted items
+  const tableItems =
+    loading && sortedItems.length === 0 ? skeletonItems : sortedItems;
+
   return (
     <div className="h-full w-full p-6">
       {topBar}
@@ -230,25 +306,42 @@ export default function Component(): JSX.Element {
         onSortChange={setSortDescriptor}
       >
         <TableHeader columns={headerColumns}>
-          {(column: any) => (
+          {(column: Column) => (
             <TableColumn
               key={column.uid}
-              align={column.uid === "actions" ? "end" : "start"}
-              className={cn([
-                column.uid === "actions"
-                  ? "flex items-center justify-end px-[20px]"
-                  : "",
-              ])}
+              style={{
+                width: column.width ?? "auto",
+                minWidth: column.width,
+                ...(column.uid === "actions"
+                  ? {
+                      position: "sticky",
+                      right: 0,
+                      background: "white",
+                      zIndex: 10,
+                    }
+                  : {}),
+              }}
             >
               {column.name}
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody emptyContent="No users found" items={sortedItems}>
-          {(item: any) => (
+
+        <TableBody
+          emptyContent={loading ? "Loading..." : "No users found"}
+          items={tableItems}
+        >
+          {(item: Users) => (
             <TableRow key={item.id}>
-              {(columnKey: any) => (
-                <TableCell>{renderCell(item, columnKey)}</TableCell>
+              {(columnKey: Key) => (
+                <TableCell>
+                  <Skeleton
+                    isLoaded={!loading || !item.id.startsWith("skeleton-")}
+                    className="rounded-lg"
+                  >
+                    {renderCell(item, columnKey)}
+                  </Skeleton>
+                </TableCell>
               )}
             </TableRow>
           )}
