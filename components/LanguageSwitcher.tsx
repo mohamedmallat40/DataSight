@@ -129,7 +129,8 @@ export const LanguageSwitcher = ({
           <Icon
             icon="solar:check-circle-bold"
             className="text-primary ml-auto"
-            size={16}
+            width={16}
+            height={16}
           />
         )}
       </div>
