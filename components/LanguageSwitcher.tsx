@@ -160,12 +160,12 @@ export const LanguageSwitcher = ({
               <span className="text-tiny font-medium uppercase tracking-wide">
                 {currentLanguage.code}
               </span>
-              <Icon icon="solar:alt-arrow-down-linear" size={12} />
+              <Icon icon="solar:alt-arrow-down-linear" width={12} height={12} />
             </div>
           ) : (
             <div className="flex items-center gap-2">
               {renderLanguageItem(currentLanguage, true)}
-              <Icon icon="solar:alt-arrow-down-linear" size={14} />
+              <Icon icon="solar:alt-arrow-down-linear" width={14} height={14} />
             </div>
           )}
         </Button>
