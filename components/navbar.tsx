@@ -51,8 +51,8 @@ export const Navbar = ({ setLocale }: any) => {
 
   return (
     <HeroUINavbar
-      className={isRTL ? "reverse" : ""}
-      maxWidth="xl"
+      className={clsx(isRTL ? "reverse" : "", "px-2.5")}
+      maxWidth="full"
       position="sticky"
     >
       <NavbarContent
