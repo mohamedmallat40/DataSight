@@ -163,7 +163,10 @@ export default function Component(): JSX.Element {
         case "actions":
           return (
             <div className="flex gap-2 justify-end">
-              <EyeFilledIcon className="text-default-400 cursor-pointer" />
+              <EyeFilledIcon
+                className="text-default-400 cursor-pointer hover:text-primary transition-colors"
+                onClick={() => handleViewUser(user)}
+              />
               <EditLinearIcon className="text-default-400 cursor-pointer" />
               <DeleteFilledIcon className="text-default-400 cursor-pointer" />
             </div>
