@@ -88,7 +88,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
     {
       label: "Statistics",
       href: "/statistics",
-      icon: "solar:chart-line-up-linear",
+      icon: "solar:chart-square-linear",
     },
   ];
 
