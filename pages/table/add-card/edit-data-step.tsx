@@ -367,6 +367,71 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               onChange={(e) => handleInputChange("country", e.target.value)}
             />
 
+            <div className="col-span-12 md:col-span-6">
+              <RadioGroup
+                label="Gender"
+                orientation="horizontal"
+                value={
+                  businessCardData.gender === true
+                    ? "male"
+                    : businessCardData.gender === false
+                      ? "female"
+                      : "unknown"
+                }
+                onValueChange={handleGenderChange}
+                classNames={{
+                  base: "flex flex-col gap-2",
+                  wrapper: "flex gap-6",
+                }}
+              >
+                <Radio
+                  value="male"
+                  classNames={{
+                    wrapper: "group-data-[selected=true]:border-blue-500",
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <Icon
+                      className="text-blue-500"
+                      icon="lucide:user"
+                      width={16}
+                    />
+                    Male
+                  </div>
+                </Radio>
+                <Radio
+                  value="female"
+                  classNames={{
+                    wrapper: "group-data-[selected=true]:border-pink-500",
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <Icon
+                      className="text-pink-500"
+                      icon="lucide:user"
+                      width={16}
+                    />
+                    Female
+                  </div>
+                </Radio>
+                <Radio
+                  value="unknown"
+                  classNames={{
+                    wrapper: "group-data-[selected=true]:border-gray-500",
+                  }}
+                >
+                  <div className="flex items-center gap-2">
+                    <Icon
+                      className="text-gray-500"
+                      icon="lucide:help-circle"
+                      width={16}
+                    />
+                    Unknown
+                  </div>
+                </Radio>
+              </RadioGroup>
+            </div>
+
             <Textarea
               className="col-span-12"
               label="Notes"
