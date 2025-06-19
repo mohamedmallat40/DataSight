@@ -16,6 +16,7 @@ export interface BusinessCardData {
   country: string;
   city: string;
   raw_text: string;
+  notes: string;
 }
 
 export const emptyBusinessCardData: BusinessCardData = {
@@ -30,6 +31,7 @@ export const emptyBusinessCardData: BusinessCardData = {
   country: "",
   city: "",
   raw_text: "",
+  notes: "",
 };
 
 export interface EnrichmentSource {
