@@ -344,6 +344,20 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               value={businessCardData.country}
               onChange={(e) => handleInputChange("country", e.target.value)}
             />
+
+            <Textarea
+              className="col-span-12"
+              label="Notes"
+              labelPlacement="outside"
+              placeholder="Add any additional notes or comments about this contact..."
+              minRows={3}
+              maxRows={6}
+              startContent={
+                <Icon className="text-default-400" icon="lucide:sticky-note" />
+              }
+              value={businessCardData.notes}
+              onChange={(e) => handleInputChange("notes", e.target.value)}
+            />
           </div>
         </div>
       </div>
