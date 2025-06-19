@@ -87,31 +87,6 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
     },
   ];
 
-  const searchInput = (
-    <Input
-      aria-label="Search"
-      classNames={{
-        base: "max-w-full sm:max-w-[12rem] h-10",
-        mainWrapper: "h-full",
-        input: "text-small",
-        inputWrapper:
-          "h-full font-normal text-default-500 bg-default-100/50 backdrop-blur-sm border border-default-200/50",
-      }}
-      placeholder="Search..."
-      size="sm"
-      startContent={
-        <SearchIcon className="text-default-400" width={16} height={16} />
-      }
-      endContent={
-        <Kbd className="hidden lg:inline-block" keys={["command"]}>
-          K
-        </Kbd>
-      }
-      type="search"
-      variant="bordered"
-    />
-  );
-
   const companyLogo = (
     <NextLink
       href="/"
