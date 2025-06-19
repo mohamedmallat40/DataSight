@@ -135,21 +135,6 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
 
   const actionButtons = (
     <div className="flex items-center gap-2">
-      {/* Search Button for Mobile */}
-      <Button
-        isIconOnly
-        className="sm:hidden"
-        size="sm"
-        variant="light"
-        onPress={() => setIsSearchOpen(!isSearchOpen)}
-        aria-label="Search"
-      >
-        <SearchIcon width={18} height={18} />
-      </Button>
-
-      {/* Desktop Search */}
-      <div className="hidden sm:flex">{searchInput}</div>
-
       {/* CTA Button */}
       <Button
         as={Link}
