@@ -352,7 +352,7 @@ export default function Component(): JSX.Element {
                   ? "flex items-center justify-end px-[20px] w-[120px]"
                   : "",
                 column.uid === "full_name" ? "min-w-[250px]" : "",
-                column.uid === "job_title" ? "min-w-[140px]" : "",
+                column.uid === "job_title" ? "min-w-[120px] max-w-[120px]" : "",
                 column.uid === "company_name" ? "min-w-[200px]" : "",
                 column.uid === "email" ? "min-w-[280px]" : "",
                 column.uid === "phone_number" ? "min-w-[200px]" : "",
