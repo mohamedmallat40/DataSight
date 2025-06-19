@@ -235,26 +235,26 @@ export default function Component(): JSX.Element {
     [industryFilter, countryFilter, dateFilter],
   );
 
-  const filteredItems = useMemo(() => {
+  const filteredItems = useMemo((): Users[] => {
     let filtered = [...userList];
 
-    // Apply search filter
-    if (filterValue) {
-      filtered = filtered.filter(
-        (user) =>
-          user.full_name.toLowerCase().includes(filterValue.toLowerCase()) ||
-          (user.company_name &&
-            user.company_name
-              .toLowerCase()
-              .includes(filterValue.toLowerCase())) ||
-          (user.job_title &&
-            user.job_title.toLowerCase().includes(filterValue.toLowerCase())) ||
-          (Array.isArray(user.email)
-            ? user.email.some((email) =>
-                email.toLowerCase().includes(filterValue.toLowerCase()),
-              )
-            : false),
-      );
+    // Apply search filter with type safety
+    if (filterValue.trim()) {
+      const searchTerm = filterValue.toLowerCase();
+      filtered = filtered.filter((user: Users): boolean => {
+        const searchFields = [
+          user.full_name?.toLowerCase() || "",
+          user.company_name?.toLowerCase() || "",
+          user.job_title?.toLowerCase() || "",
+        ];
+
+        // Handle email array search
+        if (Array.isArray(user.email)) {
+          searchFields.push(...user.email.map((email) => email.toLowerCase()));
+        }
+
+        return searchFields.some((field) => field.includes(searchTerm));
+      });
     }
 
     // Apply other filters
@@ -263,21 +263,32 @@ export default function Component(): JSX.Element {
     return filtered;
   }, [userList, filterValue, itemFilter]);
 
-  const items = useMemo(() => filteredItems, [filteredItems]);
+  const items = useMemo((): Users[] => filteredItems, [filteredItems]);
 
-  const sortedItems = useMemo(() => {
-    return [...items].sort((a, b) => {
-      const col = sortDescriptor.column as keyof Users;
-      let first = a[col];
-      let second = b[col];
+  const sortedItems = useMemo((): Users[] => {
+    return [...items].sort((a: Users, b: Users): number => {
+      const col = sortDescriptor.column as ColumnsKey;
+
+      // Type-safe property access
+      let first: string | number | null | undefined;
+      let second: string | number | null | undefined;
 
       if (col === "email" || col === "phone_number") {
-        first = Array.isArray(a[col]) ? (a[col][0] ?? "") : "";
-        second = Array.isArray(b[col]) ? (b[col][0] ?? "") : "";
+        // Handle array fields
+        const aValue = a[col];
+        const bValue = b[col];
+        first = Array.isArray(aValue) && aValue.length > 0 ? aValue[0] : "";
+        second = Array.isArray(bValue) && bValue.length > 0 ? bValue[0] : "";
+      } else {
+        first = a[col as keyof Users];
+        second = b[col as keyof Users];
       }
 
-      const cmp = first! < second! ? -1 : first! > second! ? 1 : 0;
+      // Convert to strings for comparison, handling null/undefined
+      const firstStr = String(first ?? "");
+      const secondStr = String(second ?? "");
 
+      const cmp = firstStr.localeCompare(secondStr);
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [items, sortDescriptor]);
