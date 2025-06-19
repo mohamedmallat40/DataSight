@@ -161,7 +161,6 @@ export const getStaticProps: GetStaticProps<IndexPageProps> = async () => {
           version: "1.0.0",
         },
       },
-      revalidate: 3600,
     };
   }
 };
