@@ -220,8 +220,10 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
               <NavbarItem key={item.href}>
                 <Link
                   className={clsx(
-                    "flex items-center gap-2 text-foreground hover:text-primary transition-colors font-medium",
-                    router.asPath === item.href && "text-primary",
+                    "flex items-center gap-2 transition-all duration-200 font-medium px-3 py-2 rounded-lg",
+                    router.asPath === item.href
+                      ? "text-primary bg-primary/10 font-semibold"
+                      : "text-foreground hover:text-primary hover:bg-primary/5",
                   )}
                   href={item.href}
                   onClick={(e) => {
@@ -230,7 +232,14 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
                   }}
                 >
                   {item.icon && (
-                    <Icon icon={item.icon} width={18} height={18} />
+                    <Icon
+                      icon={item.icon}
+                      width={18}
+                      height={18}
+                      className={
+                        router.asPath === item.href ? "text-primary" : ""
+                      }
+                    />
                   )}
                   {item.label}
                   {item.badge && (
