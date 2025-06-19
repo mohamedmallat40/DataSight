@@ -81,6 +81,11 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
   // Enhanced navigation items with icons and descriptions
   const navigationItems: NavigationItem[] = [
     {
+      label: "Contacts",
+      href: "/table",
+      icon: "solar:users-group-two-rounded-linear",
+    },
+    {
       label: "Statistics",
       href: "/statistics",
       icon: "solar:chart-line-up-linear",
