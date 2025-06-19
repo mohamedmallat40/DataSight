@@ -35,7 +35,31 @@ export default function UserDetailsDrawer({
   onOpenChange,
   userData,
 }: UserDetailsDrawerProps) {
+  const {
+    isOpen: isImageModalOpen,
+    onOpen: onImageModalOpen,
+    onOpenChange: onImageModalOpenChange,
+  } = useDisclosure();
+  const [selectedImage, setSelectedImage] = useState<{
+    url: string;
+    title: string;
+    alt: string;
+  } | null>(null);
+
   if (!userData) return null;
+
+  const handleImageClick = (imageUrl: string, title: string, alt: string) => {
+    const fullImageUrl = imageUrl.startsWith("http")
+      ? imageUrl
+      : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${imageUrl}`;
+
+    setSelectedImage({
+      url: fullImageUrl,
+      title,
+      alt,
+    });
+    onImageModalOpen();
+  };
 
   const handleCopyContact = () => {
     const emailList = emails.length > 0 ? emails.join(", ") : "N/A";
