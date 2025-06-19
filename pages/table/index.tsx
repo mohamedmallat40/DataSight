@@ -47,7 +47,6 @@ import { columns, INITIAL_VISIBLE_COLUMNS } from "../../types/data";
 
 import MultiStepWizard from "./add-card/multi-step-wizard";
 import UserDetailsDrawer from "../../components/user-details-drawer";
-
 import apiClient from "@/config/api";
 
 export default function Component(): JSX.Element {
@@ -78,6 +77,10 @@ export default function Component(): JSX.Element {
     onOpen: onDrawerOpen,
     onOpenChange: onDrawerOpenChange,
   } = useDisclosure();
+  
+  useEffect(() => {
+    fetchUsers();
+  }, [page]);
 
   useEffect(() => {
     fetchUsers();
@@ -617,8 +620,7 @@ export default function Component(): JSX.Element {
         </Button>
       </div>
     ),
-    [onOpen, filteredItems.length],
-  );
+    [onOpen, filteredItems.length]);
 
   const bottomContent = useMemo(
     () => (
