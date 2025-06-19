@@ -1,4 +1,11 @@
-import { ReactElement } from "react";
+import { ReactElement, SVGProps } from "react";
+
+// Icon types
+export type IconSvgProps = SVGProps<SVGSVGElement> & {
+  size?: number;
+  height?: number;
+  width?: number;
+};
 
 // Logo types
 export interface LogoItem {
