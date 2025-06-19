@@ -103,7 +103,7 @@ export default function MultiStepWizard({
             businessCardData={businessCardData}
             setBusinessCardData={setBusinessCardData}
             uploadedImage={uploadedImage}
-            onNextStep={onClose}
+            onNextStep={handleSuccess}
           />
         );
         break;
