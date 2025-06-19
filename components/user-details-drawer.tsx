@@ -53,6 +53,8 @@ export default function UserDetailsDrawer({
       ? imageUrl
       : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${imageUrl}`;
 
+    console.log("Image URL:", fullImageUrl); // Debug log
+
     setSelectedImage({
       url: fullImageUrl,
       title,
