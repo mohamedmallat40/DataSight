@@ -1,62 +1,197 @@
-import type { Language } from "../i18n/translations";
-
-import React, { useEffect, useState } from "react";
-import { Select, SelectItem } from "@heroui/select";
+import { useState, useCallback } from "react";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  Button,
+  Selection,
+} from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { useLocale } from "@react-aria/i18n";
 
-const languages: { key: Language; label: string; icon: string }[] = [
-  { key: "en", label: "English", icon: "twemoji:flag-united-kingdom" },
-  { key: "fr", label: "Français", icon: "twemoji:flag-france" },
-  { key: "ar", label: "العربية", icon: "twemoji:flag-saudi-arabia" },
-  { key: "nl", label: "Nederlands", icon: "twemoji:flag-netherlands" },
-];
+interface Language {
+  code: string;
+  name: string;
+  nativeName: string;
+  flag: string;
+  rtl?: boolean;
+}
 
 interface LanguageSwitcherProps {
-  onChange: (lang: Language) => void;
+  onChange: (locale: string) => void;
+  variant?: "compact" | "full";
+  size?: "sm" | "md" | "lg";
+  showFlag?: boolean;
+  showNative?: boolean;
 }
 
-export function LanguageSwitcher({ onChange }: LanguageSwitcherProps) {
-  const { locale } = useLocale();
-  const currentLang = (locale?.slice(0, 2) as Language) || "en";
-  const [selectedKey, setSelectedKey] = useState<Language>(currentLang);
+const languages: Language[] = [
+  {
+    code: "en",
+    name: "English",
+    nativeName: "English",
+    flag: "🇺🇸",
+  },
+  {
+    code: "ar",
+    name: "Arabic",
+    nativeName: "العربية",
+    flag: "🇸🇦",
+    rtl: true,
+  },
+  {
+    code: "fr",
+    name: "French",
+    nativeName: "Français",
+    flag: "🇫🇷",
+  },
+  {
+    code: "es",
+    name: "Spanish",
+    nativeName: "Español",
+    flag: "🇪🇸",
+  },
+  {
+    code: "de",
+    name: "German",
+    nativeName: "Deutsch",
+    flag: "🇩🇪",
+  },
+];
 
-  useEffect(() => {
-    setSelectedKey(currentLang);
-  }, [currentLang]);
+export const LanguageSwitcher = ({
+  onChange,
+  variant = "compact",
+  size = "sm",
+  showFlag = true,
+  showNative = false,
+}: LanguageSwitcherProps) => {
+  const { locale } = useLocale();
+  const [selectedKeys, setSelectedKeys] = useState<Selection>(
+    new Set([locale || "en"]),
+  );
+
+  const currentLanguage =
+    languages.find((lang) => lang.code === locale) || languages[0];
+
+  const handleSelectionChange = useCallback(
+    (keys: Selection) => {
+      const selectedKey = Array.from(keys)[0] as string;
+      if (selectedKey && selectedKey !== locale) {
+        setSelectedKeys(keys);
+        onChange(selectedKey);
+
+        // Update document direction for RTL languages
+        const selectedLang = languages.find(
+          (lang) => lang.code === selectedKey,
+        );
+        if (selectedLang?.rtl) {
+          document.documentElement.setAttribute("dir", "rtl");
+          document.documentElement.setAttribute("lang", selectedKey);
+        } else {
+          document.documentElement.setAttribute("dir", "ltr");
+          document.documentElement.setAttribute("lang", selectedKey);
+        }
+      }
+    },
+    [locale, onChange],
+  );
+
+  const renderLanguageItem = (
+    language: Language,
+    isSelected: boolean = false,
+  ) => {
+    return (
+      <div className="flex items-center gap-2 w-full">
+        {showFlag && (
+          <span
+            className="text-lg"
+            role="img"
+            aria-label={`${language.name} flag`}
+          >
+            {language.flag}
+          </span>
+        )}
+        <div className="flex flex-col">
+          <span
+            className={`font-medium ${isSelected ? "text-primary" : "text-foreground"}`}
+          >
+            {showNative ? language.nativeName : language.name}
+          </span>
+          {variant === "full" && (
+            <span className="text-tiny text-default-500">
+              {showNative ? language.name : language.nativeName}
+            </span>
+          )}
+        </div>
+        {isSelected && (
+          <Icon
+            icon="solar:check-circle-bold"
+            className="text-primary ml-auto"
+            size={16}
+          />
+        )}
+      </div>
+    );
+  };
 
   return (
-    <Select
-      aria-label="Language selector"
-      className="max-w-xs w-40"
-      renderValue={() => {
-        const selected = languages.find((lang) => lang.key === selectedKey);
-
-        if (!selected) return null;
-
-        return (
-          <div className="flex items-center gap-2">
-            <Icon className="text-xl" icon={selected.icon} />
-            <span>{selected.label}</span>
-          </div>
-        );
-      }}
-      selectedKeys={new Set([selectedKey])}
-      onSelectionChange={(keys) => {
-        const key = Array.from(keys)[0] as Language;
-
-        setSelectedKey(key);
-        onChange(key);
-      }}
-    >
-      {languages.map((lang) => (
-        <SelectItem
-          key={lang.key}
-          startContent={<Icon className="text-xl" icon={lang.icon} />}
+    <Dropdown>
+      <DropdownTrigger>
+        <Button
+          variant="light"
+          size={size}
+          className="min-w-unit-10 h-unit-10 p-2 text-default-600 hover:text-foreground transition-colors"
+          aria-label="Select language"
         >
-          {lang.label}
-        </SelectItem>
-      ))}
-    </Select>
+          {variant === "compact" ? (
+            <div className="flex items-center gap-1">
+              {showFlag && (
+                <span
+                  className="text-sm"
+                  role="img"
+                  aria-label={`${currentLanguage.name} flag`}
+                >
+                  {currentLanguage.flag}
+                </span>
+              )}
+              <span className="text-tiny font-medium uppercase tracking-wide">
+                {currentLanguage.code}
+              </span>
+              <Icon icon="solar:alt-arrow-down-linear" size={12} />
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              {renderLanguageItem(currentLanguage, true)}
+              <Icon icon="solar:alt-arrow-down-linear" size={14} />
+            </div>
+          )}
+        </Button>
+      </DropdownTrigger>
+
+      <DropdownMenu
+        aria-label="Language selection"
+        selectedKeys={selectedKeys}
+        selectionMode="single"
+        onSelectionChange={handleSelectionChange}
+        className="min-w-[200px]"
+        itemClasses={{
+          base: "py-2 px-3 data-[hover=true]:bg-default-100 data-[selected=true]:bg-primary/10",
+        }}
+      >
+        {languages.map((language) => (
+          <DropdownItem
+            key={language.code}
+            textValue={language.name}
+            className="group"
+          >
+            {renderLanguageItem(language, language.code === locale)}
+          </DropdownItem>
+        ))}
+      </DropdownMenu>
+    </Dropdown>
   );
-}
+};
+
+export default LanguageSwitcher;
