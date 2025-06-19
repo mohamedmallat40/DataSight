@@ -32,7 +32,10 @@ type MultiStepWizardProps = {
   onSuccess?: () => void;
 };
 
-export default function MultiStepWizard({ onClose }: MultiStepWizardProps) {
+export default function MultiStepWizard({
+  onClose,
+  onSuccess,
+}: MultiStepWizardProps) {
   const [[page, direction], setPage] = React.useState([0, 0]);
   const [businessCardData, setBusinessCardData] =
     React.useState<BusinessCardData>(emptyBusinessCardData);
