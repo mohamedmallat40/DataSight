@@ -32,6 +32,7 @@ import { useMemoizedCallback } from "../../components/table/use-memoized-callbac
 import { columns, INITIAL_VISIBLE_COLUMNS } from "../../types/data";
 
 import MultiStepWizard from "./add-card/multi-step-wizard";
+import UserDetailsDrawer from "../../components/user-details-drawer";
 
 import apiClient from "@/config/api";
 
