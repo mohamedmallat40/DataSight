@@ -150,8 +150,6 @@ export const getStaticProps: GetStaticProps<IndexPageProps> = async () => {
       props: {
         staticData,
       },
-      // Revalidate every hour (3600 seconds)
-      revalidate: 3600,
     };
   } catch (error) {
     console.error("Error in getStaticProps:", error);
