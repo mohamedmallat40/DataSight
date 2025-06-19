@@ -62,16 +62,16 @@ Source: ${userData.source || "N/A"}
     });
   };
 
-  const primaryEmail = Array.isArray(userData.email)
-    ? userData.email[0]
-    : userData.email || "";
-  const secondaryEmail = Array.isArray(userData.email) ? userData.email[1] : "";
-  const primaryPhone = Array.isArray(userData.phone_number)
-    ? userData.phone_number[0]
-    : userData.phone_number || "";
-  const secondaryPhone = Array.isArray(userData.phone_number)
-    ? userData.phone_number[1]
-    : "";
+  const emails = Array.isArray(userData.email)
+    ? userData.email.filter((email) => email && email.trim() !== "")
+    : userData.email
+      ? [userData.email]
+      : [];
+  const phones = Array.isArray(userData.phone_number)
+    ? userData.phone_number.filter((phone) => phone && phone.trim() !== "")
+    : userData.phone_number
+      ? [userData.phone_number]
+      : [];
 
   return (
     <Drawer
