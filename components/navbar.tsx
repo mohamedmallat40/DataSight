@@ -11,7 +11,12 @@ import { Button } from "@heroui/button";
 import { Kbd } from "@heroui/kbd";
 import { Link } from "@heroui/link";
 import { Input } from "@heroui/input";
-import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@heroui/dropdown";
+import {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+} from "@heroui/dropdown";
 import { Avatar } from "@heroui/avatar";
 import { Divider } from "@heroui/divider";
 import NextLink from "next/link";
@@ -59,14 +64,14 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
 
   const handleNavigation = (href: string, external = false) => {
     if (external) {
-      window.open(href, '_blank');
+      window.open(href, "_blank");
       return;
     }
 
-    if (href.startsWith('#')) {
-      const element = document.getElementById(href.replace('#', ''));
+    if (href.startsWith("#")) {
+      const element = document.getElementById(href.replace("#", ""));
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
+        element.scrollIntoView({ behavior: "smooth" });
       }
     } else {
       router.push(href);
@@ -106,11 +111,14 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
         base: "max-w-full sm:max-w-[12rem] h-10",
         mainWrapper: "h-full",
         input: "text-small",
-        inputWrapper: "h-full font-normal text-default-500 bg-default-100/50 backdrop-blur-sm border border-default-200/50",
+        inputWrapper:
+          "h-full font-normal text-default-500 bg-default-100/50 backdrop-blur-sm border border-default-200/50",
       }}
       placeholder="Search..."
       size="sm"
-      startContent={<SearchIcon className="text-default-400" width={16} height={16} />}
+      startContent={
+        <SearchIcon className="text-default-400" width={16} height={16} />
+      }
       endContent={
         <Kbd className="hidden lg:inline-block" keys={["command"]}>
           K
@@ -126,7 +134,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
       href="/"
       className={clsx(
         "flex items-center gap-2 transition-all duration-200 hover:opacity-80",
-        isRTL ? "flex-row-reverse" : ""
+        isRTL ? "flex-row-reverse" : "",
       )}
     >
       <Logo />
@@ -156,9 +164,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
       </Button>
 
       {/* Desktop Search */}
-      <div className="hidden sm:flex">
-        {searchInput}
-      </div>
+      <div className="hidden sm:flex">{searchInput}</div>
 
       {/* CTA Button */}
       <Button
@@ -194,13 +200,23 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
             <p className="font-semibold">Signed in as</p>
             <p className="font-semibold">demo@example.com</p>
           </DropdownItem>
-          <DropdownItem key="settings" startContent={<Icon icon="solar:settings-linear" />}>
+          <DropdownItem
+            key="settings"
+            startContent={<Icon icon="solar:settings-linear" />}
+          >
             Settings
           </DropdownItem>
-          <DropdownItem key="help" startContent={<Icon icon="solar:help-circle-linear" />}>
+          <DropdownItem
+            key="help"
+            startContent={<Icon icon="solar:help-circle-linear" />}
+          >
             Help & Support
           </DropdownItem>
-          <DropdownItem key="logout" color="danger" startContent={<Icon icon="solar:logout-2-linear" />}>
+          <DropdownItem
+            key="logout"
+            color="danger"
+            startContent={<Icon icon="solar:logout-2-linear" />}
+          >
             Log Out
           </DropdownItem>
         </DropdownMenu>
@@ -226,7 +242,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
       <HeroUINavbar
         className={clsx(
           "px-2.5 backdrop-blur-md bg-background/80 border-b border-default-200/50",
-          isRTL ? "rtl" : ""
+          isRTL ? "rtl" : "",
         )}
         maxWidth="full"
         position="sticky"
@@ -246,9 +262,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
 
         {/* Desktop Brand */}
         <NavbarContent className="hidden sm:flex gap-4" justify="start">
-          <NavbarBrand>
-            {companyLogo}
-          </NavbarBrand>
+          <NavbarBrand>{companyLogo}</NavbarBrand>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex gap-6 ml-8">
@@ -257,7 +271,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
                 <Link
                   className={clsx(
                     "flex items-center gap-2 text-foreground hover:text-primary transition-colors font-medium",
-                    router.asPath === item.href && "text-primary"
+                    router.asPath === item.href && "text-primary",
                   )}
                   href={item.href}
                   onClick={(e) => {
@@ -279,9 +293,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
         </NavbarContent>
 
         {/* Actions Section */}
-        <NavbarContent justify="end">
-          {actionButtons}
-        </NavbarContent>
+        <NavbarContent justify="end">{actionButtons}</NavbarContent>
 
         {/* Mobile Menu */}
         <NavbarMenu className="bg-background/95 backdrop-blur-xl border-r border-default-200/50">
@@ -314,7 +326,8 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
                     className={clsx(
                       "flex items-center gap-3 w-full py-3 px-4 rounded-lg hover:bg-default-100 transition-all",
                       "text-foreground hover:text-primary",
-                      router.asPath === item.href && "bg-primary/10 text-primary"
+                      router.asPath === item.href &&
+                        "bg-primary/10 text-primary",
                     )}
                     href={item.href}
                     onClick={(e) => {
@@ -323,17 +336,26 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
                     }}
                   >
                     {item.icon && (
-                  <Icon
-                    icon={item.icon}
-                    width={20}
-                    height={20}
-                    className={router.asPath === item.href ? "text-primary" : "text-default-500"}
-                  />
-                </Link>
-              )}
-              {item.icon && (
-                <Icon icon={item.icon} width={18} height={18} />
-              )}
+                      <Icon
+                        icon={item.icon}
+                        width={20}
+                        height={20}
+                        className={
+                          router.asPath === item.href
+                            ? "text-primary"
+                            : "text-default-500"
+                        }
+                      />
+                    )}
+                    <span className="font-medium">{item.label}</span>
+                    {item.external && (
+                      <Icon
+                        icon="solar:external-link-linear"
+                        width={16}
+                        height={16}
+                        className="ml-auto text-default-400"
+                      />
+                    )}
                   </Link>
                 </motion.div>
               </NavbarMenuItem>
@@ -367,11 +389,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
                 <p className="text-small font-medium">Demo User</p>
                 <p className="text-tiny text-default-500">demo@example.com</p>
               </div>
-              <Button
-                isIconOnly
-                size="sm"
-                variant="light"
-              >
+              <Button isIconOnly size="sm" variant="light">
                 <Icon icon="solar:settings-linear" size={18} />
               </Button>
             </div>
