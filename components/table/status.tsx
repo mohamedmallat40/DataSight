@@ -18,14 +18,14 @@ export const Status = memo(
         ref={forwardedRef}
         className={cn(
           "flex w-fit items-center gap-[2px] rounded-lg bg-default-100 px-2 py-1",
-          className
+          className,
         )}
       >
         {statusColor}
         <span className="px-1 text-default-800">{status}</span>
       </div>
     );
-  })
+  }),
 );
 
 Status.displayName = "Status";

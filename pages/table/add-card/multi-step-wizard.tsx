@@ -1,6 +1,8 @@
 import React from "react";
 import { domAnimation, LazyMotion, m } from "framer-motion";
+
 import { BusinessCardData, emptyBusinessCardData } from "../../../types/types";
+
 import WizardSidebar from "./wizard-sidebar";
 import UploadImageStep from "./upload-image-step";
 import EditDataStep from "./edit-data-step";
@@ -35,6 +37,7 @@ export default function MultiStepWizard({ onClose }: MultiStepWizardProps) {
     React.useState<BusinessCardData>(emptyBusinessCardData);
   const [uploadedImage, setUploadedImage] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
+
   React.useEffect(() => {
     // Reset state when the component mounts
     setBusinessCardData(emptyBusinessCardData);
@@ -45,7 +48,9 @@ export default function MultiStepWizard({ onClose }: MultiStepWizardProps) {
   const paginate = React.useCallback((newDirection: number) => {
     setPage((prev) => {
       const nextPage = prev[0] + newDirection;
+
       if (nextPage < 0 || nextPage > 3) return prev;
+
       return [nextPage, newDirection];
     });
   }, []);
@@ -54,6 +59,7 @@ export default function MultiStepWizard({ onClose }: MultiStepWizardProps) {
     setPage((prev) => {
       if (newPage < 0 || newPage > 3) return prev;
       const currentPage = prev[0];
+
       return [newPage, newPage > currentPage ? 1 : -1];
     });
   }, []);
@@ -69,13 +75,13 @@ export default function MultiStepWizard({ onClose }: MultiStepWizardProps) {
   const content = React.useMemo(() => {
     let component = (
       <UploadImageStep
+        isLoading={isLoading}
+        setIsLoading={setIsLoading}
         onImageUpload={(frontImage, backImage, extractedData) => {
           setUploadedImage(frontImage); // Assuming frontImage is a base64 string
           setBusinessCardData(extractedData);
         }}
         onNextStep={onNext}
-        isLoading={isLoading}
-        setIsLoading={setIsLoading}
       />
     );
 

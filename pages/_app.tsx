@@ -7,14 +7,14 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { I18nProvider } from "@react-aria/i18n";
+import { Spinner } from "@heroui/spinner";
+import { ToastProvider } from "@heroui/toast";
 
 import { fontSans, fontMono } from "@/config/fonts";
 import { useTranslations } from "@/hooks/use-translation";
 import { Navbar } from "@/components/navbar";
 
-import { Spinner } from "@heroui/spinner";
 import "@/styles/globals.css";
-import { ToastProvider } from "@heroui/toast";
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();

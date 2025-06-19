@@ -1,6 +1,7 @@
 import React, { HTMLAttributes } from "react";
 import { Button, cn } from "@heroui/react";
 import { Icon } from "@iconify/react";
+
 import VerticalSteps from "./vertical-step";
 import RowSteps from "./row-steps";
 import SupportCard from "./support-card";
@@ -26,7 +27,7 @@ const stepperClasses = cn(
   "dark:[--active-border-color:rgba(255,255,255,0.5)]",
   "dark:[--inactive-border-color:rgba(255,255,255,0.1)]",
   "dark:[--inactive-bar-color:rgba(255,255,255,0.1)]",
-  "dark:[--inactive-color:rgba(255,255,255,0.2)]"
+  "dark:[--inactive-color:rgba(255,255,255,0.2)]",
 );
 
 const WizardSidebar = React.forwardRef<HTMLDivElement, WizardSidebarProps>(
@@ -40,7 +41,7 @@ const WizardSidebar = React.forwardRef<HTMLDivElement, WizardSidebarProps>(
       onChangePage,
       ...props
     },
-    ref
+    ref,
   ) => {
     return (
       <div
@@ -144,7 +145,7 @@ const WizardSidebar = React.forwardRef<HTMLDivElement, WizardSidebarProps>(
         </div>
       </div>
     );
-  }
+  },
 );
 
 WizardSidebar.displayName = "WizardSidebar";

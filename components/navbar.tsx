@@ -3,13 +3,11 @@ import {
   NavbarContent,
   NavbarBrand,
   NavbarItem,
-  NavbarMenuToggle,
 } from "@heroui/navbar";
 import { Kbd } from "@heroui/kbd";
 import { Link } from "@heroui/link";
 import { Input } from "@heroui/input";
 import { Button } from "@heroui/button";
-import { link as linkStyles } from "@heroui/theme";
 import NextLink from "next/link";
 import clsx from "clsx";
 import { useLocale } from "@react-aria/i18n";
@@ -18,12 +16,7 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import {
-  GithubIcon,
-  HeartFilledIcon,
-  SearchIcon,
-  Logo,
-} from "@/components/icons";
+import { HeartFilledIcon, SearchIcon, Logo } from "@/components/icons";
 import { useTranslations } from "@/hooks/use-translation";
 
 export const Navbar = ({ setLocale }: any) => {
@@ -76,7 +69,7 @@ export const Navbar = ({ setLocale }: any) => {
           <NextLink
             className={clsx(
               "flex justify-start items-center gap-1",
-              isRTL ? "flex-row-reverse" : ""
+              isRTL ? "flex-row-reverse" : "",
             )}
             href="/"
           >

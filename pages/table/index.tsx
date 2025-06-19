@@ -5,17 +5,12 @@ import type { ColumnsKey, Users } from "../../types/data";
 import type { Key } from "@react-types/shared";
 
 import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
   Table,
   TableHeader,
   TableColumn,
   TableBody,
   TableRow,
   TableCell,
-  Input,
   Button,
   Chip,
   User,
@@ -25,8 +20,6 @@ import {
   Modal,
   ModalBody,
 } from "@heroui/react";
-
-import { SearchIcon } from "@heroui/shared-icons";
 import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
@@ -35,13 +28,12 @@ import { CopyText } from "../../components/table/copy-text";
 import { EyeFilledIcon } from "../../components/table/eye";
 import { EditLinearIcon } from "../../components/table/edit";
 import { DeleteFilledIcon } from "../../components/table/delete";
-import { ArrowDownIcon } from "../../components/table/arrow-down";
-import { ArrowUpIcon } from "../../components/table/arrow-up";
-
 import { useMemoizedCallback } from "../../components/table/use-memoized-callback";
 import { columns, INITIAL_VISIBLE_COLUMNS } from "../../types/data";
-import apiClient from "@/config/api";
+
 import MultiStepWizard from "./add-card/multi-step-wizard";
+
+import apiClient from "@/config/api";
 
 export default function Component(): JSX.Element {
   const [userList, setUserList] = useState<Users[]>([]);
@@ -55,7 +47,7 @@ export default function Component(): JSX.Element {
   });
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set<Key>());
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
-    new Set<ColumnsKey>(INITIAL_VISIBLE_COLUMNS)
+    new Set<ColumnsKey>(INITIAL_VISIBLE_COLUMNS),
   );
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -68,6 +60,7 @@ export default function Component(): JSX.Element {
     setLoading(true);
     try {
       const { data } = await apiClient.get(`/card-info?page=${page}`);
+
       if (data?.success && Array.isArray(data?.data)) {
         setUserList(data.data);
         setTotalPages(data.pagination?.totalPages ?? 1);
@@ -90,7 +83,7 @@ export default function Component(): JSX.Element {
       .map((item) =>
         item.uid === sortDescriptor.column
           ? { ...item, sortDirection: sortDescriptor.direction }
-          : item
+          : item,
       )
       .filter((column) => (visibleColumns as Set<Key>).has(column.uid));
   }, [visibleColumns, sortDescriptor]);
@@ -109,6 +102,7 @@ export default function Component(): JSX.Element {
       }
 
       const cmp = first! < second! ? -1 : first! > second! ? 1 : 0;
+
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [items, sortDescriptor]);
@@ -141,10 +135,10 @@ export default function Component(): JSX.Element {
           return (
             <User
               avatarProps={{ radius: "lg", name: user.full_name }}
-              name={user.full_name}
               description={
                 Array.isArray(user.email) ? (user.email[0] ?? "") : ""
               }
+              name={user.full_name}
             />
           );
         case "email":
@@ -165,7 +159,7 @@ export default function Component(): JSX.Element {
         default:
           return user[userKey as keyof Users] ?? "N/A";
       }
-    }
+    },
   );
 
   const topBar = useMemo(
@@ -190,7 +184,7 @@ export default function Component(): JSX.Element {
         </Button>
       </div>
     ),
-    [onOpen, userList.length]
+    [onOpen, userList.length],
   );
 
   const bottomContent = useMemo(
@@ -210,7 +204,7 @@ export default function Component(): JSX.Element {
         </span>
       </div>
     ),
-    [page, totalPages]
+    [page, totalPages],
   );
 
   return (
@@ -256,10 +250,10 @@ export default function Component(): JSX.Element {
       </Table>
 
       <Modal
-        isOpen={isOpen}
         shouldBlockScroll
-        onOpenChange={onOpenChange}
         className="rounded-[16px]"
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
       >
         <ModalContent className="max-w-[1200px] rounded-[16px] p-0">
           <ModalBody className="p-0">

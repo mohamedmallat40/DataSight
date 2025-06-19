@@ -1,6 +1,7 @@
 import React from "react";
 import { Card, Button, Image, Divider, Chip } from "@heroui/react";
 import { Icon } from "@iconify/react";
+
 import { BusinessCardData } from "../../../types/types";
 
 export interface CompleteStepProps {
@@ -19,6 +20,7 @@ const CompleteStep: React.FC<CompleteStepProps> = ({
     const url = URL.createObjectURL(dataBlob);
 
     const link = document.createElement("a");
+
     link.href = url;
     link.download = `contact-${businessCardData.full_name.replace(/\s+/g, "-").toLowerCase()}.json`;
     document.body.appendChild(link);
@@ -41,9 +43,9 @@ const CompleteStep: React.FC<CompleteStepProps> = ({
             {uploadedImage && (
               <div className="md:w-1/3">
                 <Image
-                  src={uploadedImage}
                   alt="Business card"
                   className="rounded-medium object-contain w-full max-h-[200px]"
+                  src={uploadedImage}
                 />
               </div>
             )}
@@ -68,7 +70,7 @@ const CompleteStep: React.FC<CompleteStepProps> = ({
                       key={`email-${index}`}
                       className="flex items-center gap-2"
                     >
-                      <Icon icon="lucide:mail" className="text-default-400" />
+                      <Icon className="text-default-400" icon="lucide:mail" />
                       <span>{email}</span>
                     </div>
                   ))}
@@ -78,7 +80,7 @@ const CompleteStep: React.FC<CompleteStepProps> = ({
                       key={`phone-${index}`}
                       className="flex items-center gap-2"
                     >
-                      <Icon icon="lucide:phone" className="text-default-400" />
+                      <Icon className="text-default-400" icon="lucide:phone" />
                       <span>{phone}</span>
                     </div>
                   ))}
@@ -91,8 +93,8 @@ const CompleteStep: React.FC<CompleteStepProps> = ({
                     {businessCardData.website && (
                       <div className="flex items-center gap-2">
                         <Icon
-                          icon="lucide:globe"
                           className="text-default-400"
+                          icon="lucide:globe"
                         />
                         <span>{businessCardData.website}</span>
                       </div>
@@ -101,8 +103,8 @@ const CompleteStep: React.FC<CompleteStepProps> = ({
                     {businessCardData.linkedin && (
                       <div className="flex items-center gap-2">
                         <Icon
-                          icon="lucide:linkedin"
                           className="text-default-400"
+                          icon="lucide:linkedin"
                         />
                         <span>{businessCardData.linkedin}</span>
                       </div>
@@ -113,8 +115,8 @@ const CompleteStep: React.FC<CompleteStepProps> = ({
                     {businessCardData.address && (
                       <div className="flex items-center gap-2">
                         <Icon
-                          icon="lucide:map-pin"
                           className="text-default-400"
+                          icon="lucide:map-pin"
                         />
                         <span>{businessCardData.address}</span>
                       </div>
@@ -122,7 +124,7 @@ const CompleteStep: React.FC<CompleteStepProps> = ({
 
                     {(businessCardData.city || businessCardData.country) && (
                       <div className="flex items-center gap-2">
-                        <Icon icon="lucide:map" className="text-default-400" />
+                        <Icon className="text-default-400" icon="lucide:map" />
                         <span>
                           {[businessCardData.city, businessCardData.country]
                             .filter(Boolean)
@@ -142,8 +144,8 @@ const CompleteStep: React.FC<CompleteStepProps> = ({
             <div className="flex gap-2">
               <Chip
                 color="success"
-                variant="flat"
                 startContent={<Icon icon="lucide:check" />}
+                variant="flat"
               >
                 Processing Complete
               </Chip>
@@ -151,12 +153,12 @@ const CompleteStep: React.FC<CompleteStepProps> = ({
 
             <div className="flex gap-3">
               <Button
-                variant="flat"
                 color="default"
                 startContent={<Icon icon="lucide:copy" />}
+                variant="flat"
                 onPress={() =>
                   navigator.clipboard.writeText(
-                    JSON.stringify(businessCardData, null, 2)
+                    JSON.stringify(businessCardData, null, 2),
                   )
                 }
               >

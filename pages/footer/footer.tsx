@@ -1,8 +1,10 @@
 "use client";
 
 import type { IconProps } from "@iconify/react";
-import { useTranslations } from "@/hooks/use-translation";
+
 import { Spacer } from "@heroui/spacer";
+
+import { useTranslations } from "@/hooks/use-translation";
 
 type SocialIconProps = Omit<IconProps, "icon">;
 
@@ -12,8 +14,8 @@ export default function Footer() {
   return (
     <footer className="flex w-full flex-col pt-36">
       <div
-        id="footer_id"
         className="mx-auto flex w-full max-w-7xl flex-col items-center justify-center px-6 py-12 lg:px-8"
+        id="footer_id"
       >
         <Spacer y={8} />
         <p className="mt-1 text-center text-small text-default-400">

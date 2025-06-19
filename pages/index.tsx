@@ -13,16 +13,9 @@ import {
   tawazi_dark,
 } from "../components/logos";
 
-import Footer from "./footer/footer";
-import ScrollingBanner from "./brand-scrooling-banner/scrolling-banner";
-import HeroLandingSection from "./hero/hero-section";
-import Services from "./services/services";
-import AdditionalDetails from "./additional-details/additional-details";
-import UIUXSection from "./hero/ui-components-boost";
-import TachnoSection from "./technologies/techno";
+import Network from "./table";
 
 import DefaultLayout from "@/layouts/default";
-import Network from "./table";
 
 export default function IndexPage() {
   const { theme } = useTheme();

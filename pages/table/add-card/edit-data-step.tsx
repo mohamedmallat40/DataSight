@@ -6,13 +6,14 @@ import {
   Image,
   Card,
   Divider,
-  useToast,
   addToast,
   // addToast should come from your toast context/provider or custom hook
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
+
 import { BusinessCardData } from "../../../types/types";
+
 import apiClient from "@/config/api";
 
 export interface EditDataStepProps {
@@ -51,9 +52,10 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
   const handleArrayInputChange = (
     field: "email" | "phone_number",
     index: number,
-    value: string
+    value: string,
   ) => {
     const newArray = [...businessCardData[field]];
+
     newArray[index] = value;
     setBusinessCardData({
       ...businessCardData,
@@ -74,6 +76,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
     if (businessCardData[field].length <= 1) return;
 
     const newArray = businessCardData[field].filter((_, i) => i !== index);
+
     setBusinessCardData({
       ...businessCardData,
       [field]: newArray,
@@ -86,7 +89,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
     try {
       const response = await apiClient.post(
         "/update-card-info",
-        businessCardData
+        businessCardData,
       );
 
       if (response.status === 201) {
@@ -124,19 +127,19 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
         {uploadedImage && (
           <Card className="col-span-12 md:col-span-4 p-4">
             <Image
-              src={uploadedImage}
               alt="Business card"
               className="rounded-medium object-contain w-full max-h-[300px]"
+              src={uploadedImage}
             />
             <Divider className="my-4" />
             <Textarea
+              className="w-full"
               label="Raw Text"
               labelPlacement="outside"
+              minRows={5}
               placeholder="Raw text from business card"
               value={businessCardData.raw_text}
               onChange={(e) => handleInputChange("raw_text", e.target.value)}
-              className="w-full"
-              minRows={5}
             />
           </Card>
         )}
@@ -144,45 +147,45 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
         <div
           className={cn(
             "col-span-12",
-            uploadedImage ? "md:col-span-8" : "md:col-span-12"
+            uploadedImage ? "md:col-span-8" : "md:col-span-12",
           )}
         >
           <div className="grid grid-cols-12 gap-4">
             <Input
+              className="col-span-12 md:col-span-6"
               label="Full Name"
               labelPlacement="outside"
               placeholder="Full Name"
+              startContent={
+                <Icon className="text-default-400" icon="lucide:user" />
+              }
               value={businessCardData.full_name}
               onChange={(e) => handleInputChange("full_name", e.target.value)}
-              className="col-span-12 md:col-span-6"
-              startContent={
-                <Icon icon="lucide:user" className="text-default-400" />
-              }
             />
 
             <Input
+              className="col-span-12 md:col-span-6"
               label="Job Title"
               labelPlacement="outside"
               placeholder="Job Title"
+              startContent={
+                <Icon className="text-default-400" icon="lucide:briefcase" />
+              }
               value={businessCardData.job_title}
               onChange={(e) => handleInputChange("job_title", e.target.value)}
-              className="col-span-12 md:col-span-6"
-              startContent={
-                <Icon icon="lucide:briefcase" className="text-default-400" />
-              }
             />
 
             <Input
+              className="col-span-12"
               label="Company Name"
               labelPlacement="outside"
               placeholder="Company Name"
+              startContent={
+                <Icon className="text-default-400" icon="lucide:building" />
+              }
               value={businessCardData.company_name}
               onChange={(e) =>
                 handleInputChange("company_name", e.target.value)
-              }
-              className="col-span-12"
-              startContent={
-                <Icon icon="lucide:building" className="text-default-400" />
               }
             />
 
@@ -192,11 +195,11 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                   Email Addresses
                 </label>
                 <Button
-                  size="sm"
-                  variant="light"
                   color="secondary"
-                  onPress={() => addArrayItem("email")}
+                  size="sm"
                   startContent={<Icon icon="lucide:plus" width={16} />}
+                  variant="light"
+                  onPress={() => addArrayItem("email")}
                 >
                   Add Email
                 </Button>
@@ -208,21 +211,21 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                   className="flex items-center gap-2 mb-2"
                 >
                   <Input
+                    className="flex-1"
                     placeholder="Email Address"
+                    startContent={
+                      <Icon className="text-default-400" icon="lucide:mail" />
+                    }
                     value={email}
                     onChange={(e) =>
                       handleArrayInputChange("email", index, e.target.value)
-                    }
-                    className="flex-1"
-                    startContent={
-                      <Icon icon="lucide:mail" className="text-default-400" />
                     }
                   />
                   {businessCardData.email.length > 1 && (
                     <Button
                       isIconOnly
-                      variant="light"
                       color="danger"
+                      variant="light"
                       onPress={() => removeArrayItem("email", index)}
                     >
                       <Icon icon="lucide:trash-2" width={18} />
@@ -238,11 +241,11 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                   Phone Numbers
                 </label>
                 <Button
-                  size="sm"
-                  variant="light"
                   color="secondary"
-                  onPress={() => addArrayItem("phone_number")}
+                  size="sm"
                   startContent={<Icon icon="lucide:plus" width={16} />}
+                  variant="light"
+                  onPress={() => addArrayItem("phone_number")}
                 >
                   Add Phone
                 </Button>
@@ -254,25 +257,25 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                   className="flex items-center gap-2 mb-2"
                 >
                   <Input
+                    className="flex-1"
                     placeholder="Phone Number"
+                    startContent={
+                      <Icon className="text-default-400" icon="lucide:phone" />
+                    }
                     value={phone}
                     onChange={(e) =>
                       handleArrayInputChange(
                         "phone_number",
                         index,
-                        e.target.value
+                        e.target.value,
                       )
-                    }
-                    className="flex-1"
-                    startContent={
-                      <Icon icon="lucide:phone" className="text-default-400" />
                     }
                   />
                   {businessCardData.phone_number.length > 1 && (
                     <Button
                       isIconOnly
-                      variant="light"
                       color="danger"
+                      variant="light"
                       onPress={() => removeArrayItem("phone_number", index)}
                     >
                       <Icon icon="lucide:trash-2" width={18} />
@@ -283,63 +286,63 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             </div>
 
             <Input
+              className="col-span-12 md:col-span-6"
               label="Website"
               labelPlacement="outside"
               placeholder="Website"
+              startContent={
+                <Icon className="text-default-400" icon="lucide:globe" />
+              }
               value={businessCardData.website}
               onChange={(e) => handleInputChange("website", e.target.value)}
-              className="col-span-12 md:col-span-6"
-              startContent={
-                <Icon icon="lucide:globe" className="text-default-400" />
-              }
             />
 
             <Input
+              className="col-span-12 md:col-span-6"
               label="LinkedIn"
               labelPlacement="outside"
               placeholder="LinkedIn Profile"
+              startContent={
+                <Icon className="text-default-400" icon="lucide:linkedin" />
+              }
               value={businessCardData.linkedin}
               onChange={(e) => handleInputChange("linkedin", e.target.value)}
-              className="col-span-12 md:col-span-6"
-              startContent={
-                <Icon icon="lucide:linkedin" className="text-default-400" />
-              }
             />
 
             <Input
+              className="col-span-12"
               label="Address"
               labelPlacement="outside"
               placeholder="Address"
+              startContent={
+                <Icon className="text-default-400" icon="lucide:map-pin" />
+              }
               value={businessCardData.address}
               onChange={(e) => handleInputChange("address", e.target.value)}
-              className="col-span-12"
-              startContent={
-                <Icon icon="lucide:map-pin" className="text-default-400" />
-              }
             />
 
             <Input
+              className="col-span-12 md:col-span-6"
               label="City"
               labelPlacement="outside"
               placeholder="City"
+              startContent={
+                <Icon className="text-default-400" icon="lucide:building-2" />
+              }
               value={businessCardData.city}
               onChange={(e) => handleInputChange("city", e.target.value)}
-              className="col-span-12 md:col-span-6"
-              startContent={
-                <Icon icon="lucide:building-2" className="text-default-400" />
-              }
             />
 
             <Input
+              className="col-span-12 md:col-span-6"
               label="Country"
               labelPlacement="outside"
               placeholder="Country"
+              startContent={
+                <Icon className="text-default-400" icon="lucide:flag" />
+              }
               value={businessCardData.country}
               onChange={(e) => handleInputChange("country", e.target.value)}
-              className="col-span-12 md:col-span-6"
-              startContent={
-                <Icon icon="lucide:flag" className="text-default-400" />
-              }
             />
           </div>
         </div>
@@ -348,8 +351,8 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
         <Button
           color="primary"
           isLoading={loading}
-          onPress={handleSubmit}
           startContent={<Icon icon="lucide:save" />}
+          onPress={handleSubmit}
         >
           Save & Continue
         </Button>

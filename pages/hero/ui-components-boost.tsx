@@ -14,8 +14,8 @@ export default function UIUXSection() {
 
   return (
     <section
-      id="technologies_id"
       className="relative z-10 flex flex-col gap-2 w-full mt-2 lg:mt-2 mb-[8rem]  overflow-hidden bg-cover bg-center"
+      id="technologies_id"
     >
       <img
         alt="pattern"

@@ -12,7 +12,7 @@ const SupportCard = React.forwardRef<HTMLDivElement, SupportCardProps>(
       ref={ref}
       className={cn(
         "align-center my-2 flex shrink-0 items-center justify-center gap-3 self-stretch rounded-large bg-content1 px-3 py-3 shadow-small",
-        className
+        className,
       )}
     >
       <AvatarGroup isBordered size="sm">
@@ -51,7 +51,7 @@ const SupportCard = React.forwardRef<HTMLDivElement, SupportCardProps>(
         />
       </Button>
     </div>
-  )
+  ),
 );
 
 SupportCard.displayName = "SupportCard";

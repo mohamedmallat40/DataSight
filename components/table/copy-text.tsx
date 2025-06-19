@@ -32,13 +32,13 @@ export const CopyText = memo(
       setCopyTimeout(
         setTimeout(() => {
           setCopied(false);
-        }, 3000)
+        }, 3000),
       );
     };
 
     const content = useMemo(
       () => (copied ? "Copied" : copyText),
-      [copied, copyText]
+      [copied, copyText],
     );
 
     return (
@@ -68,7 +68,7 @@ export const CopyText = memo(
         </Tooltip>
       </div>
     );
-  })
+  }),
 );
 
 CopyText.displayName = "CopyText";
