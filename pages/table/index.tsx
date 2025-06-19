@@ -276,6 +276,12 @@ export default function Component(): JSX.Element {
           </ModalBody>
         </ModalContent>
       </Modal>
+
+      <UserDetailsDrawer
+        isOpen={isDrawerOpen}
+        onOpenChange={onDrawerOpenChange}
+        userData={selectedUser}
+      />
     </div>
   );
 }
