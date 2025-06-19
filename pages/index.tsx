@@ -115,11 +115,11 @@ export default function IndexPage(
       {/* Main content - currently showing Network (table) component */}
       <Network />
 
-      {/* 
+      {/*
         Commented out sections - can be enabled as needed
         Each section is properly typed and ready for use
       */}
-      {/* 
+      {/*
       <HeroLandingSection />
       <Services />
       <ScrollingBanner shouldPauseOnHover gap="80px">
@@ -128,7 +128,7 @@ export default function IndexPage(
       <UIUXSection />
       <TachnoSection />
       <AdditionalDetails />
-      <Footer /> 
+      <Footer />
       */}
     </DefaultLayout>
   );
