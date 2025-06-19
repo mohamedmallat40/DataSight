@@ -29,6 +29,7 @@ const variants = {
 
 type MultiStepWizardProps = {
   onClose: () => void;
+  onSuccess?: () => void;
 };
 
 export default function MultiStepWizard({ onClose }: MultiStepWizardProps) {
