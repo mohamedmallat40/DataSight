@@ -149,18 +149,104 @@ export default function Component(): JSX.Element {
           return (
             <User
               avatarProps={{ radius: "lg", name: user.full_name }}
-              description={
-                Array.isArray(user.email) ? (user.email[0] ?? "") : ""
-              }
+              description={user.job_title || user.company_name || ""}
               name={user.full_name}
+              classNames={{
+                wrapper: "min-w-0",
+                description: "truncate max-w-[200px]",
+                name: "truncate max-w-[200px]",
+              }}
             />
           );
+        case "job_title":
+          return (
+            <div className="flex flex-col gap-0.5 min-w-0">
+              <p
+                className="text-small font-medium text-default-700 truncate"
+                title={user.job_title}
+              >
+                {user.job_title || "N/A"}
+              </p>
+              {user.industry && (
+                <p
+                  className="text-tiny text-default-500 truncate"
+                  title={user.industry}
+                >
+                  {user.industry}
+                </p>
+              )}
+            </div>
+          );
+        case "company_name":
+          return (
+            <div className="flex flex-col gap-0.5 min-w-0">
+              <p
+                className="text-small font-medium text-default-700 truncate"
+                title={user.company_name}
+              >
+                {user.company_name || "N/A"}
+              </p>
+              {user.website && (
+                <a
+                  href={
+                    user.website.startsWith("http")
+                      ? user.website
+                      : `https://${user.website}`
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-tiny text-primary hover:text-primary-600 transition-colors truncate"
+                  title={user.website}
+                >
+                  {user.website}
+                </a>
+              )}
+            </div>
+          );
         case "email":
+          return (
+            <EmailList
+              emails={
+                Array.isArray(user.email)
+                  ? user.email
+                  : user.email
+                    ? [user.email]
+                    : []
+              }
+              maxVisible={2}
+            />
+          );
         case "phone_number":
           return (
-            <CopyText>
-              {Array.isArray(user[userKey]) ? user[userKey].join(", ") : "N/A"}
-            </CopyText>
+            <PhoneList
+              phones={
+                Array.isArray(user.phone_number)
+                  ? user.phone_number
+                  : user.phone_number
+                    ? [user.phone_number]
+                    : []
+              }
+              maxVisible={2}
+            />
+          );
+        case "country":
+          return (
+            <div className="flex flex-col gap-0.5 min-w-0">
+              <p
+                className="text-small font-medium text-default-700 truncate"
+                title={user.country}
+              >
+                {user.country || "N/A"}
+              </p>
+              {user.city && (
+                <p
+                  className="text-tiny text-default-500 truncate"
+                  title={user.city}
+                >
+                  {user.city}
+                </p>
+              )}
+            </div>
           );
         case "actions":
           return (
@@ -177,7 +263,14 @@ export default function Component(): JSX.Element {
             </div>
           );
         default:
-          return user[userKey as keyof Users] ?? "N/A";
+          return (
+            <p
+              className="text-small text-default-700 truncate"
+              title={String(user[userKey as keyof Users] || "")}
+            >
+              {user[userKey as keyof Users] ?? "N/A"}
+            </p>
+          );
       }
     },
   );
