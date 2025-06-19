@@ -1132,37 +1132,49 @@ Source: ${userData.source || "N/A"}
 
                     {/* Enhanced Footer */}
                     <div className="bg-gradient-to-r from-content1 to-content2 p-4 border-t border-default-200">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-3">
-                          <div className="flex items-center gap-2 text-small">
-                            <Icon
-                              icon="lucide:info"
-                              className="text-primary"
-                              width={16}
-                              height={16}
-                            />
-                            <span className="text-default-600">
-                              Business Card Image
-                            </span>
+                      <div className="flex flex-col gap-2">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-3">
+                            <div className="flex items-center gap-2 text-small">
+                              <Icon
+                                icon="lucide:info"
+                                className="text-primary"
+                                width={16}
+                                height={16}
+                              />
+                              <span className="text-default-600">
+                                Business Card Image
+                              </span>
+                            </div>
+                          </div>
+
+                          <div className="flex items-center gap-4 text-tiny text-default-500">
+                            <div className="flex items-center gap-1">
+                              <Icon
+                                icon="lucide:mouse-pointer-click"
+                                width={12}
+                                height={12}
+                              />
+                              <span>Click outside to close</span>
+                            </div>
+                            <div className="flex items-center gap-1">
+                              <Icon
+                                icon="lucide:keyboard"
+                                width={12}
+                                height={12}
+                              />
+                              <span>Press ESC to close</span>
+                            </div>
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-4 text-tiny text-default-500">
-                          <div className="flex items-center gap-1">
-                            <Icon
-                              icon="lucide:mouse-pointer-click"
-                              width={12}
-                              height={12}
-                            />
-                            <span>Click outside to close</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Icon
-                              icon="lucide:keyboard"
-                              width={12}
-                              height={12}
-                            />
-                            <span>Press ESC to close</span>
+                        {/* Debug URL display */}
+                        <div className="text-tiny text-default-400 bg-default-100 rounded-small p-2 font-mono">
+                          <div className="flex items-center gap-2">
+                            <Icon icon="lucide:link" width={12} height={12} />
+                            <span className="break-all">
+                              {selectedImage?.url}
+                            </span>
                           </div>
                         </div>
                       </div>
