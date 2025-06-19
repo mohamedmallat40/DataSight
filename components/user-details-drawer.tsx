@@ -14,8 +14,14 @@ import {
   CardBody,
   CardHeader,
   Image,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  useDisclosure,
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
+import { useState } from "react";
 import type { Users } from "@/types/data";
 
 interface UserDetailsDrawerProps {
