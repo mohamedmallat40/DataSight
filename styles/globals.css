@@ -53,7 +53,7 @@
 /* Enhanced mobile-first responsive styles */
 @layer base {
   * {
-    @apply border-border;
+    @apply border-default-200;
   }
 
   body {
