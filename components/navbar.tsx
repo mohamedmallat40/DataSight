@@ -279,7 +279,9 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
                     handleNavigation(item.href, item.external);
                   }}
                 >
-                  {item.icon && <Icon icon={item.icon} size={18} />}
+                  {item.icon && (
+                    <Icon icon={item.icon} width={18} height={18} />
+                  )}
                   {item.label}
                   {item.badge && (
                     <span className="bg-primary text-white text-tiny px-1.5 py-0.5 rounded-full">
