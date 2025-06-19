@@ -1104,15 +1104,23 @@ Source: ${userData.source || "N/A"}
                   <div className="relative bg-white rounded-b-2xl overflow-hidden shadow-2xl">
                     {/* Image Container */}
                     <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 min-h-[400px] flex items-center justify-center">
-                      <Image
+                      <img
                         src={selectedImage.url}
                         alt={selectedImage.alt}
-                        className="max-w-full max-h-[75vh] object-contain drop-shadow-lg"
-                        classNames={{
-                          img: "rounded-lg",
-                          wrapper: "bg-transparent",
+                        className="max-w-full max-h-[75vh] object-contain drop-shadow-lg rounded-lg"
+                        onLoad={() => console.log("Image loaded successfully")}
+                        onError={(e) => {
+                          console.error(
+                            "Image failed to load:",
+                            selectedImage.url,
+                          );
+                          e.currentTarget.src =
+                            "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik0xNzUgMTI1SDIyNVYxNzVIMTc1VjEyNVoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA8at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE2cHg7IGZpbGw6ICM5Q0E4QjQ7IHRleHQtYW5jaG9yOiBtaWRkbGU7IiBkb21pbmFudC1iYXNlbGluZT0iY2VudHJhbCIgeD0iMjAwIiB5PSIyMDAiPkltYWdlIG5vdCBhdmFpbGFibGU8L3RleHQ+Cjwvc3ZnPgo=";
                         }}
-                        fallbackSrc="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik0xODAgMTQwSDIyMFYxNDBIMTgwVjE0MFoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA+IGZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE2cHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSIxNjAiIHk9IjE4MCI+SW1hZ2UgTm90IEZvdW5kPC90ZXh0Pgo8L3N2Zz4K"
+                        style={{
+                          backgroundColor: "white",
+                          padding: "8px",
+                        }}
                       />
 
                       {/* Decorative corners */}
