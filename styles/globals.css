@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Existing animations */
 .bounce-animation {
   animation: 10s animation-up infinite;
 }
@@ -49,17 +50,200 @@
   animation-duration: var(--duration);
 }
 
-body {
-  overflow: hidden;
-}
-/* RTL Overrides CSS */
+/* Enhanced mobile-first responsive styles */
+@layer base {
+  * {
+    @apply border-border;
+  }
 
-/* General direction overrides */
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+    overflow-x: hidden; /* Prevent horizontal overflow */
+  }
+
+  /* Smooth scrolling for anchor links */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-default-100;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-default-300 rounded-full;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-default-400;
+  }
+}
+
+@layer components {
+  /* Enhanced navbar styles */
+  .navbar-blur {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.8);
+  }
+
+  [data-theme="dark"] .navbar-blur {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  /* Mobile menu animations */
+  .mobile-menu-item {
+    @apply transform transition-all duration-200 ease-out;
+  }
+
+  .mobile-menu-item:hover {
+    @apply translate-x-1 scale-105;
+  }
+
+  /* Enhanced focus styles for accessibility */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 focus:ring-offset-background;
+  }
+
+  /* Responsive text utilities */
+  .text-responsive-sm {
+    @apply text-sm sm:text-base;
+  }
+
+  .text-responsive-lg {
+    @apply text-lg sm:text-xl lg:text-2xl;
+  }
+
+  .text-responsive-xl {
+    @apply text-xl sm:text-2xl lg:text-3xl xl:text-4xl;
+  }
+
+  /* Enhanced button styles */
+  .btn-gradient {
+    @apply bg-gradient-to-r from-primary to-secondary text-white;
+    @apply hover:from-primary-600 hover:to-secondary-600;
+    @apply active:scale-95 transition-all duration-200;
+  }
+
+  /* Mobile-first container */
+  .container-responsive {
+    @apply mx-auto px-4 sm:px-6 lg:px-8;
+    @apply max-w-full sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl;
+  }
+
+  /* Enhanced card styles */
+  .card-enhanced {
+    @apply bg-content1 border border-default-200 rounded-lg shadow-sm;
+    @apply hover:shadow-md transition-shadow duration-200;
+  }
+
+  /* Mobile-optimized spacing */
+  .section-padding {
+    @apply py-8 sm:py-12 lg:py-16;
+  }
+
+  .section-margin {
+    @apply my-8 sm:my-12 lg:py-16;
+  }
+}
+
+@layer utilities {
+  /* Safe area utilities for mobile devices */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+
+  .safe-left {
+    padding-left: env(safe-area-inset-left);
+  }
+
+  .safe-right {
+    padding-right: env(safe-area-inset-right);
+  }
+
+  /* Backdrop blur utilities */
+  .backdrop-blur-xs {
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+  }
+
+  .backdrop-blur-safari {
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  /* Mobile-first utilities */
+  .touch-manipulation {
+    touch-action: manipulation;
+  }
+
+  .tap-highlight-transparent {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Enhanced transitions */
+  .transition-smooth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .transition-bounce {
+    transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  }
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 768px) {
+  /* Improved touch targets */
+  button,
+  [role="button"],
+  input[type="submit"],
+  input[type="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Better text readability on mobile */
+  body {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  /* Enhanced modal positioning on mobile */
+  .modal-mobile {
+    @apply fixed inset-x-4 bottom-4 top-auto;
+    @apply max-h-[80vh] rounded-t-2xl;
+  }
+}
+
+/* Tablet-specific optimizations */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .navbar-tablet {
+    @apply px-6;
+  }
+
+  .container-tablet {
+    @apply px-8;
+  }
+}
+
+/* Existing RTL styles preserved */
 html[dir="rtl"] body {
   text-align: right;
 }
 
-/* Flip margins and paddings for RTL */
 html[dir="rtl"] .md\:text-left {
   text-align: right;
 }
@@ -68,7 +252,6 @@ html[dir="rtl"] .md\:text-right {
   text-align: left;
 }
 
-/* Flip margin and padding directions */
 html[dir="rtl"] .mr-auto {
   margin-right: unset;
   margin-left: auto;
@@ -81,15 +264,14 @@ html[dir="rtl"] .ml-auto {
 
 html[dir="rtl"] .pr-8 {
   padding-right: unset;
-  padding-left: 2rem; /* 8 in tailwind */
+  padding-left: 2rem;
 }
 
 html[dir="rtl"] .pl-8 {
   padding-left: unset;
-  padding-right: 2rem; /* 8 in tailwind */
+  padding-right: 2rem;
 }
 
-/* Fix flexbox ordering for RTL */
 html[dir="rtl"] .md\:flex-row {
   flex-direction: row-reverse;
 }
@@ -98,24 +280,20 @@ html[dir="rtl"] .md\:flex-row-reverse {
   flex-direction: row;
 }
 
-/* Fix icon directions */
 html[dir="rtl"] svg[aria-hidden="true"] {
   transform: scaleX(-1);
 }
 
-/* Fix scrolling banner direction */
 html[dir="rtl"] [data-scrolling-banner] {
-  direction: ltr; /* Usually scrolling banners need to maintain ltr for proper animation */
+  direction: ltr;
 }
 
-/* Fix search inputs and other specific components */
 html[dir="rtl"] input[type="search"],
 html[dir="rtl"] input[type="text"] {
   text-align: right;
   direction: rtl;
 }
 
-/* Adjust borders for RTL */
 html[dir="rtl"] .border-l {
   border-left: unset;
   border-right: 1px solid;
@@ -126,7 +304,6 @@ html[dir="rtl"] .border-r {
   border-left: 1px solid;
 }
 
-/* Fix any absolute positioning for RTL */
 html[dir="rtl"] .left-0 {
   left: unset;
   right: 0;
@@ -137,25 +314,47 @@ html[dir="rtl"] .right-0 {
   left: 0;
 }
 
-/* Adjust any transformations */
 html[dir="rtl"] .rotate-\[223deg\] {
   transform: rotate(43deg);
 }
 
-/* Fix dropdown menus and other positioned elements */
 html[dir="rtl"] .dropdown-menu {
   left: unset;
   right: 0;
 }
 
-/* Fix any scrollbars position */
 html[dir="rtl"] ::-webkit-scrollbar {
   direction: rtl;
 }
+
 .reverse header {
   flex-direction: row-reverse;
 }
 
-html {
-  scroll-behavior: smooth;
+/* High DPI display optimizations */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+  .crisp-edges {
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+  }
+}
+
+/* Reduced motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+  .auto-dark {
+    @apply dark;
+  }
 }
