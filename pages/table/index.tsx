@@ -1,7 +1,7 @@
 "use client";
 
 import type { Selection, SortDescriptor } from "@heroui/react";
-import type { ColumnsKey, Users } from "../../types/data";
+import type { ColumnsKey, Users, ColumnDefinition } from "../../types/data";
 import type { Key } from "@react-types/shared";
 
 import {
