@@ -76,6 +76,13 @@ export default function MultiStepWizard({
     paginate(1);
   }, [paginate]);
 
+  const handleSuccess = React.useCallback(() => {
+    onClose(); // Close the modal
+    if (onSuccess) {
+      onSuccess(); // Refresh the users list
+    }
+  }, [onClose, onSuccess]);
+
   const content = React.useMemo(() => {
     let component = (
       <UploadImageStep
