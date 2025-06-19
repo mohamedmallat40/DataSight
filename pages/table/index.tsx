@@ -844,7 +844,7 @@ export default function Component(): JSX.Element {
       >
         <ModalContent className="max-w-[1200px] rounded-[16px] p-0">
           <ModalBody className="p-0">
-            <MultiStepWizard onClose={onOpenChange} />
+            <MultiStepWizard onClose={onOpenChange} onSuccess={fetchUsers} />
           </ModalBody>
         </ModalContent>
       </Modal>
