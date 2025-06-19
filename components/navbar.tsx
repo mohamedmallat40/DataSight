@@ -158,7 +158,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
         onPress={() => setIsSearchOpen(!isSearchOpen)}
         aria-label="Search"
       >
-        <SearchIcon size={18} />
+        <SearchIcon width={18} height={18} />
       </Button>
 
       {/* Desktop Search */}
