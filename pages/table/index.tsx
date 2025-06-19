@@ -150,14 +150,31 @@ export default function Component(): JSX.Element {
     }
   }, [page]);
 
-  const headerColumns = useMemo(() => {
-    if (visibleColumns === "all") return columns;
+  const headerColumns = useMemo((): ExtendedColumnDefinition[] => {
+    if (visibleColumns === "all") {
+      return columns.map((item) =>
+        item.uid === sortDescriptor.column
+          ? {
+              ...item,
+              sortDirection: sortDescriptor.direction as
+                | "ascending"
+                | "descending",
+            }
+          : item,
+      );
+    }
 
     return columns
-      .map((item) =>
-        item.uid === sortDescriptor.column
-          ? { ...item, sortDirection: sortDescriptor.direction }
-          : item,
+      .map(
+        (item): ExtendedColumnDefinition =>
+          item.uid === sortDescriptor.column
+            ? {
+                ...item,
+                sortDirection: sortDescriptor.direction as
+                  | "ascending"
+                  | "descending",
+              }
+            : item,
       )
       .filter((column) => (visibleColumns as Set<Key>).has(column.uid));
   }, [visibleColumns, sortDescriptor]);
