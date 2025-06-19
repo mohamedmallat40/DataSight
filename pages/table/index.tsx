@@ -622,7 +622,19 @@ export default function Component(): JSX.Element {
 
   const bottomContent = useMemo(
     () => (
-      <div className="flex justify-between items-center px-2 py-2">
+      <div className="flex flex-col items-center justify-between gap-2 px-2 py-2 sm:flex-row">
+        <div className="flex items-center gap-4">
+          <span className="text-small text-default-400">
+            {filterSelectedKeys === "all"
+              ? "All items selected"
+              : `${filterSelectedKeys.size} of ${filteredItems.length} selected`}
+          </span>
+          {filterValue && (
+            <span className="text-small text-default-500">
+              Showing {filteredItems.length} of {userList.length} contacts
+            </span>
+          )}
+        </div>
         <Pagination
           isCompact
           showControls
@@ -632,12 +644,16 @@ export default function Component(): JSX.Element {
           total={totalPages}
           onChange={setPage}
         />
-        <span className="text-sm text-default-400">
-          Page {page} of {totalPages}
-        </span>
       </div>
     ),
-    [page, totalPages],
+    [
+      filterSelectedKeys,
+      page,
+      totalPages,
+      filteredItems.length,
+      userList.length,
+      filterValue,
+    ],
   );
 
   return (
