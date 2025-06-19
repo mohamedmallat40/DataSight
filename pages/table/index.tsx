@@ -179,14 +179,14 @@ export default function Component(): JSX.Element {
       .filter((column) => (visibleColumns as Set<Key>).has(column.uid));
   }, [visibleColumns, sortDescriptor]);
 
-  // Filter and search logic
+  // Filter and search logic with proper typing
   const itemFilter = useCallback(
-    (user: Users) => {
+    (user: Users): boolean => {
       const allIndustry = industryFilter === "all";
       const allCountry = countryFilter === "all";
       const allDate = dateFilter === "all";
 
-      // Industry filter
+      // Industry filter with type safety
       if (
         !allIndustry &&
         (!user.industry ||
@@ -195,7 +195,7 @@ export default function Component(): JSX.Element {
         return false;
       }
 
-      // Country filter
+      // Country filter with type safety
       if (
         !allCountry &&
         (!user.country ||
@@ -204,17 +204,30 @@ export default function Component(): JSX.Element {
         return false;
       }
 
-      // Date filter
+      // Date filter with proper date handling
       if (!allDate && user.date_collected) {
         const userDate = new Date(user.date_collected);
         const now = new Date();
+
+        // Check for valid dates
+        if (isNaN(userDate.getTime()) || isNaN(now.getTime())) {
+          return false;
+        }
+
         const daysDiff = Math.floor(
           (now.getTime() - userDate.getTime()) / (1000 * 60 * 60 * 24),
         );
 
-        if (dateFilter === "last7Days" && daysDiff > 7) return false;
-        if (dateFilter === "last30Days" && daysDiff > 30) return false;
-        if (dateFilter === "last60Days" && daysDiff > 60) return false;
+        switch (dateFilter) {
+          case "last7Days":
+            return daysDiff <= 7;
+          case "last30Days":
+            return daysDiff <= 30;
+          case "last60Days":
+            return daysDiff <= 60;
+          default:
+            return true;
+        }
       }
 
       return true;
