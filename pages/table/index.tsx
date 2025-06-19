@@ -183,8 +183,10 @@ export default function Component(): JSX.Element {
   const topBar = useMemo(
     () => (
       <div className="mb-[18px] flex items-center justify-between">
-        <div className="flex w-[226px] items-center gap-2">
-          <h1 className="text-2xl font-[700] leading-[32px]">Team Members</h1>
+        <div className="flex w-[280px] items-center gap-2">
+          <h1 className="text-2xl font-[700] leading-[32px] whitespace-nowrap">
+            Team Members
+          </h1>
           <Chip
             className="hidden items-center text-default-500 sm:flex"
             size="sm"
