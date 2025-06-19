@@ -116,7 +116,9 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
       }}
       placeholder="Search..."
       size="sm"
-      startContent={<SearchIcon className="text-default-400" size={16} />}
+      startContent={
+        <SearchIcon className="text-default-400" width={16} height={16} />
+      }
       endContent={
         <Kbd className="hidden lg:inline-block" keys={["command"]}>
           K
