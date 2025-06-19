@@ -89,7 +89,13 @@ const createLogoConfig = (theme: ThemeType): readonly LogoItem[] => {
 export default function IndexPage(
   props: InferGetStaticPropsType<typeof getStaticProps>,
 ): JSX.Element {
+  const router = useRouter();
   const { theme } = useTheme();
+
+  // Redirect to Statistics page by default
+  useEffect(() => {
+    router.replace("/statistics");
+  }, [router]);
 
   // Create logo configuration based on current theme
   const logos: readonly LogoItem[] = React.useMemo(
