@@ -50,8 +50,14 @@ export default function Component(): JSX.Element {
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
     new Set<ColumnsKey>(INITIAL_VISIBLE_COLUMNS),
   );
+  const [selectedUser, setSelectedUser] = useState<Users | null>(null);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const {
+    isOpen: isDrawerOpen,
+    onOpen: onDrawerOpen,
+    onOpenChange: onDrawerOpenChange,
+  } = useDisclosure();
 
   useEffect(() => {
     fetchUsers();
