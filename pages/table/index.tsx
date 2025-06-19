@@ -127,7 +127,10 @@ export default function Component(): JSX.Element {
   const fetchUsers = useCallback(async (): Promise<void> => {
     setLoading(true);
     try {
-      const { data } = await apiClient.get(`/card-info?page=${page}`);
+      const response = await apiClient.get<ApiResponse<Users[]>>(
+        `/card-info?page=${page}`,
+      );
+      const { data } = response;
 
       if (data?.success && Array.isArray(data?.data)) {
         setUserList(data.data);
@@ -135,9 +138,12 @@ export default function Component(): JSX.Element {
         setTotalItems(data.pagination?.total ?? 0);
       } else {
         setUserList([]);
+        console.warn("API response does not contain valid user data");
       }
-    } catch (error) {
-      console.error("Error fetching users:", error);
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
+      console.error("Error fetching users:", errorMessage);
       setUserList([]);
     } finally {
       setLoading(false);
