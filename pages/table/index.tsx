@@ -21,11 +21,9 @@ import {
   ModalBody,
   Skeleton,
 } from "@heroui/react";
-import React, { useMemo, useState, useEffect, useCallback } from "react";
 
 import { SearchIcon } from "@heroui/shared-icons";
 import React, { useMemo, useState, useEffect, useCallback, JSX } from "react";
-
 
 import { CopyText } from "../../components/table/copy-text";
 import { EyeFilledIcon } from "../../components/table/eye";
@@ -38,6 +36,7 @@ import MultiStepWizard from "./add-card/multi-step-wizard";
 import UserDetailsDrawer from "../../components/user-details-drawer";
 
 import apiClient from "@/config/api";
+import { Icon } from "@iconify/react";
 
 const getPrimary = (list?: string[]): string =>
   Array.isArray(list) && list.length > 0 ? list[0] : "N/A";
@@ -54,7 +53,7 @@ export default function Component(): JSX.Element {
   });
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set<Key>());
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
-    new Set<ColumnsKey>(INITIAL_VISIBLE_COLUMNS),
+    new Set<ColumnsKey>(INITIAL_VISIBLE_COLUMNS)
   );
   const [selectedUser, setSelectedUser] = useState<Users | null>(null);
 
@@ -94,10 +93,11 @@ export default function Component(): JSX.Element {
   const headerColumns = useMemo((): Column[] => {
     if (visibleColumns === "all") return [...columns];
 
-    return columns.map((item) =>
+    return columns
+      .map((item) =>
         item.uid === sortDescriptor.column
           ? { ...item, sortDirection: sortDescriptor.direction }
-          : item,
+          : item
       )
       .filter((col) => (visibleColumns as Set<Key>).has(col.uid));
   }, [visibleColumns, sortDescriptor]);
@@ -208,7 +208,7 @@ export default function Component(): JSX.Element {
         default:
           return user[key] ?? "N/A";
       }
-    },
+    }
   );
 
   const topBar = useMemo(
@@ -235,7 +235,7 @@ export default function Component(): JSX.Element {
         </Button>
       </div>
     ),
-    [onOpen, userList.length],
+    [onOpen, userList.length]
   );
 
   const bottomContent = useMemo(
@@ -255,7 +255,7 @@ export default function Component(): JSX.Element {
         </span>
       </div>
     ),
-    [page, totalPages],
+    [page, totalPages]
   );
 
   // Create skeleton items for loading state that match Users type
