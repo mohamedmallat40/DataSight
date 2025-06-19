@@ -330,4 +330,4 @@ export function useTable(options: UseTableOptions = {}): UseTableReturn {
   };
 }
 
-export type { UseTableOptions, UseTableReturn };
+// Types are already exported above
