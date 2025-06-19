@@ -820,10 +820,15 @@ export default function Component(): JSX.Element {
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody emptyContent="No users found" items={sortedItems}>
-          {(item: any) => (
+        <TableBody
+          emptyContent="No users found"
+          items={sortedItems}
+          loadingContent="Loading users..."
+          loadingState={loading ? "loading" : "idle"}
+        >
+          {(item: Users) => (
             <TableRow key={item.id}>
-              {(columnKey: any) => (
+              {(columnKey: Key) => (
                 <TableCell>{renderCell(item, columnKey)}</TableCell>
               )}
             </TableRow>
