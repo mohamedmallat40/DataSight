@@ -115,7 +115,78 @@ export default function Component(): JSX.Element {
       .filter((column) => (visibleColumns as Set<Key>).has(column.uid));
   }, [visibleColumns, sortDescriptor]);
 
-  const items = useMemo(() => userList, [userList]); // FIX: no slicing here
+  // Filter and search logic
+  const itemFilter = useCallback(
+    (user: Users) => {
+      const allIndustry = industryFilter === "all";
+      const allCountry = countryFilter === "all";
+      const allDate = dateFilter === "all";
+
+      // Industry filter
+      if (
+        !allIndustry &&
+        (!user.industry ||
+          user.industry.toLowerCase() !== industryFilter.toLowerCase())
+      ) {
+        return false;
+      }
+
+      // Country filter
+      if (
+        !allCountry &&
+        (!user.country ||
+          user.country.toLowerCase() !== countryFilter.toLowerCase())
+      ) {
+        return false;
+      }
+
+      // Date filter
+      if (!allDate && user.date_collected) {
+        const userDate = new Date(user.date_collected);
+        const now = new Date();
+        const daysDiff = Math.floor(
+          (now.getTime() - userDate.getTime()) / (1000 * 60 * 60 * 24),
+        );
+
+        if (dateFilter === "last7Days" && daysDiff > 7) return false;
+        if (dateFilter === "last30Days" && daysDiff > 30) return false;
+        if (dateFilter === "last60Days" && daysDiff > 60) return false;
+      }
+
+      return true;
+    },
+    [industryFilter, countryFilter, dateFilter],
+  );
+
+  const filteredItems = useMemo(() => {
+    let filtered = [...userList];
+
+    // Apply search filter
+    if (filterValue) {
+      filtered = filtered.filter(
+        (user) =>
+          user.full_name.toLowerCase().includes(filterValue.toLowerCase()) ||
+          (user.company_name &&
+            user.company_name
+              .toLowerCase()
+              .includes(filterValue.toLowerCase())) ||
+          (user.job_title &&
+            user.job_title.toLowerCase().includes(filterValue.toLowerCase())) ||
+          (Array.isArray(user.email)
+            ? user.email.some((email) =>
+                email.toLowerCase().includes(filterValue.toLowerCase()),
+              )
+            : false),
+      );
+    }
+
+    // Apply other filters
+    filtered = filtered.filter(itemFilter);
+
+    return filtered;
+  }, [userList, filterValue, itemFilter]);
+
+  const items = useMemo(() => filteredItems, [filteredItems]);
 
   const sortedItems = useMemo(() => {
     return [...items].sort((a, b) => {
