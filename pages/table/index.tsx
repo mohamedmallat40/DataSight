@@ -66,6 +66,12 @@ export default function Component(): JSX.Element {
   );
   const [selectedUser, setSelectedUser] = useState<Users | null>(null);
 
+  // Filter states
+  const [filterValue, setFilterValue] = useState("");
+  const [industryFilter, setIndustryFilter] = useState("all");
+  const [countryFilter, setCountryFilter] = useState("all");
+  const [dateFilter, setDateFilter] = useState("all");
+
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const {
     isOpen: isDrawerOpen,
