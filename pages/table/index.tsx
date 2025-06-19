@@ -678,7 +678,7 @@ export default function Component(): JSX.Element {
         onSortChange={setSortDescriptor}
       >
         <TableHeader columns={headerColumns}>
-          {(column: any) => (
+          {(column) => (
             <TableColumn
               key={column.uid}
               align={column.uid === "actions" ? "end" : "start"}
