@@ -82,7 +82,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
   const navigationItems: NavigationItem[] = [
     {
       label: "Contacts",
-      href: "/table",
+      href: "/contacts",
       icon: "solar:users-group-two-rounded-linear",
     },
     {
