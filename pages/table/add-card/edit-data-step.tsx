@@ -50,6 +50,26 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
     }
   };
 
+  // Handle gender selection
+  const handleGenderChange = (value: string) => {
+    let genderValue: boolean | null;
+    switch (value) {
+      case "male":
+        genderValue = true;
+        break;
+      case "female":
+        genderValue = false;
+        break;
+      default:
+        genderValue = null;
+        break;
+    }
+    setBusinessCardData({
+      ...businessCardData,
+      gender: genderValue,
+    });
+  };
+
   // Handles change in a specific index of email or phone number arrays
   const handleArrayInputChange = (
     field: "email" | "phone_number",
