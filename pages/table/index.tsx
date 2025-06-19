@@ -56,6 +56,7 @@ import { columns, INITIAL_VISIBLE_COLUMNS } from "../../types/data";
 import MultiStepWizard from "./add-card/multi-step-wizard";
 import UserDetailsDrawer from "../../components/user-details-drawer";
 import apiClient from "@/config/api";
+import { normalizeValue } from "@/utils/utils";
 
 // Enhanced type definitions for API responses
 interface ApiResponse<T> {
@@ -98,7 +99,7 @@ export default function Component(): JSX.Element {
   });
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set<Key>());
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
-    new Set<ColumnsKey>(INITIAL_VISIBLE_COLUMNS),
+    new Set<ColumnsKey>(INITIAL_VISIBLE_COLUMNS)
   );
   const [selectedUser, setSelectedUser] = useState<Users | null>(null);
 
@@ -128,7 +129,7 @@ export default function Component(): JSX.Element {
     setLoading(true);
     try {
       const response = await apiClient.get<ApiResponse<Users[]>>(
-        `/card-info?page=${page}`,
+        `/card-info?page=${page}`
       );
       const { data } = response;
 
@@ -160,7 +161,7 @@ export default function Component(): JSX.Element {
                 | "ascending"
                 | "descending",
             }
-          : item,
+          : item
       );
     }
 
@@ -174,7 +175,7 @@ export default function Component(): JSX.Element {
                   | "ascending"
                   | "descending",
               }
-            : item,
+            : item
       )
       .filter((column) => (visibleColumns as Set<Key>).has(column.uid));
   }, [visibleColumns, sortDescriptor]);
@@ -215,7 +216,7 @@ export default function Component(): JSX.Element {
         }
 
         const daysDiff = Math.floor(
-          (now.getTime() - userDate.getTime()) / (1000 * 60 * 60 * 24),
+          (now.getTime() - userDate.getTime()) / (1000 * 60 * 60 * 24)
         );
 
         switch (dateFilter) {
@@ -232,7 +233,7 @@ export default function Component(): JSX.Element {
 
       return true;
     },
-    [industryFilter, countryFilter, dateFilter],
+    [industryFilter, countryFilter, dateFilter]
   );
 
   const filteredItems = useMemo((): Users[] => {
@@ -280,8 +281,8 @@ export default function Component(): JSX.Element {
         first = Array.isArray(aValue) && aValue.length > 0 ? aValue[0] : "";
         second = Array.isArray(bValue) && bValue.length > 0 ? bValue[0] : "";
       } else {
-        first = a[col as keyof Users];
-        second = b[col as keyof Users];
+        first = normalizeValue(a[col as keyof Users]);
+        second = normalizeValue(b[col as keyof Users]);
       }
 
       // Convert to strings for comparison, handling null/undefined
@@ -510,7 +511,7 @@ export default function Component(): JSX.Element {
             </p>
           );
       }
-    },
+    }
   );
 
   const topContent = useMemo(() => {
@@ -576,7 +577,9 @@ export default function Component(): JSX.Element {
                     <RadioGroup
                       label="Date Collected"
                       value={dateFilter}
-                      onValueChange={setDateFilter}
+                      onValueChange={(val: string) =>
+                        setDateFilter(val as FilterKey)
+                      }
                     >
                       <Radio value="all">All Time</Radio>
                       <Radio value="last7Days">Last 7 days</Radio>
@@ -607,10 +610,10 @@ export default function Component(): JSX.Element {
                 <DropdownMenu
                   aria-label="Sort"
                   items={headerColumns.filter(
-                    (c) => !["actions"].includes(c.uid),
+                    (c) => !["actions"].includes(c.uid)
                   )}
                 >
-                  {(item) => (
+                  {(item: ExtendedColumnDefinition) => (
                     <DropdownItem
                       key={item.uid}
                       onPress={() => {
@@ -654,7 +657,7 @@ export default function Component(): JSX.Element {
                   selectionMode="multiple"
                   onSelectionChange={setVisibleColumns}
                 >
-                  {(item) => (
+                  {(item: ColumnDefinition) => (
                     <DropdownItem key={item.uid}>{item.name}</DropdownItem>
                   )}
                 </DropdownMenu>
@@ -739,7 +742,7 @@ export default function Component(): JSX.Element {
         </Button>
       </div>
     ),
-    [onOpen, filteredItems.length],
+    [onOpen, filteredItems.length]
   );
 
   const bottomContent = useMemo(
@@ -775,7 +778,7 @@ export default function Component(): JSX.Element {
       filteredItems.length,
       userList.length,
       filterValue,
-    ],
+    ]
   );
 
   return (
@@ -800,7 +803,7 @@ export default function Component(): JSX.Element {
         onSortChange={setSortDescriptor}
       >
         <TableHeader columns={headerColumns}>
-          {(column) => (
+          {(column: ExtendedColumnDefinition) => (
             <TableColumn
               key={column.uid}
               align={column.uid === "actions" ? "end" : "start"}

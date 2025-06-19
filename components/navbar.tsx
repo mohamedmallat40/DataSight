@@ -220,32 +220,32 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
               <NavbarItem key={item.href}>
                 <Link
                   className={clsx(
-                    "flex items-center gap-2 transition-all duration-200 font-medium px-3 py-2 rounded-lg",
-                    router.asPath === item.href
-                      ? "text-primary bg-primary/10 font-semibold"
-                      : "text-foreground hover:text-primary hover:bg-primary/5",
+                  "flex items-center gap-2 transition-all duration-200 font-medium px-3 py-2 rounded-lg",
+                  router.asPath === item.href
+                    ? "text-primary bg-primary/10 font-semibold"
+                    : "text-foreground hover:text-primary hover:bg-primary/5",
                   )}
                   href={item.href}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleNavigation(item.href, item.external);
+                  onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
+                  e.preventDefault();
+                  handleNavigation(item.href, item.external);
                   }}
                 >
                   {item.icon && (
-                    <Icon
-                      icon={item.icon}
-                      width={18}
-                      height={18}
-                      className={
-                        router.asPath === item.href ? "text-primary" : ""
-                      }
-                    />
+                  <Icon
+                    icon={item.icon}
+                    width={18}
+                    height={18}
+                    className={
+                    router.asPath === item.href ? "text-primary" : ""
+                    }
+                  />
                   )}
                   {item.label}
                   {item.badge && (
-                    <span className="bg-primary text-white text-tiny px-1.5 py-0.5 rounded-full">
-                      {item.badge}
-                    </span>
+                  <span className="bg-primary text-white text-tiny px-1.5 py-0.5 rounded-full">
+                    {item.badge}
+                  </span>
                   )}
                 </Link>
               </NavbarItem>
@@ -283,41 +283,41 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                  <Link
+                    <Link
                     className={clsx(
                       "flex items-center gap-3 w-full py-3 px-4 rounded-lg transition-all duration-200",
                       router.asPath === item.href
-                        ? "bg-primary/15 text-primary font-semibold border border-primary/20"
-                        : "text-foreground hover:text-primary hover:bg-primary/5",
+                      ? "bg-primary/15 text-primary font-semibold border border-primary/20"
+                      : "text-foreground hover:text-primary hover:bg-primary/5",
                     )}
                     href={item.href}
-                    onClick={(e) => {
+                    onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
                       e.preventDefault();
                       handleNavigation(item.href, item.external);
                     }}
-                  >
+                    >
                     {item.icon && (
                       <Icon
-                        icon={item.icon}
-                        width={20}
-                        height={20}
-                        className={
-                          router.asPath === item.href
-                            ? "text-primary"
-                            : "text-default-500"
-                        }
+                      icon={item.icon}
+                      width={20}
+                      height={20}
+                      className={
+                        router.asPath === item.href
+                        ? "text-primary"
+                        : "text-default-500"
+                      }
                       />
                     )}
                     <span className="font-medium">{item.label}</span>
                     {item.external && (
                       <Icon
-                        icon="solar:external-link-linear"
-                        width={16}
-                        height={16}
-                        className="ml-auto text-default-400"
+                      icon="solar:external-link-linear"
+                      width={16}
+                      height={16}
+                      className="ml-auto text-default-400"
                       />
                     )}
-                  </Link>
+                    </Link>
                 </motion.div>
               </NavbarMenuItem>
             ))}

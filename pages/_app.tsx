@@ -3,7 +3,6 @@
 import type { AppProps } from "next/app";
 
 import { HeroUIProvider } from "@heroui/system";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { I18nProvider } from "@react-aria/i18n";
@@ -40,10 +39,8 @@ export default function App({ Component, pageProps }: AppProps) {
     <I18nProvider locale={locale}>
       <HeroUIProvider navigate={router.push}>
         <ToastProvider />
-        <NextThemesProvider defaultTheme="light">
-          <Navbar setLocale={setLocale} />
-          <Component {...pageProps} />
-        </NextThemesProvider>
+        <Navbar setLocale={setLocale} />
+        <Component {...pageProps} />
       </HeroUIProvider>
     </I18nProvider>
   );

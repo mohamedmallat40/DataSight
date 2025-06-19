@@ -130,7 +130,7 @@ Source: ${userData.source || "N/A"}
       onOpenChange={onOpenChange}
     >
       <DrawerContent>
-        {(onClose) => (
+        {(onClose: () => void) => (
           <>
             <DrawerHeader className="absolute top-0 inset-x-0 z-50 flex flex-row gap-2 px-4 py-3 border-b border-default-200/50 justify-between bg-content1/80 backdrop-saturate-150 backdrop-blur-lg">
               <Tooltip content="Close">
@@ -564,7 +564,7 @@ Source: ${userData.source || "N/A"}
                                   onError={(e) => {
                                     console.error(
                                       "Gallery image failed to load:",
-                                      userData.card_image_url,
+                                      userData.card_image_url
                                     );
                                     e.currentTarget.src =
                                       "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiB2aWV3Qm94PSIwIDAgMTIwIDk2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik00OCA0NEg3MlY0OEg0OFY0NFoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA8at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSI0NSIgeT0iNTgiPkltYWdlPC90ZXh0Pgo8L3N2Zz4K";
@@ -574,7 +574,7 @@ Source: ${userData.source || "N/A"}
                                     handleImageClick(
                                       userData.card_image_url,
                                       "Business Card",
-                                      "Business card image",
+                                      "Business card image"
                                     )
                                   }
                                 />
@@ -628,7 +628,7 @@ Source: ${userData.source || "N/A"}
                                   onError={(e) => {
                                     console.error(
                                       "Front image failed to load:",
-                                      userData.front_image_link,
+                                      userData.front_image_link
                                     );
                                     e.currentTarget.src =
                                       "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiB2aWV3Qm94PSIwIDAgMTIwIDk2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik00OCA0NEg3MlY0OEg0OFY0NFoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA<at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSI0NSIgeT0iNTgiPkZyb250PC90ZXh0Pgo8L3N2Zz4K";
@@ -638,7 +638,7 @@ Source: ${userData.source || "N/A"}
                                     handleImageClick(
                                       userData.front_image_link,
                                       "Business Card - Front",
-                                      "Business card front side",
+                                      "Business card front side"
                                     )
                                   }
                                 />
@@ -704,7 +704,7 @@ Source: ${userData.source || "N/A"}
                                   onError={(e) => {
                                     console.error(
                                       "Back image failed to load:",
-                                      userData.back_image_link,
+                                      userData.back_image_link
                                     );
                                     e.currentTarget.src =
                                       "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiB2aWV3Qm94PSIwIDAgMTIwIDk2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik00OCA0NEg3MlY0OEg0OFY0NEoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA<at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSI0NSIgeT0iNTgiPkJhY2s8L3RleHQ+Cjwvc3ZnPgo=";
@@ -714,7 +714,7 @@ Source: ${userData.source || "N/A"}
                                     handleImageClick(
                                       userData.back_image_link,
                                       "Business Card - Back",
-                                      "Business card back side",
+                                      "Business card back side"
                                     )
                                   }
                                 />
@@ -1040,7 +1040,7 @@ Source: ${userData.source || "N/A"}
         }}
       >
         <ModalContent className="bg-transparent shadow-none overflow-hidden">
-          {(onClose) => (
+          {(onClose: () => void) => (
             <>
               {/* Enhanced Header */}
               <ModalHeader className="flex flex-col gap-1 bg-content1/95 backdrop-blur-xl rounded-t-2xl border-b border-default-200/50 shadow-lg">
@@ -1126,7 +1126,7 @@ Source: ${userData.source || "N/A"}
                         onError={(e) => {
                           console.error(
                             "Image failed to load:",
-                            selectedImage.url,
+                            selectedImage.url
                           );
                           e.currentTarget.src =
                             "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik0xNzUgMTI1SDIyNVYxNzVIMTc1VjEyNVoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA<at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE2cHg7IGZpbGw6ICM5Q0E4QjQ7IHRleHQtYW5jaG9yOiBtaWRkbGU7IiBkb21pbmFudC1iYXNlbGluZT0iY2VudHJhbCIgeD0iMjAwIiB5PSIyMDAiPkltYWdlIG5vdCBhdmFpbGFibGU8L3RleHQ+Cjwvc3ZnPgo=";

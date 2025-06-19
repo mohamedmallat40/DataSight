@@ -12,8 +12,9 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
     "incremental": true,
+    "jsx": "preserve", // or "react-jsx" for React 17+
+    "jsxImportSource": "react", // optional, for new JSX transform
     "paths": {
       "@/*": ["./*"]
     }
