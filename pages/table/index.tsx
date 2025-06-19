@@ -86,13 +86,14 @@ interface ExtendedColumnDefinition extends ColumnDefinition {
 }
 
 export default function Component(): JSX.Element {
+  // Table state management with proper typing
   const [userList, setUserList] = useState<Users[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<number>(1);
   const [totalItems, setTotalItems] = useState<number>(0);
   const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
-    column: "full_name",
+    column: "full_name" as ColumnsKey,
     direction: "ascending",
   });
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set<Key>());
@@ -101,12 +102,13 @@ export default function Component(): JSX.Element {
   );
   const [selectedUser, setSelectedUser] = useState<Users | null>(null);
 
-  // Filter states
-  const [filterValue, setFilterValue] = useState("");
-  const [industryFilter, setIndustryFilter] = useState("all");
-  const [countryFilter, setCountryFilter] = useState("all");
-  const [dateFilter, setDateFilter] = useState("all");
+  // Filter states with specific types
+  const [filterValue, setFilterValue] = useState<FilterValue>("");
+  const [industryFilter, setIndustryFilter] = useState<FilterValue>("all");
+  const [countryFilter, setCountryFilter] = useState<FilterValue>("all");
+  const [dateFilter, setDateFilter] = useState<FilterKey>("all");
 
+  // Modal state management with typed hooks
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const {
     isOpen: isDrawerOpen,
