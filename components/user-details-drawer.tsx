@@ -674,14 +674,13 @@ Source: ${userData.source || "N/A"}
                                   : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.card_image_url}`
                               }
                               alt="Business card"
-                              className="w-full h-28 object-cover rounded-small border border-default-200 cursor-pointer hover:scale-105 transition-transform"
-                              fallbackSrc="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiB2aWV3Qm94PSIwIDAgMTIwIDk2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik00OCA0NEg3MlY0OEg0OFY0NFoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA8at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSI0NSIgeT0iNTgiPkltYWdlPC90ZXh0Pgo8L3N2Zz4K"
+                              className="w-full h-28 object-cover rounded-small border border-default-200 cursor-pointer hover:scale-105 transition-transform hover:shadow-lg"
+                              fallbackSrc="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiB2aWV3Qm94PSIwIDAgMTIwIDk2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik00OCA0NEg3MlY0OEg0OFY0NEoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA8at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSI0NSIgeT0iNTgiPkltYWdlPC90ZXh0Pgo8L3N2Zz4K"
                               onClick={() =>
-                                window.open(
-                                  userData.card_image_url.startsWith("http")
-                                    ? userData.card_image_url
-                                    : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.card_image_url}`,
-                                  "_blank",
+                                handleImageClick(
+                                  userData.card_image_url,
+                                  "Business Card",
+                                  "Business card image",
                                 )
                               }
                             />
@@ -699,14 +698,13 @@ Source: ${userData.source || "N/A"}
                                   : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.front_image_link}`
                               }
                               alt="Business card front side"
-                              className="w-full h-28 object-cover rounded-small border border-default-200 cursor-pointer hover:scale-105 transition-transform"
-                              fallbackSrc="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiB2aWV3Qm94PSIwIDAgMTIwIDk2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik00OCA0NEg3MlY0OEg0OFY0NFoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA8at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSI0NSIgeT0iNTgiPkZyb250PC90ZXh0Pgo8L3N2Zz4K"
+                              className="w-full h-28 object-cover rounded-small border border-default-200 cursor-pointer hover:scale-105 transition-transform hover:shadow-lg"
+                              fallbackSrc="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiB2aWV3Qm94PSIwIDAgMTIwIDk2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik00OCA0NEg3MlY0OEg0OFY0NEoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA8at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSI0NSIgeT0iNTgiPkZyb250PC90ZXh0Pgo8L3N2Zz4K"
                               onClick={() =>
-                                window.open(
-                                  userData.front_image_link.startsWith("http")
-                                    ? userData.front_image_link
-                                    : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.front_image_link}`,
-                                  "_blank",
+                                handleImageClick(
+                                  userData.front_image_link,
+                                  "Business Card - Front",
+                                  "Business card front side",
                                 )
                               }
                             />
@@ -724,14 +722,13 @@ Source: ${userData.source || "N/A"}
                                   : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.back_image_link}`
                               }
                               alt="Business card back side"
-                              className="w-full h-28 object-cover rounded-small border border-default-200 cursor-pointer hover:scale-105 transition-transform"
-                              fallbackSrc="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiB2aWV3Qm94PSIwIDAgMTIwIDk2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik00OCA0NEg3MlY0OEg0OFY0NFoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA8at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSI0NSIgeT0iNTgiPkJhY2s8L3RleHQ+Cjwvc3ZnPgo="
+                              className="w-full h-28 object-cover rounded-small border border-default-200 cursor-pointer hover:scale-105 transition-transform hover:shadow-lg"
+                              fallbackSrc="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiB2aWV3Qm94PSIwIDAgMTIwIDk2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik00OCA0NEg3MlY0OEg0OFY0NEoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA8at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSI0NSIgeT0iNTgiPkJhY2s8L3RleHQ+Cjwvc3ZnPgo="
                               onClick={() =>
-                                window.open(
-                                  userData.back_image_link.startsWith("http")
-                                    ? userData.back_image_link
-                                    : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.back_image_link}`,
-                                  "_blank",
+                                handleImageClick(
+                                  userData.back_image_link,
+                                  "Business Card - Back",
+                                  "Business card back side",
                                 )
                               }
                             />
