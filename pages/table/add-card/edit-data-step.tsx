@@ -369,44 +369,38 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               onChange={(e) => handleInputChange("country", e.target.value)}
             />
 
-            <div className="col-span-12">
+            <div className="col-span-12 md:col-span-6">
               <div className="flex flex-col gap-3">
                 <div className="flex items-center justify-between">
                   <label className="text-small font-medium text-default-700">
                     Gender
                   </label>
-                  <Chip
-                    size="sm"
-                    variant="flat"
-                    color={
-                      businessCardData.gender === true
-                        ? "primary"
-                        : businessCardData.gender === false
-                          ? "secondary"
-                          : "default"
-                    }
-                    startContent={
-                      <Icon
-                        icon={
-                          businessCardData.gender === true
-                            ? "lucide:male"
-                            : businessCardData.gender === false
-                              ? "lucide:female"
-                              : "lucide:help-circle"
-                        }
-                        width={12}
-                      />
-                    }
-                  >
-                    {businessCardData.gender === true
-                      ? "Male"
-                      : businessCardData.gender === false
-                        ? "Female"
-                        : "Not Specified"}
-                  </Chip>
+                  {businessCardData.gender !== null && (
+                    <Chip
+                      size="sm"
+                      variant="flat"
+                      color={
+                        businessCardData.gender === true
+                          ? "primary"
+                          : "secondary"
+                      }
+                      startContent={
+                        <Icon
+                          icon={
+                            businessCardData.gender === true
+                              ? "lucide:male"
+                              : "lucide:female"
+                          }
+                          width={12}
+                        />
+                      }
+                    >
+                      {businessCardData.gender === true ? "Male" : "Female"}
+                    </Chip>
+                  )}
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {/* Male Option */}
                   <Card
                     isPressable
