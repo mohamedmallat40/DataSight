@@ -172,7 +172,9 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
         href={siteConfig.links.sponsor}
         isExternal
         className="hidden md:flex bg-gradient-to-r from-primary to-secondary text-white font-medium"
-        endContent={<HeartFilledIcon className="text-white" size={16} />}
+        endContent={
+          <HeartFilledIcon className="text-white" width={16} height={16} />
+        }
         size="sm"
         variant="solid"
       >
