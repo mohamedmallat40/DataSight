@@ -349,30 +349,6 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
           </div>
         </NavbarMenu>
       </HeroUINavbar>
-
-      {/* Mobile Search Overlay */}
-      <AnimatePresence>
-        {isSearchOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="sm:hidden fixed top-16 left-0 right-0 z-50 bg-background/95 backdrop-blur-xl border-b border-default-200/50 p-4"
-          >
-            <div className="flex items-center gap-2">
-              {searchInput}
-              <Button
-                isIconOnly
-                size="sm"
-                variant="light"
-                onPress={() => setIsSearchOpen(false)}
-              >
-                <Icon icon="solar:close-circle-linear" width={20} height={20} />
-              </Button>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </>
   );
 };
