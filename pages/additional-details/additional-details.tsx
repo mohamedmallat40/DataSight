@@ -1,7 +1,6 @@
 "use client";
 
 import { ArrowRight, ArrowLeft } from "lucide-react";
-import Link from "next/link";
 import { useLocale } from "@react-aria/i18n";
 import clsx from "clsx";
 
@@ -20,26 +19,26 @@ export default function HeroSection() {
         "relative z-10 flex-col gap-2 bg-transparent dark:bg-transparent mt-60",
         "before:bg-background/10 before:content-[''] before:block before:z-[-1]",
         "before:absolute before:inset-0 before:backdrop-blur-md before:backdrop-saturate-200",
-        "border-t border-b border-divider px-8 flex justify-center items-center"
+        "border-t border-b border-divider px-8 flex justify-center items-center",
       )}
     >
       <div
-        dir={isRTL ? "ltr" : "ltr"}
         className={clsx("w-full py-10 grid grid-cols-12 gap-6 md:gap-0 z-20")}
+        dir={isRTL ? "ltr" : "ltr"}
       >
         <div
           className={clsx(
             "flex flex-col gap-2 col-span-12 md:col-span-6",
             isRTL
               ? "md:col-start-7 md:order-last items-end text-right"
-              : "md:col-start-1"
+              : "md:col-start-1",
           )}
         >
           <div className={clsx("flex flex-col", isRTL && "items-end")}>
             <h1
               className={clsx(
                 "tracking-tight font-semibold text-[clamp(1rem,10vw,2rem)] sm:text-[clamp(1rem,10vw,3rem)] lg:text-5xl inline",
-                isRTL && "w-full text-right"
+                isRTL && "w-full text-right",
               )}
             >
               {t("home_hero_line1") + " "}
@@ -56,7 +55,7 @@ export default function HeroSection() {
         <div
           className={clsx(
             "col-span-12 md:col-span-6",
-            isRTL ? "md:order-first" : ""
+            isRTL ? "md:order-first" : "",
           )}
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -67,7 +66,7 @@ export default function HeroSection() {
                 "text-foreground shadow-medium rounded-large cursor-pointer",
                 "transition-transform-background motion-reduce:transition-none",
                 "hover:scale-[1.01] border-transparent bg-white/5",
-                "dark:bg-default-400/10 backdrop-blur-lg backdrop-saturate-[1.8]"
+                "dark:bg-default-400/10 backdrop-blur-lg backdrop-saturate-[1.8]",
               )}
             >
               <div
@@ -75,7 +74,7 @@ export default function HeroSection() {
                   "flex p-3 z-10 w-full items-center shrink-0",
                   "overflow-inherit color-inherit subpixel-antialiased",
                   "rounded-t-large gap-2 pb-0",
-                  isRTL && "flex-row-reverse"
+                  isRTL && "flex-row-reverse",
                 )}
               >
                 <div className="flex justify-center p-2 rounded-full items-center bg-secondary-100/80 text-pink-500">
@@ -113,7 +112,7 @@ export default function HeroSection() {
                   "relative flex w-full p-3 flex-auto flex-col",
                   "place-content-inherit align-items-inherit h-auto break-words",
                   "overflow-y-auto subpixel-antialiased",
-                  isRTL ? "text-right items-end" : "text-left items-start"
+                  isRTL ? "text-right items-end" : "text-left items-start",
                 )}
               >
                 <p className="font-normal text-medium text-default-500">
@@ -129,7 +128,7 @@ export default function HeroSection() {
                 "text-foreground shadow-medium rounded-large cursor-pointer",
                 "transition-transform-background motion-reduce:transition-none",
                 "hover:scale-[1.01] border-transparent bg-white/5",
-                "dark:bg-default-400/10 backdrop-blur-lg backdrop-saturate-[1.8]"
+                "dark:bg-default-400/10 backdrop-blur-lg backdrop-saturate-[1.8]",
               )}
             >
               <div
@@ -137,7 +136,7 @@ export default function HeroSection() {
                   "flex p-3 z-10 w-full items-center shrink-0",
                   "overflow-inherit color-inherit subpixel-antialiased",
                   "rounded-t-large gap-2 pb-0",
-                  isRTL && "flex-row-reverse"
+                  isRTL && "flex-row-reverse",
                 )}
               >
                 <div className="flex justify-center p-2 rounded-full items-center bg-secondary-100/80 text-pink-500">
@@ -163,7 +162,7 @@ export default function HeroSection() {
                   "relative flex w-full p-3 flex-auto flex-col",
                   "place-content-inherit align-items-inherit h-auto break-words",
                   "overflow-y-auto subpixel-antialiased",
-                  isRTL && "text-right"
+                  isRTL && "text-right",
                 )}
               >
                 <p className="font-normal text-medium text-default-500">

@@ -8,39 +8,42 @@ export default function Document() {
     <Html lang="en">
       <Head>
         {/* Favicon */}
-        <link rel="icon" href="/favicon.ico" />
+        <link href="/favicon.ico" rel="icon" />
 
         {/* Core Metadata */}
         <meta charSet="UTF-8" />
         {/* <meta name="viewport" content="width=device-width, initial-scale=1" /> */}
         <meta
-          name="description"
           content="Perla Code Innovators (Perla CI, Perla IT, Perla Group) accelerates startup MVP development using cutting-edge web technology."
+          name="description"
         />
-        <meta name="keywords" content="Perla Code Innovators, Perla CI, Perla IT, Perla Group, startup studio, MVP, web development, Next.js, NestJS, TailwindCSS" />
+        <meta
+          content="Perla Code Innovators, Perla CI, Perla IT, Perla Group, startup studio, MVP, web development, Next.js, NestJS, TailwindCSS"
+          name="keywords"
+        />
 
         {/* Open Graph */}
-        <meta property="og:title" content="Perla Code Innovators" />
+        <meta content="Perla Code Innovators" property="og:title" />
         <meta
-          property="og:description"
           content="Also known as Perla CI, Perla IT, or Perla Group — we deliver lightning-fast MVPs using modern technologies."
+          property="og:description"
         />
-        <meta property="og:image" content="/og-image.png" />
-        <meta property="og:site_name" content="Perla Group" />
-        <meta property="og:type" content="website" />
-        <meta property="og:locale" content="en_US" />
+        <meta content="/og-image.png" property="og:image" />
+        <meta content="Perla Group" property="og:site_name" />
+        <meta content="website" property="og:type" />
+        <meta content="en_US" property="og:locale" />
 
         {/* Twitter */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Perla Code Innovators" />
+        <meta content="summary_large_image" name="twitter:card" />
+        <meta content="Perla Code Innovators" name="twitter:title" />
         <meta
-          name="twitter:description"
           content="Perla CI • Perla IT • Perla Group — Your tech partner for modern MVP development."
+          name="twitter:description"
         />
-        <meta name="twitter:image" content="/og-image.png" />
+        <meta content="/og-image.png" name="twitter:image" />
 
         {/* Theme */}
-        <meta name="theme-color" content="#ffffff" />
+        <meta content="#ffffff" name="theme-color" />
       </Head>
       <body
         className={clsx(

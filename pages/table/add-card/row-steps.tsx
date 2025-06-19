@@ -64,12 +64,12 @@ const RowSteps = React.forwardRef<HTMLButtonElement, RowStepsProps>(
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [currentStep, setCurrentStep] = useControlledState(
       currentStepProp,
       defaultStep,
-      onStepChange
+      onStepChange,
     );
 
     const colors = React.useMemo(() => {
@@ -121,7 +121,7 @@ const RowSteps = React.forwardRef<HTMLButtonElement, RowStepsProps>(
       if (!className?.includes("--step-color")) colorsVars.unshift(userColor);
       if (!className?.includes("--inactive-bar-color"))
         colorsVars.push(
-          "[--inactive-bar-color:hsl(var(--heroui-default-300))]"
+          "[--inactive-bar-color:hsl(var(--heroui-default-300))]",
         );
 
       return colorsVars;
@@ -154,7 +154,7 @@ const RowSteps = React.forwardRef<HTMLButtonElement, RowStepsProps>(
                   aria-current={status === "active" ? "step" : undefined}
                   className={cn(
                     "group flex w-full cursor-pointer flex-row items-center justify-center gap-x-3 rounded-large py-2.5",
-                    stepClassName
+                    stepClassName,
                   )}
                   onClick={() => setCurrentStep(stepIdx)}
                   {...props}
@@ -167,7 +167,7 @@ const RowSteps = React.forwardRef<HTMLButtonElement, RowStepsProps>(
                             "relative flex h-[34px] w-[34px] items-center justify-center rounded-full border-medium text-large font-semibold text-default-foreground",
                             {
                               "shadow-lg": status === "complete",
-                            }
+                            },
                           )}
                           initial={false}
                           transition={{ duration: 0.25 }}
@@ -206,7 +206,7 @@ const RowSteps = React.forwardRef<HTMLButtonElement, RowStepsProps>(
                         "text-small font-medium text-default-foreground transition-[color,opacity] duration-300 group-active:opacity-80 lg:text-medium",
                         {
                           "text-default-500": status === "inactive",
-                        }
+                        },
                       )}
                     >
                       {step.title}
@@ -228,7 +228,7 @@ const RowSteps = React.forwardRef<HTMLButtonElement, RowStepsProps>(
                           "after:absolute after:block after:h-full after:w-0 after:bg-[var(--active-border-color)] after:transition-[width] after:duration-300 after:content-['']",
                           {
                             "after:w-full": stepIdx < currentStep,
-                          }
+                          },
                         )}
                       />
                     </div>
@@ -240,7 +240,7 @@ const RowSteps = React.forwardRef<HTMLButtonElement, RowStepsProps>(
         </ol>
       </nav>
     );
-  }
+  },
 );
 
 RowSteps.displayName = "RowSteps";

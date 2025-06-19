@@ -1,6 +1,5 @@
 import React from "react";
-import { Button, ButtonProps } from "@heroui/react";
-import { Icon } from "@iconify/react";
+import { ButtonProps } from "@heroui/react";
 import { cn } from "@heroui/react";
 
 export interface StepNavigationProps
@@ -14,13 +13,13 @@ export interface StepNavigationProps
 const StepNavigation = React.forwardRef<HTMLDivElement, StepNavigationProps>(
   (
     { className, onBack, onNext, backButtonProps, nextButtonProps, ...props },
-    ref
+    ref,
   ) => (
     <div
       ref={ref}
       className={cn(
         "mx-auto my-6 flex w-full items-center justify-end gap-x-4 lg:mx-0",
-        className
+        className,
       )}
       {...props}
     >
@@ -43,7 +42,7 @@ const StepNavigation = React.forwardRef<HTMLDivElement, StepNavigationProps>(
         {nextButtonProps?.children || "Continue"}
       </Button> */}
     </div>
-  )
+  ),
 );
 
 StepNavigation.displayName = "StepNavigation";

@@ -2,14 +2,16 @@ import React from "react";
 import { Card, Button, Image, Spinner } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
-import { BusinessCardData, emptyBusinessCardData } from "../../../types/types";
+
+import { BusinessCardData } from "../../../types/types";
+
 import { extractBusinessCardData } from "@/config/api";
 
 export interface UploadImageStepProps {
   onImageUpload: (
     frontImage: string,
     backImage: string | null,
-    extractedData: BusinessCardData
+    extractedData: BusinessCardData,
   ) => void;
   isLoading: boolean;
   setIsLoading: (loading: boolean) => void;
@@ -33,15 +35,19 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
   const validateFile = (file: File): boolean => {
     // Validate file type
     const validTypes = ["image/jpeg", "image/jpg", "image/png"];
+
     if (!validTypes.includes(file.type)) {
       alert("Please select a valid image file (JPG, JPEG, or PNG)");
+
       return false;
     }
 
     // Validate file size (10MB limit)
     const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+
     if (file.size > maxSize) {
       alert("File size must be less than 10MB");
+
       return false;
     }
 
@@ -50,9 +56,10 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
 
   const handleFileChange = (
     event: React.ChangeEvent<HTMLInputElement>,
-    side: "front" | "back"
+    side: "front" | "back",
   ) => {
     const file = event.target.files?.[0];
+
     if (!file) return;
 
     if (!validateFile(file)) return;
@@ -64,8 +71,10 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
     }
 
     const reader = new FileReader();
+
     reader.onload = (e) => {
       const imageData = e.target?.result as string;
+
       if (side === "front") {
         setFrontImage(imageData);
       } else {
@@ -82,12 +91,13 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
 
   const handleDrop = (
     e: React.DragEvent<HTMLDivElement>,
-    side: "front" | "back"
+    side: "front" | "back",
   ) => {
     e.preventDefault();
     e.stopPropagation();
 
     const file = e.dataTransfer.files?.[0];
+
     if (!file) return;
 
     if (!validateFile(file)) return;
@@ -99,8 +109,10 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
     }
 
     const reader = new FileReader();
+
     reader.onload = (e) => {
       const imageData = e.target?.result as string;
+
       if (side === "front") {
         setFrontImage(imageData);
       } else {
@@ -119,7 +131,7 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
       // Call the OCR API with the front side image
       const extractedData = await extractBusinessCardData(
         frontFile,
-        backFile ?? undefined
+        backFile ?? undefined,
       );
 
       // Pass both images and the extracted data to parent component
@@ -182,19 +194,19 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
       <div className="flex flex-col gap-6 py-8">
         <input
           ref={frontInputRef}
-          type="file"
           accept="image/jpeg,image/jpg,image/png"
           capture="environment"
           className="hidden"
+          type="file"
           onChange={(e) => handleFileChange(e, "front")}
         />
 
         <input
           ref={backInputRef}
-          type="file"
           accept="image/jpeg,image/jpg,image/png"
           capture="environment"
           className="hidden"
+          type="file"
           onChange={(e) => handleFileChange(e, "back")}
         />
 
@@ -209,7 +221,7 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
                 </span>
                 <div
                   className={`w-2 h-2 rounded-full ${frontImage ? "bg-success-500" : "bg-danger-500"}`}
-                ></div>
+                />
               </div>
             </div>
 
@@ -217,27 +229,27 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
               className={cn(
                 "border-2 border-dashed border-default-300 p-4 text-center transition-colors",
                 "hover:border-secondary hover:bg-secondary-50 dark:hover:bg-secondary-900/10",
-                "cursor-pointer"
+                "cursor-pointer",
               )}
+              isPressable={!frontImage}
+              onClick={() => triggerFileInput("front")}
               onDragOver={handleDragOver}
               onDrop={(e) => handleDrop(e, "front")}
-              onClick={() => triggerFileInput("front")}
-              isPressable={!frontImage}
             >
               {frontImage ? (
                 <div className="flex flex-col items-center gap-4">
                   <div className="relative w-full">
                     <Image
-                      src={frontImage}
                       alt="Front side preview"
                       className="rounded-medium object-contain max-h-[200px] w-full"
+                      src={frontImage}
                     />
                     <Button
                       isIconOnly
-                      color="danger"
-                      variant="flat"
-                      size="sm"
                       className="absolute top-2 right-2"
+                      color="danger"
+                      size="sm"
+                      variant="flat"
                       onPress={() => removeImage("front")}
                     >
                       <Icon icon="lucide:x" width={16} />
@@ -248,8 +260,8 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
                 <div className="flex flex-col items-center gap-4 py-8">
                   <div className="rounded-full bg-secondary-100 p-3 dark:bg-secondary-900/30">
                     <Icon
-                      icon="lucide:upload"
                       className="h-6 w-6 text-secondary"
+                      icon="lucide:upload"
                     />
                   </div>
                   <div>
@@ -275,7 +287,7 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
                 </span>
                 <div
                   className={`w-2 h-2 rounded-full ${backImage ? "bg-success-500" : "bg-default-300"}`}
-                ></div>
+                />
               </div>
             </div>
 
@@ -283,27 +295,27 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
               className={cn(
                 "border-2 border-dashed border-default-300 p-4 text-center transition-colors",
                 "hover:border-secondary hover:bg-secondary-50 dark:hover:bg-secondary-900/10",
-                "cursor-pointer"
+                "cursor-pointer",
               )}
+              isPressable={!backImage}
+              onClick={() => triggerFileInput("back")}
               onDragOver={handleDragOver}
               onDrop={(e) => handleDrop(e, "back")}
-              onClick={() => triggerFileInput("back")}
-              isPressable={!backImage}
             >
               {backImage ? (
                 <div className="flex flex-col items-center gap-4">
                   <div className="relative w-full">
                     <Image
-                      src={backImage}
                       alt="Back side preview"
                       className="rounded-medium object-contain max-h-[200px] w-full"
+                      src={backImage}
                     />
                     <Button
                       isIconOnly
-                      color="danger"
-                      variant="flat"
-                      size="sm"
                       className="absolute top-2 right-2"
+                      color="danger"
+                      size="sm"
+                      variant="flat"
                       onPress={() => removeImage("back")}
                     >
                       <Icon icon="lucide:x" width={16} />
@@ -314,8 +326,8 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
                 <div className="flex flex-col items-center gap-4 py-8">
                   <div className="rounded-full bg-default-100 p-3 dark:bg-default-100/30">
                     <Icon
-                      icon="lucide:upload"
                       className="h-6 w-6 text-default-500"
+                      icon="lucide:upload"
                     />
                   </div>
                   <div>
@@ -334,12 +346,12 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
 
         <div className="flex flex-col gap-2 mt-4">
           <Button
-            color="secondary"
-            size="lg"
             className="mx-auto px-8"
-            onPress={handleUpload}
+            color="secondary"
             isDisabled={!frontImage || isLoading}
-            startContent={isLoading && <Spinner size="sm" color="current" />}
+            size="lg"
+            startContent={isLoading && <Spinner color="current" size="sm" />}
+            onPress={handleUpload}
           >
             {isLoading ? "Processing..." : "Extract Information"}
           </Button>

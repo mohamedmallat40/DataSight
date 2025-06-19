@@ -10,6 +10,7 @@ import {
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
+
 import {
   BusinessCardData,
   EnrichmentSource,
@@ -57,8 +58,8 @@ const EnrichDataStep: React.FC<EnrichDataStepProps> = ({
   const toggleSource = (id: string) => {
     setSources(
       sources.map((source) =>
-        source.id === id ? { ...source, selected: !source.selected } : source
-      )
+        source.id === id ? { ...source, selected: !source.selected } : source,
+      ),
     );
   };
 
@@ -121,8 +122,8 @@ const EnrichDataStep: React.FC<EnrichDataStepProps> = ({
   const toggleEnrichmentResult = (index: number) => {
     setEnrichmentResults(
       enrichmentResults.map((result, i) =>
-        i === index ? { ...result, selected: !result.selected } : result
-      )
+        i === index ? { ...result, selected: !result.selected } : result,
+      ),
     );
   };
 
@@ -154,7 +155,7 @@ const EnrichDataStep: React.FC<EnrichDataStepProps> = ({
         (result) =>
           result.value.toLowerCase().includes(searchQuery.toLowerCase()) ||
           result.field.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          result.source.toLowerCase().includes(searchQuery.toLowerCase())
+          result.source.toLowerCase().includes(searchQuery.toLowerCase()),
       )
     : enrichmentResults;
 
@@ -175,10 +176,10 @@ const EnrichDataStep: React.FC<EnrichDataStepProps> = ({
             {sources.map((source) => (
               <Chip
                 key={source.id}
-                variant={source.selected ? "flat" : "bordered"}
-                color={source.selected ? "secondary" : "default"}
-                startContent={<Icon icon={source.icon} className="text-lg" />}
                 className="cursor-pointer"
+                color={source.selected ? "secondary" : "default"}
+                startContent={<Icon className="text-lg" icon={source.icon} />}
+                variant={source.selected ? "flat" : "bordered"}
                 onClick={() => toggleSource(source.id)}
               >
                 {source.name}
@@ -188,12 +189,12 @@ const EnrichDataStep: React.FC<EnrichDataStepProps> = ({
 
           <div className="flex flex-col sm:flex-row gap-4 items-center">
             <Button
-              color="secondary"
-              size="lg"
               className="w-full sm:w-auto px-8"
-              onPress={startEnrichment}
+              color="secondary"
               isDisabled={isLoading || sources.every((s) => !s.selected)}
-              startContent={isLoading && <Spinner size="sm" color="current" />}
+              size="lg"
+              startContent={isLoading && <Spinner color="current" size="sm" />}
+              onPress={startEnrichment}
             >
               {isLoading ? "Searching..." : "Find Additional Information"}
             </Button>
@@ -212,15 +213,15 @@ const EnrichDataStep: React.FC<EnrichDataStepProps> = ({
               <h3 className="text-xl font-semibold">Enrichment Results</h3>
 
               <Input
+                isClearable
+                className="w-full sm:w-64"
                 placeholder="Filter results..."
+                size="sm"
                 startContent={
-                  <Icon icon="lucide:search" className="text-default-400" />
+                  <Icon className="text-default-400" icon="lucide:search" />
                 }
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full sm:w-64"
-                size="sm"
-                isClearable
               />
             </div>
 
@@ -239,13 +240,13 @@ const EnrichDataStep: React.FC<EnrichDataStepProps> = ({
                       "flex items-start gap-3 p-3 rounded-medium transition-colors",
                       result.selected
                         ? "bg-secondary-50 dark:bg-secondary-900/20"
-                        : "bg-content1"
+                        : "bg-content1",
                     )}
                   >
                     <Checkbox
+                      color="secondary"
                       isSelected={result.selected}
                       onValueChange={() => toggleEnrichmentResult(index)}
-                      color="secondary"
                     />
 
                     <div className="flex-1">
@@ -254,10 +255,10 @@ const EnrichDataStep: React.FC<EnrichDataStepProps> = ({
                           {result.field.replace("_", " ")}
                         </span>
                         <Chip
+                          className="w-fit"
+                          color="default"
                           size="sm"
                           variant="flat"
-                          color="default"
-                          className="w-fit"
                         >
                           {result.source}
                         </Chip>
@@ -274,8 +275,8 @@ const EnrichDataStep: React.FC<EnrichDataStepProps> = ({
             <div className="flex justify-end">
               <Button
                 color="secondary"
-                onPress={applySelectedEnrichments}
                 isDisabled={!enrichmentResults.some((r) => r.selected)}
+                onPress={applySelectedEnrichments}
               >
                 Apply Selected Changes
               </Button>

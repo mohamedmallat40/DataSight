@@ -5,17 +5,12 @@ import type { ColumnsKey, Users, Column } from "../../types/data";
 import type { Key } from "@react-types/shared";
 
 import {
-  Dropdown,
-  DropdownTrigger,
-  DropdownMenu,
-  DropdownItem,
   Table,
   TableHeader,
   TableColumn,
   TableBody,
   TableRow,
   TableCell,
-  Input,
   Button,
   Chip,
   User,
@@ -26,23 +21,23 @@ import {
   ModalBody,
   Skeleton,
 } from "@heroui/react";
+import React, { useMemo, useState, useEffect, useCallback } from "react";
 
 import { SearchIcon } from "@heroui/shared-icons";
 import React, { useMemo, useState, useEffect, useCallback, JSX } from "react";
-import { Icon } from "@iconify/react";
-import { cn } from "@heroui/react";
+
 
 import { CopyText } from "../../components/table/copy-text";
 import { EyeFilledIcon } from "../../components/table/eye";
 import { EditLinearIcon } from "../../components/table/edit";
 import { DeleteFilledIcon } from "../../components/table/delete";
-import { ArrowDownIcon } from "../../components/table/arrow-down";
-import { ArrowUpIcon } from "../../components/table/arrow-up";
-
 import { useMemoizedCallback } from "../../components/table/use-memoized-callback";
 import { columns, INITIAL_VISIBLE_COLUMNS } from "../../types/data";
-import apiClient from "@/config/api";
+
 import MultiStepWizard from "./add-card/multi-step-wizard";
+import UserDetailsDrawer from "../../components/user-details-drawer";
+
+import apiClient from "@/config/api";
 
 const getPrimary = (list?: string[]): string =>
   Array.isArray(list) && list.length > 0 ? list[0] : "N/A";
@@ -59,17 +54,21 @@ export default function Component(): JSX.Element {
   });
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set<Key>());
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
-    new Set<ColumnsKey>(INITIAL_VISIBLE_COLUMNS)
+    new Set<ColumnsKey>(INITIAL_VISIBLE_COLUMNS),
   );
   const [selectedUser, setSelectedUser] = useState<Users | null>(null);
 
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const {
+    isOpen: isDrawerOpen,
+    onOpen: onDrawerOpen,
+    onOpenChange: onDrawerOpenChange,
+  } = useDisclosure();
 
   const fetchUsers = useCallback(async (): Promise<void> => {
     setLoading(true);
     try {
       const { data } = await apiClient.get(`/card-info?page=${page}`);
-      console.log("API Response:", data); // Debug log
 
       if (data?.success && Array.isArray(data?.data)) {
         setUserList(data.data);
@@ -95,11 +94,10 @@ export default function Component(): JSX.Element {
   const headerColumns = useMemo((): Column[] => {
     if (visibleColumns === "all") return [...columns];
 
-    return columns
-      .map((col) =>
-        col.uid === sortDescriptor.column
-          ? { ...col, sortDirection: sortDescriptor.direction }
-          : col
+    return columns.map((item) =>
+        item.uid === sortDescriptor.column
+          ? { ...item, sortDirection: sortDescriptor.direction }
+          : item,
       )
       .filter((col) => (visibleColumns as Set<Key>).has(col.uid));
   }, [visibleColumns, sortDescriptor]);
@@ -116,6 +114,7 @@ export default function Component(): JSX.Element {
       }
 
       const cmp = first! < second! ? -1 : first! > second! ? 1 : 0;
+
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [userList, sortDescriptor]);
@@ -136,10 +135,10 @@ export default function Component(): JSX.Element {
     setSelectedKeys(keys);
   });
 
-  const handleViewDrawer = (user: Users) => {
+  const handleViewUser = useMemoizedCallback((user: Users) => {
     setSelectedUser(user);
-    onOpen();
-  };
+    onDrawerOpen();
+  });
 
   const renderCell = useMemoizedCallback(
     (user: Users, columnKey: Key): React.ReactNode => {
@@ -179,8 +178,10 @@ export default function Component(): JSX.Element {
           return (
             <User
               avatarProps={{ radius: "lg", name: user.full_name }}
+              description={
+                Array.isArray(user.email) ? (user.email[0] ?? "") : ""
+              }
               name={user.full_name}
-              description={getPrimary(user.email)}
             />
           );
         case "email":
@@ -193,7 +194,13 @@ export default function Component(): JSX.Element {
         case "actions":
           return (
             <div className="flex gap-2 justify-end">
-              <EyeFilledIcon className="text-default-400 cursor-pointer" />
+              <button
+                className="text-default-400 cursor-pointer hover:text-primary transition-colors p-1 rounded-small"
+                onClick={() => handleViewUser(user)}
+                aria-label={`View details for ${user.full_name}`}
+              >
+                <EyeFilledIcon />
+              </button>
               <EditLinearIcon className="text-default-400 cursor-pointer" />
               <DeleteFilledIcon className="text-default-400 cursor-pointer" />
             </div>
@@ -201,14 +208,16 @@ export default function Component(): JSX.Element {
         default:
           return user[key] ?? "N/A";
       }
-    }
+    },
   );
 
   const topBar = useMemo(
     () => (
       <div className="mb-[18px] flex items-center justify-between">
-        <div className="flex w-[226px] items-center gap-2">
-          <h1 className="text-2xl font-[700] leading-[32px]">Team Members</h1>
+        <div className="flex w-[280px] items-center gap-2">
+          <h1 className="text-2xl font-[700] leading-[32px] whitespace-nowrap">
+            Team Members
+          </h1>
           <Chip
             className="hidden items-center text-default-500 sm:flex"
             size="sm"
@@ -226,7 +235,7 @@ export default function Component(): JSX.Element {
         </Button>
       </div>
     ),
-    [totalItems]
+    [onOpen, userList.length],
   );
 
   const bottomContent = useMemo(
@@ -246,7 +255,7 @@ export default function Component(): JSX.Element {
         </span>
       </div>
     ),
-    [page, totalPages]
+    [page, totalPages],
   );
 
   // Create skeleton items for loading state that match Users type
@@ -349,10 +358,10 @@ export default function Component(): JSX.Element {
       </Table>
 
       <Modal
-        isOpen={isOpen}
         shouldBlockScroll
-        onOpenChange={onOpenChange}
         className="rounded-[16px]"
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
       >
         <ModalContent className="max-w-[1200px] rounded-[16px] p-0">
           <ModalBody className="p-0">
@@ -360,6 +369,12 @@ export default function Component(): JSX.Element {
           </ModalBody>
         </ModalContent>
       </Modal>
+
+      <UserDetailsDrawer
+        isOpen={isDrawerOpen}
+        onOpenChange={onDrawerOpenChange}
+        userData={selectedUser}
+      />
     </div>
   );
 }

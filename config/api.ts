@@ -18,7 +18,7 @@ apiClient.interceptors.request.use(
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response interceptor (optional - for handling common errors)
@@ -29,13 +29,15 @@ apiClient.interceptors.response.use(
   (error) => {
     // Handle common errors here
     console.error("API Error:", error.response?.data || error.message);
+
     return Promise.reject(error);
-  }
+  },
 );
 
 // OCR specific function
 export const extractBusinessCardData = async (front: File, back?: File) => {
   const formData = new FormData();
+
   formData.append("front", front);
   if (back) formData.append("back", back);
 

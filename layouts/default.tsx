@@ -10,9 +10,7 @@ export default function DefaultLayout({
   return (
     <div className="relative flex flex-col h-screen overflow-x-hidden">
       <Head />
-      <main className="container mx-auto max-w-7xl px-6 flex-grow pt-16">
-        {children}
-      </main>
+      <main className="mx-2.5 flex-grow pt-16">{children}</main>
       <footer className="w-full flex items-center justify-center py-3">
         <Link
           isExternal

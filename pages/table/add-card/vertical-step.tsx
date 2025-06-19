@@ -66,12 +66,12 @@ const VerticalSteps = React.forwardRef<HTMLButtonElement, VerticalStepsProps>(
       className,
       ...props
     },
-    ref
+    ref,
   ) => {
     const [currentStep, setCurrentStep] = useControlledState(
       currentStepProp,
       defaultStep,
-      onStepChange
+      onStepChange,
     );
 
     const colors = React.useMemo(() => {
@@ -123,7 +123,7 @@ const VerticalSteps = React.forwardRef<HTMLButtonElement, VerticalStepsProps>(
       if (!className?.includes("--step-color")) colorsVars.unshift(userColor);
       if (!className?.includes("--inactive-bar-color"))
         colorsVars.push(
-          "[--inactive-bar-color:hsl(var(--heroui-default-300))]"
+          "[--inactive-bar-color:hsl(var(--heroui-default-300))]",
         );
 
       return colorsVars;
@@ -149,7 +149,7 @@ const VerticalSteps = React.forwardRef<HTMLButtonElement, VerticalStepsProps>(
                     aria-current={status === "active" ? "step" : undefined}
                     className={cn(
                       "group flex w-full cursor-pointer items-center justify-center gap-4 rounded-large px-3 py-2.5",
-                      stepClassName
+                      stepClassName,
                     )}
                     onClick={() => setCurrentStep(stepIdx)}
                     {...props}
@@ -163,7 +163,7 @@ const VerticalSteps = React.forwardRef<HTMLButtonElement, VerticalStepsProps>(
                               "relative flex h-[34px] w-[34px] items-center justify-center rounded-full border-medium text-large font-semibold text-default-foreground",
                               {
                                 "shadow-lg": status === "complete",
-                              }
+                              },
                             )}
                             data-status={status}
                             initial={false}
@@ -204,7 +204,7 @@ const VerticalSteps = React.forwardRef<HTMLButtonElement, VerticalStepsProps>(
                             "text-medium font-medium text-default-foreground transition-[color,opacity] duration-300 group-active:opacity-70",
                             {
                               "text-default-500": status === "inactive",
-                            }
+                            },
                           )}
                         >
                           {step.title}
@@ -214,7 +214,7 @@ const VerticalSteps = React.forwardRef<HTMLButtonElement, VerticalStepsProps>(
                             "text-tiny text-default-600 transition-[color,opacity] duration-300 group-active:opacity-70 lg:text-small",
                             {
                               "text-default-500": status === "inactive",
-                            }
+                            },
                           )}
                         >
                           {step.description}
@@ -227,7 +227,7 @@ const VerticalSteps = React.forwardRef<HTMLButtonElement, VerticalStepsProps>(
                   <div
                     aria-hidden="true"
                     className={cn(
-                      "pointer-events-none absolute left-3 top-[calc(64px_*_var(--idx)_+_1)] flex h-1/2 -translate-y-1/3 items-center px-4"
+                      "pointer-events-none absolute left-3 top-[calc(64px_*_var(--idx)_+_1)] flex h-1/2 -translate-y-1/3 items-center px-4",
                     )}
                     style={
                       {
@@ -241,7 +241,7 @@ const VerticalSteps = React.forwardRef<HTMLButtonElement, VerticalStepsProps>(
                         "after:absolute after:block after:h-0 after:w-full after:bg-[var(--active-border-color)] after:transition-[height] after:duration-300 after:content-['']",
                         {
                           "after:h-full": stepIdx < currentStep,
-                        }
+                        },
                       )}
                     />
                   </div>
@@ -252,7 +252,7 @@ const VerticalSteps = React.forwardRef<HTMLButtonElement, VerticalStepsProps>(
         </ol>
       </nav>
     );
-  }
+  },
 );
 
 VerticalSteps.displayName = "VerticalSteps";
