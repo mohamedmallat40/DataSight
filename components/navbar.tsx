@@ -400,7 +400,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
                 <p className="text-tiny text-default-500">demo@example.com</p>
               </div>
               <Button isIconOnly size="sm" variant="light">
-                <Icon icon="solar:settings-linear" size={18} />
+                <Icon icon="solar:settings-linear" width={18} height={18} />
               </Button>
             </div>
           </div>
