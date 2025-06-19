@@ -205,19 +205,13 @@ Source: ${userData.source || 'N/A'}
                           {emails.map((email, index) => (
                             <div key={index} className="flex flex-col gap-0.5">
                               <Link
-                                <img
-                                  src={userData.card_image_url.startsWith('http')
-                                    ? userData.card_image_url
-                                    : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.card_image_url}`
-                                  }
-                                  alt="Business card"
-                                  className="w-full h-36 object-cover cursor-pointer transition-all duration-300 group-hover:scale-110"
-                                  onError={(e) => {
-                                    console.error('Gallery image failed to load:', userData.card_image_url);
-                                    e.currentTarget.src = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiB2aWV3Qm94PSIwIDAgMTIwIDk2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik00OCA0NEg3MlY0OEg0OFY0NEoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA<at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSI0NSIgeT0iNTgiPkltYWdlPC90ZXh0Pgo8L3N2Zz4K";
-                                  }}
-                                  onClick={() => handleImageClick(userData.card_image_url, "Business Card", "Business card image")}
-                                />
+                                isExternal
+                                showAnchorIcon
+                                href={`mailto:${email}`}
+                                className={`${index === 0 ? 'text-medium text-foreground font-medium' : 'text-small text-default-600'}`}
+                              >
+                                {email}
+                              </Link>
                         </div>
                       </div>
                     )}
