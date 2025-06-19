@@ -424,7 +424,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
                 variant="light"
                 onPress={() => setIsSearchOpen(false)}
               >
-                <Icon icon="solar:close-circle-linear" size={20} />
+                <Icon icon="solar:close-circle-linear" width={20} height={20} />
               </Button>
             </div>
           </motion.div>
