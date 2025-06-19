@@ -3,10 +3,7 @@ import { DefaultCircleSvg } from "../components/table/default-circle";
 import { SuccessCircleSvg } from "../components/table/success-cirecle";
 import { WarningCircleSvg } from "../components/table/warning-circle";
 
-// ===============================
-// 🟢 Status Options
-// ===============================
-
+// Status options
 export const statusOptions = [
   { name: "Active", uid: "active" },
   { name: "Inactive", uid: "inactive" },
@@ -16,6 +13,7 @@ export const statusOptions = [
 
 export type StatusOptions = (typeof statusOptions)[number]["name"];
 
+// Status to SVG mapping
 export const statusColorMap: Record<StatusOptions, JSX.Element> = {
   Active: <SuccessCircleSvg />,
   Inactive: <DefaultCircleSvg />,
@@ -23,9 +21,8 @@ export const statusColorMap: Record<StatusOptions, JSX.Element> = {
   Vacation: <WarningCircleSvg />,
 };
 
-// ===============================
-// 🟢 Team Types (optional)
-export type Teams =
+// Team types
+type Teams =
   | "Design"
   | "Product"
   | "Marketing"
@@ -34,18 +31,16 @@ export type Teams =
   | "Sales"
   | "Support"
   | "Other"
-  | (string & {}); // fallback for unknown team strings
+  | (string & {});
 
-// ===============================
-// 🟢 User Types
-// ===============================
-
+// Member structure
 export type MemberInfo = {
   avatar: string;
   email: string;
   name: string;
 };
 
+// User record structure
 export type Users = {
   id: string;
   full_name: string;
@@ -79,10 +74,7 @@ export type Users = {
   collected_at: string | null;
 };
 
-// ===============================
-// 🟢 Table Columns
-// ===============================
-
+// Column key types
 export type ColumnsKey =
   | "full_name"
   | "job_title"
@@ -94,6 +86,7 @@ export type ColumnsKey =
   | "date_collected"
   | "actions";
 
+// Initial visible columns
 export const INITIAL_VISIBLE_COLUMNS: ColumnsKey[] = [
   "full_name",
   "job_title",
@@ -104,20 +97,23 @@ export const INITIAL_VISIBLE_COLUMNS: ColumnsKey[] = [
   "actions",
 ];
 
-export const columns = [
-  { name: "Full Name", uid: "full_name", width: 250 },
-  { name: "Job Title", uid: "job_title", width: 200 },
-  { name: "Company", uid: "company_name", width: 200 },
+// Column definition type
+export interface ColumnDefinition {
+  name: string;
+  uid: ColumnsKey;
+  sortable?: boolean;
+  width?: number;
+}
+
+// Column definition
+export const columns: ColumnDefinition[] = [
+  { name: "Full Name", uid: "full_name" },
+  { name: "Job Title", uid: "job_title" },
+  { name: "Company", uid: "company_name" },
   { name: "Email", uid: "email" },
   { name: "Phone", uid: "phone_number" },
   { name: "Country", uid: "country" },
   { name: "Industry", uid: "industry" },
   { name: "Date Collected", uid: "date_collected" },
-  { name: "Actions", uid: "actions", isFixed: true },
-] as const;
-
-export type Column = (typeof columns)[number] & {
-  sortDirection?: "ascending" | "descending";
-  width?: number;
-  isFixed?: boolean;
-};
+  { name: "Actions", uid: "actions" },
+];
