@@ -809,6 +809,86 @@ Source: ${userData.source || "N/A"}
           </>
         )}
       </DrawerContent>
+
+      {/* Image Modal */}
+      <Modal
+        isOpen={isImageModalOpen}
+        onOpenChange={onImageModalOpenChange}
+        size="5xl"
+        backdrop="opaque"
+        classNames={{
+          backdrop: "bg-black/80",
+          base: "border-none bg-transparent shadow-none",
+          wrapper: "items-center justify-center",
+        }}
+      >
+        <ModalContent className="bg-transparent shadow-none">
+          {(onClose) => (
+            <>
+              <ModalHeader className="flex flex-col gap-1 bg-content1/90 backdrop-blur-md rounded-t-large">
+                <div className="flex items-center justify-between w-full">
+                  <div className="flex items-center gap-2">
+                    <Icon
+                      icon="lucide:image"
+                      className="text-primary"
+                      width={20}
+                      height={20}
+                    />
+                    <h3 className="text-lg font-semibold">
+                      {selectedImage?.title}
+                    </h3>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      isIconOnly
+                      variant="light"
+                      onPress={() =>
+                        selectedImage &&
+                        window.open(selectedImage.url, "_blank")
+                      }
+                      className="text-default-500"
+                    >
+                      <Icon
+                        icon="lucide:external-link"
+                        width={18}
+                        height={18}
+                      />
+                    </Button>
+                    <Button
+                      isIconOnly
+                      variant="light"
+                      onPress={onClose}
+                      className="text-default-500"
+                    >
+                      <Icon icon="lucide:x" width={20} height={20} />
+                    </Button>
+                  </div>
+                </div>
+              </ModalHeader>
+              <ModalBody className="p-0">
+                {selectedImage && (
+                  <div className="relative bg-content1 rounded-b-large overflow-hidden">
+                    <Image
+                      src={selectedImage.url}
+                      alt={selectedImage.alt}
+                      className="w-full max-h-[80vh] object-contain"
+                      classNames={{
+                        img: "rounded-none",
+                      }}
+                      fallbackSrc="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgdmlld0JveD0iMCAwIDQwMCAzMDAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iMzAwIiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik0xODAgMTQwSDIyMFYxNDBIMTgwVjE0MFoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA+IGZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDE2cHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSIxNjAiIHk9IjE4MCI+SW1hZ2UgTm90IEZvdW5kPC90ZXh0Pgo8L3N2Zz4K"
+                    />
+                    <div className="absolute bottom-4 right-4 bg-content1/80 backdrop-blur-sm rounded-small px-3 py-2">
+                      <p className="text-tiny text-default-600">
+                        Click outside or press ESC to close
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </ModalBody>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </Drawer>
   );
 }
