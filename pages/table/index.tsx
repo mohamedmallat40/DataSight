@@ -211,14 +211,41 @@ export default function Component(): JSX.Element {
     const resultKeys = new Set<Key>();
     const selected = selectedKeys as Set<string>;
 
-    for (const item of userList) {
+    for (const item of filteredItems) {
       if (selected.has(String(item.id))) {
         resultKeys.add(String(item.id));
       }
     }
 
     return resultKeys;
-  }, [selectedKeys, userList]);
+  }, [selectedKeys, filteredItems]);
+
+  // Search and filter functions
+  const onSearchChange = useMemoizedCallback((value?: string) => {
+    if (value) {
+      setFilterValue(value);
+      setPage(1);
+    } else {
+      setFilterValue("");
+    }
+  });
+
+  // Get unique values for filter options
+  const uniqueIndustries = useMemo(() => {
+    const industries = userList
+      .map((user) => user.industry)
+      .filter(Boolean)
+      .filter((value, index, self) => self.indexOf(value) === index);
+    return industries.sort();
+  }, [userList]);
+
+  const uniqueCountries = useMemo(() => {
+    const countries = userList
+      .map((user) => user.country)
+      .filter(Boolean)
+      .filter((value, index, self) => self.indexOf(value) === index);
+    return countries.sort();
+  }, [userList]);
 
   const onSelectionChange = useMemoizedCallback((keys: Selection) => {
     setSelectedKeys(keys);
