@@ -117,6 +117,11 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
       );
 
       if (response.status === 201) {
+        addToast({
+          title: "Success!",
+          description: "Contact information has been saved successfully",
+          color: "success",
+        });
         onNextStep();
       } else {
         addToast({
