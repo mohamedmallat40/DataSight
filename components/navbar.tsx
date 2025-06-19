@@ -80,29 +80,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
   };
 
   // Enhanced navigation items with icons and descriptions
-  const navigationItems: NavigationItem[] = [
-    {
-      label: t("navbar_services") || "Services",
-      href: "#services_id",
-      icon: "solar:code-square-bold-duotone",
-    },
-    {
-      label: t("navbar_technologies") || "Technologies",
-      href: "#technologies_id",
-      icon: "solar:atom-bold-duotone",
-    },
-    {
-      label: t("navbar_about") || "About",
-      href: "#footer_id",
-      icon: "solar:info-circle-bold-duotone",
-    },
-    {
-      label: "Contact",
-      href: "mailto:info@perla-it.com",
-      icon: "solar:letter-bold-duotone",
-      external: true,
-    },
-  ];
+  const navigationItems: NavigationItem[] = [];
 
   const searchInput = (
     <Input
