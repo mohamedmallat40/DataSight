@@ -47,7 +47,6 @@ interface NavigationItem {
 
 export const Navbar = ({ setLocale }: NavbarProps) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const { locale } = useLocale();
