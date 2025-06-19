@@ -369,164 +369,238 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               onChange={(e) => handleInputChange("country", e.target.value)}
             />
 
-            <div className="col-span-12 md:col-span-6">
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center justify-between">
-                  <label className="text-small font-medium text-default-700">
-                    Gender
-                  </label>
-                  {businessCardData.gender !== null && (
-                    <Chip
-                      size="sm"
-                      variant="flat"
-                      color={
-                        businessCardData.gender === true
-                          ? "primary"
-                          : "secondary"
-                      }
-                      startContent={
-                        <Icon
-                          icon={
-                            businessCardData.gender === true
-                              ? "lucide:male"
-                              : "lucide:female"
-                          }
-                          width={12}
-                        />
-                      }
-                    >
-                      {businessCardData.gender === true ? "Male" : "Female"}
-                    </Chip>
-                  )}
+            <div className="col-span-12">
+              <div className="flex flex-col gap-4">
+                <div className="flex items-center justify-center">
+                  <div className="flex items-center gap-3">
+                    <Icon
+                      icon="solar:user-id-linear"
+                      className="text-default-400"
+                      width={20}
+                    />
+                    <label className="text-base font-semibold text-default-700">
+                      Gender Identification
+                    </label>
+                    {businessCardData.gender !== null && (
+                      <Chip
+                        size="md"
+                        variant="shadow"
+                        color={
+                          businessCardData.gender === true
+                            ? "primary"
+                            : "secondary"
+                        }
+                        startContent={
+                          <Icon
+                            icon={
+                              businessCardData.gender === true
+                                ? "solar:men-linear"
+                                : "solar:women-linear"
+                            }
+                            width={14}
+                          />
+                        }
+                        className="ml-2"
+                      >
+                        {businessCardData.gender === true ? "Male" : "Female"}
+                      </Chip>
+                    )}
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                  {/* Male Option */}
-                  <Card
-                    isPressable
-                    isHoverable
-                    className={cn(
-                      "border-2 transition-all duration-200 cursor-pointer",
-                      businessCardData.gender === true
-                        ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20"
-                        : "border-default-200 hover:border-blue-300",
-                    )}
-                    onPress={() => handleGenderChange("male")}
-                  >
-                    <CardBody className="p-4">
-                      <div className="flex flex-col items-center gap-2 text-center">
-                        <div
-                          className={cn(
-                            "p-3 rounded-full transition-colors",
-                            businessCardData.gender === true
-                              ? "bg-blue-500 text-white"
-                              : "bg-blue-100 text-blue-600 dark:bg-blue-900/30",
-                          )}
-                        >
-                          <Icon icon="lucide:male" width={24} height={24} />
-                        </div>
-                        <div>
-                          <h4
-                            className={cn(
-                              "font-semibold text-sm",
-                              businessCardData.gender === true
-                                ? "text-blue-700 dark:text-blue-300"
-                                : "text-default-700",
+                <div className="flex items-center justify-center gap-8 px-4">
+                  {/* Male Option - Left Side */}
+                  <div className="flex-1 max-w-xs">
+                    <Card
+                      isPressable
+                      isHoverable
+                      className={cn(
+                        "border-2 transition-all duration-300 cursor-pointer transform hover:scale-105",
+                        businessCardData.gender === true
+                          ? "border-blue-500 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/20 shadow-lg shadow-blue-200/50"
+                          : "border-default-200 hover:border-blue-300 hover:bg-blue-50/30",
+                      )}
+                      onPress={() => handleGenderChange("male")}
+                    >
+                      <CardBody className="p-6">
+                        <div className="flex flex-col items-center gap-4 text-center">
+                          {/* Creative Male Icon */}
+                          <div className="relative">
+                            <div
+                              className={cn(
+                                "p-4 rounded-full transition-all duration-300",
+                                businessCardData.gender === true
+                                  ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-300/40"
+                                  : "bg-gradient-to-r from-blue-100 to-blue-200 text-blue-600 dark:from-blue-900/40 dark:to-blue-800/30",
+                              )}
+                            >
+                              <Icon
+                                icon="solar:men-bold"
+                                width={32}
+                                height={32}
+                              />
+                            </div>
+                            {businessCardData.gender === true && (
+                              <div className="absolute -top-1 -right-1 bg-green-500 text-white rounded-full p-1">
+                                <Icon
+                                  icon="solar:check-circle-bold"
+                                  width={16}
+                                />
+                              </div>
                             )}
-                          >
-                            Male
-                          </h4>
-                          <p className="text-xs text-default-500">
-                            Masculine identity
-                          </p>
-                        </div>
-                        {businessCardData.gender === true && (
-                          <Icon
-                            icon="lucide:check-circle"
-                            className="text-blue-500"
-                            width={16}
-                          />
-                        )}
-                      </div>
-                    </CardBody>
-                  </Card>
+                          </div>
 
-                  {/* Female Option */}
-                  <Card
-                    isPressable
-                    isHoverable
-                    className={cn(
-                      "border-2 transition-all duration-200 cursor-pointer",
-                      businessCardData.gender === false
-                        ? "border-pink-500 bg-pink-50 dark:bg-pink-900/20"
-                        : "border-default-200 hover:border-pink-300",
-                    )}
-                    onPress={() => handleGenderChange("female")}
-                  >
-                    <CardBody className="p-4">
-                      <div className="flex flex-col items-center gap-2 text-center">
-                        <div
-                          className={cn(
-                            "p-3 rounded-full transition-colors",
-                            businessCardData.gender === false
-                              ? "bg-pink-500 text-white"
-                              : "bg-pink-100 text-pink-600 dark:bg-pink-900/30",
+                          <div className="space-y-2">
+                            <h4
+                              className={cn(
+                                "font-bold text-lg",
+                                businessCardData.gender === true
+                                  ? "text-blue-700 dark:text-blue-300"
+                                  : "text-default-700",
+                              )}
+                            >
+                              Male
+                            </h4>
+                            <div className="flex items-center justify-center gap-2">
+                              <Icon
+                                icon="solar:user-bold"
+                                width={14}
+                                className="text-blue-500"
+                              />
+                              <p className="text-sm text-default-600">
+                                Masculine
+                              </p>
+                            </div>
+                          </div>
+
+                          {businessCardData.gender === true && (
+                            <div className="flex items-center gap-1 text-xs text-blue-600 font-medium">
+                              <Icon icon="solar:star-bold" width={12} />
+                              Selected
+                            </div>
                           )}
-                        >
-                          <Icon icon="lucide:female" width={24} height={24} />
                         </div>
-                        <div>
-                          <h4
-                            className={cn(
-                              "font-semibold text-sm",
-                              businessCardData.gender === false
-                                ? "text-pink-700 dark:text-pink-300"
-                                : "text-default-700",
+                      </CardBody>
+                    </Card>
+                  </div>
+
+                  {/* VS Separator */}
+                  <div className="flex flex-col items-center gap-2">
+                    <div className="w-px h-16 bg-gradient-to-b from-transparent via-default-300 to-transparent"></div>
+                    <div className="bg-default-100 rounded-full p-2">
+                      <Icon
+                        icon="solar:layers-minimalistic-linear"
+                        className="text-default-400"
+                        width={16}
+                      />
+                    </div>
+                    <div className="w-px h-16 bg-gradient-to-b from-transparent via-default-300 to-transparent"></div>
+                  </div>
+
+                  {/* Female Option - Right Side */}
+                  <div className="flex-1 max-w-xs">
+                    <Card
+                      isPressable
+                      isHoverable
+                      className={cn(
+                        "border-2 transition-all duration-300 cursor-pointer transform hover:scale-105",
+                        businessCardData.gender === false
+                          ? "border-pink-500 bg-gradient-to-br from-pink-50 to-rose-100 dark:from-pink-900/30 dark:to-rose-800/20 shadow-lg shadow-pink-200/50"
+                          : "border-default-200 hover:border-pink-300 hover:bg-pink-50/30",
+                      )}
+                      onPress={() => handleGenderChange("female")}
+                    >
+                      <CardBody className="p-6">
+                        <div className="flex flex-col items-center gap-4 text-center">
+                          {/* Creative Female Icon */}
+                          <div className="relative">
+                            <div
+                              className={cn(
+                                "p-4 rounded-full transition-all duration-300",
+                                businessCardData.gender === false
+                                  ? "bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-300/40"
+                                  : "bg-gradient-to-r from-pink-100 to-rose-200 text-pink-600 dark:from-pink-900/40 dark:to-rose-800/30",
+                              )}
+                            >
+                              <Icon
+                                icon="solar:women-bold"
+                                width={32}
+                                height={32}
+                              />
+                            </div>
+                            {businessCardData.gender === false && (
+                              <div className="absolute -top-1 -right-1 bg-green-500 text-white rounded-full p-1">
+                                <Icon
+                                  icon="solar:check-circle-bold"
+                                  width={16}
+                                />
+                              </div>
                             )}
-                          >
-                            Female
-                          </h4>
-                          <p className="text-xs text-default-500">
-                            Feminine identity
-                          </p>
+                          </div>
+
+                          <div className="space-y-2">
+                            <h4
+                              className={cn(
+                                "font-bold text-lg",
+                                businessCardData.gender === false
+                                  ? "text-pink-700 dark:text-pink-300"
+                                  : "text-default-700",
+                              )}
+                            >
+                              Female
+                            </h4>
+                            <div className="flex items-center justify-center gap-2">
+                              <Icon
+                                icon="solar:user-bold"
+                                width={14}
+                                className="text-pink-500"
+                              />
+                              <p className="text-sm text-default-600">
+                                Feminine
+                              </p>
+                            </div>
+                          </div>
+
+                          {businessCardData.gender === false && (
+                            <div className="flex items-center gap-1 text-xs text-pink-600 font-medium">
+                              <Icon icon="solar:star-bold" width={12} />
+                              Selected
+                            </div>
+                          )}
                         </div>
-                        {businessCardData.gender === false && (
-                          <Icon
-                            icon="lucide:check-circle"
-                            className="text-pink-500"
-                            width={16}
-                          />
-                        )}
-                      </div>
-                    </CardBody>
-                  </Card>
+                      </CardBody>
+                    </Card>
+                  </div>
                 </div>
 
                 {/* Clear Selection Option */}
                 {businessCardData.gender !== null && (
-                  <Button
-                    size="sm"
-                    variant="light"
-                    color="default"
-                    startContent={<Icon icon="lucide:x" width={14} />}
-                    onPress={() => handleGenderChange("unknown")}
-                    className="self-start"
-                  >
-                    Clear Selection
-                  </Button>
+                  <div className="flex justify-center">
+                    <Button
+                      size="sm"
+                      variant="bordered"
+                      color="default"
+                      startContent={
+                        <Icon icon="solar:restart-linear" width={16} />
+                      }
+                      onPress={() => handleGenderChange("unknown")}
+                      className="hover:bg-default-100"
+                    >
+                      Reset Selection
+                    </Button>
+                  </div>
                 )}
 
                 {/* Additional Context */}
-                <div className="flex items-center gap-2 text-xs text-default-500 mt-1">
-                  <Icon icon="lucide:info" width={12} />
+                <div className="flex items-center justify-center gap-2 text-xs text-default-500 bg-default-50 rounded-lg p-3">
+                  <Icon icon="solar:info-circle-linear" width={16} />
                   <span>
-                    This information helps with personalized communication and
-                    analytics
+                    This helps us provide personalized communication and better
+                    analytics insights
                   </span>
                 </div>
               </div>
             </div>
-
             <Textarea
               className="col-span-12"
               label="Notes"
