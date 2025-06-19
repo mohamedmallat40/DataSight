@@ -588,45 +588,89 @@ Source: ${userData.source || "N/A"}
                     <CardBody className="pt-0">
                       <div className="flex flex-wrap gap-3">
                         {userData.card_image_url && (
-                          <div className="flex-1 min-w-[120px]">
+                          <div className="flex-1 min-w-[140px]">
                             <p className="text-tiny text-default-400 mb-2">
                               Card Image
                             </p>
                             <Image
-                              src={userData.card_image_url}
+                              src={
+                                userData.card_image_url.startsWith("http")
+                                  ? userData.card_image_url
+                                  : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.card_image_url}`
+                              }
                               alt="Business card"
-                              className="w-full h-24 object-cover rounded-small"
-                              fallbackSrc="/api/placeholder/120/96"
+                              className="w-full h-28 object-cover rounded-small border border-default-200 cursor-pointer hover:scale-105 transition-transform"
+                              fallbackSrc="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiB2aWV3Qm94PSIwIDAgMTIwIDk2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik00OCA0NEg3MlY0OEg0OFY0NFoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA8at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSI0NSIgeT0iNTgiPkltYWdlPC90ZXh0Pgo8L3N2Zz4K"
+                              onClick={() =>
+                                window.open(
+                                  userData.card_image_url.startsWith("http")
+                                    ? userData.card_image_url
+                                    : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.card_image_url}`,
+                                  "_blank",
+                                )
+                              }
                             />
                           </div>
                         )}
                         {userData.front_image_link && (
-                          <div className="flex-1 min-w-[120px]">
+                          <div className="flex-1 min-w-[140px]">
                             <p className="text-tiny text-default-400 mb-2">
-                              Front
+                              Front Side
                             </p>
                             <Image
-                              src={userData.front_image_link}
-                              alt="Business card front"
-                              className="w-full h-24 object-cover rounded-small"
-                              fallbackSrc="/api/placeholder/120/96"
+                              src={
+                                userData.front_image_link.startsWith("http")
+                                  ? userData.front_image_link
+                                  : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.front_image_link}`
+                              }
+                              alt="Business card front side"
+                              className="w-full h-28 object-cover rounded-small border border-default-200 cursor-pointer hover:scale-105 transition-transform"
+                              fallbackSrc="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiB2aWV3Qm94PSIwIDAgMTIwIDk2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik00OCA0NEg3MlY0OEg0OFY0NFoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA8at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSI0NSIgeT0iNTgiPkZyb250PC90ZXh0Pgo8L3N2Zz4K"
+                              onClick={() =>
+                                window.open(
+                                  userData.front_image_link.startsWith("http")
+                                    ? userData.front_image_link
+                                    : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.front_image_link}`,
+                                  "_blank",
+                                )
+                              }
                             />
                           </div>
                         )}
                         {userData.back_image_link && (
-                          <div className="flex-1 min-w-[120px]">
+                          <div className="flex-1 min-w-[140px]">
                             <p className="text-tiny text-default-400 mb-2">
-                              Back
+                              Back Side
                             </p>
                             <Image
-                              src={userData.back_image_link}
-                              alt="Business card back"
-                              className="w-full h-24 object-cover rounded-small"
-                              fallbackSrc="/api/placeholder/120/96"
+                              src={
+                                userData.back_image_link.startsWith("http")
+                                  ? userData.back_image_link
+                                  : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.back_image_link}`
+                              }
+                              alt="Business card back side"
+                              className="w-full h-28 object-cover rounded-small border border-default-200 cursor-pointer hover:scale-105 transition-transform"
+                              fallbackSrc="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiB2aWV3Qm94PSIwIDAgMTIwIDk2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik00OCA0NEg3MlY0OEg0OFY0NFoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA8at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSI0NSIgeT0iNTgiPkJhY2s8L3RleHQ+Cjwvc3ZnPgo="
+                              onClick={() =>
+                                window.open(
+                                  userData.back_image_link.startsWith("http")
+                                    ? userData.back_image_link
+                                    : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.back_image_link}`,
+                                  "_blank",
+                                )
+                              }
                             />
                           </div>
                         )}
                       </div>
+                      {(userData.front_image_link ||
+                        userData.back_image_link ||
+                        userData.card_image_url) && (
+                        <p className="text-tiny text-default-400 mt-2 flex items-center gap-1">
+                          <Icon icon="lucide:info" width={12} height={12} />
+                          Click on any image to view in full size
+                        </p>
+                      )}
                     </CardBody>
                   </Card>
                 )}
