@@ -80,7 +80,13 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
   };
 
   // Enhanced navigation items with icons and descriptions
-  const navigationItems: NavigationItem[] = [];
+  const navigationItems: NavigationItem[] = [
+    {
+      label: "Statistics",
+      href: "/statistics",
+      icon: "solar:chart-line-up-linear",
+    },
+  ];
 
   const searchInput = (
     <Input
