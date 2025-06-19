@@ -293,7 +293,7 @@ export default function Component(): JSX.Element {
     });
   }, [items, sortDescriptor]);
 
-  const filterSelectedKeys = useMemo(() => {
+  const filterSelectedKeys = useMemo((): Selection => {
     if (selectedKeys === "all") return selectedKeys;
 
     const resultKeys = new Set<Key>();
@@ -308,38 +308,37 @@ export default function Component(): JSX.Element {
     return resultKeys;
   }, [selectedKeys, filteredItems]);
 
-  // Search and filter functions
-  const onSearchChange = useMemoizedCallback((value?: string) => {
-    if (value) {
-      setFilterValue(value);
-      setPage(1);
-    } else {
-      setFilterValue("");
+  // Search and filter functions with proper typing
+  const onSearchChange = useMemoizedCallback((value?: string): void => {
+    const searchValue = value?.trim() || "";
+    setFilterValue(searchValue);
+    if (searchValue !== filterValue) {
+      setPage(1); // Reset to first page when search changes
     }
   });
 
-  // Get unique values for filter options
-  const uniqueIndustries = useMemo(() => {
+  // Get unique values for filter options with type safety
+  const uniqueIndustries = useMemo((): string[] => {
     const industries = userList
-      .map((user) => user.industry)
-      .filter(Boolean)
+      .map((user: Users) => user.industry)
+      .filter((industry): industry is string => Boolean(industry))
       .filter((value, index, self) => self.indexOf(value) === index);
     return industries.sort();
   }, [userList]);
 
-  const uniqueCountries = useMemo(() => {
+  const uniqueCountries = useMemo((): string[] => {
     const countries = userList
-      .map((user) => user.country)
-      .filter(Boolean)
+      .map((user: Users) => user.country)
+      .filter((country): country is string => Boolean(country))
       .filter((value, index, self) => self.indexOf(value) === index);
     return countries.sort();
   }, [userList]);
 
-  const onSelectionChange = useMemoizedCallback((keys: Selection) => {
+  const onSelectionChange = useMemoizedCallback((keys: Selection): void => {
     setSelectedKeys(keys);
   });
 
-  const handleViewUser = useMemoizedCallback((user: Users) => {
+  const handleViewUser = useMemoizedCallback((user: Users): void => {
     setSelectedUser(user);
     onDrawerOpen();
   });
