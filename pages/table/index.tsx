@@ -160,7 +160,7 @@ export default function Component(): JSX.Element {
           );
         case "job_title":
           return (
-            <div className="flex flex-col gap-0.5 min-w-0">
+            <div className="flex flex-col gap-0.5 min-w-0 max-w-[120px]">
               <p
                 className="text-small font-medium text-default-700 truncate"
                 title={user.job_title}
