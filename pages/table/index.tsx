@@ -661,9 +661,11 @@ export default function Component(): JSX.Element {
       {topBar}
       <Table
         isHeaderSticky
-        aria-label="Enhanced table with improved contact display"
+        aria-label="Enhanced table with improved contact display and filters"
         bottomContent={bottomContent}
         bottomContentPlacement="outside"
+        topContent={topContent}
+        topContentPlacement="outside"
         classNames={{
           td: "before:bg-transparent py-3",
           wrapper: "min-h-[400px]",
@@ -672,7 +674,6 @@ export default function Component(): JSX.Element {
         selectedKeys={filterSelectedKeys}
         selectionMode="multiple"
         sortDescriptor={sortDescriptor}
-        topContentPlacement="outside"
         onSelectionChange={onSelectionChange}
         onSortChange={setSortDescriptor}
       >
