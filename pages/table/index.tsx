@@ -1,7 +1,7 @@
 "use client";
 
 import type { Selection, SortDescriptor } from "@heroui/react";
-import type { ColumnsKey, Users } from "../../types/data";
+import type { ColumnsKey, Users, ColumnDefinition } from "../../types/data";
 import type { Key } from "@react-types/shared";
 
 import {
@@ -78,6 +78,10 @@ export default function Component(): JSX.Element {
     onOpenChange: onDrawerOpenChange,
   } = useDisclosure();
   
+  useEffect(() => {
+    fetchUsers();
+  }, [page]);
+
   useEffect(() => {
     fetchUsers();
   }, [page]);
@@ -431,7 +435,7 @@ export default function Component(): JSX.Element {
                     >
                       <Radio value="all">All Industries</Radio>
                       {uniqueIndustries.slice(0, 5).map((industry) => (
-                        <Radio key={industry} value={industry}>
+                        <Radio key={industry} value={industry || ""}>
                           {industry}
                         </Radio>
                       ))}
@@ -444,7 +448,7 @@ export default function Component(): JSX.Element {
                     >
                       <Radio value="all">All Countries</Radio>
                       {uniqueCountries.slice(0, 5).map((country) => (
-                        <Radio key={country} value={country}>
+                        <Radio key={country} value={country || ""}>
                           {country}
                         </Radio>
                       ))}
@@ -616,7 +620,7 @@ export default function Component(): JSX.Element {
         </Button>
       </div>
     ),
-    [onOpen, filteredItems.length],
+    [onOpen, filteredItems.length]);
 
   const bottomContent = useMemo(
     () => (
@@ -676,7 +680,7 @@ export default function Component(): JSX.Element {
         onSortChange={setSortDescriptor}
       >
         <TableHeader columns={headerColumns}>
-          {(column: any) => (
+          {(column) => (
             <TableColumn
               key={column.uid}
               align={column.uid === "actions" ? "end" : "start"}
