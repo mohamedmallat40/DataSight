@@ -646,103 +646,284 @@ Source: ${userData.source || "N/A"}
                 {(userData.card_image_url ||
                   userData.front_image_link ||
                   userData.back_image_link) && (
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <div className="flex items-center gap-2">
-                        <Icon
-                          icon="lucide:image"
-                          className="text-primary"
-                          width={20}
-                          height={20}
-                        />
-                        <h3 className="text-lg font-semibold">
-                          Business Card Images
-                        </h3>
+                  <Card className="overflow-hidden">
+                    <CardHeader className="pb-3 bg-gradient-to-r from-primary-50 to-secondary-50">
+                      <div className="flex items-center justify-between w-full">
+                        <div className="flex items-center gap-2">
+                          <div className="bg-primary/10 p-2 rounded-full">
+                            <Icon
+                              icon="lucide:images"
+                              className="text-primary"
+                              width={20}
+                              height={20}
+                            />
+                          </div>
+                          <div>
+                            <h3 className="text-lg font-semibold">
+                              Business Card Gallery
+                            </h3>
+                            <p className="text-tiny text-default-500">
+                              {
+                                [
+                                  userData.card_image_url,
+                                  userData.front_image_link,
+                                  userData.back_image_link,
+                                ].filter(Boolean).length
+                              }{" "}
+                              image(s) available
+                            </p>
+                          </div>
+                        </div>
+                        <Chip
+                          size="sm"
+                          variant="flat"
+                          color="primary"
+                          startContent={<Icon icon="lucide:image" width={14} />}
+                        >
+                          High Quality
+                        </Chip>
                       </div>
                     </CardHeader>
-                    <CardBody className="pt-0">
-                      <div className="flex flex-wrap gap-3">
+                    <CardBody className="pt-4">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         {userData.card_image_url && (
-                          <div className="flex-1 min-w-[140px]">
-                            <p className="text-tiny text-default-400 mb-2">
-                              Card Image
-                            </p>
-                            <Image
-                              src={
-                                userData.card_image_url.startsWith("http")
-                                  ? userData.card_image_url
-                                  : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.card_image_url}`
-                              }
-                              alt="Business card"
-                              className="w-full h-28 object-cover rounded-small border border-default-200 cursor-pointer hover:scale-105 transition-transform hover:shadow-lg"
-                              fallbackSrc="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiB2aWV3Qm94PSIwIDAgMTIwIDk2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik00OCA0NEg3MlY0OEg0OFY0NEoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA8at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSI0NSIgeT0iNTgiPkltYWdlPC90ZXh0Pgo8L3N2Zz4K"
-                              onClick={() =>
-                                handleImageClick(
-                                  userData.card_image_url,
-                                  "Business Card",
-                                  "Business card image",
-                                )
-                              }
-                            />
+                          <div className="group relative">
+                            <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-gray-100 to-gray-200 p-1">
+                              <div className="relative overflow-hidden rounded-lg bg-white">
+                                <Image
+                                  src={
+                                    userData.card_image_url.startsWith("http")
+                                      ? userData.card_image_url
+                                      : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.card_image_url}`
+                                  }
+                                  alt="Business card"
+                                  className="w-full h-36 object-cover cursor-pointer transition-all duration-300 group-hover:scale-110"
+                                  fallbackSrc="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiB2aWV3Qm94PSIwIDAgMTIwIDk2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik00OCA0NEg3MlY0OEg0OFY0NEoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA<at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSI0NSIgeT0iNTgiPkltYWdlPC90ZXh0Pgo8L3N2Zz4K"
+                                  onClick={() =>
+                                    handleImageClick(
+                                      userData.card_image_url,
+                                      "Business Card",
+                                      "Business card image",
+                                    )
+                                  }
+                                />
+
+                                {/* Overlay */}
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                  <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                                    <Icon
+                                      icon="lucide:zoom-in"
+                                      className="text-gray-700"
+                                      width={20}
+                                      height={20}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Label */}
+                            <div className="mt-3 text-center">
+                              <div className="flex items-center justify-center gap-2 mb-1">
+                                <Icon
+                                  icon="lucide:credit-card"
+                                  className="text-primary"
+                                  width={16}
+                                  height={16}
+                                />
+                                <p className="text-small font-medium text-foreground">
+                                  Business Card
+                                </p>
+                              </div>
+                              <p className="text-tiny text-default-400">
+                                Full card image
+                              </p>
+                            </div>
                           </div>
                         )}
+
                         {userData.front_image_link && (
-                          <div className="flex-1 min-w-[140px]">
-                            <p className="text-tiny text-default-400 mb-2">
-                              Front Side
-                            </p>
-                            <Image
-                              src={
-                                userData.front_image_link.startsWith("http")
-                                  ? userData.front_image_link
-                                  : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.front_image_link}`
-                              }
-                              alt="Business card front side"
-                              className="w-full h-28 object-cover rounded-small border border-default-200 cursor-pointer hover:scale-105 transition-transform hover:shadow-lg"
-                              fallbackSrc="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiB2aWV3Qm94PSIwIDAgMTIwIDk2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik00OCA0NEg3MlY0OEg0OFY0NEoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA8at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSI0NSIgeT0iNTgiPkZyb250PC90ZXh0Pgo8L3N2Zz4K"
-                              onClick={() =>
-                                handleImageClick(
-                                  userData.front_image_link,
-                                  "Business Card - Front",
-                                  "Business card front side",
-                                )
-                              }
-                            />
+                          <div className="group relative">
+                            <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-blue-100 to-blue-200 p-1">
+                              <div className="relative overflow-hidden rounded-lg bg-white">
+                                <Image
+                                  src={
+                                    userData.front_image_link.startsWith("http")
+                                      ? userData.front_image_link
+                                      : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.front_image_link}`
+                                  }
+                                  alt="Business card front side"
+                                  className="w-full h-36 object-cover cursor-pointer transition-all duration-300 group-hover:scale-110"
+                                  fallbackSrc="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiB2aWV3Qm94PSIwIDAgMTIwIDk2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik00OCA0NEg3MlY0OEg0OFY0NEoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA<at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSI0NSIgeT0iNTgiPkZyb250PC90ZXh0Pgo8L3N2Zz4K"
+                                  onClick={() =>
+                                    handleImageClick(
+                                      userData.front_image_link,
+                                      "Business Card - Front",
+                                      "Business card front side",
+                                    )
+                                  }
+                                />
+
+                                {/* Overlay */}
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                  <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                                    <Icon
+                                      icon="lucide:zoom-in"
+                                      className="text-gray-700"
+                                      width={20}
+                                      height={20}
+                                    />
+                                  </div>
+                                </div>
+
+                                {/* Front Badge */}
+                                <div className="absolute top-2 left-2">
+                                  <Chip
+                                    size="sm"
+                                    color="primary"
+                                    variant="flat"
+                                    className="text-tiny"
+                                  >
+                                    Front
+                                  </Chip>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Label */}
+                            <div className="mt-3 text-center">
+                              <div className="flex items-center justify-center gap-2 mb-1">
+                                <Icon
+                                  icon="lucide:square-user"
+                                  className="text-blue-600"
+                                  width={16}
+                                  height={16}
+                                />
+                                <p className="text-small font-medium text-foreground">
+                                  Front Side
+                                </p>
+                              </div>
+                              <p className="text-tiny text-default-400">
+                                Contact information
+                              </p>
+                            </div>
                           </div>
                         )}
+
                         {userData.back_image_link && (
-                          <div className="flex-1 min-w-[140px]">
-                            <p className="text-tiny text-default-400 mb-2">
-                              Back Side
-                            </p>
-                            <Image
-                              src={
-                                userData.back_image_link.startsWith("http")
-                                  ? userData.back_image_link
-                                  : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.back_image_link}`
-                              }
-                              alt="Business card back side"
-                              className="w-full h-28 object-cover rounded-small border border-default-200 cursor-pointer hover:scale-105 transition-transform hover:shadow-lg"
-                              fallbackSrc="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiB2aWV3Qm94PSIwIDAgMTIwIDk2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik00OCA0NEg3MlY0OEg0OFY0NEoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA8at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSI0NSIgeT0iNTgiPkJhY2s8L3RleHQ+Cjwvc3ZnPgo="
-                              onClick={() =>
-                                handleImageClick(
-                                  userData.back_image_link,
-                                  "Business Card - Back",
-                                  "Business card back side",
-                                )
-                              }
-                            />
+                          <div className="group relative">
+                            <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-green-100 to-green-200 p-1">
+                              <div className="relative overflow-hidden rounded-lg bg-white">
+                                <Image
+                                  src={
+                                    userData.back_image_link.startsWith("http")
+                                      ? userData.back_image_link
+                                      : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.back_image_link}`
+                                  }
+                                  alt="Business card back side"
+                                  className="w-full h-36 object-cover cursor-pointer transition-all duration-300 group-hover:scale-110"
+                                  fallbackSrc="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiB2aWV3Qm94PSIwIDAgMTIwIDk2IiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8cmVjdCB3aWR0aD0iMTIwIiBoZWlnaHQ9Ijk2IiBmaWxsPSIjRjRGNEY1Ii8+CjxwYXRoIGQ9Ik00OCA0NEg3MlY0OEg0OFY0NEoiIGZpbGw9IiM5Q0E4QjQiLz4KPHA<at0gc3R5bGU9ImZvbnQtZmFtaWx5OiBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEycHg7IGZpbGw6ICM5Q0E4QjQ7IiB4PSI0NSIgeT0iNTgiPkJhY2s8L3RleHQ+Cjwvc3ZnPgo="
+                                  onClick={() =>
+                                    handleImageClick(
+                                      userData.back_image_link,
+                                      "Business Card - Back",
+                                      "Business card back side",
+                                    )
+                                  }
+                                />
+
+                                {/* Overlay */}
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                  <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 transform scale-75 group-hover:scale-100 transition-transform duration-300">
+                                    <Icon
+                                      icon="lucide:zoom-in"
+                                      className="text-gray-700"
+                                      width={20}
+                                      height={20}
+                                    />
+                                  </div>
+                                </div>
+
+                                {/* Back Badge */}
+                                <div className="absolute top-2 left-2">
+                                  <Chip
+                                    size="sm"
+                                    color="success"
+                                    variant="flat"
+                                    className="text-tiny"
+                                  >
+                                    Back
+                                  </Chip>
+                                </div>
+                              </div>
+                            </div>
+
+                            {/* Label */}
+                            <div className="mt-3 text-center">
+                              <div className="flex items-center justify-center gap-2 mb-1">
+                                <Icon
+                                  icon="lucide:flip-horizontal"
+                                  className="text-green-600"
+                                  width={16}
+                                  height={16}
+                                />
+                                <p className="text-small font-medium text-foreground">
+                                  Back Side
+                                </p>
+                              </div>
+                              <p className="text-tiny text-default-400">
+                                Additional information
+                              </p>
+                            </div>
                           </div>
                         )}
                       </div>
-                      {(userData.front_image_link ||
-                        userData.back_image_link ||
-                        userData.card_image_url) && (
-                        <p className="text-tiny text-default-400 mt-2 flex items-center gap-1">
-                          <Icon icon="lucide:info" width={12} height={12} />
-                          Click on any image to view in full size
-                        </p>
-                      )}
+
+                      {/* Enhanced Info Section */}
+                      <div className="mt-6 p-4 bg-gradient-to-r from-default-50 to-primary-50 rounded-xl border border-default-200">
+                        <div className="flex items-start gap-3">
+                          <div className="bg-primary/10 p-2 rounded-full flex-shrink-0">
+                            <Icon
+                              icon="lucide:info"
+                              className="text-primary"
+                              width={16}
+                              height={16}
+                            />
+                          </div>
+                          <div className="flex-1">
+                            <h4 className="text-small font-semibold text-foreground mb-1">
+                              Image Gallery Tips
+                            </h4>
+                            <div className="space-y-1 text-tiny text-default-600">
+                              <p className="flex items-center gap-2">
+                                <Icon
+                                  icon="lucide:mouse-pointer-click"
+                                  width={12}
+                                  height={12}
+                                />
+                                Click any image to view in full-screen mode
+                              </p>
+                              <p className="flex items-center gap-2">
+                                <Icon
+                                  icon="lucide:zoom-in"
+                                  width={12}
+                                  height={12}
+                                />
+                                Hover over images for zoom preview
+                              </p>
+                              <p className="flex items-center gap-2">
+                                <Icon
+                                  icon="lucide:download"
+                                  width={12}
+                                  height={12}
+                                />
+                                Use the external link button to download
+                                original
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </CardBody>
                   </Card>
                 )}
