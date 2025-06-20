@@ -369,6 +369,16 @@ export default function ContactsPage(): JSX.Element {
 
       switch (userKey) {
         case "full_name":
+          const fullNameWithHighlight = filterValue ? (
+            <HighlightedText
+              text={user.full_name || "N/A"}
+              searchTerm={filterValue}
+              highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
+            />
+          ) : (
+            user.full_name || "N/A"
+          );
+
           return (
             <User
               avatarProps={{
@@ -377,7 +387,7 @@ export default function ContactsPage(): JSX.Element {
                 showFallback: true,
               }}
               description={user.job_title || user.company_name || ""}
-              name={user.full_name || "N/A"}
+              name={fullNameWithHighlight}
               classNames={{
                 wrapper: "min-w-0",
                 description: "truncate max-w-[200px]",
