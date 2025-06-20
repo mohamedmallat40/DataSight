@@ -44,6 +44,7 @@ import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
 
+import { CountryFlag } from "../../components/CountryFlag";
 import { CopyText } from "../../components/table/copy-text";
 import { EmailList } from "../../components/table/email-list";
 import { PhoneList } from "../../components/table/phone-list";
@@ -99,7 +100,7 @@ export default function Component(): JSX.Element {
   });
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set<Key>());
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
-    new Set<ColumnsKey>(INITIAL_VISIBLE_COLUMNS)
+    new Set<ColumnsKey>(INITIAL_VISIBLE_COLUMNS),
   );
   const [selectedUser, setSelectedUser] = useState<Users | null>(null);
 
@@ -129,7 +130,7 @@ export default function Component(): JSX.Element {
     setLoading(true);
     try {
       const response = await apiClient.get<ApiResponse<Users[]>>(
-        `/card-info?page=${page}`
+        `/card-info?page=${page}`,
       );
       const { data } = response;
 
@@ -161,7 +162,7 @@ export default function Component(): JSX.Element {
                 | "ascending"
                 | "descending",
             }
-          : item
+          : item,
       );
     }
 
@@ -175,7 +176,7 @@ export default function Component(): JSX.Element {
                   | "ascending"
                   | "descending",
               }
-            : item
+            : item,
       )
       .filter((column) => (visibleColumns as Set<Key>).has(column.uid));
   }, [visibleColumns, sortDescriptor]);
@@ -216,7 +217,7 @@ export default function Component(): JSX.Element {
         }
 
         const daysDiff = Math.floor(
-          (now.getTime() - userDate.getTime()) / (1000 * 60 * 60 * 24)
+          (now.getTime() - userDate.getTime()) / (1000 * 60 * 60 * 24),
         );
 
         switch (dateFilter) {
@@ -233,7 +234,7 @@ export default function Component(): JSX.Element {
 
       return true;
     },
-    [industryFilter, countryFilter, dateFilter]
+    [industryFilter, countryFilter, dateFilter],
   );
 
   const filteredItems = useMemo((): Users[] => {
@@ -429,15 +430,22 @@ export default function Component(): JSX.Element {
         case "country":
           return (
             <div className="flex flex-col gap-0.5 min-w-0">
-              <p
-                className="text-small font-medium text-default-700 truncate"
-                title={user.country || "No country"}
-              >
-                {user.country || "N/A"}
-              </p>
+              <div className="flex items-center gap-2">
+                <CountryFlag
+                  countryCode={user.country_code}
+                  size="sm"
+                  showFallback={false}
+                />
+                <p
+                  className="text-small font-medium text-default-700 truncate"
+                  title={user.country || "No country"}
+                >
+                  {user.country || "N/A"}
+                </p>
+              </div>
               {user.city && (
                 <p
-                  className="text-tiny text-default-500 truncate"
+                  className="text-tiny text-default-500 truncate ml-7"
                   title={user.city}
                 >
                   {user.city}
@@ -511,7 +519,7 @@ export default function Component(): JSX.Element {
             </p>
           );
       }
-    }
+    },
   );
 
   const topContent = useMemo(() => {
@@ -610,7 +618,7 @@ export default function Component(): JSX.Element {
                 <DropdownMenu
                   aria-label="Sort"
                   items={headerColumns.filter(
-                    (c) => !["actions"].includes(c.uid)
+                    (c) => !["actions"].includes(c.uid),
                   )}
                 >
                   {(item: ExtendedColumnDefinition) => (
@@ -742,7 +750,7 @@ export default function Component(): JSX.Element {
         </Button>
       </div>
     ),
-    [onOpen, filteredItems.length]
+    [onOpen, filteredItems.length],
   );
 
   const bottomContent = useMemo(
@@ -778,7 +786,7 @@ export default function Component(): JSX.Element {
       filteredItems.length,
       userList.length,
       filterValue,
-    ]
+    ],
   );
 
   return (

@@ -47,6 +47,7 @@ import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
 import { useRouter } from "next/router";
 
+import { CountryFlag } from "../components/CountryFlag";
 import { CopyText } from "../components/table/copy-text";
 import { EmailList } from "../components/table/email-list";
 import { EmailListEnhanced } from "../components/table/email-list-enhanced";
@@ -522,15 +523,22 @@ export default function ContactsPage(): JSX.Element {
         case "country":
           return (
             <div className="flex flex-col gap-0.5 min-w-0">
-              <p
-                className="text-small font-medium text-default-700 truncate"
-                title={user.country || "No country"}
-              >
-                {user.country || "N/A"}
-              </p>
+              <div className="flex items-center gap-2">
+                <CountryFlag
+                  countryCode={user.country_code}
+                  size="sm"
+                  showFallback={false}
+                />
+                <p
+                  className="text-small font-medium text-default-700 truncate"
+                  title={user.country || "No country"}
+                >
+                  {user.country || "N/A"}
+                </p>
+              </div>
               {user.city && (
                 <p
-                  className="text-tiny text-default-500 truncate"
+                  className="text-tiny text-default-500 truncate ml-7"
                   title={user.city}
                 >
                   {user.city}

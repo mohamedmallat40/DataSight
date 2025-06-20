@@ -58,6 +58,7 @@ export type Users = {
   state: string | null;
   postal_code: string | null;
   country: string;
+  country_code: string | null;
   industry: string | null;
   logo_url: string | null;
   notes: string | null;
