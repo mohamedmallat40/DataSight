@@ -43,15 +43,19 @@ import { SearchIcon } from "@heroui/shared-icons";
 import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
+import { useRouter } from "next/router";
 
 import { CopyText } from "../components/table/copy-text";
 import { EmailList } from "../components/table/email-list";
+import { EmailListEnhanced } from "../components/table/email-list-enhanced";
 import { PhoneList } from "../components/table/phone-list";
 import { EyeFilledIcon } from "../components/table/eye";
 import { EditLinearIcon } from "../components/table/edit";
 import { DeleteFilledIcon } from "../components/table/delete";
 import { useMemoizedCallback } from "../components/table/use-memoized-callback";
 import { columns, INITIAL_VISIBLE_COLUMNS } from "../types/data";
+import { HighlightedText, containsSearchTerm } from "../utils/search-highlight";
+import SearchInput from "../components/SearchInput";
 
 import MultiStepWizard from "./table/add-card/multi-step-wizard";
 import UserDetailsDrawer from "../components/user-details-drawer";
