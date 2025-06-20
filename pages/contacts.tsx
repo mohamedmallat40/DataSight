@@ -49,6 +49,7 @@ import { CopyText } from "../components/table/copy-text";
 import { EmailList } from "../components/table/email-list";
 import { EmailListEnhanced } from "../components/table/email-list-enhanced";
 import { PhoneList } from "../components/table/phone-list";
+import { PhoneListEnhanced } from "../components/table/phone-list-enhanced";
 import { EyeFilledIcon } from "../components/table/eye";
 import { EditLinearIcon } from "../components/table/edit";
 import { DeleteFilledIcon } from "../components/table/delete";
