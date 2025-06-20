@@ -982,9 +982,17 @@ Source: ${userData.source || "N/A"}
                       </div>
                     </CardHeader>
                     <CardBody className="pt-0">
-                      <p className="text-small text-default-600 whitespace-pre-wrap">
-                        {userData.notes}
-                      </p>
+                      <div className="text-small text-default-600 whitespace-pre-wrap">
+                        {searchTerm ? (
+                          <HighlightedText
+                            text={userData.notes}
+                            searchTerm={searchTerm}
+                            highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
+                          />
+                        ) : (
+                          userData.notes
+                        )}
+                      </div>
                     </CardBody>
                   </Card>
                 )}
