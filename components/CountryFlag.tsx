@@ -9,38 +9,29 @@ interface CountryFlagProps {
 }
 
 /**
- * Converts alpha-2 country code to Unicode flag emoji
+ * Validates and formats country code for flag icon
  * @param countryCode - The alpha-2 country code (e.g., "US", "GB", "DE")
- * @returns Unicode flag emoji or null if invalid
+ * @returns Formatted country code or null if invalid
  */
-const getCountryFlag = (countryCode: string): string | null => {
+const validateCountryCode = (countryCode: string): string | null => {
   if (!countryCode || countryCode.length !== 2) {
     return null;
   }
 
-  // Convert alpha-2 code to uppercase
-  const code = countryCode.toUpperCase();
+  // Convert alpha-2 code to lowercase for iconify
+  const code = countryCode.toLowerCase();
 
   // Validate that it contains only letters
-  if (!/^[A-Z]{2}$/.test(code)) {
+  if (!/^[a-z]{2}$/.test(code)) {
     return null;
   }
 
-  try {
-    // Convert to Unicode flag emoji
-    // Each letter is offset by 127397 (0x1F1E6 - 0x41) to get regional indicator symbols
-    const codePoints = code
-      .split("")
-      .map((char) => 0x1f1e6 - 0x41 + char.charCodeAt(0));
-
-    return String.fromCodePoint(...codePoints);
-  } catch {
-    return null;
-  }
+  return code;
 };
 
 /**
  * Component that displays a country flag based on alpha-2 country code
+ * Uses iconify flag icons for reliable cross-platform display
  */
 export const CountryFlag: React.FC<CountryFlagProps> = ({
   countryCode,
@@ -48,24 +39,26 @@ export const CountryFlag: React.FC<CountryFlagProps> = ({
   className = "",
   showFallback = true,
 }) => {
-  const flag = countryCode ? getCountryFlag(countryCode) : null;
+  const validCode = countryCode ? validateCountryCode(countryCode) : null;
 
   const sizeClasses = {
-    sm: "text-sm w-4 h-4",
-    md: "text-base w-5 h-5",
-    lg: "text-lg w-6 h-6",
+    sm: "w-4 h-4",
+    md: "w-5 h-5",
+    lg: "w-6 h-6",
   };
 
-  if (flag) {
+  if (validCode) {
     return (
-      <span
-        className={`inline-block ${sizeClasses[size]} ${className}`}
+      <Icon
+        icon={`flag:${validCode}-4x3`}
+        className={`${sizeClasses[size]} ${className} rounded-sm border border-default-200`}
         title={`Flag of ${countryCode?.toUpperCase()}`}
-        role="img"
         aria-label={`Flag of ${countryCode?.toUpperCase()}`}
-      >
-        {flag}
-      </span>
+        style={{
+          objectFit: "cover",
+          flexShrink: 0,
+        }}
+      />
     );
   }
 
