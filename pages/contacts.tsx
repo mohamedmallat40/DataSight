@@ -123,6 +123,15 @@ export default function ContactsPage(): JSX.Element {
     onOpen: onDrawerOpen,
     onOpenChange: onDrawerOpenChange,
   } = useDisclosure();
+  const {
+    isOpen: isDeleteModalOpen,
+    onOpen: onDeleteModalOpen,
+    onOpenChange: onDeleteModalOpenChange,
+  } = useDisclosure();
+
+  // Delete confirmation state
+  const [userToDelete, setUserToDelete] = useState<Users | null>(null);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
   // Initialize search from URL parameters
   useEffect(() => {
