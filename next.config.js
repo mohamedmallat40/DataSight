@@ -1,13 +1,17 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export",
   eslint: {
     ignoreDuringBuilds: true,
   },
-  images: { unoptimized: true },
+  images: {
+    unoptimized: false,
+  },
   typescript: {
-    // !! WARNING: This disables type-checking during production builds !!
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
+  },
+  i18n: {
+    locales: ["en", "fr", "ar", "nl"],
+    defaultLocale: "en",
   },
 };
 

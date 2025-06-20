@@ -19,12 +19,6 @@ import {
 
 // Import page components
 import Footer from "./footer/footer";
-import ScrollingBanner from "./brand-scrooling-banner/scrolling-banner";
-import HeroLandingSection from "./hero/hero-section";
-import Services from "./services/services";
-import AdditionalDetails from "./additional-details/additional-details";
-import UIUXSection from "./hero/ui-components-boost";
-import TachnoSection from "./technologies/techno";
 
 // Import layout and main components
 import DefaultLayout from "@/layouts/default";
@@ -87,7 +81,7 @@ const createLogoConfig = (theme: ThemeType): readonly LogoItem[] => {
  * @returns JSX.Element representing the main page
  */
 export default function IndexPage(
-  props: InferGetStaticPropsType<typeof getStaticProps>,
+  props: InferGetStaticPropsType<typeof getStaticProps>
 ): JSX.Element {
   const router = useRouter();
   const { theme } = useTheme();
@@ -100,7 +94,7 @@ export default function IndexPage(
   // Create logo configuration based on current theme
   const logos: readonly LogoItem[] = React.useMemo(
     () => createLogoConfig(theme as ThemeType),
-    [theme],
+    [theme]
   );
 
   // Render logo items with proper typing
@@ -119,24 +113,7 @@ export default function IndexPage(
 
   return (
     <DefaultLayout>
-      {/* Main content - currently showing Network (table) component */}
       <Network />
-
-      {/*
-        Commented out sections - can be enabled as needed
-        Each section is properly typed and ready for use
-      */}
-      {/*
-      <HeroLandingSection />
-      <Services />
-      <ScrollingBanner shouldPauseOnHover gap="80px">
-        {renderLogos()}
-      </ScrollingBanner>
-      <UIUXSection />
-      <TachnoSection />
-      <AdditionalDetails />
-      <Footer />
-      */}
     </DefaultLayout>
   );
 }
