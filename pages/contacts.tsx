@@ -579,6 +579,10 @@ export default function ContactsPage(): JSX.Element {
               </button>
               <button
                 className="text-default-400 cursor-pointer hover:text-danger transition-colors p-1 rounded-small"
+                onClick={(e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  handleDeleteUser(user);
+                }}
                 aria-label={`Delete ${user.full_name || "user"}`}
                 type="button"
               >
