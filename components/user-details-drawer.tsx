@@ -35,6 +35,7 @@ export default function UserDetailsDrawer({
   isOpen,
   onOpenChange,
   userData,
+  searchTerm = "",
 }: UserDetailsDrawerProps) {
   const {
     isOpen: isImageModalOpen,
