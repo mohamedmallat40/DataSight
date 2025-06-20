@@ -549,15 +549,11 @@ export default function ContactsPage(): JSX.Element {
       <div className="flex items-center gap-4 overflow-auto px-[6px] py-[4px]">
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-4">
-            <Input
-              className="min-w-[200px]"
-              endContent={
-                <SearchIcon className="text-default-400" width={16} />
-              }
+            <SearchInput
+              onSearchChange={onSearchChange}
               placeholder="Search contacts..."
               size="sm"
-              value={filterValue}
-              onValueChange={onSearchChange}
+              className="min-w-[200px]"
             />
             <div>
               <Popover placement="bottom">
