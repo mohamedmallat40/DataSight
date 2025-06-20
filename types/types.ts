@@ -14,6 +14,7 @@ export interface BusinessCardData {
   website: string;
   linkedin: string;
   country: string;
+  country_code: string | null;
   city: string;
   raw_text: string;
   notes: string;
@@ -30,6 +31,7 @@ export const emptyBusinessCardData: BusinessCardData = {
   website: "",
   linkedin: "",
   country: "",
+  country_code: null,
   city: "",
   raw_text: "",
   notes: "",
