@@ -780,8 +780,8 @@ export default function ContactsPage(): JSX.Element {
   );
 
   const bottomContent = useMemo(() => {
-    // Calculate current rows being displayed
-    const currentRows = filteredItems.length;
+    // Calculate current rows being displayed on this page
+    const currentPageRows = userList.length;
 
     return (
       <div className="flex flex-col items-center justify-between gap-2 px-2 py-2 sm:flex-row">
@@ -789,10 +789,10 @@ export default function ContactsPage(): JSX.Element {
           <span className="text-small text-default-400">
             {filterSelectedKeys === "all"
               ? "All items selected"
-              : `${filterSelectedKeys.size} of ${currentRows} selected`}
+              : `${filterSelectedKeys.size} of ${currentPageRows} selected`}
           </span>
           <span className="text-small text-default-500">
-            Showing {currentRows} of {totalItems} contacts
+            {currentPageRows} / {totalItems}
           </span>
         </div>
         <Pagination
