@@ -444,7 +444,7 @@ export default function ContactsPage(): JSX.Element {
                   )}
                 </div>
                 <p className="text-tiny text-default-500 truncate max-w-[200px]">
-                  {user.company_name || ""}
+                  {user.job_title || ""}
                 </p>
               </div>
             </div>
