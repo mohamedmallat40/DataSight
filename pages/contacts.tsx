@@ -258,30 +258,11 @@ export default function ContactsPage(): JSX.Element {
   const filteredItems = useMemo((): Users[] => {
     let filtered = [...userList];
 
-    // Apply search filter with type safety
-    if (filterValue.trim()) {
-      const searchTerm = filterValue.toLowerCase();
-      filtered = filtered.filter((user: Users): boolean => {
-        const searchFields = [
-          user.full_name?.toLowerCase() || "",
-          user.company_name?.toLowerCase() || "",
-          user.job_title?.toLowerCase() || "",
-        ];
-
-        // Handle email array search
-        if (Array.isArray(user.email)) {
-          searchFields.push(...user.email.map((email) => email.toLowerCase()));
-        }
-
-        return searchFields.some((field) => field.includes(searchTerm));
-      });
-    }
-
-    // Apply other filters
+    // Apply local filters only (search is now handled server-side)
     filtered = filtered.filter(itemFilter);
 
     return filtered;
-  }, [userList, filterValue, itemFilter]);
+  }, [userList, itemFilter]);
 
   const items = useMemo((): Users[] => filteredItems, [filteredItems]);
 
