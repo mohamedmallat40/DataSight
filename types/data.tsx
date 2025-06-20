@@ -108,7 +108,7 @@ export interface ColumnDefinition {
 // Column definition
 export const columns: ColumnDefinition[] = [
   { name: "Full Name", uid: "full_name" },
-  { name: "Job Title", uid: "job_title" },
+  { name: "Notes", uid: "notes" },
   { name: "Company", uid: "company_name" },
   { name: "Email", uid: "email" },
   { name: "Phone", uid: "phone_number" },
