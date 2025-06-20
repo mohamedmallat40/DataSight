@@ -401,23 +401,32 @@ export default function ContactsPage(): JSX.Element {
               </div>
             </div>
           );
-        case "job_title":
+        case "notes":
+          const isNotesHighlighted =
+            filterValue && containsSearchTerm(user.notes || "", filterValue);
+
           return (
-            <div className="flex flex-col gap-0.5 min-w-0 max-w-[120px]">
-              <p
-                className="text-small font-medium text-default-700 truncate"
-                title={user.job_title || "No job title"}
+            <div className="flex flex-col gap-0.5 min-w-0 max-w-[200px]">
+              <div
+                className={cn(
+                  "text-small text-default-700 truncate",
+                  isNotesHighlighted ? "text-default-900" : "text-default-700",
+                )}
               >
-                {user.job_title || "N/A"}
-              </p>
-              {user.industry && (
-                <p
-                  className="text-tiny text-default-500 truncate"
-                  title={user.industry}
-                >
-                  {user.industry}
-                </p>
-              )}
+                {user.notes ? (
+                  filterValue ? (
+                    <HighlightedText
+                      text={user.notes}
+                      searchTerm={filterValue}
+                      highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
+                    />
+                  ) : (
+                    <span title={user.notes}>{user.notes}</span>
+                  )
+                ) : (
+                  <span className="text-default-400">No notes</span>
+                )}
+              </div>
             </div>
           );
         case "company_name":
