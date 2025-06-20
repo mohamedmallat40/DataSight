@@ -764,7 +764,7 @@ export default function ContactsPage(): JSX.Element {
             size="sm"
             variant="flat"
           >
-            {filteredItems.length}
+            {totalItems}
           </Chip>
         </div>
         <Button
@@ -776,7 +776,7 @@ export default function ContactsPage(): JSX.Element {
         </Button>
       </div>
     ),
-    [onOpen, filteredItems.length],
+    [onOpen, totalItems],
   );
 
   const bottomContent = useMemo(() => {
