@@ -806,14 +806,7 @@ export default function ContactsPage(): JSX.Element {
         />
       </div>
     );
-  }, [
-    filterSelectedKeys,
-    page,
-    totalPages,
-    filteredItems.length,
-    userList.length,
-    filterValue,
-  ]);
+  }, [filterSelectedKeys, page, totalPages, userList.length, totalItems]);
 
   return (
     <DefaultLayout>
