@@ -91,6 +91,8 @@ interface ExtendedColumnDefinition extends ColumnDefinition {
 }
 
 export default function ContactsPage(): JSX.Element {
+  const router = useRouter();
+
   // Table state management with proper typing
   const [userList, setUserList] = useState<Users[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
