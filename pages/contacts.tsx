@@ -143,7 +143,7 @@ export default function ContactsPage(): JSX.Element {
       const params = new URLSearchParams();
       params.append("page", page.toString());
 
-      // Add search parameter if it exists
+      // Add search parameter if it exists (trim only for API call)
       if (filterValue.trim()) {
         params.append("search", filterValue.trim());
       }
