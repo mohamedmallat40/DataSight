@@ -443,9 +443,10 @@ export default function ContactsPage(): JSX.Element {
           );
         case "email":
           return (
-            <EmailList
+            <EmailListEnhanced
               emails={Array.isArray(user.email) ? user.email : []}
               maxVisible={2}
+              searchTerm={filterValue}
             />
           );
         case "phone_number":
