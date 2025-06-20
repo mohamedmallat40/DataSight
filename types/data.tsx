@@ -89,11 +89,11 @@ export type ColumnsKey =
 // Initial visible columns
 export const INITIAL_VISIBLE_COLUMNS: ColumnsKey[] = [
   "full_name",
-  "notes",
   "company_name",
   "email",
   "phone_number",
   "country",
+  "notes",
   "actions",
 ];
 
