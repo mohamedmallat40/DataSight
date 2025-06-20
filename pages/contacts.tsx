@@ -779,20 +779,21 @@ export default function ContactsPage(): JSX.Element {
     [onOpen, filteredItems.length],
   );
 
-  const bottomContent = useMemo(
-    () => (
+  const bottomContent = useMemo(() => {
+    // Calculate current rows being displayed
+    const currentRows = filteredItems.length;
+
+    return (
       <div className="flex flex-col items-center justify-between gap-2 px-2 py-2 sm:flex-row">
         <div className="flex items-center gap-4">
           <span className="text-small text-default-400">
             {filterSelectedKeys === "all"
               ? "All items selected"
-              : `${filterSelectedKeys.size} of ${filteredItems.length} selected`}
+              : `${filterSelectedKeys.size} of ${currentRows} selected`}
           </span>
-          {filterValue && (
-            <span className="text-small text-default-500">
-              Showing {filteredItems.length} of {userList.length} contacts
-            </span>
-          )}
+          <span className="text-small text-default-500">
+            Showing {currentRows} of {totalItems} contacts
+          </span>
         </div>
         <Pagination
           isCompact
@@ -804,16 +805,15 @@ export default function ContactsPage(): JSX.Element {
           onChange={setPage}
         />
       </div>
-    ),
-    [
-      filterSelectedKeys,
-      page,
-      totalPages,
-      filteredItems.length,
-      userList.length,
-      filterValue,
-    ],
-  );
+    );
+  }, [
+    filterSelectedKeys,
+    page,
+    totalPages,
+    filteredItems.length,
+    userList.length,
+    filterValue,
+  ]);
 
   return (
     <DefaultLayout>
