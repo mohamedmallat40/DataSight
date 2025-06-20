@@ -369,31 +369,37 @@ export default function ContactsPage(): JSX.Element {
 
       switch (userKey) {
         case "full_name":
-          const fullNameWithHighlight = filterValue ? (
-            <HighlightedText
-              text={user.full_name || "N/A"}
-              searchTerm={filterValue}
-              highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
-            />
-          ) : (
-            user.full_name || "N/A"
-          );
+          const isNameHighlighted =
+            filterValue &&
+            containsSearchTerm(user.full_name || "", filterValue);
 
           return (
-            <User
-              avatarProps={{
-                radius: "lg",
-                name: user.full_name || "User",
-                showFallback: true,
-              }}
-              description={user.job_title || user.company_name || ""}
-              name={fullNameWithHighlight}
-              classNames={{
-                wrapper: "min-w-0",
-                description: "truncate max-w-[200px]",
-                name: "truncate max-w-[200px]",
-              }}
-            />
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-default-100 text-default-600 font-semibold text-sm">
+                {(user.full_name || "U").charAt(0).toUpperCase()}
+              </div>
+              <div className="flex flex-col gap-0.5 min-w-0">
+                <div
+                  className={cn(
+                    "text-small font-medium truncate max-w-[200px]",
+                    isNameHighlighted ? "text-default-900" : "text-default-700",
+                  )}
+                >
+                  {filterValue ? (
+                    <HighlightedText
+                      text={user.full_name || "N/A"}
+                      searchTerm={filterValue}
+                      highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
+                    />
+                  ) : (
+                    user.full_name || "N/A"
+                  )}
+                </div>
+                <p className="text-tiny text-default-500 truncate max-w-[200px]">
+                  {user.job_title || user.company_name || ""}
+                </p>
+              </div>
+            </div>
           );
         case "job_title":
           return (
