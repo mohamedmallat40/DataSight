@@ -439,9 +439,10 @@ export default function ContactsPage(): JSX.Element {
           );
         case "phone_number":
           return (
-            <PhoneList
+            <PhoneListEnhanced
               phones={Array.isArray(user.phone_number) ? user.phone_number : []}
               maxVisible={2}
+              searchTerm={filterValue}
             />
           );
         case "country":
