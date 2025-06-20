@@ -317,6 +317,23 @@ export default function ContactsPage(): JSX.Element {
     if (searchValue !== filterValue) {
       setPage(1); // Reset to first page when search changes
     }
+
+    // Update URL with search parameter
+    const query = { ...router.query };
+    if (searchValue) {
+      query.search = searchValue;
+    } else {
+      delete query.search;
+    }
+
+    router.replace(
+      {
+        pathname: router.pathname,
+        query,
+      },
+      undefined,
+      { shallow: true },
+    );
   });
 
   // Get unique values for filter options with type safety
