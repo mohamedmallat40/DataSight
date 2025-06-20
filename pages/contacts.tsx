@@ -27,6 +27,8 @@ import {
   ModalContent,
   Modal,
   ModalBody,
+  ModalHeader,
+  ModalFooter,
   Input,
   Dropdown,
   DropdownTrigger,
@@ -43,15 +45,20 @@ import { SearchIcon } from "@heroui/shared-icons";
 import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
+import { useRouter } from "next/router";
 
 import { CopyText } from "../components/table/copy-text";
 import { EmailList } from "../components/table/email-list";
+import { EmailListEnhanced } from "../components/table/email-list-enhanced";
 import { PhoneList } from "../components/table/phone-list";
+import { PhoneListEnhanced } from "../components/table/phone-list-enhanced";
 import { EyeFilledIcon } from "../components/table/eye";
 import { EditLinearIcon } from "../components/table/edit";
 import { DeleteFilledIcon } from "../components/table/delete";
 import { useMemoizedCallback } from "../components/table/use-memoized-callback";
 import { columns, INITIAL_VISIBLE_COLUMNS } from "../types/data";
+import { HighlightedText, containsSearchTerm } from "../utils/search-highlight";
+import SearchInput from "../components/SearchInput";
 
 import MultiStepWizard from "./table/add-card/multi-step-wizard";
 import UserDetailsDrawer from "../components/user-details-drawer";
@@ -87,6 +94,8 @@ interface ExtendedColumnDefinition extends ColumnDefinition {
 }
 
 export default function ContactsPage(): JSX.Element {
+  const router = useRouter();
+
   // Table state management with proper typing
   const [userList, setUserList] = useState<Users[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -116,20 +125,42 @@ export default function ContactsPage(): JSX.Element {
     onOpen: onDrawerOpen,
     onOpenChange: onDrawerOpenChange,
   } = useDisclosure();
+  const {
+    isOpen: isDeleteModalOpen,
+    onOpen: onDeleteModalOpen,
+    onOpenChange: onDeleteModalOpenChange,
+  } = useDisclosure();
+
+  // Delete confirmation state
+  const [userToDelete, setUserToDelete] = useState<Users | null>(null);
+  const [isDeleting, setIsDeleting] = useState<boolean>(false);
+
+  // Initialize search from URL parameters
+  useEffect(() => {
+    const searchParam = router.query.search as string;
+    if (searchParam && searchParam !== filterValue) {
+      setFilterValue(searchParam);
+    }
+  }, [router.query.search]);
 
   useEffect(() => {
     fetchUsers();
-  }, [page]);
-
-  useEffect(() => {
-    fetchUsers();
-  }, [page]);
+  }, [page, filterValue]);
 
   const fetchUsers = useCallback(async (): Promise<void> => {
     setLoading(true);
     try {
+      // Build query parameters
+      const params = new URLSearchParams();
+      params.append("page", page.toString());
+
+      // Add search parameter if it exists (trim only for API call)
+      if (filterValue.trim()) {
+        params.append("search", filterValue.trim());
+      }
+
       const response = await apiClient.get<ApiResponse<Users[]>>(
-        `/card-info?page=${page}`,
+        `/card-info?${params.toString()}`,
       );
       const { data } = response;
 
@@ -149,7 +180,7 @@ export default function ContactsPage(): JSX.Element {
     } finally {
       setLoading(false);
     }
-  }, [page]);
+  }, [page, filterValue]);
 
   const headerColumns = useMemo((): ExtendedColumnDefinition[] => {
     if (visibleColumns === "all") {
@@ -239,30 +270,11 @@ export default function ContactsPage(): JSX.Element {
   const filteredItems = useMemo((): Users[] => {
     let filtered = [...userList];
 
-    // Apply search filter with type safety
-    if (filterValue.trim()) {
-      const searchTerm = filterValue.toLowerCase();
-      filtered = filtered.filter((user: Users): boolean => {
-        const searchFields = [
-          user.full_name?.toLowerCase() || "",
-          user.company_name?.toLowerCase() || "",
-          user.job_title?.toLowerCase() || "",
-        ];
-
-        // Handle email array search
-        if (Array.isArray(user.email)) {
-          searchFields.push(...user.email.map((email) => email.toLowerCase()));
-        }
-
-        return searchFields.some((field) => field.includes(searchTerm));
-      });
-    }
-
-    // Apply other filters
+    // Apply local filters only (search is now handled server-side)
     filtered = filtered.filter(itemFilter);
 
     return filtered;
-  }, [userList, filterValue, itemFilter]);
+  }, [userList, itemFilter]);
 
   const items = useMemo((): Users[] => filteredItems, [filteredItems]);
 
@@ -311,11 +323,29 @@ export default function ContactsPage(): JSX.Element {
 
   // Search and filter functions with proper typing
   const onSearchChange = useMemoizedCallback((value?: string): void => {
-    const searchValue = value?.trim() || "";
+    const searchValue = value || "";
     setFilterValue(searchValue);
     if (searchValue !== filterValue) {
       setPage(1); // Reset to first page when search changes
     }
+
+    // Update URL with search parameter
+    const query = { ...router.query };
+    if (searchValue.trim()) {
+      // Only trim for empty check
+      query.search = searchValue;
+    } else {
+      delete query.search;
+    }
+
+    router.replace(
+      {
+        pathname: router.pathname,
+        query,
+      },
+      undefined,
+      { shallow: true },
+    );
   });
 
   // Get unique values for filter options with type safety
@@ -344,45 +374,106 @@ export default function ContactsPage(): JSX.Element {
     onDrawerOpen();
   });
 
+  const handleDeleteUser = useMemoizedCallback((user: Users): void => {
+    setUserToDelete(user);
+    onDeleteModalOpen();
+  });
+
+  const confirmDeleteUser = useMemoizedCallback(async (): Promise<void> => {
+    if (!userToDelete) return;
+
+    setIsDeleting(true);
+    try {
+      await apiClient.delete(`/contact/${userToDelete.id}`);
+
+      // Refresh the user list after successful deletion
+      await fetchUsers();
+
+      // Close the modal and reset state
+      onDeleteModalOpenChange();
+      setUserToDelete(null);
+
+      // Optional: Show success message (you can add a toast here if needed)
+      console.log(`Successfully deleted contact: ${userToDelete.full_name}`);
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to delete contact";
+      console.error("Error deleting contact:", errorMessage);
+      // Optional: Show error message (you can add a toast here if needed)
+    } finally {
+      setIsDeleting(false);
+    }
+  });
+
+  const cancelDeleteUser = useMemoizedCallback((): void => {
+    onDeleteModalOpenChange();
+    setUserToDelete(null);
+  });
+
   const renderCell = useMemoizedCallback(
     (user: Users, columnKey: Key): React.ReactNode => {
       const userKey = columnKey as ColumnsKey;
 
       switch (userKey) {
         case "full_name":
+          const isNameHighlighted =
+            filterValue &&
+            containsSearchTerm(user.full_name || "", filterValue);
+
           return (
-            <User
-              avatarProps={{
-                radius: "lg",
-                name: user.full_name || "User",
-                showFallback: true,
-              }}
-              description={user.job_title || user.company_name || ""}
-              name={user.full_name || "N/A"}
-              classNames={{
-                wrapper: "min-w-0",
-                description: "truncate max-w-[200px]",
-                name: "truncate max-w-[200px]",
-              }}
-            />
-          );
-        case "job_title":
-          return (
-            <div className="flex flex-col gap-0.5 min-w-0 max-w-[120px]">
-              <p
-                className="text-small font-medium text-default-700 truncate"
-                title={user.job_title || "No job title"}
-              >
-                {user.job_title || "N/A"}
-              </p>
-              {user.industry && (
-                <p
-                  className="text-tiny text-default-500 truncate"
-                  title={user.industry}
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-default-100 text-default-600 font-semibold text-sm">
+                {(user.full_name || "U").charAt(0).toUpperCase()}
+              </div>
+              <div className="flex flex-col gap-0.5 min-w-0">
+                <div
+                  className={cn(
+                    "text-small font-medium truncate max-w-[200px]",
+                    isNameHighlighted ? "text-default-900" : "text-default-700",
+                  )}
                 >
-                  {user.industry}
+                  {filterValue ? (
+                    <HighlightedText
+                      text={user.full_name || "N/A"}
+                      searchTerm={filterValue}
+                      highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
+                    />
+                  ) : (
+                    user.full_name || "N/A"
+                  )}
+                </div>
+                <p className="text-tiny text-default-500 truncate max-w-[200px]">
+                  {user.company_name || ""}
                 </p>
-              )}
+              </div>
+            </div>
+          );
+        case "notes":
+          const isNotesHighlighted =
+            filterValue && containsSearchTerm(user.notes || "", filterValue);
+
+          return (
+            <div className="flex flex-col gap-0.5 min-w-0 max-w-[180px]">
+              <div
+                className={cn(
+                  "text-small text-default-700 truncate",
+                  isNotesHighlighted ? "text-default-900" : "text-default-700",
+                )}
+              >
+                {user.notes ? (
+                  filterValue ? (
+                    <HighlightedText
+                      text={user.notes}
+                      searchTerm={filterValue}
+                      highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
+                    />
+                  ) : (
+                    <span title={user.notes}>{user.notes}</span>
+                  )
+                ) : (
+                  <span className="text-default-400">No notes</span>
+                )}
+              </div>
             </div>
           );
         case "company_name":
@@ -414,16 +505,18 @@ export default function ContactsPage(): JSX.Element {
           );
         case "email":
           return (
-            <EmailList
+            <EmailListEnhanced
               emails={Array.isArray(user.email) ? user.email : []}
               maxVisible={2}
+              searchTerm={filterValue}
             />
           );
         case "phone_number":
           return (
-            <PhoneList
+            <PhoneListEnhanced
               phones={Array.isArray(user.phone_number) ? user.phone_number : []}
               maxVisible={2}
+              searchTerm={filterValue}
             />
           );
         case "country":
@@ -488,6 +581,10 @@ export default function ContactsPage(): JSX.Element {
               </button>
               <button
                 className="text-default-400 cursor-pointer hover:text-danger transition-colors p-1 rounded-small"
+                onClick={(e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  handleDeleteUser(user);
+                }}
                 aria-label={`Delete ${user.full_name || "user"}`}
                 type="button"
               >
@@ -728,7 +825,7 @@ export default function ContactsPage(): JSX.Element {
             size="sm"
             variant="flat"
           >
-            {filteredItems.length}
+            {totalItems}
           </Chip>
         </div>
         <Button
@@ -740,23 +837,24 @@ export default function ContactsPage(): JSX.Element {
         </Button>
       </div>
     ),
-    [onOpen, filteredItems.length],
+    [onOpen, totalItems],
   );
 
-  const bottomContent = useMemo(
-    () => (
+  const bottomContent = useMemo(() => {
+    // Calculate current rows being displayed on this page
+    const currentPageRows = userList.length;
+
+    return (
       <div className="flex flex-col items-center justify-between gap-2 px-2 py-2 sm:flex-row">
         <div className="flex items-center gap-4">
           <span className="text-small text-default-400">
             {filterSelectedKeys === "all"
               ? "All items selected"
-              : `${filterSelectedKeys.size} of ${filteredItems.length} selected`}
+              : `${filterSelectedKeys.size} of ${currentPageRows} selected`}
           </span>
-          {filterValue && (
-            <span className="text-small text-default-500">
-              Showing {filteredItems.length} of {userList.length} contacts
-            </span>
-          )}
+          <span className="text-small text-default-500">
+            {currentPageRows} / {totalItems}
+          </span>
         </div>
         <Pagination
           isCompact
@@ -768,16 +866,8 @@ export default function ContactsPage(): JSX.Element {
           onChange={setPage}
         />
       </div>
-    ),
-    [
-      filterSelectedKeys,
-      page,
-      totalPages,
-      filteredItems.length,
-      userList.length,
-      filterValue,
-    ],
-  );
+    );
+  }, [filterSelectedKeys, page, totalPages, userList.length, totalItems]);
 
   return (
     <DefaultLayout>
@@ -793,7 +883,7 @@ export default function ContactsPage(): JSX.Element {
           classNames={{
             td: "before:bg-transparent py-3",
             wrapper: "min-h-[400px]",
-            table: "min-w-[1200px]",
+            table: "min-w-[1000px]",
           }}
           selectedKeys={filterSelectedKeys}
           selectionMode="multiple"
@@ -808,12 +898,10 @@ export default function ContactsPage(): JSX.Element {
                 align={column.uid === "actions" ? "end" : "start"}
                 className={cn([
                   column.uid === "actions"
-                    ? "flex items-center justify-end px-[20px] w-[120px]"
+                    ? "flex items-center justify-end px-[20px] w-[120px] max-w-[120px]"
                     : "",
                   column.uid === "full_name" ? "min-w-[250px]" : "",
-                  column.uid === "job_title"
-                    ? "min-w-[120px] max-w-[120px]"
-                    : "",
+                  column.uid === "notes" ? "min-w-[180px] max-w-[180px]" : "",
                   column.uid === "company_name" ? "min-w-[200px]" : "",
                   column.uid === "email" ? "min-w-[280px]" : "",
                   column.uid === "phone_number" ? "min-w-[200px]" : "",
@@ -853,10 +941,63 @@ export default function ContactsPage(): JSX.Element {
           </ModalContent>
         </Modal>
 
+        {/* Delete Confirmation Modal */}
+        <Modal
+          isOpen={isDeleteModalOpen}
+          onOpenChange={onDeleteModalOpenChange}
+          size="sm"
+        >
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
+                    <Icon
+                      icon="lucide:trash-2"
+                      className="text-danger"
+                      width={20}
+                      height={20}
+                    />
+                    <span>Delete Contact</span>
+                  </div>
+                </ModalHeader>
+                <ModalBody>
+                  <p className="text-default-600">
+                    Are you sure you want to delete{" "}
+                    <span className="font-semibold text-default-900">
+                      {userToDelete?.full_name || "this contact"}
+                    </span>
+                    ? This action cannot be undone.
+                  </p>
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    color="default"
+                    variant="flat"
+                    onPress={cancelDeleteUser}
+                    disabled={isDeleting}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    color="danger"
+                    onPress={confirmDeleteUser}
+                    isLoading={isDeleting}
+                    disabled={isDeleting}
+                  >
+                    {isDeleting ? "Deleting..." : "Delete"}
+                  </Button>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
+
         <UserDetailsDrawer
           isOpen={isDrawerOpen}
           onOpenChange={onDrawerOpenChange}
           userData={selectedUser}
+          searchTerm={filterValue}
         />
       </div>
     </DefaultLayout>

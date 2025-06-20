@@ -77,7 +77,7 @@ export type Users = {
 // Column key types
 export type ColumnsKey =
   | "full_name"
-  | "job_title"
+  | "notes"
   | "company_name"
   | "email"
   | "phone_number"
@@ -89,11 +89,11 @@ export type ColumnsKey =
 // Initial visible columns
 export const INITIAL_VISIBLE_COLUMNS: ColumnsKey[] = [
   "full_name",
-  "job_title",
   "company_name",
   "email",
   "phone_number",
   "country",
+  "notes",
   "actions",
 ];
 
@@ -108,12 +108,12 @@ export interface ColumnDefinition {
 // Column definition
 export const columns: ColumnDefinition[] = [
   { name: "Full Name", uid: "full_name" },
-  { name: "Job Title", uid: "job_title" },
   { name: "Company", uid: "company_name" },
   { name: "Email", uid: "email" },
   { name: "Phone", uid: "phone_number" },
   { name: "Country", uid: "country" },
   { name: "Industry", uid: "industry" },
   { name: "Date Collected", uid: "date_collected" },
+  { name: "Notes", uid: "notes" },
   { name: "Actions", uid: "actions" },
 ];
