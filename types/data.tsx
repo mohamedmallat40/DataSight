@@ -77,7 +77,7 @@ export type Users = {
 // Column key types
 export type ColumnsKey =
   | "full_name"
-  | "job_title"
+  | "notes"
   | "company_name"
   | "email"
   | "phone_number"
