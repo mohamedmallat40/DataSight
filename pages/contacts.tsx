@@ -123,19 +123,32 @@ export default function ContactsPage(): JSX.Element {
     onOpenChange: onDrawerOpenChange,
   } = useDisclosure();
 
+  // Initialize search from URL parameters
   useEffect(() => {
-    fetchUsers();
-  }, [page]);
+    const searchParam = router.query.search as string;
+    if (searchParam && searchParam !== filterValue) {
+      setFilterValue(searchParam);
+    }
+  }, [router.query.search]);
 
   useEffect(() => {
     fetchUsers();
-  }, [page]);
+  }, [page, filterValue]);
 
   const fetchUsers = useCallback(async (): Promise<void> => {
     setLoading(true);
     try {
+      // Build query parameters
+      const params = new URLSearchParams();
+      params.append("page", page.toString());
+
+      // Add search parameter if it exists
+      if (filterValue.trim()) {
+        params.append("search", filterValue.trim());
+      }
+
       const response = await apiClient.get<ApiResponse<Users[]>>(
-        `/card-info?page=${page}`,
+        `/card-info?${params.toString()}`,
       );
       const { data } = response;
 
@@ -155,7 +168,7 @@ export default function ContactsPage(): JSX.Element {
     } finally {
       setLoading(false);
     }
-  }, [page]);
+  }, [page, filterValue]);
 
   const headerColumns = useMemo((): ExtendedColumnDefinition[] => {
     if (visibleColumns === "all") {
