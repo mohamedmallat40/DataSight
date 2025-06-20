@@ -27,6 +27,8 @@ import {
   ModalContent,
   Modal,
   ModalBody,
+  ModalHeader,
+  ModalFooter,
   Input,
   Dropdown,
   DropdownTrigger,
