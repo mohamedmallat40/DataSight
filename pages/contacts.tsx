@@ -939,6 +939,58 @@ export default function ContactsPage(): JSX.Element {
           </ModalContent>
         </Modal>
 
+        {/* Delete Confirmation Modal */}
+        <Modal
+          isOpen={isDeleteModalOpen}
+          onOpenChange={onDeleteModalOpenChange}
+          size="sm"
+        >
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
+                    <Icon
+                      icon="lucide:trash-2"
+                      className="text-danger"
+                      width={20}
+                      height={20}
+                    />
+                    <span>Delete Contact</span>
+                  </div>
+                </ModalHeader>
+                <ModalBody>
+                  <p className="text-default-600">
+                    Are you sure you want to delete{" "}
+                    <span className="font-semibold text-default-900">
+                      {userToDelete?.full_name || "this contact"}
+                    </span>
+                    ? This action cannot be undone.
+                  </p>
+                </ModalBody>
+                <ModalFooter>
+                  <Button
+                    color="default"
+                    variant="flat"
+                    onPress={cancelDeleteUser}
+                    disabled={isDeleting}
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    color="danger"
+                    onPress={confirmDeleteUser}
+                    isLoading={isDeleting}
+                    disabled={isDeleting}
+                  >
+                    {isDeleting ? "Deleting..." : "Delete"}
+                  </Button>
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
+
         <UserDetailsDrawer
           isOpen={isDrawerOpen}
           onOpenChange={onDrawerOpenChange}
