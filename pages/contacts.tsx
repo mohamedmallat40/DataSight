@@ -870,6 +870,7 @@ export default function ContactsPage(): JSX.Element {
           isOpen={isDrawerOpen}
           onOpenChange={onDrawerOpenChange}
           userData={selectedUser}
+          searchTerm={filterValue}
         />
       </div>
     </DefaultLayout>
