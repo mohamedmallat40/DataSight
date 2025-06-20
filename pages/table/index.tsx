@@ -455,12 +455,45 @@ export default function Component(): JSX.Element {
           );
         case "industry":
           return (
-            <p
-              className="text-small text-default-700 truncate"
-              title={user.industry || "No industry"}
-            >
-              {user.industry || "N/A"}
-            </p>
+            <div className="flex items-center gap-2">
+              <Icon
+                icon="lucide:briefcase"
+                className="text-default-400 w-3 h-3 flex-shrink-0"
+              />
+              <p
+                className="text-small text-default-700 truncate"
+                title={user.industry || "No industry"}
+              >
+                {user.industry || "N/A"}
+              </p>
+            </div>
+          );
+        case "gender":
+          const genderInfo =
+            user.gender === true
+              ? { icon: "lucide:male", label: "Male", color: "text-blue-600" }
+              : user.gender === false
+                ? {
+                    icon: "lucide:female",
+                    label: "Female",
+                    color: "text-pink-600",
+                  }
+                : {
+                    icon: "lucide:user",
+                    label: "Unknown",
+                    color: "text-default-400",
+                  };
+
+          return (
+            <div className="flex items-center gap-2">
+              <Icon
+                icon={genderInfo.icon}
+                className={`w-3 h-3 flex-shrink-0 ${genderInfo.color}`}
+              />
+              <span className={`text-small ${genderInfo.color}`}>
+                {genderInfo.label}
+              </span>
+            </div>
           );
         case "date_collected":
           return (
@@ -821,9 +854,13 @@ export default function Component(): JSX.Element {
                   : "",
                 column.uid === "full_name" ? "min-w-[250px]" : "",
                 column.uid === "job_title" ? "min-w-[120px] max-w-[120px]" : "",
-                column.uid === "company_name" ? "min-w-[200px]" : "",
-                column.uid === "email" ? "min-w-[280px]" : "",
-                column.uid === "phone_number" ? "min-w-[200px]" : "",
+                column.uid === "company_name"
+                  ? "min-w-[160px] max-w-[160px]"
+                  : "",
+                column.uid === "email" ? "min-w-[220px] max-w-[220px]" : "",
+                column.uid === "phone_number" ? "min-w-[160px]" : "",
+                column.uid === "industry" ? "min-w-[140px] max-w-[140px]" : "",
+                column.uid === "gender" ? "min-w-[100px] max-w-[100px]" : "",
                 column.uid === "country" ? "min-w-[150px]" : "",
               ])}
             >

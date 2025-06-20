@@ -84,6 +84,7 @@ export type ColumnsKey =
   | "phone_number"
   | "country"
   | "industry"
+  | "gender"
   | "date_collected"
   | "actions";
 
@@ -93,8 +94,9 @@ export const INITIAL_VISIBLE_COLUMNS: ColumnsKey[] = [
   "company_name",
   "email",
   "phone_number",
+  "industry",
+  "gender",
   "country",
-  "notes",
   "actions",
 ];
 
@@ -112,8 +114,9 @@ export const columns: ColumnDefinition[] = [
   { name: "Company", uid: "company_name" },
   { name: "Email", uid: "email" },
   { name: "Phone", uid: "phone_number" },
-  { name: "Country", uid: "country" },
   { name: "Industry", uid: "industry" },
+  { name: "Gender", uid: "gender" },
+  { name: "Country", uid: "country" },
   { name: "Date Collected", uid: "date_collected" },
   { name: "Notes", uid: "notes" },
   { name: "Actions", uid: "actions" },
