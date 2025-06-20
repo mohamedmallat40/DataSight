@@ -312,7 +312,7 @@ export default function ContactsPage(): JSX.Element {
 
   // Search and filter functions with proper typing
   const onSearchChange = useMemoizedCallback((value?: string): void => {
-    const searchValue = value?.trim() || "";
+    const searchValue = value || "";
     setFilterValue(searchValue);
     if (searchValue !== filterValue) {
       setPage(1); // Reset to first page when search changes
@@ -320,7 +320,8 @@ export default function ContactsPage(): JSX.Element {
 
     // Update URL with search parameter
     const query = { ...router.query };
-    if (searchValue) {
+    if (searchValue.trim()) {
+      // Only trim for empty check
       query.search = searchValue;
     } else {
       delete query.search;
