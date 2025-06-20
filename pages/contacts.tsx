@@ -406,7 +406,7 @@ export default function ContactsPage(): JSX.Element {
             filterValue && containsSearchTerm(user.notes || "", filterValue);
 
           return (
-            <div className="flex flex-col gap-0.5 min-w-0 max-w-[200px]">
+            <div className="flex flex-col gap-0.5 min-w-0 max-w-[180px]">
               <div
                 className={cn(
                   "text-small text-default-700 truncate",
