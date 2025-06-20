@@ -372,6 +372,42 @@ export default function ContactsPage(): JSX.Element {
     onDrawerOpen();
   });
 
+  const handleDeleteUser = useMemoizedCallback((user: Users): void => {
+    setUserToDelete(user);
+    onDeleteModalOpen();
+  });
+
+  const confirmDeleteUser = useMemoizedCallback(async (): Promise<void> => {
+    if (!userToDelete) return;
+
+    setIsDeleting(true);
+    try {
+      await apiClient.delete(`/contact/${userToDelete.id}`);
+
+      // Refresh the user list after successful deletion
+      await fetchUsers();
+
+      // Close the modal and reset state
+      onDeleteModalOpenChange();
+      setUserToDelete(null);
+
+      // Optional: Show success message (you can add a toast here if needed)
+      console.log(`Successfully deleted contact: ${userToDelete.full_name}`);
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Failed to delete contact";
+      console.error("Error deleting contact:", errorMessage);
+      // Optional: Show error message (you can add a toast here if needed)
+    } finally {
+      setIsDeleting(false);
+    }
+  });
+
+  const cancelDeleteUser = useMemoizedCallback((): void => {
+    onDeleteModalOpenChange();
+    setUserToDelete(null);
+  });
+
   const renderCell = useMemoizedCallback(
     (user: Users, columnKey: Key): React.ReactNode => {
       const userKey = columnKey as ColumnsKey;
