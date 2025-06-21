@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Input,
   Textarea,
@@ -11,6 +11,8 @@ import {
   RadioGroup,
   Radio,
   Chip,
+  Select,
+  SelectItem,
   // addToast should come from your toast context/provider or custom hook
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
@@ -19,6 +21,18 @@ import { cn } from "@heroui/react";
 import { BusinessCardData } from "../../../types/types";
 
 import apiClient from "@/config/api";
+
+interface Pool {
+  id: string;
+  name: string;
+  description?: string;
+}
+
+interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
+}
 
 export interface EditDataStepProps {
   businessCardData: BusinessCardData;
@@ -34,7 +48,31 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
   onNextStep,
 }) => {
   const [loading, setLoading] = useState(false);
+  const [pools, setPools] = useState<Pool[]>([]);
   // Example toast hook
+
+  useEffect(() => {
+    fetchPools();
+  }, []);
+
+  const fetchPools = useCallback(async (): Promise<void> => {
+    try {
+      const response = await apiClient.get<ApiResponse<Pool[]>>("/get-pools");
+      const { data } = response;
+
+      if (data?.success && Array.isArray(data?.data)) {
+        setPools(data.data);
+      } else {
+        setPools([]);
+        console.warn("API response does not contain valid pools data");
+      }
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
+      console.error("Error fetching pools:", errorMessage);
+      setPools([]);
+    }
+  }, []);
 
   // Handles all single-value inputs or array fields reset if user types directly
   const handleInputChange = (field: keyof BusinessCardData, value: string) => {
@@ -373,6 +411,32 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               value={businessCardData.country}
               onChange={(e) => handleInputChange("country", e.target.value)}
             />
+
+            <Select
+              className="col-span-12"
+              label="Pool"
+              labelPlacement="outside"
+              placeholder="Select a pool"
+              startContent={
+                <Icon className="text-default-400" icon="lucide:layers" />
+              }
+              selectedKeys={
+                businessCardData.pool_id ? [businessCardData.pool_id] : []
+              }
+              onSelectionChange={(keys) => {
+                const selectedKey = Array.from(keys)[0] as string;
+                setBusinessCardData({
+                  ...businessCardData,
+                  pool_id: selectedKey || null,
+                });
+              }}
+            >
+              {pools.map((pool) => (
+                <SelectItem key={pool.id} value={pool.id}>
+                  {pool.name}
+                </SelectItem>
+              ))}
+            </Select>
 
             <div className="col-span-12">
               <div className="flex flex-col gap-4">
