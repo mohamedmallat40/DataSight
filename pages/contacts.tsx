@@ -420,6 +420,9 @@ export default function ContactsPage(): JSX.Element {
           const isNameHighlighted =
             filterValue &&
             containsSearchTerm(user.full_name || "", filterValue);
+          const isJobTitleHighlighted =
+            filterValue &&
+            containsSearchTerm(user.job_title || "", filterValue);
 
           return (
             <div className="flex items-center gap-3 min-w-0">
@@ -443,8 +446,23 @@ export default function ContactsPage(): JSX.Element {
                     user.full_name || "N/A"
                   )}
                 </div>
-                <p className="text-tiny text-default-500 truncate max-w-[200px]">
-                  {user.job_title || ""}
+                <p
+                  className={cn(
+                    "text-tiny truncate max-w-[200px]",
+                    isJobTitleHighlighted
+                      ? "text-default-700"
+                      : "text-default-500",
+                  )}
+                >
+                  {filterValue && user.job_title ? (
+                    <HighlightedText
+                      text={user.job_title}
+                      searchTerm={filterValue}
+                      highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
+                    />
+                  ) : (
+                    user.job_title || ""
+                  )}
                 </p>
               </div>
             </div>
@@ -547,6 +565,9 @@ export default function ContactsPage(): JSX.Element {
             </div>
           );
         case "industry":
+          const isIndustryHighlighted =
+            filterValue && containsSearchTerm(user.industry || "", filterValue);
+
           return (
             <div className="flex items-center gap-2">
               <Icon
@@ -554,10 +575,23 @@ export default function ContactsPage(): JSX.Element {
                 className="text-default-400 w-3 h-3 flex-shrink-0"
               />
               <p
-                className="text-small text-default-700 truncate"
+                className={cn(
+                  "text-small truncate",
+                  isIndustryHighlighted
+                    ? "text-default-900"
+                    : "text-default-700",
+                )}
                 title={user.industry || "No industry"}
               >
-                {user.industry || "N/A"}
+                {filterValue && user.industry ? (
+                  <HighlightedText
+                    text={user.industry}
+                    searchTerm={filterValue}
+                    highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
+                  />
+                ) : (
+                  user.industry || "N/A"
+                )}
               </p>
             </div>
           );
