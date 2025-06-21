@@ -53,8 +53,6 @@ export default function CountryFilter({
         size="sm"
         variant="bordered"
         allowsCustomValue={false}
-        menuTrigger="input"
-        disabledKeys={new Set(selectedCountries)}
       >
         {Object.entries(groupedCountries).map(
           ([continent, countriesInContinent]) => (
