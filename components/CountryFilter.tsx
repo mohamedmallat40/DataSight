@@ -67,15 +67,36 @@ export default function CountryFilter({
   return (
     <div className={`flex flex-col gap-3 w-full ${className || ""}`}>
       <Autocomplete
-        label="Filter by countries"
-        placeholder="Search and select countries..."
+        label="Filter by countries or continents"
+        placeholder="Search countries or select entire continents..."
         inputValue={inputValue}
         onInputChange={setInputValue}
-        onSelectionChange={handleCountrySelect}
+        onSelectionChange={handleSelection}
         size="sm"
         variant="bordered"
         className="w-full"
       >
+        <AutocompleteSection title="Continents">
+          {continents.map((continent) => (
+            <AutocompleteItem
+              key={`continent:${continent}`}
+              startContent={
+                <div className="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center">
+                  <span className="text-xs text-primary-600">🌍</span>
+                </div>
+              }
+              textValue={`All ${continent}`}
+            >
+              <div className="flex justify-between items-center">
+                <span className="font-medium">All {continent}</span>
+                <span className="text-tiny text-default-400">
+                  {groupedCountries[continent]?.length} countries
+                </span>
+              </div>
+            </AutocompleteItem>
+          ))}
+        </AutocompleteSection>
+
         {Object.entries(groupedCountries).map(
           ([continent, countriesInContinent]) => (
             <AutocompleteSection key={continent} title={continent}>
