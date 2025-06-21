@@ -23,9 +23,8 @@ import { BusinessCardData } from "../../../types/types";
 import apiClient from "@/config/api";
 
 interface Pool {
-  id: string;
-  name: string;
-  description?: string;
+  id: number;
+  label: string;
 }
 
 interface ApiResponse<T> {
@@ -432,8 +431,8 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               }}
             >
               {pools.map((pool) => (
-                <SelectItem key={pool.id} value={pool.id}>
-                  {pool.name}
+                <SelectItem key={pool.id.toString()} value={pool.id.toString()}>
+                  {pool.label}
                 </SelectItem>
               ))}
             </Select>

@@ -80,9 +80,8 @@ interface ApiResponse<T> {
 }
 
 interface Pool {
-  id: string;
-  name: string;
-  description?: string;
+  id: number;
+  label: string;
 }
 
 interface TableComponentState extends TableState, FilterState {
@@ -765,8 +764,8 @@ export default function ContactsPage(): JSX.Element {
                     >
                       <Radio value="all">All Pools</Radio>
                       {pools.map((pool) => (
-                        <Radio key={pool.id} value={pool.id}>
-                          {pool.name}
+                        <Radio key={pool.id} value={pool.id.toString()}>
+                          {pool.label}
                         </Radio>
                       ))}
                     </RadioGroup>
