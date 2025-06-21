@@ -60,6 +60,7 @@ import { useMemoizedCallback } from "../components/table/use-memoized-callback";
 import { columns, INITIAL_VISIBLE_COLUMNS } from "../types/data";
 import { HighlightedText, containsSearchTerm } from "../utils/search-highlight";
 import SearchInput from "../components/SearchInput";
+import CountryFilter from "../components/CountryFilter";
 
 import MultiStepWizard from "./table/add-card/multi-step-wizard";
 import UserDetailsDrawer from "../components/user-details-drawer";
