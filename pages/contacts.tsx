@@ -733,7 +733,7 @@ export default function ContactsPage(): JSX.Element {
 
                     <CountryFilter
                       selectedCountries={countryFilter}
-                      onSelectionChange={setCountryFilter}
+                      onSelectionChange={onCountryFilterChange}
                     />
                   </div>
                 </PopoverContent>
