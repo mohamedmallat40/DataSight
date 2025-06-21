@@ -104,16 +104,21 @@ export default function CountryFilter({
                   variant="flat"
                   color="primary"
                   size="sm"
-                  avatar={
-                    <Avatar
+                  startContent={
+                    <img
                       alt={country?.name}
-                      className="w-4 h-4"
-                      src={`https://flagcdn.com/${countryCode.toLowerCase()}.svg`}
+                      className="w-4 h-4 rounded-full object-cover"
+                      src={`https://flagcdn.com/w20/${countryCode.toLowerCase()}.png`}
+                      onError={(e) => {
+                        e.currentTarget.style.display = "none";
+                      }}
                     />
                   }
                 >
-                  <div className="flex flex-col">
-                    <span className="text-tiny">{country?.name}</span>
+                  <div className="flex flex-col items-start">
+                    <span className="text-tiny font-medium">
+                      {country?.name}
+                    </span>
                     <span className="text-tiny text-default-400">
                       {country?.continent}
                     </span>
