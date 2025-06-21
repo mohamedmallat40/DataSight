@@ -79,6 +79,12 @@ interface ApiResponse<T> {
   message?: string;
 }
 
+interface Pool {
+  id: string;
+  name: string;
+  description?: string;
+}
+
 interface TableComponentState extends TableState, FilterState {
   // Modal states
   isAddModalOpen: boolean;
@@ -118,6 +124,10 @@ export default function ContactsPage(): JSX.Element {
   const [industryFilter, setIndustryFilter] = useState<FilterValue>("all");
   const [countryFilter, setCountryFilter] = useState<FilterValue>("all");
   const [dateFilter, setDateFilter] = useState<FilterKey>("all");
+  const [poolFilter, setPoolFilter] = useState<FilterValue>("all");
+
+  // Pool data
+  const [pools, setPools] = useState<Pool[]>([]);
 
   // Modal state management with typed hooks
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -145,8 +155,31 @@ export default function ContactsPage(): JSX.Element {
   }, [router.query.search]);
 
   useEffect(() => {
+    fetchPools();
+  }, []);
+
+  useEffect(() => {
     fetchUsers();
-  }, [page, filterValue]);
+  }, [page, filterValue, poolFilter]);
+
+  const fetchPools = useCallback(async (): Promise<void> => {
+    try {
+      const response = await apiClient.get<ApiResponse<Pool[]>>("/get-pools");
+      const { data } = response;
+
+      if (data?.success && Array.isArray(data?.data)) {
+        setPools(data.data);
+      } else {
+        setPools([]);
+        console.warn("API response does not contain valid pools data");
+      }
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
+      console.error("Error fetching pools:", errorMessage);
+      setPools([]);
+    }
+  }, []);
 
   const fetchUsers = useCallback(async (): Promise<void> => {
     setLoading(true);
@@ -158,6 +191,11 @@ export default function ContactsPage(): JSX.Element {
       // Add search parameter if it exists (trim only for API call)
       if (filterValue.trim()) {
         params.append("search", filterValue.trim());
+      }
+
+      // Add pool filter if selected
+      if (poolFilter !== "all") {
+        params.append("pool_id", poolFilter);
       }
 
       const response = await apiClient.get<ApiResponse<Users[]>>(
@@ -181,7 +219,7 @@ export default function ContactsPage(): JSX.Element {
     } finally {
       setLoading(false);
     }
-  }, [page, filterValue]);
+  }, [page, filterValue, poolFilter]);
 
   const headerColumns = useMemo((): ExtendedColumnDefinition[] => {
     if (visibleColumns === "all") {
@@ -721,6 +759,19 @@ export default function ContactsPage(): JSX.Element {
                 <PopoverContent className="w-80">
                   <div className="flex w-full flex-col gap-6 px-2 py-4">
                     <RadioGroup
+                      label="Pool"
+                      value={poolFilter}
+                      onValueChange={setPoolFilter}
+                    >
+                      <Radio value="all">All Pools</Radio>
+                      {pools.map((pool) => (
+                        <Radio key={pool.id} value={pool.id}>
+                          {pool.name}
+                        </Radio>
+                      ))}
+                    </RadioGroup>
+
+                    <RadioGroup
                       label="Industry"
                       value={industryFilter}
                       onValueChange={setIndustryFilter}
@@ -882,8 +933,10 @@ export default function ContactsPage(): JSX.Element {
     industryFilter,
     countryFilter,
     dateFilter,
+    poolFilter,
     uniqueIndustries,
     uniqueCountries,
+    pools,
     onSearchChange,
     setVisibleColumns,
   ]);
