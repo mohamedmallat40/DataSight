@@ -196,6 +196,11 @@ export default function ContactsPage(): JSX.Element {
         params.append("pool", poolFilter);
       }
 
+      // Add country filter parameter if countries are selected
+      if (countryFilter.length > 0) {
+        params.append("countries", countryFilter.join(","));
+      }
+
       const response = await apiClient.get<ApiResponse<Users[]>>(
         `/card-info?${params.toString()}`,
       );
