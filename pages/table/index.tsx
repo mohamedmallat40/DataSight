@@ -53,6 +53,10 @@ import { EditLinearIcon } from "../../components/table/edit";
 import { DeleteFilledIcon } from "../../components/table/delete";
 import { useMemoizedCallback } from "../../components/table/use-memoized-callback";
 import { columns, INITIAL_VISIBLE_COLUMNS } from "../../types/data";
+import {
+  HighlightedText,
+  containsSearchTerm,
+} from "../../utils/search-highlight";
 
 import MultiStepWizard from "./add-card/multi-step-wizard";
 import UserDetailsDrawer from "../../components/user-details-drawer";
