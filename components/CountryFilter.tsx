@@ -26,8 +26,11 @@ export default function CountryFilter({
     [],
   );
 
-  const handleSelectionChange = (keys: Set<string>) => {
-    const uniqueKeys = Array.from(new Set(keys));
+  const handleSelectionChange = (keys: any) => {
+    // Handle both Set and string array formats
+    const keysArray =
+      keys instanceof Set ? Array.from(keys) : Array.isArray(keys) ? keys : [];
+    const uniqueKeys = [...new Set(keysArray)];
     onSelectionChange(uniqueKeys);
   };
 
