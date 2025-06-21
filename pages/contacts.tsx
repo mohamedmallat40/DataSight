@@ -120,9 +120,6 @@ export default function ContactsPage(): JSX.Element {
 
   // Filter states with specific types
   const [filterValue, setFilterValue] = useState<FilterValue>("");
-  const [industryFilter, setIndustryFilter] = useState<FilterValue>("all");
-  const [countryFilter, setCountryFilter] = useState<FilterValue>("all");
-  const [dateFilter, setDateFilter] = useState<FilterKey>("all");
   const [poolFilter, setPoolFilter] = useState<FilterValue>("all");
 
   // Pool data
@@ -249,61 +246,11 @@ export default function ContactsPage(): JSX.Element {
       .filter((column) => (visibleColumns as Set<Key>).has(column.uid));
   }, [visibleColumns, sortDescriptor]);
 
-  // Filter and search logic with proper typing
-  const itemFilter = useCallback(
-    (user: Users): boolean => {
-      const allIndustry = industryFilter === "all";
-      const allCountry = countryFilter === "all";
-      const allDate = dateFilter === "all";
-
-      // Industry filter with type safety
-      if (
-        !allIndustry &&
-        (!user.industry ||
-          user.industry.toLowerCase() !== industryFilter.toLowerCase())
-      ) {
-        return false;
-      }
-
-      // Country filter with type safety
-      if (
-        !allCountry &&
-        (!user.country ||
-          user.country.toLowerCase() !== countryFilter.toLowerCase())
-      ) {
-        return false;
-      }
-
-      // Date filter with proper date handling
-      if (!allDate && user.date_collected) {
-        const userDate = new Date(user.date_collected);
-        const now = new Date();
-
-        // Check for valid dates
-        if (isNaN(userDate.getTime()) || isNaN(now.getTime())) {
-          return false;
-        }
-
-        const daysDiff = Math.floor(
-          (now.getTime() - userDate.getTime()) / (1000 * 60 * 60 * 24),
-        );
-
-        switch (dateFilter) {
-          case "last7Days":
-            return daysDiff <= 7;
-          case "last30Days":
-            return daysDiff <= 30;
-          case "last60Days":
-            return daysDiff <= 60;
-          default:
-            return true;
-        }
-      }
-
-      return true;
-    },
-    [industryFilter, countryFilter, dateFilter],
-  );
+  // Filter and search logic with proper typing (pool filtering is handled server-side)
+  const itemFilter = useCallback((user: Users): boolean => {
+    // All filtering is now handled server-side, so just return true for local filtering
+    return true;
+  }, []);
 
   const filteredItems = useMemo((): Users[] => {
     let filtered = [...userList];
@@ -386,22 +333,7 @@ export default function ContactsPage(): JSX.Element {
     );
   });
 
-  // Get unique values for filter options with type safety
-  const uniqueIndustries = useMemo((): string[] => {
-    const industries = userList
-      .map((user: Users) => user.industry)
-      .filter((industry): industry is string => Boolean(industry))
-      .filter((value, index, self) => self.indexOf(value) === index);
-    return industries.sort();
-  }, [userList]);
-
-  const uniqueCountries = useMemo((): string[] => {
-    const countries = userList
-      .map((user: Users) => user.country)
-      .filter((country): country is string => Boolean(country))
-      .filter((value, index, self) => self.indexOf(value) === index);
-    return countries.sort();
-  }, [userList]);
+  // Pool filtering is handled server-side, no need for local unique value calculations
 
   const onSelectionChange = useMemoizedCallback((keys: Selection): void => {
     setSelectedKeys(keys);
@@ -755,10 +687,10 @@ export default function ContactsPage(): JSX.Element {
                     Filter
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-80">
-                  <div className="flex w-full flex-col gap-6 px-2 py-4">
+                <PopoverContent className="w-64">
+                  <div className="flex w-full flex-col gap-4 px-2 py-4">
                     <RadioGroup
-                      label="Pool"
+                      label="Filter by Pool"
                       value={poolFilter}
                       onValueChange={setPoolFilter}
                     >
@@ -768,43 +700,6 @@ export default function ContactsPage(): JSX.Element {
                           {pool.label}
                         </Radio>
                       ))}
-                    </RadioGroup>
-
-                    <RadioGroup
-                      label="Industry"
-                      value={industryFilter}
-                      onValueChange={setIndustryFilter}
-                    >
-                      <Radio value="all">All Industries</Radio>
-                      {uniqueIndustries.slice(0, 5).map((industry) => (
-                        <Radio key={industry} value={industry || ""}>
-                          {industry}
-                        </Radio>
-                      ))}
-                    </RadioGroup>
-
-                    <RadioGroup
-                      label="Country"
-                      value={countryFilter}
-                      onValueChange={setCountryFilter}
-                    >
-                      <Radio value="all">All Countries</Radio>
-                      {uniqueCountries.slice(0, 5).map((country) => (
-                        <Radio key={country} value={country || ""}>
-                          {country}
-                        </Radio>
-                      ))}
-                    </RadioGroup>
-
-                    <RadioGroup
-                      label="Date Collected"
-                      value={dateFilter}
-                      onValueChange={setDateFilter}
-                    >
-                      <Radio value="all">All Time</Radio>
-                      <Radio value="last7Days">Last 7 days</Radio>
-                      <Radio value="last30Days">Last 30 days</Radio>
-                      <Radio value="last60Days">Last 60 days</Radio>
                     </RadioGroup>
                   </div>
                 </PopoverContent>
@@ -929,12 +824,7 @@ export default function ContactsPage(): JSX.Element {
     filterSelectedKeys,
     headerColumns,
     sortDescriptor,
-    industryFilter,
-    countryFilter,
-    dateFilter,
     poolFilter,
-    uniqueIndustries,
-    uniqueCountries,
     pools,
     onSearchChange,
     setVisibleColumns,
