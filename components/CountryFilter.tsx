@@ -77,28 +77,42 @@ export default function CountryFilter({
       </Autocomplete>
 
       {selectedCountries.length > 0 && (
-        <div className="flex flex-wrap gap-2 max-h-[150px] overflow-y-auto p-2 border border-default-200 rounded-medium">
-          {selectedCountries.map((countryCode) => {
-            const country = countries.find((c) => c.code === countryCode);
-            return (
-              <Chip
-                key={countryCode}
-                onClose={() => handleRemoveCountry(countryCode)}
-                variant="flat"
-                color="primary"
-                size="sm"
-                avatar={
-                  <Avatar
-                    alt={country?.name}
-                    className="w-4 h-4"
-                    src={`https://flagcdn.com/${countryCode.toLowerCase()}.svg`}
-                  />
-                }
-              >
-                {country?.name}
-              </Chip>
-            );
-          })}
+        <div className="flex flex-col gap-2">
+          <div className="flex justify-between items-center">
+            <span className="text-small text-default-600">
+              {selectedCountries.length} countr
+              {selectedCountries.length === 1 ? "y" : "ies"} selected
+            </span>
+            <button
+              onClick={() => onSelectionChange([])}
+              className="text-tiny text-primary hover:text-primary-600 cursor-pointer"
+            >
+              Clear all
+            </button>
+          </div>
+          <div className="flex flex-wrap gap-2 max-h-[150px] overflow-y-auto p-2 border border-default-200 rounded-medium">
+            {selectedCountries.map((countryCode) => {
+              const country = countries.find((c) => c.code === countryCode);
+              return (
+                <Chip
+                  key={countryCode}
+                  onClose={() => handleRemoveCountry(countryCode)}
+                  variant="flat"
+                  color="primary"
+                  size="sm"
+                  avatar={
+                    <Avatar
+                      alt={country?.name}
+                      className="w-4 h-4"
+                      src={`https://flagcdn.com/${countryCode.toLowerCase()}.svg`}
+                    />
+                  }
+                >
+                  {country?.name}
+                </Chip>
+              );
+            })}
+          </div>
         </div>
       )}
     </div>
