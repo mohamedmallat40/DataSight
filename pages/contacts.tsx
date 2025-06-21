@@ -862,6 +862,7 @@ export default function ContactsPage(): JSX.Element {
     countryFilter,
     pools,
     onSearchChange,
+    onCountryFilterChange,
     setVisibleColumns,
   ]);
 
