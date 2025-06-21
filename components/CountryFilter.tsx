@@ -27,11 +27,14 @@ export default function CountryFilter({
   );
 
   const handleSelectionChange = (keys: any) => {
-    // Handle both Set and string array formats
-    const keysArray =
-      keys instanceof Set ? Array.from(keys) : Array.isArray(keys) ? keys : [];
-    const uniqueKeys = [...new Set(keysArray)];
-    onSelectionChange(uniqueKeys);
+    console.log("Selection changed:", keys); // Debug log
+    if (keys instanceof Set) {
+      const keysArray = Array.from(keys);
+      console.log("Keys array:", keysArray); // Debug log
+      onSelectionChange(keysArray);
+    } else if (Array.isArray(keys)) {
+      onSelectionChange(keys);
+    }
   };
 
   const handleRemoveCountry = (countryKey: string) => {
