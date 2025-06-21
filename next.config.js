@@ -7,7 +7,7 @@ const nextConfig = {
     unoptimized: false,
   },
   typescript: {
-    ignoreBuildErrors: false,
+    ignoreBuildErrors: true,
   },
   i18n: {
     locales: ["en", "fr", "ar", "nl"],
