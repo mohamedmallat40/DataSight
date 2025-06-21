@@ -120,7 +120,7 @@ export default function ContactsPage(): JSX.Element {
 
   // Filter states with specific types
   const [filterValue, setFilterValue] = useState<FilterValue>("");
-  const [selectedPools, setSelectedPools] = useState<Set<string>>(new Set());
+  const [poolFilter, setPoolFilter] = useState<FilterValue>("all");
 
   // Pool data
   const [pools, setPools] = useState<Pool[]>([]);
@@ -156,7 +156,7 @@ export default function ContactsPage(): JSX.Element {
 
   useEffect(() => {
     fetchUsers();
-  }, [page, filterValue, selectedPools]);
+  }, [page, filterValue, poolFilter]);
 
   const fetchPools = useCallback(async (): Promise<void> => {
     try {
@@ -189,11 +189,9 @@ export default function ContactsPage(): JSX.Element {
         params.append("search", filterValue.trim());
       }
 
-      // Add multiple pool parameters if selected
-      if (selectedPools.size > 0) {
-        selectedPools.forEach((poolId) => {
-          params.append("pool", poolId);
-        });
+      // Add pool parameter if selected (using "pool" instead of "pool_id")
+      if (poolFilter !== "all") {
+        params.append("pool", poolFilter);
       }
 
       const response = await apiClient.get<ApiResponse<Users[]>>(
@@ -217,7 +215,7 @@ export default function ContactsPage(): JSX.Element {
     } finally {
       setLoading(false);
     }
-  }, [page, filterValue, selectedPools]);
+  }, [page, filterValue, poolFilter]);
 
   const headerColumns = useMemo((): ExtendedColumnDefinition[] => {
     if (visibleColumns === "all") {
@@ -676,104 +674,33 @@ export default function ContactsPage(): JSX.Element {
               <Popover placement="bottom">
                 <PopoverTrigger>
                   <Button
-                    className={cn(
-                      "text-default-800",
-                      selectedPools.size > 0
-                        ? "bg-primary-100 border-primary-200"
-                        : "bg-default-100",
-                    )}
+                    className="bg-default-100 text-default-800"
                     size="sm"
-                    variant={selectedPools.size > 0 ? "bordered" : "flat"}
                     startContent={
                       <Icon
-                        className={
-                          selectedPools.size > 0
-                            ? "text-primary"
-                            : "text-default-400"
-                        }
+                        className="text-default-400"
                         icon="solar:tuning-2-linear"
                         width={16}
                       />
-                    }
-                    endContent={
-                      selectedPools.size > 0 && (
-                        <Chip size="sm" color="primary" variant="flat">
-                          {selectedPools.size}
-                        </Chip>
-                      )
                     }
                   >
                     Filter
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-72">
+                <PopoverContent className="w-64">
                   <div className="flex w-full flex-col gap-4 px-2 py-4">
-                    <div>
-                      <h4 className="text-small font-medium text-default-700 mb-3">
-                        Filter by Pool
-                      </h4>
-                      <div className="flex flex-col gap-2">
-                        <div className="flex items-center gap-2">
-                          <input
-                            type="checkbox"
-                            id="all-pools"
-                            className="rounded border-default-300"
-                            checked={selectedPools.size === 0}
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                setSelectedPools(new Set());
-                              }
-                            }}
-                          />
-                          <label
-                            htmlFor="all-pools"
-                            className="text-small text-default-600"
-                          >
-                            All Pools
-                          </label>
-                        </div>
-                        {pools.map((pool) => (
-                          <div
-                            key={pool.id}
-                            className="flex items-center gap-2"
-                          >
-                            <input
-                              type="checkbox"
-                              id={`pool-${pool.id}`}
-                              className="rounded border-default-300"
-                              checked={selectedPools.has(pool.id.toString())}
-                              onChange={(e) => {
-                                const newSelectedPools = new Set(selectedPools);
-                                if (e.target.checked) {
-                                  newSelectedPools.add(pool.id.toString());
-                                } else {
-                                  newSelectedPools.delete(pool.id.toString());
-                                }
-                                setSelectedPools(newSelectedPools);
-                              }}
-                            />
-                            <label
-                              htmlFor={`pool-${pool.id}`}
-                              className="text-small text-default-600"
-                            >
-                              {pool.label}
-                            </label>
-                          </div>
-                        ))}
-                      </div>
-                      {selectedPools.size > 0 && (
-                        <div className="mt-3 pt-2 border-t border-default-200">
-                          <Button
-                            size="sm"
-                            variant="light"
-                            color="primary"
-                            onPress={() => setSelectedPools(new Set())}
-                          >
-                            Clear All
-                          </Button>
-                        </div>
-                      )}
-                    </div>
+                    <RadioGroup
+                      label="Filter by Pool"
+                      value={poolFilter}
+                      onValueChange={setPoolFilter}
+                    >
+                      <Radio value="all">All Pools</Radio>
+                      {pools.map((pool) => (
+                        <Radio key={pool.id} value={pool.id.toString()}>
+                          {pool.label}
+                        </Radio>
+                      ))}
+                    </RadioGroup>
                   </div>
                 </PopoverContent>
               </Popover>
@@ -897,7 +824,7 @@ export default function ContactsPage(): JSX.Element {
     filterSelectedKeys,
     headerColumns,
     sortDescriptor,
-    selectedPools,
+    poolFilter,
     pools,
     onSearchChange,
     setVisibleColumns,
