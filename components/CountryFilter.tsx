@@ -111,26 +111,15 @@ export default function CountryFilter({
                   variant="flat"
                   color="primary"
                   size="sm"
-                  startContent={
-                    <img
+                  avatar={
+                    <Avatar
                       alt={country?.name}
-                      className="w-3 h-3 rounded-sm object-cover flex-shrink-0"
-                      src={`https://flagcdn.com/w20/${countryCode.toLowerCase()}.png`}
-                      onError={(e) => {
-                        const target = e.target as HTMLImageElement;
-                        target.style.display = "none";
-                      }}
+                      className="w-6 h-6"
+                      src={`https://flagcdn.com/${countryCode.toLowerCase()}.svg`}
                     />
                   }
                 >
-                  <div className="flex flex-col items-start min-w-0">
-                    <span className="text-tiny font-medium truncate">
-                      {country?.name}
-                    </span>
-                    <span className="text-tiny text-default-400 truncate">
-                      {country?.continent}
-                    </span>
-                  </div>
+                  {country?.name}
                 </Chip>
               );
             })}
