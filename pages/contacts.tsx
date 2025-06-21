@@ -690,6 +690,19 @@ export default function ContactsPage(): JSX.Element {
                         width={16}
                       />
                     }
+                    endContent={
+                      (poolFilter !== "all" || countryFilter.length > 0) && (
+                        <Chip
+                          size="sm"
+                          color="primary"
+                          variant="solid"
+                          className="h-4 min-w-4 text-tiny"
+                        >
+                          {(poolFilter !== "all" ? 1 : 0) +
+                            countryFilter.length}
+                        </Chip>
+                      )
+                    }
                   >
                     Filter
                   </Button>
