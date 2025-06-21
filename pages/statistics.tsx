@@ -265,45 +265,6 @@ export default function StatisticsPage(): JSX.Element {
         })),
       },
       {
-        title: "Data Completeness",
-        color: "success",
-        categories: ["Email", "Phone", "Job Title", "Company"],
-        chartType: "radial" as const,
-        unit: "%",
-        unitTitle: "Complete",
-        total: Math.round((stats.completeness.withEmail / stats.total) * 100),
-        chartData: [
-          {
-            name: "Email",
-            value: Math.round(
-              (stats.completeness.withEmail / stats.total) * 100,
-            ),
-            valueText: `${stats.completeness.withEmail}/${stats.total} contacts`,
-          },
-          {
-            name: "Phone",
-            value: Math.round(
-              (stats.completeness.withPhone / stats.total) * 100,
-            ),
-            valueText: `${stats.completeness.withPhone}/${stats.total} contacts`,
-          },
-          {
-            name: "Job Title",
-            value: Math.round(
-              (stats.completeness.withJobTitle / stats.total) * 100,
-            ),
-            valueText: `${stats.completeness.withJobTitle}/${stats.total} contacts`,
-          },
-          {
-            name: "Company",
-            value: Math.round(
-              (stats.completeness.withCompany / stats.total) * 100,
-            ),
-            valueText: `${stats.completeness.withCompany}/${stats.total} contacts`,
-          },
-        ],
-      },
-      {
         title: "Top Countries",
         color: "warning",
         categories: stats.topCountries.map(([name]) => name),
@@ -484,7 +445,7 @@ export default function StatisticsPage(): JSX.Element {
         </div>
 
         {/* Charts Grid */}
-        <div className="grid w-full grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-3 mb-6">
+        <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 mb-6">
           {chartData.map((item, index) => (
             <StatChartCard key={index} {...item} />
           ))}
@@ -621,7 +582,7 @@ const StatChartCard = React.forwardRef<HTMLDivElement, StatCardProps>(
       switch (chartType) {
         case "bar":
           return (
-            <ResponsiveContainer height={180} width="100%">
+            <ResponsiveContainer height={260} width="100%">
               <BarChart data={chartData}>
                 <CartesianGrid
                   strokeDasharray="3 3"
@@ -638,7 +599,7 @@ const StatChartCard = React.forwardRef<HTMLDivElement, StatCardProps>(
                 />
                 <Tooltip
                   content={({ payload, label }) => (
-                    <div className="bg-background border border-default-200 rounded-lg p-2 shadow-lg">
+                    <div className="bg-background border border-default-200 rounded-lg p-3 shadow-lg">
                       <p className="text-small font-medium">{label}</p>
                       {payload?.map((p, i) => (
                         <p key={i} className="text-small text-default-600">
@@ -659,13 +620,13 @@ const StatChartCard = React.forwardRef<HTMLDivElement, StatCardProps>(
 
         case "pie":
           return (
-            <ResponsiveContainer height={180} width="100%">
+            <ResponsiveContainer height={260} width="100%">
               <PieChart>
                 <Pie
                   data={chartData}
                   cx="50%"
                   cy="50%"
-                  outerRadius={60}
+                  outerRadius={90}
                   dataKey="value"
                   stroke="none"
                 >
@@ -678,7 +639,7 @@ const StatChartCard = React.forwardRef<HTMLDivElement, StatCardProps>(
                 </Pie>
                 <Tooltip
                   content={({ payload }) => (
-                    <div className="bg-background border border-default-200 rounded-lg p-2 shadow-lg">
+                    <div className="bg-background border border-default-200 rounded-lg p-3 shadow-lg">
                       {payload?.map((p, i) => (
                         <div key={i}>
                           <p className="text-small font-medium">{p.name}</p>
@@ -696,20 +657,20 @@ const StatChartCard = React.forwardRef<HTMLDivElement, StatCardProps>(
 
         default: // radial
           return (
-            <ResponsiveContainer height={180} width="100%">
+            <ResponsiveContainer height={260} width="100%">
               <RadialBarChart
-                barSize={8}
+                barSize={12}
                 cx="50%"
                 cy="50%"
                 data={chartData}
                 endAngle={-270}
-                innerRadius={70}
-                outerRadius={45}
+                innerRadius={90}
+                outerRadius={60}
                 startAngle={90}
               >
                 <Tooltip
                   content={({ payload }) => (
-                    <div className="bg-background border border-default-200 rounded-lg p-2 shadow-lg">
+                    <div className="bg-background border border-default-200 rounded-lg p-3 shadow-lg">
                       {payload?.map((p) => (
                         <div key={p.payload.name}>
                           <p className="text-small font-medium">
@@ -728,7 +689,7 @@ const StatChartCard = React.forwardRef<HTMLDivElement, StatCardProps>(
                   animationDuration={1000}
                   animationEasing="ease"
                   background={{ fill: "hsl(var(--heroui-default-100))" }}
-                  cornerRadius={6}
+                  cornerRadius={8}
                   dataKey="value"
                   strokeWidth={0}
                 >
@@ -742,14 +703,14 @@ const StatChartCard = React.forwardRef<HTMLDivElement, StatCardProps>(
                 <g>
                   <text textAnchor="middle" x="50%" y="48%">
                     <tspan
-                      className="fill-default-500 text-[0.6rem]"
+                      className="fill-default-500 text-sm"
                       dy="-0.5em"
                       x="50%"
                     >
                       {unitTitle}
                     </tspan>
                     <tspan
-                      className="fill-foreground text-tiny font-semibold"
+                      className="fill-foreground text-lg font-semibold"
                       dy="1.5em"
                       x="50%"
                     >
@@ -764,11 +725,11 @@ const StatChartCard = React.forwardRef<HTMLDivElement, StatCardProps>(
     };
 
     return (
-      <Card className="min-h-[320px] border border-transparent dark:border-default-100">
-        <div className="flex flex-col gap-y-2 p-4 pb-0">
+      <Card className="min-h-[420px] border border-transparent dark:border-default-100">
+        <div className="flex flex-col gap-y-2 p-6 pb-0">
           <div className="flex items-center justify-between gap-x-2">
             <dt>
-              <h3 className="text-small font-medium text-default-500">
+              <h3 className="text-base font-semibold text-default-700">
                 {title}
               </h3>
             </dt>
@@ -786,12 +747,12 @@ const StatChartCard = React.forwardRef<HTMLDivElement, StatCardProps>(
           </div>
         </div>
 
-        <div className="flex h-full flex-col flex-col-reverse flex-wrap gap-3 sm:flex-row sm:flex-nowrap">
-          <div className="flex flex-col justify-center gap-y-2 pb-4 pl-5 text-tiny text-default-500 lg:pb-0">
+        <div className="flex h-full flex-col flex-col-reverse flex-wrap gap-4 sm:flex-row sm:flex-nowrap">
+          <div className="flex flex-col justify-center gap-y-3 pb-6 pl-6 text-tiny text-default-500 lg:pb-0">
             {categories.slice(0, 4).map((category, index) => {
               const data = chartData.find((c) => c.name === category);
               return (
-                <div key={index} className="flex flex-col items-start gap-y-0">
+                <div key={index} className="flex flex-col items-start gap-y-1">
                   <span className="text-small font-medium capitalize text-default-500">
                     {category}
                   </span>
