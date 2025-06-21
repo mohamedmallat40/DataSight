@@ -73,6 +73,7 @@ export type Users = {
   front_image_link: string | null;
   back_image_link: string | null;
   collected_at: string | null;
+  pool_id: string | null;
 };
 
 // Column key types
