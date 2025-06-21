@@ -454,6 +454,9 @@ export default function Component(): JSX.Element {
             </div>
           );
         case "industry":
+          const isIndustryHighlighted =
+            filterValue && containsSearchTerm(user.industry || "", filterValue);
+
           return (
             <div className="flex items-center gap-2">
               <Icon
@@ -461,10 +464,23 @@ export default function Component(): JSX.Element {
                 className="text-default-400 w-3 h-3 flex-shrink-0"
               />
               <p
-                className="text-small text-default-700 truncate"
+                className={cn(
+                  "text-small truncate",
+                  isIndustryHighlighted
+                    ? "text-default-900"
+                    : "text-default-700",
+                )}
                 title={user.industry || "No industry"}
               >
-                {user.industry || "N/A"}
+                {filterValue && user.industry ? (
+                  <HighlightedText
+                    text={user.industry}
+                    searchTerm={filterValue}
+                    highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
+                  />
+                ) : (
+                  user.industry || "N/A"
+                )}
               </p>
             </div>
           );
