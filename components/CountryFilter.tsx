@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Autocomplete,
   AutocompleteItem,
@@ -21,67 +21,67 @@ export default function CountryFilter({
   onSelectionChange,
   className,
 }: CountryFilterProps) {
+  const [inputValue, setInputValue] = useState("");
+
   const groupedCountries = React.useMemo(
     () => groupCountriesByContinent(countries),
     [],
   );
 
-  const handleSelectionChange = (keys: any) => {
-    console.log("Selection changed:", keys); // Debug log
-    if (keys instanceof Set) {
-      const keysArray = Array.from(keys);
-      console.log("Keys array:", keysArray); // Debug log
-      onSelectionChange(keysArray);
-    } else if (Array.isArray(keys)) {
-      onSelectionChange(keys);
+  const handleCountrySelect = (countryCode: string | null) => {
+    if (!countryCode) return;
+
+    if (!selectedCountries.includes(countryCode)) {
+      onSelectionChange([...selectedCountries, countryCode]);
     }
+    setInputValue("");
   };
 
-  const handleRemoveCountry = (countryKey: string) => {
-    onSelectionChange(selectedCountries.filter((key) => key !== countryKey));
+  const handleRemoveCountry = (countryCode: string) => {
+    onSelectionChange(selectedCountries.filter((code) => code !== countryCode));
   };
 
-  console.log(
-    "CountryFilter rendered with selectedCountries:",
-    selectedCountries,
-  ); // Debug log
+  const handleClearAll = () => {
+    onSelectionChange([]);
+  };
 
   return (
-    <div className={`flex flex-col gap-4 w-full ${className || ""}`}>
+    <div className={`flex flex-col gap-3 w-full ${className || ""}`}>
       <Autocomplete
         label="Filter by countries"
         placeholder="Search and select countries..."
-        selectionMode="multiple"
-        selectedKeys={new Set(selectedCountries)}
-        onSelectionChange={handleSelectionChange}
-        className="max-h-[300px] overflow-y-auto"
+        inputValue={inputValue}
+        onInputChange={setInputValue}
+        onSelectionChange={handleCountrySelect}
         size="sm"
         variant="bordered"
-        allowsCustomValue={false}
+        className="w-full"
       >
         {Object.entries(groupedCountries).map(
           ([continent, countriesInContinent]) => (
             <AutocompleteSection key={continent} title={continent}>
-              {countriesInContinent.map((country) => (
-                <AutocompleteItem
-                  key={country.code}
-                  startContent={
-                    <Avatar
-                      alt={country.name}
-                      className="w-6 h-6"
-                      src={`https://flagcdn.com/${country.code.toLowerCase()}.svg`}
-                    />
-                  }
-                  textValue={country.name}
-                >
-                  <div className="flex justify-between items-center">
-                    <span>{country.name}</span>
-                    <span className="text-tiny text-default-400">
-                      {country.code}
-                    </span>
-                  </div>
-                </AutocompleteItem>
-              ))}
+              {countriesInContinent
+                .filter((country) => !selectedCountries.includes(country.code))
+                .map((country) => (
+                  <AutocompleteItem
+                    key={country.code}
+                    startContent={
+                      <Avatar
+                        alt={country.name}
+                        className="w-6 h-6"
+                        src={`https://flagcdn.com/${country.code.toLowerCase()}.svg`}
+                      />
+                    }
+                    textValue={country.name}
+                  >
+                    <div className="flex justify-between items-center">
+                      <span>{country.name}</span>
+                      <span className="text-tiny text-default-400">
+                        {country.code}
+                      </span>
+                    </div>
+                  </AutocompleteItem>
+                ))}
             </AutocompleteSection>
           ),
         )}
@@ -95,13 +95,13 @@ export default function CountryFilter({
               {selectedCountries.length === 1 ? "y" : "ies"} selected
             </span>
             <button
-              onClick={() => onSelectionChange([])}
+              onClick={handleClearAll}
               className="text-tiny text-primary hover:text-primary-600 cursor-pointer"
             >
               Clear all
             </button>
           </div>
-          <div className="flex flex-wrap gap-2 max-h-[150px] overflow-y-auto p-2 border border-default-200 rounded-medium">
+          <div className="flex flex-wrap gap-2 max-h-[120px] overflow-y-auto p-2 border border-default-200 rounded-medium">
             {selectedCountries.map((countryCode) => {
               const country = countries.find((c) => c.code === countryCode);
               return (
@@ -114,19 +114,20 @@ export default function CountryFilter({
                   startContent={
                     <img
                       alt={country?.name}
-                      className="w-4 h-4 rounded-full object-cover"
+                      className="w-3 h-3 rounded-sm object-cover flex-shrink-0"
                       src={`https://flagcdn.com/w20/${countryCode.toLowerCase()}.png`}
                       onError={(e) => {
-                        e.currentTarget.style.display = "none";
+                        const target = e.target as HTMLImageElement;
+                        target.style.display = "none";
                       }}
                     />
                   }
                 >
-                  <div className="flex flex-col items-start">
-                    <span className="text-tiny font-medium">
+                  <div className="flex flex-col items-start min-w-0">
+                    <span className="text-tiny font-medium truncate">
                       {country?.name}
                     </span>
-                    <span className="text-tiny text-default-400">
+                    <span className="text-tiny text-default-400 truncate">
                       {country?.continent}
                     </span>
                   </div>
