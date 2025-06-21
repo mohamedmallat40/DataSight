@@ -41,6 +41,11 @@ export default function CountryFilter({
     onSelectionChange(selectedCountries.filter((key) => key !== countryKey));
   };
 
+  console.log(
+    "CountryFilter rendered with selectedCountries:",
+    selectedCountries,
+  ); // Debug log
+
   return (
     <div className={`flex flex-col gap-4 w-full ${className || ""}`}>
       <Autocomplete
