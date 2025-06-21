@@ -59,14 +59,26 @@ type StatCardProps = {
   chartType?: "radial" | "bar" | "pie" | "line";
 };
 
-type ApiResponse<T> = {
+type StatsApiResponse = {
   success: boolean;
-  data: T;
-  pagination?: {
-    totalPages: number;
-    total: number;
-    currentPage: number;
-    pageSize: number;
+  data: {
+    total_contacts: string;
+    with_email_percentage: string;
+    with_phone_percentage: string;
+    total_industries: string;
+    male: string;
+    female: string;
+    unknown: string;
+    top_industries: Array<{
+      industry: string;
+      count: number;
+    }>;
+    top_countries: Array<{
+      code: string;
+      count: number;
+    }>;
+    industry_breakdown: Record<string, number>;
+    geographic_distribution: Record<string, number>;
   };
   message?: string;
 };
@@ -86,139 +98,59 @@ const formatTotal = (value: number | undefined) => {
 };
 
 export default function StatisticsPage(): JSX.Element {
-  const [users, setUsers] = useState<Users[]>([]);
+  const [statsData, setStatsData] = useState<StatsApiResponse["data"] | null>(
+    null,
+  );
   const [loading, setLoading] = useState(true);
   const [timeRange, setTimeRange] = useState("all");
 
   useEffect(() => {
-    fetchAllUsers();
+    fetchStats();
   }, []);
 
-  const fetchAllUsers = async () => {
+  const fetchStats = async () => {
     setLoading(true);
     try {
-      // Fetch multiple pages to get all users for statistics
-      let allUsers: Users[] = [];
-      let page = 1;
-      let hasMore = true;
+      const response = await apiClient.get<StatsApiResponse>("/stats");
 
-      while (hasMore) {
-        const response = await apiClient.get<ApiResponse<Users[]>>(
-          `/card-info?page=${page}&per_page=100`,
-        );
-
-        if (response.data?.success && Array.isArray(response.data?.data)) {
-          allUsers = [...allUsers, ...response.data.data];
-          const totalPages = response.data.pagination?.totalPages ?? 1;
-          hasMore = page < totalPages;
-          page++;
-        } else {
-          hasMore = false;
-        }
+      if (response.data?.success && response.data?.data) {
+        setStatsData(response.data.data);
+      } else {
+        setStatsData(null);
+        console.warn("API response does not contain valid stats data");
       }
-
-      setUsers(allUsers);
     } catch (error) {
-      console.error("Error fetching users for statistics:", error);
-      setUsers([]);
+      console.error("Error fetching statistics:", error);
+      setStatsData(null);
     } finally {
       setLoading(false);
     }
   };
 
-  // Calculate statistics
+  // Process API statistics data
   const stats = useMemo(() => {
-    if (!users.length) return null;
+    if (!statsData) return null;
 
-    // Gender distribution
-    const genderStats = users.reduce(
-      (acc, user) => {
-        if (user.gender === true) acc.male++;
-        else if (user.gender === false) acc.female++;
-        else acc.unknown++;
-        return acc;
-      },
-      { male: 0, female: 0, unknown: 0 },
-    );
-
-    // Industry distribution (top 5)
-    const industryCount = users.reduce(
-      (acc, user) => {
-        const industry = user.industry || "Unknown";
-        acc[industry] = (acc[industry] || 0) + 1;
-        return acc;
-      },
-      {} as Record<string, number>,
-    );
-
-    const topIndustries = Object.entries(industryCount)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 5);
-
-    // Country distribution (top 5)
-    const countryCount = users.reduce(
-      (acc, user) => {
-        const country = user.country || "Unknown";
-        acc[country] = (acc[country] || 0) + 1;
-        return acc;
-      },
-      {} as Record<string, number>,
-    );
-
-    const topCountries = Object.entries(countryCount)
-      .sort((a, b) => b[1] - a[1])
-      .slice(0, 5);
-
-    // Contact completeness
-    const completeness = users.reduce(
-      (acc, user) => {
-        const hasEmail = user.email && user.email.length > 0 && user.email[0];
-        const hasPhone =
-          user.phone_number &&
-          user.phone_number.length > 0 &&
-          user.phone_number[0];
-        const hasJobTitle = user.job_title;
-        const hasCompany = user.company_name;
-
-        if (hasEmail) acc.withEmail++;
-        if (hasPhone) acc.withPhone++;
-        if (hasJobTitle) acc.withJobTitle++;
-        if (hasCompany) acc.withCompany++;
-
-        return acc;
-      },
-      { withEmail: 0, withPhone: 0, withJobTitle: 0, withCompany: 0 },
-    );
-
-    // Monthly collection trends (last 6 months)
-    const monthlyTrends = users
-      .filter((user) => user.date_collected)
-      .reduce(
-        (acc, user) => {
-          const date = new Date(user.date_collected!);
-          const monthKey = date.toLocaleDateString("en-US", {
-            month: "short",
-            year: "numeric",
-          });
-          acc[monthKey] = (acc[monthKey] || 0) + 1;
-          return acc;
-        },
-        {} as Record<string, number>,
-      );
-
-    const trendData = Object.entries(monthlyTrends)
-      .sort((a, b) => new Date(a[0]).getTime() - new Date(b[0]).getTime())
-      .slice(-6);
+    const total = parseInt(statsData.total_contacts);
+    const emailPercentage = parseFloat(statsData.with_email_percentage);
+    const phonePercentage = parseFloat(statsData.with_phone_percentage);
 
     return {
-      total: users.length,
-      genderStats,
-      topIndustries,
-      topCountries,
-      completeness,
-      trendData,
+      total,
+      emailPercentage,
+      phonePercentage,
+      totalIndustries: parseInt(statsData.total_industries),
+      genderStats: {
+        male: parseInt(statsData.male),
+        female: parseInt(statsData.female),
+        unknown: parseInt(statsData.unknown),
+      },
+      topIndustries: statsData.top_industries.slice(0, 5),
+      topCountries: statsData.top_countries.slice(0, 5),
+      industryBreakdown: statsData.industry_breakdown,
+      geographicDistribution: statsData.geographic_distribution,
     };
-  }, [users]);
+  }, [statsData]);
 
   const chartData: StatCardProps[] = useMemo(() => {
     if (!stats) return [];
@@ -253,29 +185,29 @@ export default function StatisticsPage(): JSX.Element {
       {
         title: "Top Industries",
         color: "secondary",
-        categories: stats.topIndustries.map(([name]) => name),
+        categories: stats.topIndustries.map((item) => item.industry),
         chartType: "bar" as const,
         unit: "contacts",
         unitTitle: "Total",
-        total: stats.topIndustries.reduce((sum, [, count]) => sum + count, 0),
-        chartData: stats.topIndustries.map(([name, count]) => ({
-          name,
-          value: count,
-          valueText: `${count} contacts`,
+        total: stats.topIndustries.reduce((sum, item) => sum + item.count, 0),
+        chartData: stats.topIndustries.map((item) => ({
+          name: item.industry,
+          value: item.count,
+          valueText: `${item.count} contacts`,
         })),
       },
       {
         title: "Top Countries",
         color: "warning",
-        categories: stats.topCountries.map(([name]) => name),
+        categories: stats.topCountries.map((item) => item.code),
         chartType: "pie" as const,
         unit: "contacts",
         unitTitle: "Total",
-        total: stats.topCountries.reduce((sum, [, count]) => sum + count, 0),
-        chartData: stats.topCountries.map(([name, count]) => ({
-          name,
-          value: count,
-          valueText: `${count} contacts`,
+        total: stats.topCountries.reduce((sum, item) => sum + item.count, 0),
+        chartData: stats.topCountries.map((item) => ({
+          name: item.code,
+          value: item.count,
+          valueText: `${item.count} contacts`,
         })),
       },
     ];
@@ -395,10 +327,7 @@ export default function StatisticsPage(): JSX.Element {
               <div>
                 <p className="text-small text-default-500">With Email</p>
                 <p className="text-2xl font-bold text-success">
-                  {Math.round(
-                    (stats.completeness.withEmail / stats.total) * 100,
-                  )}
-                  %
+                  {stats.emailPercentage}%
                 </p>
               </div>
             </div>
@@ -416,10 +345,7 @@ export default function StatisticsPage(): JSX.Element {
               <div>
                 <p className="text-small text-default-500">With Phone</p>
                 <p className="text-2xl font-bold text-warning">
-                  {Math.round(
-                    (stats.completeness.withPhone / stats.total) * 100,
-                  )}
-                  %
+                  {stats.phonePercentage}%
                 </p>
               </div>
             </div>
@@ -437,7 +363,7 @@ export default function StatisticsPage(): JSX.Element {
               <div>
                 <p className="text-small text-default-500">Industries</p>
                 <p className="text-2xl font-bold text-secondary">
-                  {stats.topIndustries.length}
+                  {stats.totalIndustries}
                 </p>
               </div>
             </div>
@@ -474,38 +400,32 @@ export default function StatisticsPage(): JSX.Element {
             </CardHeader>
             <CardBody>
               <div className="space-y-3">
-                {stats.topCountries
-                  .slice(0, 8)
-                  .map(([country, count], index) => {
-                    const percentage = Math.round((count / stats.total) * 100);
-                    return (
-                      <div
-                        key={country}
-                        className="flex items-center justify-between"
-                      >
-                        <div className="flex items-center gap-3">
-                          <CountryFlag
-                            countryCode={
-                              users.find((u) => u.country === country)
-                                ?.country_code
-                            }
-                            size="sm"
-                          />
-                          <span className="text-small font-medium">
-                            {country}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-small text-default-500">
-                            {percentage}%
-                          </span>
-                          <span className="text-small font-medium">
-                            {count}
-                          </span>
-                        </div>
+                {stats.topCountries.slice(0, 8).map((country, index) => {
+                  const percentage = Math.round(
+                    (country.count / stats.total) * 100,
+                  );
+                  return (
+                    <div
+                      key={country.code}
+                      className="flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-3">
+                        <CountryFlag countryCode={country.code} size="sm" />
+                        <span className="text-small font-medium">
+                          {country.code}
+                        </span>
                       </div>
-                    );
-                  })}
+                      <div className="flex items-center gap-2">
+                        <span className="text-small text-default-500">
+                          {percentage}%
+                        </span>
+                        <span className="text-small font-medium">
+                          {country.count}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </CardBody>
           </Card>
@@ -529,35 +449,35 @@ export default function StatisticsPage(): JSX.Element {
             </CardHeader>
             <CardBody>
               <div className="space-y-3">
-                {stats.topIndustries
-                  .slice(0, 8)
-                  .map(([industry, count], index) => {
-                    const percentage = Math.round((count / stats.total) * 100);
-                    return (
-                      <div
-                        key={industry}
-                        className="flex items-center justify-between"
-                      >
-                        <div className="flex items-center gap-3">
-                          <Icon
-                            icon="solar:briefcase-bold"
-                            className="text-default-400 w-4 h-4"
-                          />
-                          <span className="text-small font-medium truncate">
-                            {industry}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-small text-default-500">
-                            {percentage}%
-                          </span>
-                          <span className="text-small font-medium">
-                            {count}
-                          </span>
-                        </div>
+                {stats.topIndustries.slice(0, 8).map((industry, index) => {
+                  const percentage = Math.round(
+                    (industry.count / stats.total) * 100,
+                  );
+                  return (
+                    <div
+                      key={industry.industry}
+                      className="flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-3">
+                        <Icon
+                          icon="solar:briefcase-bold"
+                          className="text-default-400 w-4 h-4"
+                        />
+                        <span className="text-small font-medium truncate">
+                          {industry.industry}
+                        </span>
                       </div>
-                    );
-                  })}
+                      <div className="flex items-center gap-2">
+                        <span className="text-small text-default-500">
+                          {percentage}%
+                        </span>
+                        <span className="text-small font-medium">
+                          {industry.count}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </CardBody>
           </Card>
