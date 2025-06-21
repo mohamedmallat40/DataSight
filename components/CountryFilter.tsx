@@ -28,11 +28,30 @@ export default function CountryFilter({
     [],
   );
 
-  const handleCountrySelect = (countryCode: string | null) => {
-    if (!countryCode) return;
+  const continents = React.useMemo(
+    () => Object.keys(groupedCountries),
+    [groupedCountries],
+  );
 
-    if (!selectedCountries.includes(countryCode)) {
-      onSelectionChange([...selectedCountries, countryCode]);
+  const handleSelection = (key: string | null) => {
+    if (!key) return;
+
+    // Check if it's a continent (starts with 'continent:')
+    if (key.startsWith("continent:")) {
+      const continentName = key.replace("continent:", "");
+      const continentCountries =
+        groupedCountries[continentName]?.map((c) => c.code) || [];
+
+      // Add all countries from this continent that aren't already selected
+      const newCountries = continentCountries.filter(
+        (code) => !selectedCountries.includes(code),
+      );
+      onSelectionChange([...selectedCountries, ...newCountries]);
+    } else {
+      // It's a country code
+      if (!selectedCountries.includes(key)) {
+        onSelectionChange([...selectedCountries, key]);
+      }
     }
     setInputValue("");
   };
