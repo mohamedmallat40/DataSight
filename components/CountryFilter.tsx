@@ -109,7 +109,12 @@ export default function CountryFilter({
                     />
                   }
                 >
-                  {country?.name}
+                  <div className="flex flex-col">
+                    <span className="text-tiny">{country?.name}</span>
+                    <span className="text-tiny text-default-400">
+                      {country?.continent}
+                    </span>
+                  </div>
                 </Chip>
               );
             })}
