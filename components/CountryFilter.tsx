@@ -38,13 +38,15 @@ export default function CountryFilter({
     <div className={`flex flex-col gap-4 w-full ${className || ""}`}>
       <Autocomplete
         label="Filter by countries"
-        placeholder="Choose countries to filter by"
+        placeholder="Search and select countries..."
         selectionMode="multiple"
         selectedKeys={new Set(selectedCountries)}
         onSelectionChange={handleSelectionChange}
-        className="max-h-[400px] overflow-y-auto"
+        className="max-h-[300px] overflow-y-auto"
         size="sm"
         variant="bordered"
+        allowsCustomValue={false}
+        menuTrigger="input"
       >
         {Object.entries(groupedCountries).map(
           ([continent, countriesInContinent]) => (
