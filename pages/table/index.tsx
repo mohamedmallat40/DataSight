@@ -44,6 +44,7 @@ import React, { useMemo, useState, useEffect, useCallback } from "react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
 
+import { CountryFlag } from "../../components/CountryFlag";
 import { CopyText } from "../../components/table/copy-text";
 import { EmailList } from "../../components/table/email-list";
 import { PhoneList } from "../../components/table/phone-list";
@@ -52,6 +53,10 @@ import { EditLinearIcon } from "../../components/table/edit";
 import { DeleteFilledIcon } from "../../components/table/delete";
 import { useMemoizedCallback } from "../../components/table/use-memoized-callback";
 import { columns, INITIAL_VISIBLE_COLUMNS } from "../../types/data";
+import {
+  HighlightedText,
+  containsSearchTerm,
+} from "../../utils/search-highlight";
 
 import MultiStepWizard from "./add-card/multi-step-wizard";
 import UserDetailsDrawer from "../../components/user-details-drawer";
@@ -99,7 +104,7 @@ export default function Component(): JSX.Element {
   });
   const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set<Key>());
   const [visibleColumns, setVisibleColumns] = useState<Selection>(
-    new Set<ColumnsKey>(INITIAL_VISIBLE_COLUMNS)
+    new Set<ColumnsKey>(INITIAL_VISIBLE_COLUMNS),
   );
   const [selectedUser, setSelectedUser] = useState<Users | null>(null);
 
@@ -129,7 +134,7 @@ export default function Component(): JSX.Element {
     setLoading(true);
     try {
       const response = await apiClient.get<ApiResponse<Users[]>>(
-        `/card-info?page=${page}`
+        `/card-info?page=${page}`,
       );
       const { data } = response;
 
@@ -161,7 +166,7 @@ export default function Component(): JSX.Element {
                 | "ascending"
                 | "descending",
             }
-          : item
+          : item,
       );
     }
 
@@ -175,7 +180,7 @@ export default function Component(): JSX.Element {
                   | "ascending"
                   | "descending",
               }
-            : item
+            : item,
       )
       .filter((column) => (visibleColumns as Set<Key>).has(column.uid));
   }, [visibleColumns, sortDescriptor]);
@@ -216,7 +221,7 @@ export default function Component(): JSX.Element {
         }
 
         const daysDiff = Math.floor(
-          (now.getTime() - userDate.getTime()) / (1000 * 60 * 60 * 24)
+          (now.getTime() - userDate.getTime()) / (1000 * 60 * 60 * 24),
         );
 
         switch (dateFilter) {
@@ -233,7 +238,7 @@ export default function Component(): JSX.Element {
 
       return true;
     },
-    [industryFilter, countryFilter, dateFilter]
+    [industryFilter, countryFilter, dateFilter],
   );
 
   const filteredItems = useMemo((): Users[] => {
@@ -429,15 +434,22 @@ export default function Component(): JSX.Element {
         case "country":
           return (
             <div className="flex flex-col gap-0.5 min-w-0">
-              <p
-                className="text-small font-medium text-default-700 truncate"
-                title={user.country || "No country"}
-              >
-                {user.country || "N/A"}
-              </p>
+              <div className="flex items-center gap-2">
+                <CountryFlag
+                  countryCode={user.country_code}
+                  size="sm"
+                  showFallback={false}
+                />
+                <p
+                  className="text-small font-medium text-default-700 truncate"
+                  title={user.country || "No country"}
+                >
+                  {user.country || "N/A"}
+                </p>
+              </div>
               {user.city && (
                 <p
-                  className="text-tiny text-default-500 truncate"
+                  className="text-tiny text-default-500 truncate ml-7"
                   title={user.city}
                 >
                   {user.city}
@@ -446,13 +458,62 @@ export default function Component(): JSX.Element {
             </div>
           );
         case "industry":
+          const isIndustryHighlighted =
+            filterValue && containsSearchTerm(user.industry || "", filterValue);
+
           return (
-            <p
-              className="text-small text-default-700 truncate"
-              title={user.industry || "No industry"}
-            >
-              {user.industry || "N/A"}
-            </p>
+            <div className="flex items-center gap-2">
+              <Icon
+                icon="lucide:briefcase"
+                className="text-default-400 w-3 h-3 flex-shrink-0"
+              />
+              <p
+                className={cn(
+                  "text-small truncate",
+                  isIndustryHighlighted
+                    ? "text-default-900"
+                    : "text-default-700",
+                )}
+                title={user.industry || "No industry"}
+              >
+                {filterValue && user.industry ? (
+                  <HighlightedText
+                    text={user.industry}
+                    searchTerm={filterValue}
+                    highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
+                  />
+                ) : (
+                  user.industry || "N/A"
+                )}
+              </p>
+            </div>
+          );
+        case "gender":
+          const genderInfo =
+            user.gender === true
+              ? { icon: "lucide:male", label: "Male", color: "text-blue-600" }
+              : user.gender === false
+                ? {
+                    icon: "lucide:female",
+                    label: "Female",
+                    color: "text-pink-600",
+                  }
+                : {
+                    icon: "lucide:user",
+                    label: "Unknown",
+                    color: "text-default-400",
+                  };
+
+          return (
+            <div className="flex items-center gap-2">
+              <Icon
+                icon={genderInfo.icon}
+                className={`w-3 h-3 flex-shrink-0 ${genderInfo.color}`}
+              />
+              <span className={`text-small ${genderInfo.color}`}>
+                {genderInfo.label}
+              </span>
+            </div>
           );
         case "date_collected":
           return (
@@ -511,7 +572,7 @@ export default function Component(): JSX.Element {
             </p>
           );
       }
-    }
+    },
   );
 
   const topContent = useMemo(() => {
@@ -610,7 +671,7 @@ export default function Component(): JSX.Element {
                 <DropdownMenu
                   aria-label="Sort"
                   items={headerColumns.filter(
-                    (c) => !["actions"].includes(c.uid)
+                    (c) => !["actions"].includes(c.uid),
                   )}
                 >
                   {(item: ExtendedColumnDefinition) => (
@@ -742,7 +803,7 @@ export default function Component(): JSX.Element {
         </Button>
       </div>
     ),
-    [onOpen, filteredItems.length]
+    [onOpen, filteredItems.length],
   );
 
   const bottomContent = useMemo(
@@ -778,7 +839,7 @@ export default function Component(): JSX.Element {
       filteredItems.length,
       userList.length,
       filterValue,
-    ]
+    ],
   );
 
   return (
@@ -813,9 +874,13 @@ export default function Component(): JSX.Element {
                   : "",
                 column.uid === "full_name" ? "min-w-[250px]" : "",
                 column.uid === "job_title" ? "min-w-[120px] max-w-[120px]" : "",
-                column.uid === "company_name" ? "min-w-[200px]" : "",
-                column.uid === "email" ? "min-w-[280px]" : "",
-                column.uid === "phone_number" ? "min-w-[200px]" : "",
+                column.uid === "company_name"
+                  ? "min-w-[160px] max-w-[160px]"
+                  : "",
+                column.uid === "email" ? "min-w-[220px] max-w-[220px]" : "",
+                column.uid === "phone_number" ? "min-w-[160px]" : "",
+                column.uid === "industry" ? "min-w-[140px] max-w-[140px]" : "",
+                column.uid === "gender" ? "min-w-[100px] max-w-[100px]" : "",
                 column.uid === "country" ? "min-w-[150px]" : "",
               ])}
             >

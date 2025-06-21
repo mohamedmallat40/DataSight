@@ -14,10 +14,12 @@ export interface BusinessCardData {
   website: string;
   linkedin: string;
   country: string;
+  country_code: string | null;
   city: string;
   raw_text: string;
   notes: string;
   gender: boolean | null; // true = male, false = female, null = unknown
+  pool_id: string | null;
 }
 
 export const emptyBusinessCardData: BusinessCardData = {
@@ -30,10 +32,12 @@ export const emptyBusinessCardData: BusinessCardData = {
   website: "",
   linkedin: "",
   country: "",
+  country_code: null,
   city: "",
   raw_text: "",
   notes: "",
   gender: null,
+  pool_id: null,
 };
 
 export interface EnrichmentSource {

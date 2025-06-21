@@ -58,6 +58,7 @@ export type Users = {
   state: string | null;
   postal_code: string | null;
   country: string;
+  country_code: string | null;
   industry: string | null;
   logo_url: string | null;
   notes: string | null;
@@ -72,6 +73,7 @@ export type Users = {
   front_image_link: string | null;
   back_image_link: string | null;
   collected_at: string | null;
+  pool_id: string | null;
 };
 
 // Column key types
@@ -83,6 +85,7 @@ export type ColumnsKey =
   | "phone_number"
   | "country"
   | "industry"
+  | "gender"
   | "date_collected"
   | "actions";
 
@@ -92,8 +95,9 @@ export const INITIAL_VISIBLE_COLUMNS: ColumnsKey[] = [
   "company_name",
   "email",
   "phone_number",
+  "industry",
+  "gender",
   "country",
-  "notes",
   "actions",
 ];
 
@@ -111,8 +115,9 @@ export const columns: ColumnDefinition[] = [
   { name: "Company", uid: "company_name" },
   { name: "Email", uid: "email" },
   { name: "Phone", uid: "phone_number" },
-  { name: "Country", uid: "country" },
   { name: "Industry", uid: "industry" },
+  { name: "Gender", uid: "gender" },
+  { name: "Country", uid: "country" },
   { name: "Date Collected", uid: "date_collected" },
   { name: "Notes", uid: "notes" },
   { name: "Actions", uid: "actions" },

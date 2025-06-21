@@ -47,6 +47,7 @@ import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
 import { useRouter } from "next/router";
 
+import { CountryFlag } from "../components/CountryFlag";
 import { CopyText } from "../components/table/copy-text";
 import { EmailList } from "../components/table/email-list";
 import { EmailListEnhanced } from "../components/table/email-list-enhanced";
@@ -76,6 +77,11 @@ interface ApiResponse<T> {
     pageSize: number;
   };
   message?: string;
+}
+
+interface Pool {
+  id: number;
+  label: string;
 }
 
 interface TableComponentState extends TableState, FilterState {
@@ -114,9 +120,10 @@ export default function ContactsPage(): JSX.Element {
 
   // Filter states with specific types
   const [filterValue, setFilterValue] = useState<FilterValue>("");
-  const [industryFilter, setIndustryFilter] = useState<FilterValue>("all");
-  const [countryFilter, setCountryFilter] = useState<FilterValue>("all");
-  const [dateFilter, setDateFilter] = useState<FilterKey>("all");
+  const [poolFilter, setPoolFilter] = useState<FilterValue>("all");
+
+  // Pool data
+  const [pools, setPools] = useState<Pool[]>([]);
 
   // Modal state management with typed hooks
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -144,8 +151,31 @@ export default function ContactsPage(): JSX.Element {
   }, [router.query.search]);
 
   useEffect(() => {
+    fetchPools();
+  }, []);
+
+  useEffect(() => {
     fetchUsers();
-  }, [page, filterValue]);
+  }, [page, filterValue, poolFilter]);
+
+  const fetchPools = useCallback(async (): Promise<void> => {
+    try {
+      const response = await apiClient.get<ApiResponse<Pool[]>>("/get-pools");
+      const { data } = response;
+
+      if (data?.success && Array.isArray(data?.data)) {
+        setPools(data.data);
+      } else {
+        setPools([]);
+        console.warn("API response does not contain valid pools data");
+      }
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
+      console.error("Error fetching pools:", errorMessage);
+      setPools([]);
+    }
+  }, []);
 
   const fetchUsers = useCallback(async (): Promise<void> => {
     setLoading(true);
@@ -157,6 +187,11 @@ export default function ContactsPage(): JSX.Element {
       // Add search parameter if it exists (trim only for API call)
       if (filterValue.trim()) {
         params.append("search", filterValue.trim());
+      }
+
+      // Add pool parameter if selected (using "pool" instead of "pool_id")
+      if (poolFilter !== "all") {
+        params.append("pool", poolFilter);
       }
 
       const response = await apiClient.get<ApiResponse<Users[]>>(
@@ -180,7 +215,7 @@ export default function ContactsPage(): JSX.Element {
     } finally {
       setLoading(false);
     }
-  }, [page, filterValue]);
+  }, [page, filterValue, poolFilter]);
 
   const headerColumns = useMemo((): ExtendedColumnDefinition[] => {
     if (visibleColumns === "all") {
@@ -211,61 +246,11 @@ export default function ContactsPage(): JSX.Element {
       .filter((column) => (visibleColumns as Set<Key>).has(column.uid));
   }, [visibleColumns, sortDescriptor]);
 
-  // Filter and search logic with proper typing
-  const itemFilter = useCallback(
-    (user: Users): boolean => {
-      const allIndustry = industryFilter === "all";
-      const allCountry = countryFilter === "all";
-      const allDate = dateFilter === "all";
-
-      // Industry filter with type safety
-      if (
-        !allIndustry &&
-        (!user.industry ||
-          user.industry.toLowerCase() !== industryFilter.toLowerCase())
-      ) {
-        return false;
-      }
-
-      // Country filter with type safety
-      if (
-        !allCountry &&
-        (!user.country ||
-          user.country.toLowerCase() !== countryFilter.toLowerCase())
-      ) {
-        return false;
-      }
-
-      // Date filter with proper date handling
-      if (!allDate && user.date_collected) {
-        const userDate = new Date(user.date_collected);
-        const now = new Date();
-
-        // Check for valid dates
-        if (isNaN(userDate.getTime()) || isNaN(now.getTime())) {
-          return false;
-        }
-
-        const daysDiff = Math.floor(
-          (now.getTime() - userDate.getTime()) / (1000 * 60 * 60 * 24),
-        );
-
-        switch (dateFilter) {
-          case "last7Days":
-            return daysDiff <= 7;
-          case "last30Days":
-            return daysDiff <= 30;
-          case "last60Days":
-            return daysDiff <= 60;
-          default:
-            return true;
-        }
-      }
-
-      return true;
-    },
-    [industryFilter, countryFilter, dateFilter],
-  );
+  // Filter and search logic with proper typing (pool filtering is handled server-side)
+  const itemFilter = useCallback((user: Users): boolean => {
+    // All filtering is now handled server-side, so just return true for local filtering
+    return true;
+  }, []);
 
   const filteredItems = useMemo((): Users[] => {
     let filtered = [...userList];
@@ -348,22 +333,7 @@ export default function ContactsPage(): JSX.Element {
     );
   });
 
-  // Get unique values for filter options with type safety
-  const uniqueIndustries = useMemo((): string[] => {
-    const industries = userList
-      .map((user: Users) => user.industry)
-      .filter((industry): industry is string => Boolean(industry))
-      .filter((value, index, self) => self.indexOf(value) === index);
-    return industries.sort();
-  }, [userList]);
-
-  const uniqueCountries = useMemo((): string[] => {
-    const countries = userList
-      .map((user: Users) => user.country)
-      .filter((country): country is string => Boolean(country))
-      .filter((value, index, self) => self.indexOf(value) === index);
-    return countries.sort();
-  }, [userList]);
+  // Pool filtering is handled server-side, no need for local unique value calculations
 
   const onSelectionChange = useMemoizedCallback((keys: Selection): void => {
     setSelectedKeys(keys);
@@ -419,6 +389,9 @@ export default function ContactsPage(): JSX.Element {
           const isNameHighlighted =
             filterValue &&
             containsSearchTerm(user.full_name || "", filterValue);
+          const isJobTitleHighlighted =
+            filterValue &&
+            containsSearchTerm(user.job_title || "", filterValue);
 
           return (
             <div className="flex items-center gap-3 min-w-0">
@@ -442,8 +415,23 @@ export default function ContactsPage(): JSX.Element {
                     user.full_name || "N/A"
                   )}
                 </div>
-                <p className="text-tiny text-default-500 truncate max-w-[200px]">
-                  {user.company_name || ""}
+                <p
+                  className={cn(
+                    "text-tiny truncate max-w-[200px]",
+                    isJobTitleHighlighted
+                      ? "text-default-700"
+                      : "text-default-500",
+                  )}
+                >
+                  {filterValue && user.job_title ? (
+                    <HighlightedText
+                      text={user.job_title}
+                      searchTerm={filterValue}
+                      highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
+                    />
+                  ) : (
+                    user.job_title || ""
+                  )}
                 </p>
               </div>
             </div>
@@ -522,15 +510,22 @@ export default function ContactsPage(): JSX.Element {
         case "country":
           return (
             <div className="flex flex-col gap-0.5 min-w-0">
-              <p
-                className="text-small font-medium text-default-700 truncate"
-                title={user.country || "No country"}
-              >
-                {user.country || "N/A"}
-              </p>
+              <div className="flex items-center gap-2">
+                <CountryFlag
+                  countryCode={user.country_code}
+                  size="sm"
+                  showFallback={false}
+                />
+                <p
+                  className="text-small font-medium text-default-700 truncate"
+                  title={user.country || "No country"}
+                >
+                  {user.country || "N/A"}
+                </p>
+              </div>
               {user.city && (
                 <p
-                  className="text-tiny text-default-500 truncate"
+                  className="text-tiny text-default-500 truncate ml-7"
                   title={user.city}
                 >
                   {user.city}
@@ -539,13 +534,62 @@ export default function ContactsPage(): JSX.Element {
             </div>
           );
         case "industry":
+          const isIndustryHighlighted =
+            filterValue && containsSearchTerm(user.industry || "", filterValue);
+
           return (
-            <p
-              className="text-small text-default-700 truncate"
-              title={user.industry || "No industry"}
-            >
-              {user.industry || "N/A"}
-            </p>
+            <div className="flex items-center gap-2">
+              <Icon
+                icon="lucide:briefcase"
+                className="text-default-400 w-3 h-3 flex-shrink-0"
+              />
+              <p
+                className={cn(
+                  "text-small truncate",
+                  isIndustryHighlighted
+                    ? "text-default-900"
+                    : "text-default-700",
+                )}
+                title={user.industry || "No industry"}
+              >
+                {filterValue && user.industry ? (
+                  <HighlightedText
+                    text={user.industry}
+                    searchTerm={filterValue}
+                    highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
+                  />
+                ) : (
+                  user.industry || "N/A"
+                )}
+              </p>
+            </div>
+          );
+        case "gender":
+          const genderInfo =
+            user.gender === true
+              ? { icon: "lucide:male", label: "Male", color: "text-blue-600" }
+              : user.gender === false
+                ? {
+                    icon: "lucide:female",
+                    label: "Female",
+                    color: "text-pink-600",
+                  }
+                : {
+                    icon: "lucide:user",
+                    label: "Unknown",
+                    color: "text-default-400",
+                  };
+
+          return (
+            <div className="flex items-center gap-2">
+              <Icon
+                icon={genderInfo.icon}
+                className={`w-3 h-3 flex-shrink-0 ${genderInfo.color}`}
+              />
+              <span className={`text-small ${genderInfo.color}`}>
+                {genderInfo.label}
+              </span>
+            </div>
           );
         case "date_collected":
           return (
@@ -643,43 +687,19 @@ export default function ContactsPage(): JSX.Element {
                     Filter
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-80">
-                  <div className="flex w-full flex-col gap-6 px-2 py-4">
+                <PopoverContent className="w-64">
+                  <div className="flex w-full flex-col gap-4 px-2 py-4">
                     <RadioGroup
-                      label="Industry"
-                      value={industryFilter}
-                      onValueChange={setIndustryFilter}
+                      label="Filter by Pool"
+                      value={poolFilter}
+                      onValueChange={setPoolFilter}
                     >
-                      <Radio value="all">All Industries</Radio>
-                      {uniqueIndustries.slice(0, 5).map((industry) => (
-                        <Radio key={industry} value={industry || ""}>
-                          {industry}
+                      <Radio value="all">All Pools</Radio>
+                      {pools.map((pool) => (
+                        <Radio key={pool.id} value={pool.id.toString()}>
+                          {pool.label}
                         </Radio>
                       ))}
-                    </RadioGroup>
-
-                    <RadioGroup
-                      label="Country"
-                      value={countryFilter}
-                      onValueChange={setCountryFilter}
-                    >
-                      <Radio value="all">All Countries</Radio>
-                      {uniqueCountries.slice(0, 5).map((country) => (
-                        <Radio key={country} value={country || ""}>
-                          {country}
-                        </Radio>
-                      ))}
-                    </RadioGroup>
-
-                    <RadioGroup
-                      label="Date Collected"
-                      value={dateFilter}
-                      onValueChange={setDateFilter}
-                    >
-                      <Radio value="all">All Time</Radio>
-                      <Radio value="last7Days">Last 7 days</Radio>
-                      <Radio value="last30Days">Last 30 days</Radio>
-                      <Radio value="last60Days">Last 60 days</Radio>
                     </RadioGroup>
                   </div>
                 </PopoverContent>
@@ -804,11 +824,8 @@ export default function ContactsPage(): JSX.Element {
     filterSelectedKeys,
     headerColumns,
     sortDescriptor,
-    industryFilter,
-    countryFilter,
-    dateFilter,
-    uniqueIndustries,
-    uniqueCountries,
+    poolFilter,
+    pools,
     onSearchChange,
     setVisibleColumns,
   ]);
@@ -902,9 +919,15 @@ export default function ContactsPage(): JSX.Element {
                     : "",
                   column.uid === "full_name" ? "min-w-[250px]" : "",
                   column.uid === "notes" ? "min-w-[180px] max-w-[180px]" : "",
-                  column.uid === "company_name" ? "min-w-[200px]" : "",
-                  column.uid === "email" ? "min-w-[280px]" : "",
-                  column.uid === "phone_number" ? "min-w-[200px]" : "",
+                  column.uid === "company_name"
+                    ? "min-w-[160px] max-w-[160px]"
+                    : "",
+                  column.uid === "email" ? "min-w-[220px] max-w-[220px]" : "",
+                  column.uid === "phone_number" ? "min-w-[160px]" : "",
+                  column.uid === "industry"
+                    ? "min-w-[140px] max-w-[140px]"
+                    : "",
+                  column.uid === "gender" ? "min-w-[100px] max-w-[100px]" : "",
                   column.uid === "country" ? "min-w-[150px]" : "",
                 ])}
               >

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Input,
   Textarea,
@@ -11,6 +11,8 @@ import {
   RadioGroup,
   Radio,
   Chip,
+  Select,
+  SelectItem,
   // addToast should come from your toast context/provider or custom hook
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
@@ -19,6 +21,17 @@ import { cn } from "@heroui/react";
 import { BusinessCardData } from "../../../types/types";
 
 import apiClient from "@/config/api";
+
+interface Pool {
+  id: number;
+  label: string;
+}
+
+interface ApiResponse<T> {
+  success: boolean;
+  data: T;
+  message?: string;
+}
 
 export interface EditDataStepProps {
   businessCardData: BusinessCardData;
@@ -34,7 +47,31 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
   onNextStep,
 }) => {
   const [loading, setLoading] = useState(false);
+  const [pools, setPools] = useState<Pool[]>([]);
   // Example toast hook
+
+  useEffect(() => {
+    fetchPools();
+  }, []);
+
+  const fetchPools = useCallback(async (): Promise<void> => {
+    try {
+      const response = await apiClient.get<ApiResponse<Pool[]>>("/get-pools");
+      const { data } = response;
+
+      if (data?.success && Array.isArray(data?.data)) {
+        setPools(data.data);
+      } else {
+        setPools([]);
+        console.warn("API response does not contain valid pools data");
+      }
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "Unknown error occurred";
+      console.error("Error fetching pools:", errorMessage);
+      setPools([]);
+    }
+  }, []);
 
   // Handles all single-value inputs or array fields reset if user types directly
   const handleInputChange = (field: keyof BusinessCardData, value: string) => {
@@ -109,6 +146,16 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
 
   // Submit updated business card data
   const handleSubmit = async () => {
+    // Validate required fields
+    if (!businessCardData.pool_id) {
+      addToast({
+        title: "Validation Error",
+        description: "Please select a pool before saving",
+        color: "danger",
+      });
+      return;
+    }
+
     setLoading(true);
     try {
       const response = await apiClient.post(
@@ -374,6 +421,37 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               onChange={(e) => handleInputChange("country", e.target.value)}
             />
 
+            <Select
+              className="col-span-12"
+              label="Pool"
+              labelPlacement="outside"
+              placeholder="Select a pool"
+              isRequired
+              errorMessage={
+                !businessCardData.pool_id ? "Please select a pool" : ""
+              }
+              isInvalid={!businessCardData.pool_id}
+              startContent={
+                <Icon className="text-default-400" icon="lucide:layers" />
+              }
+              selectedKeys={
+                businessCardData.pool_id ? [businessCardData.pool_id] : []
+              }
+              onSelectionChange={(keys) => {
+                const selectedKey = Array.from(keys)[0] as string;
+                setBusinessCardData({
+                  ...businessCardData,
+                  pool_id: selectedKey || null,
+                });
+              }}
+            >
+              {pools.map((pool) => (
+                <SelectItem key={pool.id.toString()} value={pool.id.toString()}>
+                  {pool.label}
+                </SelectItem>
+              ))}
+            </Select>
+
             <div className="col-span-12">
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-center">
@@ -626,6 +704,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
         <Button
           color="primary"
           isLoading={loading}
+          isDisabled={!businessCardData.pool_id || loading}
           startContent={<Icon icon="lucide:save" />}
           onPress={handleSubmit}
         >
