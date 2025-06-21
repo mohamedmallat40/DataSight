@@ -146,6 +146,16 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
 
   // Submit updated business card data
   const handleSubmit = async () => {
+    // Validate required fields
+    if (!businessCardData.pool_id) {
+      addToast({
+        title: "Validation Error",
+        description: "Please select a pool before saving",
+        color: "danger",
+      });
+      return;
+    }
+
     setLoading(true);
     try {
       const response = await apiClient.post(
@@ -416,6 +426,11 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               label="Pool"
               labelPlacement="outside"
               placeholder="Select a pool"
+              isRequired
+              errorMessage={
+                !businessCardData.pool_id ? "Please select a pool" : ""
+              }
+              isInvalid={!businessCardData.pool_id}
               startContent={
                 <Icon className="text-default-400" icon="lucide:layers" />
               }
@@ -689,6 +704,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
         <Button
           color="primary"
           isLoading={loading}
+          isDisabled={!businessCardData.pool_id || loading}
           startContent={<Icon icon="lucide:save" />}
           onPress={handleSubmit}
         >
