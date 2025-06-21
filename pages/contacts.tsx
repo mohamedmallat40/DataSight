@@ -839,6 +839,7 @@ export default function ContactsPage(): JSX.Element {
     headerColumns,
     sortDescriptor,
     poolFilter,
+    countryFilter,
     pools,
     onSearchChange,
     setVisibleColumns,
