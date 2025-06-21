@@ -340,6 +340,13 @@ export default function ContactsPage(): JSX.Element {
     );
   });
 
+  const onCountryFilterChange = useMemoizedCallback(
+    (countries: string[]): void => {
+      setCountryFilter(countries);
+      setPage(1); // Reset to first page when country filter changes
+    },
+  );
+
   // Pool filtering is handled server-side, no need for local unique value calculations
 
   const onSelectionChange = useMemoizedCallback((keys: Selection): void => {
