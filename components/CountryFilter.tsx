@@ -27,7 +27,8 @@ export default function CountryFilter({
   );
 
   const handleSelectionChange = (keys: Set<string>) => {
-    onSelectionChange(Array.from(keys));
+    const uniqueKeys = Array.from(new Set(keys));
+    onSelectionChange(uniqueKeys);
   };
 
   const handleRemoveCountry = (countryKey: string) => {
