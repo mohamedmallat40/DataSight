@@ -340,11 +340,12 @@ export default function ContactsPage(): JSX.Element {
     );
   });
 
-  const onCountryFilterChange = useMemoizedCallback(
+  const onCountryFilterChange = React.useCallback(
     (countries: string[]): void => {
       setCountryFilter(countries);
-      setPage(1); // Reset to first page when country filter changes
+      setPage(1);
     },
+    [],
   );
 
   // Pool filtering is handled server-side, no need for local unique value calculations
