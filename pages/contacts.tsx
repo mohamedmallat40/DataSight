@@ -724,8 +724,8 @@ export default function ContactsPage(): JSX.Element {
                     Filter
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-80">
-                  <div className="flex w-full flex-col gap-4 px-2 py-4">
+                <PopoverContent className="w-96">
+                  <div className="flex w-full flex-col gap-6 px-4 py-6">
                     <RadioGroup
                       label="Filter by Pool"
                       value={poolFilter}
