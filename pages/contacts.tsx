@@ -803,7 +803,10 @@ export default function ContactsPage(): JSX.Element {
                           key="male"
                           title={
                             <div className="flex items-center justify-center gap-1">
-                              <Icon icon="lucide:male" className="w-3 h-3" />
+                              <Icon
+                                icon="material-symbols:male"
+                                className="w-4 h-4 text-blue-600"
+                              />
                               <span>Male</span>
                             </div>
                           }
@@ -812,7 +815,10 @@ export default function ContactsPage(): JSX.Element {
                           key="female"
                           title={
                             <div className="flex items-center justify-center gap-1">
-                              <Icon icon="lucide:female" className="w-3 h-3" />
+                              <Icon
+                                icon="material-symbols:female"
+                                className="w-4 h-4 text-pink-600"
+                              />
                               <span>Female</span>
                             </div>
                           }
