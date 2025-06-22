@@ -228,7 +228,7 @@ export default function ContactsPage(): JSX.Element {
     } finally {
       setLoading(false);
     }
-  }, [page, filterValue, poolFilter, countryFilter]);
+  }, [page, filterValue, poolFilter, countryFilter, genderFilter]);
 
   const headerColumns = useMemo((): ExtendedColumnDefinition[] => {
     if (visibleColumns === "all") {
