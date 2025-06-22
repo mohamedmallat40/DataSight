@@ -83,10 +83,16 @@ export default function CountryFilter({
         onInputChange={setInputValue}
         onSelectionChange={handleSelection}
         size="sm"
-        variant="bordered"
+        variant="flat"
         className="w-full"
-        startContent={
-          <Icon icon="lucide:search" className="w-4 h-4 text-default-400" />
+        classNames={{
+          trigger:
+            "bg-default-100 border-1 border-transparent data-[hover=true]:bg-default-200",
+          input: "text-small",
+          clearButton: "text-default-400",
+        }}
+        endContent={
+          <Icon icon="lucide:search" className="text-default-400" width={16} />
         }
       >
         {Object.entries(groupedCountries).map(
