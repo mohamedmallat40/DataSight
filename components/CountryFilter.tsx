@@ -34,8 +34,10 @@ export default function CountryFilter({
     [groupedCountries],
   );
 
-  const handleSelection = (key: string | null) => {
+  const handleSelection = (key: Key | null) => {
     if (!key) return;
+
+    const keyStr = String(key);
 
     // Check if it's a continent (starts with 'continent:')
     if (key.startsWith("continent:")) {
