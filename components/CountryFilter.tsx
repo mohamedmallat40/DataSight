@@ -40,8 +40,8 @@ export default function CountryFilter({
     const keyStr = String(key);
 
     // Check if it's a continent (starts with 'continent:')
-    if (key.startsWith("continent:")) {
-      const continentName = key.replace("continent:", "");
+    if (keyStr.startsWith("continent:")) {
+      const continentName = keyStr.replace("continent:", "");
       const continentCountries =
         groupedCountries[continentName]?.map((c) => c.code) || [];
 
@@ -52,8 +52,8 @@ export default function CountryFilter({
       onSelectionChange([...selectedCountries, ...newCountries]);
     } else {
       // It's a country code
-      if (!selectedCountries.includes(key)) {
-        onSelectionChange([...selectedCountries, key]);
+      if (!selectedCountries.includes(keyStr)) {
+        onSelectionChange([...selectedCountries, keyStr]);
       }
     }
     setInputValue("");
