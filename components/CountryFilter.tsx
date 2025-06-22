@@ -1,15 +1,8 @@
 import React, { useState } from "react";
-import {
-  Autocomplete,
-  AutocompleteItem,
-  AutocompleteSection,
-  Avatar,
-  Chip,
-} from "@heroui/react";
+import { Autocomplete, AutocompleteItem, Avatar, Chip } from "@heroui/react";
 import type { Key } from "@react-types/shared";
 
 import { countries } from "../data/countries";
-import { groupCountriesByContinent } from "../utils/countryUtils";
 
 interface CountryFilterProps {
   selectedCountries: string[];
@@ -24,37 +17,13 @@ export default function CountryFilter({
 }: CountryFilterProps) {
   const [inputValue, setInputValue] = useState("");
 
-  const groupedCountries = React.useMemo(
-    () => groupCountriesByContinent(countries),
-    [],
-  );
-
-  const continents = React.useMemo(
-    () => Object.keys(groupedCountries),
-    [groupedCountries],
-  );
-
   const handleSelection = (key: Key | null) => {
     if (!key) return;
 
     const keyStr = String(key);
 
-    // Check if it's a continent (starts with 'continent:')
-    if (keyStr.startsWith("continent:")) {
-      const continentName = keyStr.replace("continent:", "");
-      const continentCountries =
-        groupedCountries[continentName]?.map((c) => c.code) || [];
-
-      // Add all countries from this continent that aren't already selected
-      const newCountries = continentCountries.filter(
-        (code) => !selectedCountries.includes(code),
-      );
-      onSelectionChange([...selectedCountries, ...newCountries]);
-    } else {
-      // It's a country code
-      if (!selectedCountries.includes(keyStr)) {
-        onSelectionChange([...selectedCountries, keyStr]);
-      }
+    if (!selectedCountries.includes(keyStr)) {
+      onSelectionChange([...selectedCountries, keyStr]);
     }
     setInputValue("");
   };
@@ -66,6 +35,10 @@ export default function CountryFilter({
   const handleClearAll = () => {
     onSelectionChange([]);
   };
+
+  const availableCountries = countries.filter(
+    (country) => !selectedCountries.includes(country.code),
+  );
 
   return (
     <div className={`flex flex-col gap-3 w-full ${className || ""}`}>
@@ -87,7 +60,7 @@ export default function CountryFilter({
       </div>
       <Autocomplete
         label=""
-        placeholder="Search countries or select entire continents..."
+        placeholder="Search and select countries..."
         inputValue={inputValue}
         onInputChange={setInputValue}
         onSelectionChange={handleSelection}
@@ -95,61 +68,24 @@ export default function CountryFilter({
         variant="bordered"
         className="w-full"
       >
-        <AutocompleteSection title="Continents">
-          {continents.map((continent) => (
-            <AutocompleteItem
-              key={`continent:${continent}`}
-              startContent={
-                <div className="w-6 h-6 bg-primary-100 rounded-full flex items-center justify-center">
-                  <span className="text-xs text-primary-600">🌍</span>
-                </div>
-              }
-              textValue={`All ${continent}`}
-            >
-              <div className="flex justify-between items-center">
-                <span className="font-medium">All {continent}</span>
-                <span className="text-tiny text-default-400">
-                  {groupedCountries[continent]?.length} countries
-                </span>
-              </div>
-            </AutocompleteItem>
-          ))}
-        </AutocompleteSection>
-
-        {Object.entries(groupedCountries).map(
-          ([continent, countriesInContinent]) => {
-            const filteredCountries = countriesInContinent.filter(
-              (country) => !selectedCountries.includes(country.code),
-            );
-
-            if (filteredCountries.length === 0) return null;
-
-            return (
-              <AutocompleteSection key={continent} title={continent}>
-                {filteredCountries.map((country) => (
-                  <AutocompleteItem
-                    key={country.code}
-                    startContent={
-                      <Avatar
-                        alt={country.name}
-                        className="w-6 h-6"
-                        src={`https://flagcdn.com/${country.code.toLowerCase()}.svg`}
-                      />
-                    }
-                    textValue={country.name}
-                  >
-                    <div className="flex justify-between items-center">
-                      <span>{country.name}</span>
-                      <span className="text-tiny text-default-400">
-                        {country.code}
-                      </span>
-                    </div>
-                  </AutocompleteItem>
-                ))}
-              </AutocompleteSection>
-            );
-          },
-        )}
+        {availableCountries.map((country) => (
+          <AutocompleteItem
+            key={country.code}
+            startContent={
+              <Avatar
+                alt={country.name}
+                className="w-6 h-6"
+                src={`https://flagcdn.com/${country.code.toLowerCase()}.svg`}
+              />
+            }
+            textValue={country.name}
+          >
+            <div className="flex justify-between items-center">
+              <span>{country.name}</span>
+              <span className="text-tiny text-default-400">{country.code}</span>
+            </div>
+          </AutocompleteItem>
+        ))}
       </Autocomplete>
 
       {selectedCountries.length > 0 && (
