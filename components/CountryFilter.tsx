@@ -68,133 +68,91 @@ export default function CountryFilter({
   };
 
   return (
-    <div className={`flex flex-col gap-4 w-full ${className || ""}`}>
-      <Card className="border-small border-default-200 bg-gradient-to-br from-default-50 to-default-100">
-        <CardBody className="p-4">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary-100">
-              <Icon
-                icon="lucide:map-pin"
-                className="w-4 h-4 text-primary-600"
-              />
-            </div>
-            <div>
-              <h4 className="text-small font-semibold text-default-700">
-                Location Filter
-              </h4>
-              <p className="text-tiny text-default-500">
-                Select countries or entire continents
-              </p>
-            </div>
-          </div>
+    <div className={`flex flex-col gap-3 w-full ${className || ""}`}>
+      <div className="flex items-center gap-2">
+        <Icon icon="lucide:map-pin" className="w-4 h-4 text-default-700" />
+        <span className="text-small font-medium text-default-700">
+          Filter by Location
+        </span>
+      </div>
 
-          <Autocomplete
-            label=""
-            placeholder="🌍 Search countries or select continents..."
-            inputValue={inputValue}
-            onInputChange={setInputValue}
-            onSelectionChange={handleSelection}
-            size="md"
-            variant="faded"
-            className="w-full"
-            classNames={{
-              input: "text-small",
-              trigger: "min-h-[44px]",
-            }}
-            startContent={
-              <Icon icon="lucide:search" className="w-4 h-4 text-default-400" />
-            }
-          >
-            <AutocompleteSection
-              title="🌍 Quick Select - Entire Continents"
-              className="mb-2"
-            >
-              {Object.entries(groupedCountries).map(
-                ([continent, countriesInContinent]) => (
+      <Autocomplete
+        label=""
+        placeholder="Search countries..."
+        inputValue={inputValue}
+        onInputChange={setInputValue}
+        onSelectionChange={handleSelection}
+        size="sm"
+        variant="bordered"
+        className="w-full"
+        startContent={
+          <Icon icon="lucide:search" className="w-4 h-4 text-default-400" />
+        }
+      >
+        {Object.entries(groupedCountries).map(
+          ([continent, countriesInContinent]) => {
+            const availableCountries = countriesInContinent.filter(
+              (country) => !selectedCountries.includes(country.code),
+            );
+
+            if (availableCountries.length === 0) return null;
+
+            return (
+              <AutocompleteSection
+                key={continent}
+                title={continent}
+                className="mb-1"
+              >
+                {/* Quick continent selection */}
+                <AutocompleteItem
+                  key={`continent:${continent}`}
+                  startContent={
+                    <div className="flex items-center justify-center w-6 h-6 rounded-full bg-primary-100">
+                      <Icon
+                        icon="lucide:globe"
+                        className="w-3 h-3 text-primary-600"
+                      />
+                    </div>
+                  }
+                  textValue={`All ${continent}`}
+                  className="border-b border-default-100 mb-1"
+                >
+                  <div className="flex justify-between items-center w-full">
+                    <span className="font-medium text-primary-600">
+                      Select all {continent}
+                    </span>
+                    <span className="text-tiny text-default-400">
+                      {countriesInContinent.length} countries
+                    </span>
+                  </div>
+                </AutocompleteItem>
+
+                {/* Individual countries */}
+                {availableCountries.map((country) => (
                   <AutocompleteItem
-                    key={`continent:${continent}`}
+                    key={country.code}
                     startContent={
-                      <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-primary-100 to-secondary-100">
-                        <Icon
-                          icon="lucide:globe"
-                          className="w-4 h-4 text-primary-600"
-                        />
-                      </div>
+                      <Avatar
+                        alt={country.name}
+                        className="w-5 h-5"
+                        src={`https://flagcdn.com/${country.code.toLowerCase()}.svg`}
+                      />
                     }
-                    textValue={`All ${continent}`}
-                    className="data-[hover=true]:bg-primary-50"
+                    textValue={country.name}
                   >
                     <div className="flex justify-between items-center w-full">
-                      <div className="flex flex-col">
-                        <span className="font-medium text-primary-700">
-                          All {continent}
-                        </span>
-                        <span className="text-tiny text-default-500">
-                          Select entire continent
-                        </span>
-                      </div>
-                      <Badge
-                        color="primary"
-                        variant="flat"
-                        size="sm"
-                        content={countriesInContinent.length}
-                      >
-                        <Icon icon="lucide:map" className="w-4 h-4" />
-                      </Badge>
+                      <span>{country.name}</span>
+                      <span className="text-tiny text-default-400">
+                        {country.code}
+                      </span>
                     </div>
                   </AutocompleteItem>
-                ),
-              )}
-            </AutocompleteSection>
-
-            {Object.entries(groupedCountries).map(
-              ([continent, countriesInContinent]) => {
-                const availableCountries = countriesInContinent.filter(
-                  (country) => !selectedCountries.includes(country.code),
-                );
-
-                if (availableCountries.length === 0) return null;
-
-                return (
-                  <AutocompleteSection
-                    key={continent}
-                    title={`${continent} Countries`}
-                    className="mt-1"
-                  >
-                    {availableCountries.map((country) => (
-                      <AutocompleteItem
-                        key={country.code}
-                        startContent={
-                          <Avatar
-                            alt={country.name}
-                            className="w-6 h-6 border-1 border-default-200"
-                            src={`https://flagcdn.com/${country.code.toLowerCase()}.svg`}
-                            fallback={
-                              <Icon
-                                icon="lucide:flag"
-                                className="w-4 h-4 text-default-400"
-                              />
-                            }
-                          />
-                        }
-                        textValue={country.name}
-                        className="data-[hover=true]:bg-default-100"
-                      >
-                        <div className="flex justify-between items-center w-full">
-                          <span className="font-medium">{country.name}</span>
-                          <span className="text-tiny text-default-400 font-mono">
-                            {country.code}
-                          </span>
-                        </div>
-                      </AutocompleteItem>
-                    ))}
-                  </AutocompleteSection>
-                );
-              },
-            )}
-          </Autocomplete>
-        </CardBody>
-      </Card>
+                ))}
+              </AutocompleteSection>
+            );
+          },
+        )}
+      </Autocomplete>
 
       {selectedCountries.length > 0 && (
         <Card className="border-small border-success-200 bg-gradient-to-br from-success-50 to-emerald-50">
