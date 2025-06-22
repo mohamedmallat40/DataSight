@@ -837,6 +837,43 @@ export default function ContactsPage(): JSX.Element {
                         />
                       </Tabs>
                     </div>
+
+                    <Divider />
+
+                    <div className="flex gap-2 pt-2">
+                      <Button
+                        color="primary"
+                        variant="solid"
+                        size="sm"
+                        className="flex-1"
+                        startContent={
+                          <Icon icon="lucide:check" className="w-4 h-4" />
+                        }
+                        onPress={() => {
+                          // Apply filters - this will trigger the existing useEffect
+                          // No additional action needed since filters are applied automatically
+                        }}
+                      >
+                        Apply Filters
+                      </Button>
+                      <Button
+                        color="default"
+                        variant="bordered"
+                        size="sm"
+                        className="flex-1"
+                        startContent={
+                          <Icon icon="lucide:rotate-ccw" className="w-4 h-4" />
+                        }
+                        onPress={() => {
+                          setPoolFilter("all");
+                          setCountryFilter([]);
+                          setGenderFilter("all");
+                          setPage(1);
+                        }}
+                      >
+                        Reset
+                      </Button>
+                    </div>
                   </div>
                 </PopoverContent>
               </Popover>
