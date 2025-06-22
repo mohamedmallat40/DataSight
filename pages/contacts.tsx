@@ -742,6 +742,19 @@ export default function ContactsPage(): JSX.Element {
                       selectedCountries={countryFilter}
                       onSelectionChange={onCountryFilterChange}
                     />
+
+                    <Divider />
+
+                    <RadioGroup
+                      label="Filter by Gender"
+                      value={genderFilter}
+                      onValueChange={setGenderFilter}
+                    >
+                      <Radio value="all">All Genders</Radio>
+                      <Radio value="male">Male</Radio>
+                      <Radio value="female">Female</Radio>
+                      <Radio value="unknown">Unknown</Radio>
+                    </RadioGroup>
                   </div>
                 </PopoverContent>
               </Popover>
