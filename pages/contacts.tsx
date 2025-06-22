@@ -40,6 +40,8 @@ import {
   PopoverTrigger,
   PopoverContent,
   Divider,
+  Tabs,
+  Tab,
 } from "@heroui/react";
 import { SearchIcon } from "@heroui/shared-icons";
 import React, { useMemo, useState, useEffect, useCallback } from "react";
@@ -60,6 +62,7 @@ import { useMemoizedCallback } from "../components/table/use-memoized-callback";
 import { columns, INITIAL_VISIBLE_COLUMNS } from "../types/data";
 import { HighlightedText, containsSearchTerm } from "../utils/search-highlight";
 import SearchInput from "../components/SearchInput";
+import CountryFilter from "../components/CountryFilter";
 
 import MultiStepWizard from "./table/add-card/multi-step-wizard";
 import UserDetailsDrawer from "../components/user-details-drawer";
@@ -121,6 +124,8 @@ export default function ContactsPage(): JSX.Element {
   // Filter states with specific types
   const [filterValue, setFilterValue] = useState<FilterValue>("");
   const [poolFilter, setPoolFilter] = useState<FilterValue>("all");
+  const [countryFilter, setCountryFilter] = useState<string[]>([]);
+  const [genderFilter, setGenderFilter] = useState<string>("all");
 
   // Pool data
   const [pools, setPools] = useState<Pool[]>([]);
@@ -156,7 +161,7 @@ export default function ContactsPage(): JSX.Element {
 
   useEffect(() => {
     fetchUsers();
-  }, [page, filterValue, poolFilter]);
+  }, [page, filterValue, poolFilter, countryFilter, genderFilter]);
 
   const fetchPools = useCallback(async (): Promise<void> => {
     try {
@@ -194,6 +199,16 @@ export default function ContactsPage(): JSX.Element {
         params.append("pool", poolFilter);
       }
 
+      // Add country filter parameter if countries are selected
+      if (countryFilter.length > 0) {
+        params.append("countries", countryFilter.join(","));
+      }
+
+      // Add gender filter parameter if selected
+      if (genderFilter !== "all") {
+        params.append("gender", genderFilter);
+      }
+
       const response = await apiClient.get<ApiResponse<Users[]>>(
         `/card-info?${params.toString()}`,
       );
@@ -215,7 +230,7 @@ export default function ContactsPage(): JSX.Element {
     } finally {
       setLoading(false);
     }
-  }, [page, filterValue, poolFilter]);
+  }, [page, filterValue, poolFilter, countryFilter, genderFilter]);
 
   const headerColumns = useMemo((): ExtendedColumnDefinition[] => {
     if (visibleColumns === "all") {
@@ -332,6 +347,14 @@ export default function ContactsPage(): JSX.Element {
       { shallow: true },
     );
   });
+
+  const onCountryFilterChange = React.useCallback(
+    (countries: string[]): void => {
+      setCountryFilter(countries);
+      setPage(1);
+    },
+    [],
+  );
 
   // Pool filtering is handled server-side, no need for local unique value calculations
 
@@ -683,24 +706,180 @@ export default function ContactsPage(): JSX.Element {
                         width={16}
                       />
                     }
+                    endContent={
+                      (poolFilter !== "all" ||
+                        countryFilter.length > 0 ||
+                        genderFilter !== "all") && (
+                        <Chip
+                          size="sm"
+                          color="primary"
+                          variant="solid"
+                          className="h-4 min-w-4 text-tiny"
+                        >
+                          {(poolFilter !== "all" ? 1 : 0) +
+                            countryFilter.length +
+                            (genderFilter !== "all" ? 1 : 0)}
+                        </Chip>
+                      )
+                    }
                   >
                     Filter
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-64">
-                  <div className="flex w-full flex-col gap-4 px-2 py-4">
-                    <RadioGroup
-                      label="Filter by Pool"
-                      value={poolFilter}
-                      onValueChange={setPoolFilter}
-                    >
-                      <Radio value="all">All Pools</Radio>
-                      {pools.map((pool) => (
-                        <Radio key={pool.id} value={pool.id.toString()}>
-                          {pool.label}
+                <PopoverContent className="w-96">
+                  <div className="flex w-full flex-col gap-6 px-4 py-6">
+                    <div className="flex flex-col gap-3">
+                      <span className="text-small font-medium text-default-700 flex items-center gap-2">
+                        <Icon icon="lucide:database" className="w-4 h-4" />
+                        Filter by Pool
+                      </span>
+                      <RadioGroup
+                        value={poolFilter}
+                        onValueChange={setPoolFilter}
+                        className="gap-2"
+                      >
+                        <Radio value="all" size="sm">
+                          All Pools
                         </Radio>
-                      ))}
-                    </RadioGroup>
+                        {pools.map((pool) => (
+                          <Radio
+                            key={pool.id}
+                            value={pool.id.toString()}
+                            size="sm"
+                          >
+                            {pool.label}
+                          </Radio>
+                        ))}
+                      </RadioGroup>
+                    </div>
+
+                    <Divider />
+
+                    <CountryFilter
+                      selectedCountries={countryFilter}
+                      onSelectionChange={onCountryFilterChange}
+                    />
+
+                    <Divider />
+
+                    <div className="flex flex-col gap-3">
+                      <div className="flex items-center gap-2">
+                        <Icon
+                          icon="lucide:users"
+                          className="w-4 h-4 text-default-700"
+                        />
+                        <span className="text-small font-medium text-default-700">
+                          Filter by Gender
+                        </span>
+                      </div>
+                      <Tabs
+                        aria-label="Gender filter"
+                        selectedKey={genderFilter}
+                        onSelectionChange={(key) =>
+                          setGenderFilter(String(key))
+                        }
+                        variant="solid"
+                        color="primary"
+                        size="sm"
+                        classNames={{
+                          tabList:
+                            "grid w-full grid-cols-4 gap-0 relative rounded-lg p-1 bg-default-100",
+                          cursor: "w-full bg-white shadow-sm rounded-md",
+                          tab: "max-w-fit h-8 text-tiny",
+                          tabContent:
+                            "group-data-[selected=true]:text-primary-600 group-data-[selected=false]:text-default-500",
+                        }}
+                      >
+                        <Tab
+                          key="all"
+                          title={
+                            <div className="flex items-center justify-center gap-1">
+                              <Icon icon="lucide:users" className="w-3 h-3" />
+                              <span>All</span>
+                            </div>
+                          }
+                        />
+                        <Tab
+                          key="male"
+                          title={
+                            <div className="flex items-center justify-center gap-1">
+                              <Icon
+                                icon="material-symbols:male"
+                                className="w-4 h-4 text-blue-600"
+                              />
+                              <span>Male</span>
+                            </div>
+                          }
+                        />
+                        <Tab
+                          key="female"
+                          title={
+                            <div className="flex items-center justify-center gap-1">
+                              <Icon
+                                icon="material-symbols:female"
+                                className="w-4 h-4 text-pink-600"
+                              />
+                              <span>Female</span>
+                            </div>
+                          }
+                        />
+                        <Tab
+                          key="unknown"
+                          title={
+                            <div className="flex items-center justify-center gap-1">
+                              <Icon
+                                icon="lucide:help-circle"
+                                className="w-3 h-3"
+                              />
+                              <span>Unknown</span>
+                            </div>
+                          }
+                        />
+                      </Tabs>
+                    </div>
+
+                    <Divider />
+
+                    <div className="flex gap-2 pt-2">
+                      <Button
+                        className="bg-default-100 text-default-800 flex-1"
+                        size="sm"
+                        startContent={
+                          <Icon
+                            icon="lucide:rotate-ccw"
+                            className="text-default-400"
+                            width={16}
+                          />
+                        }
+                        onPress={() => {
+                          setPoolFilter("all");
+                          setCountryFilter([]);
+                          setGenderFilter("all");
+                          setPage(1);
+                        }}
+                      >
+                        Reset
+                      </Button>
+                      <Button
+                        color="primary"
+                        variant="solid"
+                        size="sm"
+                        className="flex-1"
+                        startContent={
+                          <Icon
+                            icon="lucide:check"
+                            className="text-white"
+                            width={16}
+                          />
+                        }
+                        onPress={() => {
+                          // Apply filters - this will trigger the existing useEffect
+                          // No additional action needed since filters are applied automatically
+                        }}
+                      >
+                        Apply Filters
+                      </Button>
+                    </div>
                   </div>
                 </PopoverContent>
               </Popover>
@@ -825,8 +1004,11 @@ export default function ContactsPage(): JSX.Element {
     headerColumns,
     sortDescriptor,
     poolFilter,
+    countryFilter,
+    genderFilter,
     pools,
     onSearchChange,
+    onCountryFilterChange,
     setVisibleColumns,
   ]);
 
