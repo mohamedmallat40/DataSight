@@ -155,69 +155,47 @@ export default function CountryFilter({
       </Autocomplete>
 
       {selectedCountries.length > 0 && (
-        <Card className="border-small border-success-200 bg-gradient-to-br from-success-50 to-emerald-50">
-          <CardBody className="p-4">
-            <div className="flex justify-between items-center mb-3">
-              <div className="flex items-center gap-2">
-                <div className="flex items-center justify-center w-6 h-6 rounded-full bg-success-100">
-                  <Icon
-                    icon="lucide:check"
-                    className="w-3 h-3 text-success-600"
-                  />
-                </div>
-                <span className="text-small font-medium text-success-700">
-                  {selectedCountries.length} countr
-                  {selectedCountries.length === 1 ? "y" : "ies"} selected
-                </span>
-              </div>
-              <Button
-                size="sm"
-                variant="light"
-                color="danger"
-                onPress={handleClearAll}
-                startContent={<Icon icon="lucide:x" className="w-3 h-3" />}
-                className="h-6 min-w-unit-16 text-tiny"
-              >
-                Clear all
-              </Button>
-            </div>
+        <div className="flex flex-col gap-2">
+          <div className="flex justify-between items-center">
+            <span className="text-small text-default-600">
+              {selectedCountries.length} countr
+              {selectedCountries.length === 1 ? "y" : "ies"} selected
+            </span>
+            <Button
+              size="sm"
+              variant="light"
+              color="danger"
+              onPress={handleClearAll}
+              className="h-6 min-w-unit-16 text-tiny"
+            >
+              Clear all
+            </Button>
+          </div>
 
-            <div className="flex flex-wrap gap-2 max-h-[140px] overflow-y-auto">
-              {selectedCountries.map((countryCode) => {
-                const country = countries.find((c) => c.code === countryCode);
-                return (
-                  <Chip
-                    key={countryCode}
-                    onClose={() => handleRemoveCountry(countryCode)}
-                    variant="flat"
-                    color="success"
-                    size="md"
-                    classNames={{
-                      base: "bg-success-100 border-success-200 border-1",
-                      content: "text-success-800 font-medium",
-                      closeButton: "text-success-600 hover:text-success-800",
-                    }}
-                    avatar={
-                      <Avatar
-                        alt={country?.name}
-                        className="w-5 h-5 border-1 border-success-300"
-                        src={`https://flagcdn.com/${countryCode.toLowerCase()}.svg`}
-                        fallback={
-                          <Icon
-                            icon="lucide:flag"
-                            className="w-3 h-3 text-success-600"
-                          />
-                        }
-                      />
-                    }
-                  >
-                    {country?.name}
-                  </Chip>
-                );
-              })}
-            </div>
-          </CardBody>
-        </Card>
+          <div className="flex flex-wrap gap-2 max-h-[100px] overflow-y-auto p-2 border border-default-200 rounded-medium">
+            {selectedCountries.map((countryCode) => {
+              const country = countries.find((c) => c.code === countryCode);
+              return (
+                <Chip
+                  key={countryCode}
+                  onClose={() => handleRemoveCountry(countryCode)}
+                  variant="flat"
+                  color="primary"
+                  size="sm"
+                  avatar={
+                    <Avatar
+                      alt={country?.name}
+                      className="w-5 h-5"
+                      src={`https://flagcdn.com/${countryCode.toLowerCase()}.svg`}
+                    />
+                  }
+                >
+                  {country?.name}
+                </Chip>
+              );
+            })}
+          </div>
+        </div>
       )}
     </div>
   );
