@@ -123,6 +123,7 @@ export default function ContactsPage(): JSX.Element {
   const [filterValue, setFilterValue] = useState<FilterValue>("");
   const [poolFilter, setPoolFilter] = useState<FilterValue>("all");
   const [countryFilter, setCountryFilter] = useState<string[]>([]);
+  const [genderFilter, setGenderFilter] = useState<string>("all");
 
   // Pool data
   const [pools, setPools] = useState<Pool[]>([]);
