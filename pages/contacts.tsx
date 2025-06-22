@@ -705,7 +705,9 @@ export default function ContactsPage(): JSX.Element {
                       />
                     }
                     endContent={
-                      (poolFilter !== "all" || countryFilter.length > 0) && (
+                      (poolFilter !== "all" ||
+                        countryFilter.length > 0 ||
+                        genderFilter !== "all") && (
                         <Chip
                           size="sm"
                           color="primary"
@@ -713,7 +715,8 @@ export default function ContactsPage(): JSX.Element {
                           className="h-4 min-w-4 text-tiny"
                         >
                           {(poolFilter !== "all" ? 1 : 0) +
-                            countryFilter.length}
+                            countryFilter.length +
+                            (genderFilter !== "all" ? 1 : 0)}
                         </Chip>
                       )
                     }
