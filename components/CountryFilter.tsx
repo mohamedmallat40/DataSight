@@ -29,13 +29,32 @@ export default function CountryFilter({
 }: CountryFilterProps) {
   const [inputValue, setInputValue] = useState("");
 
+  const groupedCountries = React.useMemo(
+    () => groupCountriesByContinent(countries),
+    [],
+  );
+
   const handleSelection = (key: Key | null) => {
     if (!key) return;
 
     const keyStr = String(key);
 
-    if (!selectedCountries.includes(keyStr)) {
-      onSelectionChange([...selectedCountries, keyStr]);
+    // Check if it's a continent selection
+    if (keyStr.startsWith("continent:")) {
+      const continentName = keyStr.replace("continent:", "");
+      const continentCountries =
+        groupedCountries[continentName]?.map((c) => c.code) || [];
+
+      // Add all countries from this continent that aren't already selected
+      const newCountries = continentCountries.filter(
+        (code) => !selectedCountries.includes(code),
+      );
+      onSelectionChange([...selectedCountries, ...newCountries]);
+    } else {
+      // Individual country selection
+      if (!selectedCountries.includes(keyStr)) {
+        onSelectionChange([...selectedCountries, keyStr]);
+      }
     }
     setInputValue("");
   };
@@ -47,10 +66,6 @@ export default function CountryFilter({
   const handleClearAll = () => {
     onSelectionChange([]);
   };
-
-  const availableCountries = countries.filter(
-    (country) => !selectedCountries.includes(country.code),
-  );
 
   return (
     <div className={`flex flex-col gap-3 w-full ${className || ""}`}>
