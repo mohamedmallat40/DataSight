@@ -726,18 +726,30 @@ export default function ContactsPage(): JSX.Element {
                 </PopoverTrigger>
                 <PopoverContent className="w-96">
                   <div className="flex w-full flex-col gap-6 px-4 py-6">
-                    <RadioGroup
-                      label="Filter by Pool"
-                      value={poolFilter}
-                      onValueChange={setPoolFilter}
-                    >
-                      <Radio value="all">All Pools</Radio>
-                      {pools.map((pool) => (
-                        <Radio key={pool.id} value={pool.id.toString()}>
-                          {pool.label}
+                    <div className="flex flex-col gap-3">
+                      <span className="text-small font-medium text-default-700 flex items-center gap-2">
+                        <Icon icon="lucide:database" className="w-4 h-4" />
+                        Filter by Pool
+                      </span>
+                      <RadioGroup
+                        value={poolFilter}
+                        onValueChange={setPoolFilter}
+                        className="gap-2"
+                      >
+                        <Radio value="all" size="sm">
+                          All Pools
                         </Radio>
-                      ))}
-                    </RadioGroup>
+                        {pools.map((pool) => (
+                          <Radio
+                            key={pool.id}
+                            value={pool.id.toString()}
+                            size="sm"
+                          >
+                            {pool.label}
+                          </Radio>
+                        ))}
+                      </RadioGroup>
+                    </div>
 
                     <Divider />
 
