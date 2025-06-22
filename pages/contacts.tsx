@@ -748,16 +748,78 @@ export default function ContactsPage(): JSX.Element {
 
                     <Divider />
 
-                    <RadioGroup
-                      label="Filter by Gender"
-                      value={genderFilter}
-                      onValueChange={setGenderFilter}
-                    >
-                      <Radio value="all">All Genders</Radio>
-                      <Radio value="male">Male</Radio>
-                      <Radio value="female">Female</Radio>
-                      <Radio value="unknown">Unknown</Radio>
-                    </RadioGroup>
+                    <div className="flex flex-col gap-3">
+                      <span className="text-small font-medium text-default-700">
+                        Filter by Gender
+                      </span>
+                      <div className="grid grid-cols-2 gap-2">
+                        <Button
+                          size="sm"
+                          variant={
+                            genderFilter === "all" ? "solid" : "bordered"
+                          }
+                          color={genderFilter === "all" ? "primary" : "default"}
+                          onPress={() => setGenderFilter("all")}
+                          startContent={
+                            <Icon icon="lucide:users" className="w-4 h-4" />
+                          }
+                          className="justify-start"
+                        >
+                          All
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant={
+                            genderFilter === "male" ? "solid" : "bordered"
+                          }
+                          color={
+                            genderFilter === "male" ? "primary" : "default"
+                          }
+                          onPress={() => setGenderFilter("male")}
+                          startContent={
+                            <Icon icon="lucide:male" className="w-4 h-4" />
+                          }
+                          className="justify-start"
+                        >
+                          Male
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant={
+                            genderFilter === "female" ? "solid" : "bordered"
+                          }
+                          color={
+                            genderFilter === "female" ? "primary" : "default"
+                          }
+                          onPress={() => setGenderFilter("female")}
+                          startContent={
+                            <Icon icon="lucide:female" className="w-4 h-4" />
+                          }
+                          className="justify-start"
+                        >
+                          Female
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant={
+                            genderFilter === "unknown" ? "solid" : "bordered"
+                          }
+                          color={
+                            genderFilter === "unknown" ? "primary" : "default"
+                          }
+                          onPress={() => setGenderFilter("unknown")}
+                          startContent={
+                            <Icon
+                              icon="lucide:help-circle"
+                              className="w-4 h-4"
+                            />
+                          }
+                          className="justify-start"
+                        >
+                          Unknown
+                        </Button>
+                      </div>
+                    </div>
                   </div>
                 </PopoverContent>
               </Popover>
