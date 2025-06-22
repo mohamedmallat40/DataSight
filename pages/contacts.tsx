@@ -772,105 +772,64 @@ export default function ContactsPage(): JSX.Element {
                           Filter by Gender
                         </span>
                       </div>
-                      <Dropdown>
-                        <DropdownTrigger>
-                          <Button
-                            className="bg-default-100 text-default-800 justify-start"
-                            size="sm"
-                            variant="flat"
-                            startContent={
-                              <Icon
-                                className="text-default-400"
-                                icon={
-                                  genderFilter === "all"
-                                    ? "lucide:users"
-                                    : genderFilter === "male"
-                                      ? "lucide:male"
-                                      : genderFilter === "female"
-                                        ? "lucide:female"
-                                        : "lucide:help-circle"
-                                }
-                                width={16}
-                              />
-                            }
-                            endContent={
-                              genderFilter !== "all" && (
-                                <Chip
-                                  size="sm"
-                                  color="primary"
-                                  variant="dot"
-                                  className="ml-1"
-                                />
-                              )
-                            }
-                          >
-                            {genderFilter === "all"
-                              ? "All Genders"
-                              : genderFilter === "male"
-                                ? "Male"
-                                : genderFilter === "female"
-                                  ? "Female"
-                                  : "Unknown"}
-                          </Button>
-                        </DropdownTrigger>
-                        <DropdownMenu
-                          aria-label="Gender filter"
-                          selectedKeys={new Set([genderFilter])}
-                          selectionMode="single"
-                          onSelectionChange={(keys) => {
-                            const selectedKey = Array.from(keys)[0] as string;
-                            setGenderFilter(selectedKey);
-                          }}
-                          classNames={{
-                            content: "min-w-[160px]",
-                          }}
-                        >
-                          <DropdownItem
-                            key="all"
-                            startContent={
-                              <Icon
-                                icon="lucide:users"
-                                className="w-4 h-4 text-default-500"
-                              />
-                            }
-                          >
-                            All Genders
-                          </DropdownItem>
-                          <DropdownItem
-                            key="male"
-                            startContent={
-                              <Icon
-                                icon="lucide:male"
-                                className="w-4 h-4 text-blue-500"
-                              />
-                            }
-                          >
-                            Male
-                          </DropdownItem>
-                          <DropdownItem
-                            key="female"
-                            startContent={
-                              <Icon
-                                icon="lucide:female"
-                                className="w-4 h-4 text-pink-500"
-                              />
-                            }
-                          >
-                            Female
-                          </DropdownItem>
-                          <DropdownItem
-                            key="unknown"
-                            startContent={
+                      <Tabs
+                        aria-label="Gender filter"
+                        selectedKey={genderFilter}
+                        onSelectionChange={(key) =>
+                          setGenderFilter(String(key))
+                        }
+                        variant="solid"
+                        color="primary"
+                        size="sm"
+                        classNames={{
+                          tabList:
+                            "grid w-full grid-cols-4 gap-0 relative rounded-lg p-1 bg-default-100",
+                          cursor: "w-full bg-white shadow-sm rounded-md",
+                          tab: "max-w-fit h-8 text-tiny",
+                          tabContent:
+                            "group-data-[selected=true]:text-primary-600 group-data-[selected=false]:text-default-500",
+                        }}
+                      >
+                        <Tab
+                          key="all"
+                          title={
+                            <div className="flex items-center justify-center gap-1">
+                              <Icon icon="lucide:users" className="w-3 h-3" />
+                              <span>All</span>
+                            </div>
+                          }
+                        />
+                        <Tab
+                          key="male"
+                          title={
+                            <div className="flex items-center justify-center gap-1">
+                              <Icon icon="lucide:male" className="w-3 h-3" />
+                              <span>Male</span>
+                            </div>
+                          }
+                        />
+                        <Tab
+                          key="female"
+                          title={
+                            <div className="flex items-center justify-center gap-1">
+                              <Icon icon="lucide:female" className="w-3 h-3" />
+                              <span>Female</span>
+                            </div>
+                          }
+                        />
+                        <Tab
+                          key="unknown"
+                          title={
+                            <div className="flex items-center justify-center gap-1">
                               <Icon
                                 icon="lucide:help-circle"
-                                className="w-4 h-4 text-default-400"
+                                className="w-3 h-3"
                               />
-                            }
-                          >
-                            Unknown
-                          </DropdownItem>
-                        </DropdownMenu>
-                      </Dropdown>
+                              <span>Unknown</span>
+                            </div>
+                          }
+                        />
+                      </Tabs>
                     </div>
                   </div>
                 </PopoverContent>
