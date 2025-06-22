@@ -763,76 +763,74 @@ export default function ContactsPage(): JSX.Element {
                     <Divider />
 
                     <div className="flex flex-col gap-3">
-                      <span className="text-small font-medium text-default-700">
-                        Filter by Gender
-                      </span>
-                      <div className="grid grid-cols-2 gap-2">
-                        <Button
-                          size="sm"
-                          variant={
-                            genderFilter === "all" ? "solid" : "bordered"
-                          }
-                          color={genderFilter === "all" ? "primary" : "default"}
-                          onPress={() => setGenderFilter("all")}
-                          startContent={
-                            <Icon icon="lucide:users" className="w-4 h-4" />
-                          }
-                          className="justify-start"
-                        >
-                          All
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant={
-                            genderFilter === "male" ? "solid" : "bordered"
-                          }
-                          color={
-                            genderFilter === "male" ? "primary" : "default"
-                          }
-                          onPress={() => setGenderFilter("male")}
-                          startContent={
-                            <Icon icon="lucide:male" className="w-4 h-4" />
-                          }
-                          className="justify-start"
-                        >
-                          Male
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant={
-                            genderFilter === "female" ? "solid" : "bordered"
-                          }
-                          color={
-                            genderFilter === "female" ? "primary" : "default"
-                          }
-                          onPress={() => setGenderFilter("female")}
-                          startContent={
-                            <Icon icon="lucide:female" className="w-4 h-4" />
-                          }
-                          className="justify-start"
-                        >
-                          Female
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant={
-                            genderFilter === "unknown" ? "solid" : "bordered"
-                          }
-                          color={
-                            genderFilter === "unknown" ? "primary" : "default"
-                          }
-                          onPress={() => setGenderFilter("unknown")}
-                          startContent={
-                            <Icon
-                              icon="lucide:help-circle"
-                              className="w-4 h-4"
-                            />
-                          }
-                          className="justify-start"
-                        >
-                          Unknown
-                        </Button>
+                      <div className="flex items-center gap-2">
+                        <Icon
+                          icon="lucide:users"
+                          className="w-4 h-4 text-default-700"
+                        />
+                        <span className="text-small font-medium text-default-700">
+                          Filter by Gender
+                        </span>
                       </div>
+                      <Tabs
+                        fullWidth
+                        aria-label="Gender filter"
+                        selectedKey={genderFilter}
+                        onSelectionChange={(key) =>
+                          setGenderFilter(String(key))
+                        }
+                        variant="bordered"
+                        color="primary"
+                        size="sm"
+                        classNames={{
+                          tabList:
+                            "gap-1 w-full relative rounded-lg p-1 bg-default-100",
+                          cursor: "w-full bg-white shadow-md",
+                          tab: "max-w-fit px-3 h-8",
+                          tabContent:
+                            "group-data-[selected=true]:text-primary-600 font-medium",
+                        }}
+                      >
+                        <Tab
+                          key="all"
+                          title={
+                            <div className="flex items-center gap-2">
+                              <Icon icon="lucide:users" className="w-3 h-3" />
+                              <span>All</span>
+                            </div>
+                          }
+                        />
+                        <Tab
+                          key="male"
+                          title={
+                            <div className="flex items-center gap-2">
+                              <Icon icon="lucide:male" className="w-3 h-3" />
+                              <span>Male</span>
+                            </div>
+                          }
+                        />
+                        <Tab
+                          key="female"
+                          title={
+                            <div className="flex items-center gap-2">
+                              <Icon icon="lucide:female" className="w-3 h-3" />
+                              <span>Female</span>
+                            </div>
+                          }
+                        />
+                        <Tab
+                          key="unknown"
+                          title={
+                            <div className="flex items-center gap-2">
+                              <Icon
+                                icon="lucide:help-circle"
+                                className="w-3 h-3"
+                              />
+                              <span>Unknown</span>
+                            </div>
+                          }
+                        />
+                      </Tabs>
                     </div>
                   </div>
                 </PopoverContent>
