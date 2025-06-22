@@ -68,52 +68,133 @@ export default function CountryFilter({
   };
 
   return (
-    <div className={`flex flex-col gap-3 w-full ${className || ""}`}>
-      <div className="flex items-center gap-2 mb-1">
-        <svg
-          className="w-4 h-4 text-default-700"
-          fill="currentColor"
-          viewBox="0 0 20 20"
-        >
-          <path
-            fillRule="evenodd"
-            d="M10 18a8 8 0 100-16 8 8 0 000 16zM4.332 8.027a6.012 6.012 0 011.912-2.706C6.512 5.73 6.974 6 7.5 6A1.5 1.5 0 019 7.5V8a2 2 0 004 0 2 2 0 011.523-1.943A5.977 5.977 0 0116 10c0 .34-.028.675-.083 1H15a2 2 0 00-2 2v2.197A5.973 5.973 0 0110 16v-2a2 2 0 00-2-2 2 2 0 01-2-2 2 2 0 00-1.668-1.973z"
-            clipRule="evenodd"
-          />
-        </svg>
-        <span className="text-small font-medium text-default-700">
-          Filter by Location
-        </span>
-      </div>
-      <Autocomplete
-        label=""
-        placeholder="Search and select countries..."
-        inputValue={inputValue}
-        onInputChange={setInputValue}
-        onSelectionChange={handleSelection}
-        size="sm"
-        variant="bordered"
-        className="w-full"
-      >
-        {availableCountries.map((country) => (
-          <AutocompleteItem
-            key={country.code}
-            startContent={
-              <Avatar
-                alt={country.name}
-                className="w-6 h-6"
-                src={`https://flagcdn.com/${country.code.toLowerCase()}.svg`}
+    <div className={`flex flex-col gap-4 w-full ${className || ""}`}>
+      <Card className="border-small border-default-200 bg-gradient-to-br from-default-50 to-default-100">
+        <CardBody className="p-4">
+          <div className="flex items-center gap-3 mb-3">
+            <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary-100">
+              <Icon
+                icon="lucide:map-pin"
+                className="w-4 h-4 text-primary-600"
               />
-            }
-            textValue={country.name}
-          >
-            <div className="flex justify-between items-center">
-              <span>{country.name}</span>
-              <span className="text-tiny text-default-400">{country.code}</span>
             </div>
-          </AutocompleteItem>
-        ))}
-      </Autocomplete>
+            <div>
+              <h4 className="text-small font-semibold text-default-700">
+                Location Filter
+              </h4>
+              <p className="text-tiny text-default-500">
+                Select countries or entire continents
+              </p>
+            </div>
+          </div>
+
+          <Autocomplete
+            label=""
+            placeholder="🌍 Search countries or select continents..."
+            inputValue={inputValue}
+            onInputChange={setInputValue}
+            onSelectionChange={handleSelection}
+            size="md"
+            variant="faded"
+            className="w-full"
+            classNames={{
+              input: "text-small",
+              trigger: "min-h-[44px]",
+            }}
+            startContent={
+              <Icon icon="lucide:search" className="w-4 h-4 text-default-400" />
+            }
+          >
+            <AutocompleteSection
+              title="🌍 Quick Select - Entire Continents"
+              className="mb-2"
+            >
+              {Object.entries(groupedCountries).map(
+                ([continent, countriesInContinent]) => (
+                  <AutocompleteItem
+                    key={`continent:${continent}`}
+                    startContent={
+                      <div className="flex items-center justify-center w-8 h-8 rounded-full bg-gradient-to-br from-primary-100 to-secondary-100">
+                        <Icon
+                          icon="lucide:globe"
+                          className="w-4 h-4 text-primary-600"
+                        />
+                      </div>
+                    }
+                    textValue={`All ${continent}`}
+                    className="data-[hover=true]:bg-primary-50"
+                  >
+                    <div className="flex justify-between items-center w-full">
+                      <div className="flex flex-col">
+                        <span className="font-medium text-primary-700">
+                          All {continent}
+                        </span>
+                        <span className="text-tiny text-default-500">
+                          Select entire continent
+                        </span>
+                      </div>
+                      <Badge
+                        color="primary"
+                        variant="flat"
+                        size="sm"
+                        content={countriesInContinent.length}
+                      >
+                        <Icon icon="lucide:map" className="w-4 h-4" />
+                      </Badge>
+                    </div>
+                  </AutocompleteItem>
+                ),
+              )}
+            </AutocompleteSection>
+
+            {Object.entries(groupedCountries).map(
+              ([continent, countriesInContinent]) => {
+                const availableCountries = countriesInContinent.filter(
+                  (country) => !selectedCountries.includes(country.code),
+                );
+
+                if (availableCountries.length === 0) return null;
+
+                return (
+                  <AutocompleteSection
+                    key={continent}
+                    title={`${continent} Countries`}
+                    className="mt-1"
+                  >
+                    {availableCountries.map((country) => (
+                      <AutocompleteItem
+                        key={country.code}
+                        startContent={
+                          <Avatar
+                            alt={country.name}
+                            className="w-6 h-6 border-1 border-default-200"
+                            src={`https://flagcdn.com/${country.code.toLowerCase()}.svg`}
+                            fallback={
+                              <Icon
+                                icon="lucide:flag"
+                                className="w-4 h-4 text-default-400"
+                              />
+                            }
+                          />
+                        }
+                        textValue={country.name}
+                        className="data-[hover=true]:bg-default-100"
+                      >
+                        <div className="flex justify-between items-center w-full">
+                          <span className="font-medium">{country.name}</span>
+                          <span className="text-tiny text-default-400 font-mono">
+                            {country.code}
+                          </span>
+                        </div>
+                      </AutocompleteItem>
+                    ))}
+                  </AutocompleteSection>
+                );
+              },
+            )}
+          </Autocomplete>
+        </CardBody>
+      </Card>
 
       {selectedCountries.length > 0 && (
         <div className="flex flex-col gap-2">
