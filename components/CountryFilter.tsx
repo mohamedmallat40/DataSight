@@ -117,11 +117,16 @@ export default function CountryFilter({
         </AutocompleteSection>
 
         {Object.entries(groupedCountries).map(
-          ([continent, countriesInContinent]) => (
-            <AutocompleteSection key={continent} title={continent}>
-              {countriesInContinent
-                .filter((country) => !selectedCountries.includes(country.code))
-                .map((country) => (
+          ([continent, countriesInContinent]) => {
+            const filteredCountries = countriesInContinent.filter(
+              (country) => !selectedCountries.includes(country.code),
+            );
+
+            if (filteredCountries.length === 0) return null;
+
+            return (
+              <AutocompleteSection key={continent} title={continent}>
+                {filteredCountries.map((country) => (
                   <AutocompleteItem
                     key={country.code}
                     startContent={
@@ -141,8 +146,9 @@ export default function CountryFilter({
                     </div>
                   </AutocompleteItem>
                 ))}
-            </AutocompleteSection>
-          ),
+              </AutocompleteSection>
+            );
+          },
         )}
       </Autocomplete>
 
