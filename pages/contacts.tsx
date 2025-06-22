@@ -883,6 +883,7 @@ export default function ContactsPage(): JSX.Element {
     sortDescriptor,
     poolFilter,
     countryFilter,
+    genderFilter,
     pools,
     onSearchChange,
     onCountryFilterChange,
