@@ -202,6 +202,11 @@ export default function ContactsPage(): JSX.Element {
         params.append("countries", countryFilter.join(","));
       }
 
+      // Add gender filter parameter if selected
+      if (genderFilter !== "all") {
+        params.append("gender", genderFilter);
+      }
+
       const response = await apiClient.get<ApiResponse<Users[]>>(
         `/card-info?${params.toString()}`,
       );
