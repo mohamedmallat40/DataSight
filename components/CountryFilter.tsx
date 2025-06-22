@@ -14,6 +14,7 @@ import type { Key } from "@react-types/shared";
 import { Icon } from "@iconify/react";
 
 import { countries } from "../data/countries";
+import { groupCountriesByContinent } from "../utils/countryUtils";
 
 interface CountryFilterProps {
   selectedCountries: string[];
