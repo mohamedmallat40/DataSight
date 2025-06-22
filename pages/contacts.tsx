@@ -159,7 +159,7 @@ export default function ContactsPage(): JSX.Element {
 
   useEffect(() => {
     fetchUsers();
-  }, [page, filterValue, poolFilter, countryFilter]);
+  }, [page, filterValue, poolFilter, countryFilter, genderFilter]);
 
   const fetchPools = useCallback(async (): Promise<void> => {
     try {
