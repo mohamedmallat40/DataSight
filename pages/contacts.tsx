@@ -40,6 +40,8 @@ import {
   PopoverTrigger,
   PopoverContent,
   Divider,
+  Tabs,
+  Tab,
 } from "@heroui/react";
 import { SearchIcon } from "@heroui/shared-icons";
 import React, { useMemo, useState, useEffect, useCallback } from "react";
