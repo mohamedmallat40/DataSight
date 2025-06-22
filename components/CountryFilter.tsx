@@ -6,6 +6,7 @@ import {
   Avatar,
   Chip,
 } from "@heroui/react";
+import type { Key } from "@react-types/shared";
 
 import { countries } from "../data/countries";
 import { groupCountriesByContinent } from "../utils/countryUtils";
