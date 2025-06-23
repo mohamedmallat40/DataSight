@@ -36,7 +36,7 @@ export default function Custom404(): JSX.Element {
             404 - Page Not Found
           </h1>
           <p className="text-lg text-default-600 mb-6">
-            The page you're looking for doesn't exist.
+            The page you&apos;re looking for doesn&apos;t exist.
           </p>
 
           {/* Redirect Message */}
@@ -47,7 +47,7 @@ export default function Custom404(): JSX.Element {
                 Redirecting to Statistics...
               </p>
               <p className="text-xs text-default-500">
-                You'll be redirected in 2 seconds
+                You&apos;ll be redirected in 2 seconds
               </p>
             </div>
           </div>
