@@ -409,33 +409,39 @@ export default function ContactsPage(): JSX.Element {
 
       switch (userKey) {
         case "full_name":
-          const isNameHighlighted =
-            filterValue &&
-            containsSearchTerm(user.full_name || "", filterValue);
-          const isJobTitleHighlighted =
-            filterValue &&
-            containsSearchTerm(user.job_title || "", filterValue);
-
           return (
-            <div className="flex items-center gap-3 min-w-0">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-default-100 text-default-600 font-semibold text-sm">
-                {(user.full_name || "U").charAt(0).toUpperCase()}
-              </div>
-              <div className="flex flex-col gap-0.5 min-w-0">
-                <div
-                  className={cn(
-                    "text-small font-medium truncate max-w-[200px]",
-                    isNameHighlighted ? "text-default-900" : "text-default-700",
-                  )}
-                >
-                  {filterValue ? (
+            <div className="flex items-center gap-3">
+              <Avatar
+                isBordered
+                className="w-10 h-10"
+                radius="lg"
+                showFallback
+                src={
+                  user.front_image_link ||
+                  user.card_image_url ||
+                  `https://ui-avatars.com/api/?name=${encodeURIComponent(user.full_name)}&background=random&size=128`
+                }
+              />
+              <div className="flex flex-col">
+                <div className="flex items-center gap-2">
+                  <span className="text-small font-medium text-default-700">
                     <HighlightedText
                       highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
                       searchTerm={filterValue}
-                      text={user.full_name || "N/A"}
+                      text={user.full_name}
                     />
-                  ) : (
-                    user.full_name || "N/A"
+                  </span>
+                  <GenderIndicator
+                    gender={user.gender}
+                    variant="minimal"
+                  />
+                </div>
+                <span className="text-tiny text-default-500">
+                  {user.job_title || "No job title"}
+                </span>
+              </div>
+            </div>
+          );
                   )}
                 </div>
                 <p
@@ -596,14 +602,7 @@ export default function ContactsPage(): JSX.Element {
               </p>
             </div>
           );
-        case "gender":
-          return (
-            <GenderIndicator
-              gender={user.gender}
-              variant="minimal"
-              className="justify-center"
-            />
-          );
+
         case "date_collected":
           return (
             <p
