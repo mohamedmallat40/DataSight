@@ -155,6 +155,7 @@ export default function DrawerCustomStyles() {
                               type="website"
                               value={userData.website}
                               size="sm"
+                              variant="subtle"
                               className="text-tiny"
                             />
                           </div>

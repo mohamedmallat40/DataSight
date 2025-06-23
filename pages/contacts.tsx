@@ -515,6 +515,7 @@ export default function ContactsPage(): JSX.Element {
                     type="website"
                     value={user.website}
                     size="sm"
+                    variant="subtle"
                     className="text-tiny"
                   />
                 </div>
