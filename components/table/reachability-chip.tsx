@@ -28,12 +28,17 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
     status: "checking" as ReachabilityStatus,
     checkedAt: new Date(),
   });
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     let isMounted = true;
 
     const checkReachability = async () => {
       try {
+        // Add a small delay for staggered animation effect
+        const delay = Math.random() * 200;
+        await new Promise((resolve) => setTimeout(resolve, delay));
+
         const result =
           type === "email"
             ? await checkEmailReachability(value)
@@ -41,6 +46,7 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
 
         if (isMounted) {
           setReachability(result);
+          setIsVisible(true);
         }
       } catch (error) {
         console.error(`Error checking ${type} reachability:`, error);
@@ -49,17 +55,21 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
             status: "unknown",
             checkedAt: new Date(),
           });
+          setIsVisible(true);
         }
       }
     };
 
     if (value && value.trim()) {
+      // Show the chip immediately as "checking"
+      setTimeout(() => setIsVisible(true), 100);
       checkReachability();
     } else {
       setReachability({
         status: "unknown",
         checkedAt: new Date(),
       });
+      setIsVisible(true);
     }
 
     return () => {
@@ -88,15 +98,19 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
   };
 
   const getChipStyling = () => {
+    const baseAnimation = `transform transition-all duration-300 ${
+      isVisible ? "scale-100 opacity-100" : "scale-75 opacity-0"
+    } hover:scale-105 cursor-help`;
+
     if (variant === "subtle") {
       return {
-        className: `${className} transition-all duration-300 hover:scale-105 cursor-help opacity-75 hover:opacity-100`,
+        className: `${className} ${baseAnimation} opacity-75 hover:opacity-100`,
         variant: "dot" as const,
         size: size === "sm" ? ("sm" as const) : size,
       };
     }
     return {
-      className: `${className} transition-all duration-200 hover:scale-105 cursor-help shadow-sm`,
+      className: `${className} ${baseAnimation} shadow-sm`,
       variant: "flat" as const,
       size: size,
     };
