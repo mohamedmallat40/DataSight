@@ -374,27 +374,12 @@ export default function Component(): JSX.Element {
                   <span className="text-small font-medium text-default-700">
                     {user.full_name}
                   </span>
-                  <GenderIndicator
-                    gender={user.gender}
-                    variant="minimal"
-                  />
+                  <GenderIndicator gender={user.gender} variant="minimal" />
                 </div>
                 <span className="text-tiny text-default-500">
                   {user.job_title || "No job title"}
                 </span>
               </div>
-            </div>
-          );
-                {user.job_title || "N/A"}
-              </p>
-              {user.industry && (
-                <p
-                  className="text-tiny text-default-500 truncate"
-                  title={user.industry}
-                >
-                  {user.industry}
-                </p>
-              )}
             </div>
           );
         case "company_name":
