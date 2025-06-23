@@ -431,10 +431,7 @@ export default function ContactsPage(): JSX.Element {
                       text={user.full_name}
                     />
                   </span>
-                  <GenderIndicator
-                    gender={user.gender}
-                    variant="minimal"
-                  />
+                  <GenderIndicator gender={user.gender} variant="minimal" />
                 </div>
                 <span className="text-tiny text-default-500">
                   {user.job_title || "No job title"}
@@ -1130,8 +1127,25 @@ export default function ContactsPage(): JSX.Element {
                       width={20}
                     />
                     <span>Delete Contact</span>
-            </div>
-          );
+                  </div>
+                </ModalHeader>
+                <ModalBody>
+                  <p>
+                    Are you sure you want to delete this contact? This action
+                    cannot be undone.
+                  </p>
+                </ModalBody>
+                <ModalFooter>
+                  <Button variant="light" onPress={onClose}>
+                    Cancel
+                  </Button>
+                  <Button
+                    color="danger"
+                    isLoading={isDeleting}
+                    onPress={async () => {
+                      // Add delete logic here
+                      onClose();
+                    }}
                   >
                     {isDeleting ? "Deleting..." : "Delete"}
                   </Button>
