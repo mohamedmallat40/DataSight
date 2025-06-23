@@ -14,6 +14,7 @@ interface ReachabilityChipProps {
   value: string;
   className?: string;
   size?: "sm" | "md" | "lg";
+  variant?: "subtle" | "bold";
 }
 
 export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
@@ -21,6 +22,7 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
   value,
   className,
   size = "sm",
+  variant = "subtle",
 }) => {
   const [reachability, setReachability] = useState<ReachabilityResult>({
     status: "checking" as ReachabilityStatus,
@@ -85,21 +87,47 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
     }
   };
 
+  const getChipStyling = () => {
+    if (variant === "subtle") {
+      return {
+        className: `${className} transition-all duration-300 hover:scale-105 cursor-help opacity-75 hover:opacity-100`,
+        variant: "dot" as const,
+        size: size === "sm" ? ("sm" as const) : size,
+      };
+    }
+    return {
+      className: `${className} transition-all duration-200 hover:scale-105 cursor-help shadow-sm`,
+      variant: "flat" as const,
+      size: size,
+    };
+  };
+
+  const chipStyling = getChipStyling();
+
   return (
-    <Tooltip content={getTooltipText()} delay={500} className="text-xs">
+    <Tooltip
+      content={getTooltipText()}
+      delay={500}
+      className="text-xs max-w-xs"
+      placement="top"
+    >
       <Chip
-        className={`${className} transition-all duration-200 hover:scale-105 cursor-help`}
+        className={chipStyling.className}
         color={color}
-        size={size}
-        variant="flat"
+        size={chipStyling.size}
+        variant={chipStyling.variant}
         startContent={
-          <Icon
-            className={`w-3 h-3 ${reachability.status === "checking" ? "animate-spin" : ""}`}
-            icon={icon}
-          />
+          reachability.status !== "checking" ? (
+            <Icon className={`w-2.5 h-2.5`} icon={icon} />
+          ) : (
+            <Icon className="w-2.5 h-2.5 animate-spin" icon={icon} />
+          )
         }
       >
-        <span className="text-xs font-medium">{text}</span>
+        {variant === "bold" && (
+          <span className="text-xs font-medium">{text}</span>
+        )}
+        {variant === "subtle" && <span className="text-xs">{text}</span>}
       </Chip>
     </Tooltip>
   );
