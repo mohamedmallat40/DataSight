@@ -216,7 +216,7 @@ export function getReachabilityColor(status: ReachabilityStatus): {
     case "reachable":
       return { color: "success", text: "", icon: "solar:check-circle-bold" };
     case "unreachable":
-      return { color: "danger", text: "Down", icon: "solar:close-circle-bold" };
+      return { color: "danger", text: "", icon: "solar:close-circle-bold" };
     case "checking":
       return {
         color: "warning",
@@ -225,10 +225,6 @@ export function getReachabilityColor(status: ReachabilityStatus): {
       };
     case "unknown":
     default:
-      return {
-        color: "default",
-        text: "Unknown",
-        icon: "solar:question-circle-bold",
-      };
+      return { color: "default", text: "", icon: "solar:question-circle-bold" };
   }
 }
