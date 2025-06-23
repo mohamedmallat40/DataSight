@@ -324,32 +324,73 @@ Source: ${userData.source || "N/A"}
                           />
                         </div>
                         <div className="flex flex-col gap-2 flex-1">
-                          <div className="flex flex-col gap-0.5">
-                            <div className="flex items-center gap-2 flex-wrap">
-                              <Link
-                                isExternal
-                                showAnchorIcon
-                                className="text-medium text-foreground font-medium"
-                                href={
-                                  userData.website.startsWith("http")
-                                    ? userData.website
-                                    : `https://${userData.website}`
-                                }
-                              >
-                                {userData.website}
-                              </Link>
-                              <ReachabilityChip
-                                type="website"
-                                value={userData.website}
-                                size="sm"
-                                className="text-tiny"
-                              />
-                            </div>
-                            <p className="text-tiny text-default-400">
-                              Website
-                            </p>
-                          </div>
-                        </div>
+                          {phones.map((phone, index) => (
+                            <div
+                              key={index}
+                              className="flex items-center justify-between gap-2"
+                            >
+                              <div className="flex flex-col gap-0.5 flex-1">
+                                <Link
+                                  isExternal
+                                  showAnchorIcon
+                                  className={`${index === 0 ? "text-medium text-foreground font-medium" : "text-small text-default-600"}`}
+                                  href={`tel:${phone}`}
+                                >
+                                  {phone}
+                                </Link>
+                                {index === 0 && phones.length > 1 && (
+                                  <p className="text-tiny text-default-400">
+                                    Primary
+                                  </p>
+                                )}
+                                {index > 0 && (
+                                  <p className="text-tiny text-default-400">
+                                    Secondary {index > 1 ? index : ""}
+                                  </p>
+                                )}
+                              </div>
+                              <div className="flex items-center">
+                                <Tooltip content="Make a call">
+                                  <Button
+                                    isIconOnly
+                                    className="h-6 w-6 min-w-6 text-blue-500 hover:text-blue-600"
+                                    size="sm"
+                                    variant="light"
+                                    onPress={() => {
+                                      window.location.href = `tel:${phone}`;
+                                    }}
+                                  >
+                                    <Icon
+                                      className="h-3 w-3"
+                                      icon="solar:phone-calling-bold"
+                                    />
+                                  </Button>
+                                </Tooltip>
+                                <Tooltip content="Open WhatsApp chat">
+                                  <Button
+                                    isIconOnly
+                                    className="h-6 w-6 min-w-6 text-success-500 hover:text-success-600 -ml-1"
+                                    size="sm"
+                                    variant="light"
+                                    onPress={() => {
+                                      const cleanPhone = phone.replace(
+                                        /[^\d+]/g,
+                                        "",
+                                      );
+                                      const whatsappUrl = `https://wa.me/${cleanPhone}`;
+                                      window.open(
+                                        whatsappUrl,
+                                        "_blank",
+                                        "noopener,noreferrer",
+                                      );
+                                    }}
+                                  >
+                                    <Icon
+                                      className="h-3 w-3"
+                                      icon="ic:baseline-whatsapp"
+                                    />
+                                  </Button>
+                                </Tooltip>
                                 <Tooltip content="Copy phone number">
                                   <Button
                                     isIconOnly
@@ -360,7 +401,10 @@ Source: ${userData.source || "N/A"}
                                       navigator.clipboard.writeText(phone);
                                     }}
                                   >
-                                    <Icon className="h-3 w-3" icon="solar:copy-linear" />
+                                    <Icon
+                                      className="h-3 w-3"
+                                      icon="solar:copy-linear"
+                                    />
                                   </Button>
                                 </Tooltip>
                               </div>
