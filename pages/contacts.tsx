@@ -52,6 +52,7 @@ import { columns, INITIAL_VISIBLE_COLUMNS } from "../types/data";
 import { HighlightedText, containsSearchTerm } from "../utils/search-highlight";
 import CountryFilter from "../components/CountryFilter";
 import UserDetailsDrawer from "../components/user-details-drawer";
+import { ReachabilityChip } from "../components/table/reachability-chip";
 
 import MultiStepWizard from "./table/add-card/multi-step-wizard";
 
@@ -495,20 +496,28 @@ export default function ContactsPage(): JSX.Element {
                 {user.company_name || "N/A"}
               </p>
               {user.website && (
-                <a
-                  className="text-tiny text-primary hover:text-primary-600 transition-colors truncate"
-                  href={
-                    user.website.startsWith("http")
-                      ? user.website
-                      : `https://${user.website}`
-                  }
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  title={user.website}
-                  onClick={(e: React.MouseEvent) => e.stopPropagation()}
-                >
-                  {user.website}
-                </a>
+                <div className="flex items-center gap-1 flex-wrap">
+                  <a
+                    className="text-tiny text-primary hover:text-primary-600 transition-colors truncate"
+                    href={
+                      user.website.startsWith("http")
+                        ? user.website
+                        : `https://${user.website}`
+                    }
+                    rel="noopener noreferrer"
+                    target="_blank"
+                    title={user.website}
+                    onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                  >
+                    {user.website}
+                  </a>
+                  <ReachabilityChip
+                    type="website"
+                    value={user.website}
+                    size="sm"
+                    className="text-tiny"
+                  />
+                </div>
               )}
             </div>
           );
