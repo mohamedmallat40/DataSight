@@ -152,6 +152,22 @@ export default function DrawerCustomStyles() {
                           <p className="text-small text-default-500">Phone</p>
                         </div>
                         <div className="flex items-center gap-1">
+                          <Tooltip content="Make a call">
+                            <Button
+                              isIconOnly
+                              className="h-6 w-6 min-w-6 text-blue-500 hover:text-blue-600"
+                              size="sm"
+                              variant="light"
+                              onPress={() => {
+                                window.location.href = `tel:${userData.phone_number[0]}`;
+                              }}
+                            >
+                              <Icon
+                                className="h-3 w-3"
+                                icon="solar:phone-calling-bold"
+                              />
+                            </Button>
+                          </Tooltip>
                           <Tooltip content="Open WhatsApp chat">
                             <Button
                               isIconOnly
