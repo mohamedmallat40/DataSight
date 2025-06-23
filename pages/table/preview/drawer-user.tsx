@@ -6,13 +6,10 @@ import {
   DrawerFooter,
   Button,
   useDisclosure,
-  Image,
   Link,
   Tooltip,
   Avatar,
-  AvatarGroup,
 } from "@heroui/react";
-
 import { Icon } from "@iconify/react";
 
 export default function DrawerCustomStyles() {
@@ -36,7 +33,7 @@ export default function DrawerCustomStyles() {
     <>
       <Button
         color="primary"
-        endContent={<Icon icon="lucide:user" width={16} height={16} />}
+        endContent={<Icon height={16} icon="lucide:user" width={16} />}
         variant="flat"
         onPress={onOpen}
       >
@@ -63,7 +60,7 @@ export default function DrawerCustomStyles() {
                     variant="light"
                     onPress={onClose}
                   >
-                    <Icon icon="lucide:chevron-left" width={20} height={20} />
+                    <Icon height={20} icon="lucide:chevron-left" width={20} />
                   </Button>
                 </Tooltip>
                 <div className="w-full flex justify-start gap-2">
@@ -71,7 +68,7 @@ export default function DrawerCustomStyles() {
                     className="font-medium text-small text-default-500"
                     size="sm"
                     startContent={
-                      <Icon icon="lucide:copy" width={16} height={16} />
+                      <Icon height={16} icon="lucide:copy" width={16} />
                     }
                     variant="flat"
                   >
@@ -81,9 +78,9 @@ export default function DrawerCustomStyles() {
                     className="font-medium text-small text-default-500"
                     endContent={
                       <Icon
+                        height={16}
                         icon="lucide:external-link"
                         width={16}
-                        height={16}
                       />
                     }
                     size="sm"
@@ -115,18 +112,18 @@ export default function DrawerCustomStyles() {
                     <div className="flex gap-3 items-center">
                       <div className="flex items-center justify-center border-1 border-default-200/50 rounded-small w-11 h-11">
                         <Icon
-                          icon="lucide:mail"
                           className="text-default-500"
-                          width={20}
                           height={20}
+                          icon="lucide:mail"
+                          width={20}
                         />
                       </div>
                       <div className="flex flex-col gap-0.5">
                         <Link
                           isExternal
                           showAnchorIcon
-                          href={`mailto:${userData.email[0]}`}
                           className="text-medium text-foreground font-medium"
+                          href={`mailto:${userData.email[0]}`}
                         >
                           {userData.email[0]}
                         </Link>
@@ -136,18 +133,18 @@ export default function DrawerCustomStyles() {
                     <div className="flex gap-3 items-center">
                       <div className="flex items-center justify-center border-1 border-default-200/50 rounded-small w-11 h-11">
                         <Icon
-                          icon="lucide:phone"
                           className="text-default-500"
-                          width={20}
                           height={20}
+                          icon="lucide:phone"
+                          width={20}
                         />
                       </div>
                       <div className="flex flex-col gap-0.5">
                         <Link
                           isExternal
                           showAnchorIcon
-                          href={`tel:${userData.phone_number[0]}`}
                           className="text-medium text-foreground font-medium"
+                          href={`tel:${userData.phone_number[0]}`}
                         >
                           {userData.phone_number[0]}
                         </Link>
@@ -157,18 +154,18 @@ export default function DrawerCustomStyles() {
                     <div className="flex gap-3 items-center">
                       <div className="flex items-center justify-center border-1 border-default-200/50 rounded-small w-11 h-11">
                         <Icon
-                          icon="lucide:globe"
                           className="text-default-500"
-                          width={20}
                           height={20}
+                          icon="lucide:globe"
+                          width={20}
                         />
                       </div>
                       <div className="flex flex-col gap-0.5">
                         <Link
                           isExternal
                           showAnchorIcon
-                          href={`https://${userData.website}`}
                           className="text-medium text-foreground font-medium"
+                          href={`https://${userData.website}`}
                         >
                           {userData.website}
                         </Link>
@@ -178,10 +175,10 @@ export default function DrawerCustomStyles() {
                     <div className="flex gap-3 items-center">
                       <div className="flex items-center justify-center border-1 border-default-200/50 rounded-small w-11 h-11">
                         <Icon
-                          icon="lucide:map-pin"
                           className="text-default-500"
-                          width={20}
                           height={20}
+                          icon="lucide:map-pin"
+                          width={20}
                         />
                       </div>
                       <div className="flex flex-col gap-0.5">

@@ -1,5 +1,5 @@
 export const normalizeValue = (
-  value: unknown
+  value: unknown,
 ): string | number | null | undefined => {
   if (
     typeof value === "string" ||
@@ -9,5 +9,6 @@ export const normalizeValue = (
   ) {
     return value;
   }
+
   return "";
 };

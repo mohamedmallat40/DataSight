@@ -50,14 +50,14 @@ export const CountryFlag: React.FC<CountryFlagProps> = ({
   if (validCode) {
     return (
       <Icon
-        icon={`flag:${validCode}-4x3`}
-        className={`${sizeClasses[size]} ${className} rounded-sm border border-default-200`}
-        title={`Flag of ${countryCode?.toUpperCase()}`}
         aria-label={`Flag of ${countryCode?.toUpperCase()}`}
+        className={`${sizeClasses[size]} ${className} rounded-sm border border-default-200`}
+        icon={`flag:${validCode}-4x3`}
         style={{
           objectFit: "cover",
           flexShrink: 0,
         }}
+        title={`Flag of ${countryCode?.toUpperCase()}`}
       />
     );
   }
@@ -66,10 +66,10 @@ export const CountryFlag: React.FC<CountryFlagProps> = ({
   if (showFallback) {
     return (
       <Icon
-        icon="lucide:globe"
-        className={`text-default-400 ${sizeClasses[size]} ${className}`}
-        title="Country flag not available"
         aria-label="Country flag not available"
+        className={`text-default-400 ${sizeClasses[size]} ${className}`}
+        icon="lucide:globe"
+        title="Country flag not available"
       />
     );
   }

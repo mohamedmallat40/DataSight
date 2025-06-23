@@ -3,14 +3,7 @@
 import type { Selection, SortDescriptor } from "@heroui/react";
 import type { ColumnsKey, Users, ColumnDefinition } from "../types/data";
 import type { Key } from "@react-types/shared";
-import type {
-  TableState,
-  FilterState,
-  TableAction,
-  PaginationState,
-  AsyncState,
-  ModalState,
-} from "../types/components";
+import type { TableState, FilterState } from "../types/components";
 
 import {
   Table,
@@ -21,7 +14,6 @@ import {
   TableCell,
   Button,
   Chip,
-  User,
   Pagination,
   useDisclosure,
   ModalContent,
@@ -50,10 +42,7 @@ import { cn } from "@heroui/react";
 import { useRouter } from "next/router";
 
 import { CountryFlag } from "../components/CountryFlag";
-import { CopyText } from "../components/table/copy-text";
-import { EmailList } from "../components/table/email-list";
 import { EmailListEnhanced } from "../components/table/email-list-enhanced";
-import { PhoneList } from "../components/table/phone-list";
 import { PhoneListEnhanced } from "../components/table/phone-list-enhanced";
 import { EyeFilledIcon } from "../components/table/eye";
 import { EditLinearIcon } from "../components/table/edit";
@@ -61,11 +50,11 @@ import { DeleteFilledIcon } from "../components/table/delete";
 import { useMemoizedCallback } from "../components/table/use-memoized-callback";
 import { columns, INITIAL_VISIBLE_COLUMNS } from "../types/data";
 import { HighlightedText, containsSearchTerm } from "../utils/search-highlight";
-import SearchInput from "../components/SearchInput";
 import CountryFilter from "../components/CountryFilter";
+import UserDetailsDrawer from "../components/user-details-drawer";
 
 import MultiStepWizard from "./table/add-card/multi-step-wizard";
-import UserDetailsDrawer from "../components/user-details-drawer";
+
 import apiClient from "@/config/api";
 import DefaultLayout from "@/layouts/default";
 
@@ -150,6 +139,7 @@ export default function ContactsPage(): JSX.Element {
   // Initialize search from URL parameters
   useEffect(() => {
     const searchParam = router.query.search as string;
+
     if (searchParam && searchParam !== filterValue) {
       setFilterValue(searchParam);
     }
@@ -177,6 +167,7 @@ export default function ContactsPage(): JSX.Element {
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error occurred";
+
       console.error("Error fetching pools:", errorMessage);
       setPools([]);
     }
@@ -187,6 +178,7 @@ export default function ContactsPage(): JSX.Element {
     try {
       // Build query parameters
       const params = new URLSearchParams();
+
       params.append("page", page.toString());
 
       // Add search parameter if it exists (trim only for API call)
@@ -225,6 +217,7 @@ export default function ContactsPage(): JSX.Element {
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error occurred";
+
       console.error("Error fetching users:", errorMessage);
       setUserList([]);
     } finally {
@@ -290,6 +283,7 @@ export default function ContactsPage(): JSX.Element {
         // Handle array fields
         const aValue = a[col];
         const bValue = b[col];
+
         first = Array.isArray(aValue) && aValue.length > 0 ? aValue[0] : "";
         second = Array.isArray(bValue) && bValue.length > 0 ? bValue[0] : "";
       } else {
@@ -302,6 +296,7 @@ export default function ContactsPage(): JSX.Element {
       const secondStr = String(second ?? "");
 
       const cmp = firstStr.localeCompare(secondStr);
+
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [items, sortDescriptor]);
@@ -324,6 +319,7 @@ export default function ContactsPage(): JSX.Element {
   // Search and filter functions with proper typing
   const onSearchChange = useMemoizedCallback((value?: string): void => {
     const searchValue = value || "";
+
     setFilterValue(searchValue);
     if (searchValue !== filterValue) {
       setPage(1); // Reset to first page when search changes
@@ -331,6 +327,7 @@ export default function ContactsPage(): JSX.Element {
 
     // Update URL with search parameter
     const query = { ...router.query };
+
     if (searchValue.trim()) {
       // Only trim for empty check
       query.search = searchValue;
@@ -391,6 +388,7 @@ export default function ContactsPage(): JSX.Element {
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : "Failed to delete contact";
+
       console.error("Error deleting contact:", errorMessage);
       // Optional: Show error message (you can add a toast here if needed)
     } finally {
@@ -430,9 +428,9 @@ export default function ContactsPage(): JSX.Element {
                 >
                   {filterValue ? (
                     <HighlightedText
-                      text={user.full_name || "N/A"}
-                      searchTerm={filterValue}
                       highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
+                      searchTerm={filterValue}
+                      text={user.full_name || "N/A"}
                     />
                   ) : (
                     user.full_name || "N/A"
@@ -448,9 +446,9 @@ export default function ContactsPage(): JSX.Element {
                 >
                   {filterValue && user.job_title ? (
                     <HighlightedText
-                      text={user.job_title}
-                      searchTerm={filterValue}
                       highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
+                      searchTerm={filterValue}
+                      text={user.job_title}
                     />
                   ) : (
                     user.job_title || ""
@@ -474,9 +472,9 @@ export default function ContactsPage(): JSX.Element {
                 {user.notes ? (
                   filterValue ? (
                     <HighlightedText
-                      text={user.notes}
-                      searchTerm={filterValue}
                       highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
+                      searchTerm={filterValue}
+                      text={user.notes}
                     />
                   ) : (
                     <span title={user.notes}>{user.notes}</span>
@@ -498,14 +496,14 @@ export default function ContactsPage(): JSX.Element {
               </p>
               {user.website && (
                 <a
+                  className="text-tiny text-primary hover:text-primary-600 transition-colors truncate"
                   href={
                     user.website.startsWith("http")
                       ? user.website
                       : `https://${user.website}`
                   }
-                  target="_blank"
                   rel="noopener noreferrer"
-                  className="text-tiny text-primary hover:text-primary-600 transition-colors truncate"
+                  target="_blank"
                   title={user.website}
                   onClick={(e: React.MouseEvent) => e.stopPropagation()}
                 >
@@ -525,8 +523,8 @@ export default function ContactsPage(): JSX.Element {
         case "phone_number":
           return (
             <PhoneListEnhanced
-              phones={Array.isArray(user.phone_number) ? user.phone_number : []}
               maxVisible={2}
+              phones={Array.isArray(user.phone_number) ? user.phone_number : []}
               searchTerm={filterValue}
             />
           );
@@ -536,8 +534,8 @@ export default function ContactsPage(): JSX.Element {
               <div className="flex items-center gap-2">
                 <CountryFlag
                   countryCode={user.country_code}
-                  size="sm"
                   showFallback={false}
+                  size="sm"
                 />
                 <p
                   className="text-small font-medium text-default-700 truncate"
@@ -563,8 +561,8 @@ export default function ContactsPage(): JSX.Element {
           return (
             <div className="flex items-center gap-2">
               <Icon
-                icon="lucide:briefcase"
                 className="text-default-400 w-3 h-3 flex-shrink-0"
+                icon="lucide:briefcase"
               />
               <p
                 className={cn(
@@ -577,9 +575,9 @@ export default function ContactsPage(): JSX.Element {
               >
                 {filterValue && user.industry ? (
                   <HighlightedText
-                    text={user.industry}
-                    searchTerm={filterValue}
                     highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
+                    searchTerm={filterValue}
+                    text={user.industry}
                   />
                 ) : (
                   user.industry || "N/A"
@@ -606,8 +604,8 @@ export default function ContactsPage(): JSX.Element {
           return (
             <div className="flex items-center gap-2">
               <Icon
-                icon={genderInfo.icon}
                 className={`w-3 h-3 flex-shrink-0 ${genderInfo.color}`}
+                icon={genderInfo.icon}
               />
               <span className={`text-small ${genderInfo.color}`}>
                 {genderInfo.label}
@@ -629,31 +627,31 @@ export default function ContactsPage(): JSX.Element {
           return (
             <div className="flex gap-2 justify-end">
               <button
+                aria-label={`View details for ${user.full_name || "user"}`}
                 className="text-default-400 cursor-pointer hover:text-primary transition-colors p-1 rounded-small"
+                type="button"
                 onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
                   handleViewUser(user);
                 }}
-                aria-label={`View details for ${user.full_name || "user"}`}
-                type="button"
               >
                 <EyeFilledIcon />
               </button>
               <button
-                className="text-default-400 cursor-pointer hover:text-warning transition-colors p-1 rounded-small"
                 aria-label={`Edit ${user.full_name || "user"}`}
+                className="text-default-400 cursor-pointer hover:text-warning transition-colors p-1 rounded-small"
                 type="button"
               >
                 <EditLinearIcon />
               </button>
               <button
+                aria-label={`Delete ${user.full_name || "user"}`}
                 className="text-default-400 cursor-pointer hover:text-danger transition-colors p-1 rounded-small"
+                type="button"
                 onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
                   handleDeleteUser(user);
                 }}
-                aria-label={`Delete ${user.full_name || "user"}`}
-                type="button"
               >
                 <DeleteFilledIcon />
               </button>
@@ -698,6 +696,22 @@ export default function ContactsPage(): JSX.Element {
                 <PopoverTrigger>
                   <Button
                     className="bg-default-100 text-default-800"
+                    endContent={
+                      (poolFilter !== "all" ||
+                        countryFilter.length > 0 ||
+                        genderFilter !== "all") && (
+                        <Chip
+                          className="h-4 min-w-4 text-tiny"
+                          color="primary"
+                          size="sm"
+                          variant="solid"
+                        >
+                          {(poolFilter !== "all" ? 1 : 0) +
+                            countryFilter.length +
+                            (genderFilter !== "all" ? 1 : 0)}
+                        </Chip>
+                      )
+                    }
                     size="sm"
                     startContent={
                       <Icon
@@ -705,22 +719,6 @@ export default function ContactsPage(): JSX.Element {
                         icon="solar:tuning-2-linear"
                         width={16}
                       />
-                    }
-                    endContent={
-                      (poolFilter !== "all" ||
-                        countryFilter.length > 0 ||
-                        genderFilter !== "all") && (
-                        <Chip
-                          size="sm"
-                          color="primary"
-                          variant="solid"
-                          className="h-4 min-w-4 text-tiny"
-                        >
-                          {(poolFilter !== "all" ? 1 : 0) +
-                            countryFilter.length +
-                            (genderFilter !== "all" ? 1 : 0)}
-                        </Chip>
-                      )
                     }
                   >
                     Filter
@@ -730,22 +728,22 @@ export default function ContactsPage(): JSX.Element {
                   <div className="flex w-full flex-col gap-6 px-4 py-6">
                     <div className="flex flex-col gap-3">
                       <span className="text-small font-medium text-default-700 flex items-center gap-2">
-                        <Icon icon="lucide:database" className="w-4 h-4" />
+                        <Icon className="w-4 h-4" icon="lucide:database" />
                         Filter by Pool
                       </span>
                       <RadioGroup
+                        className="gap-2"
                         value={poolFilter}
                         onValueChange={setPoolFilter}
-                        className="gap-2"
                       >
-                        <Radio value="all" size="sm">
+                        <Radio size="sm" value="all">
                           All Pools
                         </Radio>
                         {pools.map((pool) => (
                           <Radio
                             key={pool.id}
-                            value={pool.id.toString()}
                             size="sm"
+                            value={pool.id.toString()}
                           >
                             {pool.label}
                           </Radio>
@@ -765,8 +763,8 @@ export default function ContactsPage(): JSX.Element {
                     <div className="flex flex-col gap-3">
                       <div className="flex items-center gap-2">
                         <Icon
-                          icon="lucide:users"
                           className="w-4 h-4 text-default-700"
+                          icon="lucide:users"
                         />
                         <span className="text-small font-medium text-default-700">
                           Filter by Gender
@@ -774,13 +772,6 @@ export default function ContactsPage(): JSX.Element {
                       </div>
                       <Tabs
                         aria-label="Gender filter"
-                        selectedKey={genderFilter}
-                        onSelectionChange={(key) =>
-                          setGenderFilter(String(key))
-                        }
-                        variant="solid"
-                        color="primary"
-                        size="sm"
                         classNames={{
                           tabList:
                             "grid w-full grid-cols-4 gap-0 relative rounded-lg p-1 bg-default-100",
@@ -789,12 +780,19 @@ export default function ContactsPage(): JSX.Element {
                           tabContent:
                             "group-data-[selected=true]:text-primary-600 group-data-[selected=false]:text-default-500",
                         }}
+                        color="primary"
+                        selectedKey={genderFilter}
+                        size="sm"
+                        variant="solid"
+                        onSelectionChange={(key) =>
+                          setGenderFilter(String(key))
+                        }
                       >
                         <Tab
                           key="all"
                           title={
                             <div className="flex items-center justify-center gap-1">
-                              <Icon icon="lucide:users" className="w-3 h-3" />
+                              <Icon className="w-3 h-3" icon="lucide:users" />
                               <span>All</span>
                             </div>
                           }
@@ -804,8 +802,8 @@ export default function ContactsPage(): JSX.Element {
                           title={
                             <div className="flex items-center justify-center gap-1">
                               <Icon
-                                icon="material-symbols:male"
                                 className="w-4 h-4 text-blue-600"
+                                icon="material-symbols:male"
                               />
                               <span>Male</span>
                             </div>
@@ -816,8 +814,8 @@ export default function ContactsPage(): JSX.Element {
                           title={
                             <div className="flex items-center justify-center gap-1">
                               <Icon
-                                icon="material-symbols:female"
                                 className="w-4 h-4 text-pink-600"
+                                icon="material-symbols:female"
                               />
                               <span>Female</span>
                             </div>
@@ -828,8 +826,8 @@ export default function ContactsPage(): JSX.Element {
                           title={
                             <div className="flex items-center justify-center gap-1">
                               <Icon
-                                icon="lucide:help-circle"
                                 className="w-3 h-3"
+                                icon="lucide:help-circle"
                               />
                               <span>Unknown</span>
                             </div>
@@ -846,8 +844,8 @@ export default function ContactsPage(): JSX.Element {
                         size="sm"
                         startContent={
                           <Icon
-                            icon="lucide:rotate-ccw"
                             className="text-default-400"
+                            icon="lucide:rotate-ccw"
                             width={16}
                           />
                         }
@@ -861,17 +859,17 @@ export default function ContactsPage(): JSX.Element {
                         Reset
                       </Button>
                       <Button
-                        color="primary"
-                        variant="solid"
-                        size="sm"
                         className="flex-1"
+                        color="primary"
+                        size="sm"
                         startContent={
                           <Icon
-                            icon="lucide:check"
                             className="text-white"
+                            icon="lucide:check"
                             width={16}
                           />
                         }
+                        variant="solid"
                         onPress={() => {
                           // Apply filters - this will trigger the existing useEffect
                           // No additional action needed since filters are applied automatically
@@ -1077,8 +1075,6 @@ export default function ContactsPage(): JSX.Element {
           aria-label="Enhanced table with improved contact display and filters"
           bottomContent={bottomContent}
           bottomContentPlacement="outside"
-          topContent={topContent}
-          topContentPlacement="outside"
           classNames={{
             td: "before:bg-transparent py-3",
             wrapper: "min-h-[400px]",
@@ -1087,6 +1083,8 @@ export default function ContactsPage(): JSX.Element {
           selectedKeys={filterSelectedKeys}
           selectionMode="multiple"
           sortDescriptor={sortDescriptor}
+          topContent={topContent}
+          topContentPlacement="outside"
           onSelectionChange={onSelectionChange}
           onSortChange={setSortDescriptor}
         >
@@ -1149,8 +1147,8 @@ export default function ContactsPage(): JSX.Element {
         {/* Delete Confirmation Modal */}
         <Modal
           isOpen={isDeleteModalOpen}
-          onOpenChange={onDeleteModalOpenChange}
           size="sm"
+          onOpenChange={onDeleteModalOpenChange}
         >
           <ModalContent>
             {(onClose) => (
@@ -1158,10 +1156,10 @@ export default function ContactsPage(): JSX.Element {
                 <ModalHeader className="flex flex-col gap-1">
                   <div className="flex items-center gap-2">
                     <Icon
-                      icon="lucide:trash-2"
                       className="text-danger"
-                      width={20}
                       height={20}
+                      icon="lucide:trash-2"
+                      width={20}
                     />
                     <span>Delete Contact</span>
                   </div>
@@ -1178,17 +1176,17 @@ export default function ContactsPage(): JSX.Element {
                 <ModalFooter>
                   <Button
                     color="default"
+                    disabled={isDeleting}
                     variant="flat"
                     onPress={cancelDeleteUser}
-                    disabled={isDeleting}
                   >
                     Cancel
                   </Button>
                   <Button
                     color="danger"
-                    onPress={confirmDeleteUser}
-                    isLoading={isDeleting}
                     disabled={isDeleting}
+                    isLoading={isDeleting}
+                    onPress={confirmDeleteUser}
                   >
                     {isDeleting ? "Deleting..." : "Delete"}
                   </Button>
@@ -1200,9 +1198,9 @@ export default function ContactsPage(): JSX.Element {
 
         <UserDetailsDrawer
           isOpen={isDrawerOpen}
-          onOpenChange={onDrawerOpenChange}
-          userData={selectedUser}
           searchTerm={filterValue}
+          userData={selectedUser}
+          onOpenChange={onDrawerOpenChange}
         />
       </div>
     </DefaultLayout>

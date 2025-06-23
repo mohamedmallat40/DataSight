@@ -48,6 +48,7 @@ export const containsSearchTerm = (
   searchTerm: string,
 ): boolean => {
   if (!searchTerm.trim()) return false;
+
   return text.toLowerCase().includes(searchTerm.toLowerCase());
 };
 
@@ -65,6 +66,7 @@ export const highlightInArray = (
 ): React.ReactNode[] => {
   return items.map((item, index) => {
     const highlighted = containsSearchTerm(item, searchTerm);
+
     return renderItem(item, index, highlighted);
   });
 };
@@ -80,6 +82,7 @@ export const useSearchFromUrl = () => {
     if (typeof window !== "undefined") {
       const urlParams = new URLSearchParams(window.location.search);
       const searchParam = urlParams.get("search") || "";
+
       setSearchTerm(searchParam);
     }
   }, []);

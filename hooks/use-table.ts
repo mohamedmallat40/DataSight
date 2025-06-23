@@ -1,8 +1,9 @@
-import { useState, useCallback, useMemo, useEffect } from "react";
 import type { Selection, SortDescriptor } from "@heroui/react";
 import type { Key } from "@react-types/shared";
 import type { Users, ColumnsKey } from "@/types/data";
 import type { FilterState, TableState } from "@/types/components";
+
+import { useState, useCallback, useMemo } from "react";
 
 export interface UseTableOptions {
   initialPage?: number;
@@ -190,6 +191,7 @@ export function useTable(options: UseTableOptions = {}): UseTableReturn {
       }
 
       const cmp = first! < second! ? -1 : first! > second! ? 1 : 0;
+
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [filteredItems, sortDescriptor]);
@@ -263,6 +265,7 @@ export function useTable(options: UseTableOptions = {}): UseTableReturn {
       return filteredItems;
     }
     const selected = selectedKeys as Set<string>;
+
     return filteredItems.filter((user) => selected.has(String(user.id)));
   }, [selectedKeys, filteredItems]);
 

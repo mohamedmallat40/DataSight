@@ -28,6 +28,7 @@ export const SearchInput: React.FC<SearchInputProps> = ({
   // Initialize search value from URL query parameter
   useEffect(() => {
     const searchParam = router.query.search as string;
+
     if (searchParam) {
       setLocalValue(searchParam);
       setDebouncedValue(searchParam);
@@ -90,12 +91,12 @@ export const SearchInput: React.FC<SearchInputProps> = ({
     <Input
       className={className}
       endContent={<SearchIcon className="text-default-400" width={16} />}
+      isClearable={!!localValue}
       placeholder={placeholder}
       size={size}
       value={localValue}
-      onValueChange={handleValueChange}
       onClear={handleClear}
-      isClearable={!!localValue}
+      onValueChange={handleValueChange}
     />
   );
 };

@@ -85,18 +85,18 @@ export const PhoneList = memo(
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-1">
                 <a
-                  href={`tel:${phone}`}
                   className="text-small text-default-700 hover:text-primary transition-colors truncate block"
+                  href={`tel:${phone}`}
                   title={phone}
                 >
                   {phone}
                 </a>
                 {index === 0 && filteredPhones.length > 1 && (
                   <Chip
+                    className="text-tiny"
+                    color="secondary"
                     size="sm"
                     variant="flat"
-                    color="secondary"
-                    className="text-tiny"
                   >
                     Primary
                   </Chip>
@@ -109,13 +109,13 @@ export const PhoneList = memo(
 
         {hasMore && (
           <button
-            onClick={() => setShowAll(!showAll)}
             className="text-tiny text-primary hover:text-primary-600 transition-colors self-start flex items-center gap-1"
+            onClick={() => setShowAll(!showAll)}
           >
             <Icon
+              height={12}
               icon={showAll ? "lucide:chevron-up" : "lucide:chevron-down"}
               width={12}
-              height={12}
             />
             {showAll
               ? "Show less"

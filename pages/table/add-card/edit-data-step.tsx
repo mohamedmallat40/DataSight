@@ -8,8 +8,6 @@ import {
   CardBody,
   Divider,
   addToast,
-  RadioGroup,
-  Radio,
   Chip,
   Select,
   SelectItem,
@@ -68,6 +66,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error occurred";
+
       console.error("Error fetching pools:", errorMessage);
       setPools([]);
     }
@@ -92,6 +91,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
   // Handle gender selection
   const handleGenderChange = (value: string) => {
     let genderValue: boolean | null;
+
     switch (value) {
       case "male":
         genderValue = true;
@@ -153,6 +153,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
         description: "Please select a pool before saving",
         color: "danger",
       });
+
       return;
     }
 
@@ -422,23 +423,24 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             />
 
             <Select
-              className="col-span-12"
-              label="Pool"
-              labelPlacement="outside"
-              placeholder="Select a pool"
               isRequired
+              className="col-span-12"
               errorMessage={
                 !businessCardData.pool_id ? "Please select a pool" : ""
               }
               isInvalid={!businessCardData.pool_id}
-              startContent={
-                <Icon className="text-default-400" icon="lucide:layers" />
-              }
+              label="Pool"
+              labelPlacement="outside"
+              placeholder="Select a pool"
               selectedKeys={
                 businessCardData.pool_id ? [businessCardData.pool_id] : []
               }
+              startContent={
+                <Icon className="text-default-400" icon="lucide:layers" />
+              }
               onSelectionChange={(keys) => {
                 const selectedKey = Array.from(keys)[0] as string;
+
                 setBusinessCardData({
                   ...businessCardData,
                   pool_id: selectedKey || null,
@@ -457,8 +459,8 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                 <div className="flex items-center justify-center">
                   <div className="flex items-center gap-3">
                     <Icon
-                      icon="solar:user-id-linear"
                       className="text-default-400"
+                      icon="solar:user-id-linear"
                       width={20}
                     />
                     <label className="text-base font-semibold text-default-700">
@@ -466,13 +468,13 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                     </label>
                     {businessCardData.gender !== null && (
                       <Chip
-                        size="md"
-                        variant="shadow"
+                        className="ml-2"
                         color={
                           businessCardData.gender === true
                             ? "primary"
                             : "secondary"
                         }
+                        size="md"
                         startContent={
                           <Icon
                             icon={
@@ -483,7 +485,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                             width={14}
                           />
                         }
-                        className="ml-2"
+                        variant="shadow"
                       >
                         {businessCardData.gender === true ? "Male" : "Female"}
                       </Chip>
@@ -495,8 +497,8 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                   {/* Male Option - Left Side */}
                   <div className="flex-1 max-w-xs">
                     <Card
-                      isPressable
                       isHoverable
+                      isPressable
                       className={cn(
                         "border-2 transition-all duration-300 cursor-pointer transform hover:scale-105",
                         businessCardData.gender === true
@@ -518,9 +520,9 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                               )}
                             >
                               <Icon
+                                height={32}
                                 icon="solar:men-bold"
                                 width={32}
-                                height={32}
                               />
                             </div>
                             {businessCardData.gender === true && (
@@ -546,9 +548,9 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                             </h4>
                             <div className="flex items-center justify-center gap-2">
                               <Icon
+                                className="text-blue-500"
                                 icon="solar:user-bold"
                                 width={14}
-                                className="text-blue-500"
                               />
                               <p className="text-sm text-default-600">
                                 Masculine
@@ -569,22 +571,22 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
 
                   {/* VS Separator */}
                   <div className="flex flex-col items-center gap-2">
-                    <div className="w-px h-16 bg-gradient-to-b from-transparent via-default-300 to-transparent"></div>
+                    <div className="w-px h-16 bg-gradient-to-b from-transparent via-default-300 to-transparent" />
                     <div className="bg-default-100 rounded-full p-2">
                       <Icon
-                        icon="solar:layers-minimalistic-linear"
                         className="text-default-400"
+                        icon="solar:layers-minimalistic-linear"
                         width={16}
                       />
                     </div>
-                    <div className="w-px h-16 bg-gradient-to-b from-transparent via-default-300 to-transparent"></div>
+                    <div className="w-px h-16 bg-gradient-to-b from-transparent via-default-300 to-transparent" />
                   </div>
 
                   {/* Female Option - Right Side */}
                   <div className="flex-1 max-w-xs">
                     <Card
-                      isPressable
                       isHoverable
+                      isPressable
                       className={cn(
                         "border-2 transition-all duration-300 cursor-pointer transform hover:scale-105",
                         businessCardData.gender === false
@@ -606,9 +608,9 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                               )}
                             >
                               <Icon
+                                height={32}
                                 icon="solar:women-bold"
                                 width={32}
-                                height={32}
                               />
                             </div>
                             {businessCardData.gender === false && (
@@ -634,9 +636,9 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                             </h4>
                             <div className="flex items-center justify-center gap-2">
                               <Icon
+                                className="text-pink-500"
                                 icon="solar:user-bold"
                                 width={14}
-                                className="text-pink-500"
                               />
                               <p className="text-sm text-default-600">
                                 Feminine
@@ -660,14 +662,14 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                 {businessCardData.gender !== null && (
                   <div className="flex justify-center">
                     <Button
-                      size="sm"
-                      variant="bordered"
+                      className="hover:bg-default-100"
                       color="default"
+                      size="sm"
                       startContent={
                         <Icon icon="solar:restart-linear" width={16} />
                       }
+                      variant="bordered"
                       onPress={() => handleGenderChange("unknown")}
-                      className="hover:bg-default-100"
                     >
                       Reset Selection
                     </Button>
@@ -688,9 +690,9 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               className="col-span-12"
               label="Notes"
               labelPlacement="outside"
-              placeholder="Add any additional notes or comments about this contact..."
-              minRows={3}
               maxRows={6}
+              minRows={3}
+              placeholder="Add any additional notes or comments about this contact..."
               startContent={
                 <Icon className="text-default-400" icon="lucide:sticky-note" />
               }
@@ -703,8 +705,8 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
       <div className="flex justify-end mt-4">
         <Button
           color="primary"
-          isLoading={loading}
           isDisabled={!businessCardData.pool_id || loading}
+          isLoading={loading}
           startContent={<Icon icon="lucide:save" />}
           onPress={handleSubmit}
         >
