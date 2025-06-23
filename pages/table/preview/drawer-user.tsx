@@ -139,16 +139,64 @@ export default function DrawerCustomStyles() {
                           width={20}
                         />
                       </div>
-                      <div className="flex flex-col gap-0.5">
-                        <Link
-                          isExternal
-                          showAnchorIcon
-                          className="text-medium text-foreground font-medium"
-                          href={`tel:${userData.phone_number[0]}`}
-                        >
-                          {userData.phone_number[0]}
-                        </Link>
-                        <p className="text-small text-default-500">Phone</p>
+                      <div className="flex items-center justify-between gap-2 flex-1">
+                        <div className="flex flex-col gap-0.5 flex-1">
+                          <Link
+                            isExternal
+                            showAnchorIcon
+                            className="text-medium text-foreground font-medium"
+                            href={`tel:${userData.phone_number[0]}`}
+                          >
+                            {userData.phone_number[0]}
+                          </Link>
+                          <p className="text-small text-default-500">Phone</p>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Tooltip content="Open WhatsApp chat">
+                            <Button
+                              isIconOnly
+                              className="h-6 w-6 min-w-6 text-success-500 hover:text-success-600"
+                              size="sm"
+                              variant="light"
+                              onPress={() => {
+                                const cleanPhone =
+                                  userData.phone_number[0].replace(
+                                    /[^\d+]/g,
+                                    "",
+                                  );
+                                const whatsappUrl = `https://wa.me/${cleanPhone}`;
+                                window.open(
+                                  whatsappUrl,
+                                  "_blank",
+                                  "noopener,noreferrer",
+                                );
+                              }}
+                            >
+                              <Icon
+                                className="h-3 w-3"
+                                icon="ic:baseline-whatsapp"
+                              />
+                            </Button>
+                          </Tooltip>
+                          <Tooltip content="Copy phone number">
+                            <Button
+                              isIconOnly
+                              className="h-6 w-6 min-w-6 text-default-400 hover:text-primary"
+                              size="sm"
+                              variant="light"
+                              onPress={() => {
+                                navigator.clipboard.writeText(
+                                  userData.phone_number[0],
+                                );
+                              }}
+                            >
+                              <Icon
+                                className="h-3 w-3"
+                                icon="solar:copy-linear"
+                              />
+                            </Button>
+                          </Tooltip>
+                        </div>
                       </div>
                     </div>
                     <div className="flex gap-3 items-center">
