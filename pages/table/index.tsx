@@ -357,28 +357,34 @@ export default function Component(): JSX.Element {
       switch (userKey) {
         case "full_name":
           return (
-            <User
-              avatarProps={{
-                radius: "lg",
-                name: user.full_name || "User",
-                showFallback: true,
-              }}
-              classNames={{
-                wrapper: "min-w-0",
-                description: "truncate max-w-[200px]",
-                name: "truncate max-w-[200px]",
-              }}
-              description={user.job_title || user.company_name || ""}
-              name={user.full_name || "N/A"}
-            />
+            <div className="flex items-center gap-3">
+              <Avatar
+                isBordered
+                className="w-10 h-10"
+                radius="lg"
+                showFallback
+                src={
+                  user.front_image_link ||
+                  user.card_image_url ||
+                  `https://ui-avatars.com/api/?name=${encodeURIComponent(user.full_name)}&background=random&size=128`
+                }
+              />
+              <div className="flex flex-col">
+                <div className="flex items-center gap-2">
+                  <span className="text-small font-medium text-default-700">
+                    {user.full_name}
+                  </span>
+                  <GenderIndicator
+                    gender={user.gender}
+                    variant="minimal"
+                  />
+                </div>
+                <span className="text-tiny text-default-500">
+                  {user.job_title || "No job title"}
+                </span>
+              </div>
+            </div>
           );
-        case "job_title":
-          return (
-            <div className="flex flex-col gap-0.5 min-w-0 max-w-[120px]">
-              <p
-                className="text-small font-medium text-default-700 truncate"
-                title={user.job_title || "No job title"}
-              >
                 {user.job_title || "N/A"}
               </p>
               {user.industry && (
@@ -489,14 +495,7 @@ export default function Component(): JSX.Element {
               </p>
             </div>
           );
-        case "gender":
-          return (
-            <GenderIndicator
-              gender={user.gender}
-              variant="minimal"
-              className="justify-center"
-            />
-          );
+
         case "date_collected":
           return (
             <p
