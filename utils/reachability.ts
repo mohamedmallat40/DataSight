@@ -82,12 +82,52 @@ export function checkEmailReachability(
   }
 
   return new Promise((resolve) => {
-    // Simulate async check with basic validation
-    setTimeout(() => {
-      const isValid = isValidEmail(email);
-      const status: ReachabilityStatus = isValid ? "reachable" : "unreachable";
-      resolve(setCachedResult(key, status));
-    }, 100);
+    // Enhanced email validation simulation
+    setTimeout(
+      () => {
+        if (!isValidEmail(email)) {
+          resolve(setCachedResult(key, "unreachable"));
+          return;
+        }
+
+        const domain = email.split("@")[1]?.toLowerCase();
+        let status: ReachabilityStatus;
+
+        // Known good domains
+        if (
+          domain &&
+          (domain.includes("gmail.com") ||
+            domain.includes("outlook.com") ||
+            domain.includes("hotmail.com") ||
+            domain.includes("yahoo.com") ||
+            domain.includes("icloud.com") ||
+            domain.includes("protonmail.com"))
+        ) {
+          status = "reachable";
+        }
+        // Suspicious or temporary email domains
+        else if (
+          domain &&
+          (domain.includes("tempmail") ||
+            domain.includes("10minutemail") ||
+            domain.includes("guerrillamail") ||
+            domain.includes("mailinator"))
+        ) {
+          status = "unreachable";
+        }
+        // Corporate domains (likely valid)
+        else if (domain && domain.match(/\.(com|org|net|edu|gov)$/)) {
+          status = "reachable";
+        }
+        // Unknown or suspicious TLDs
+        else {
+          status = "unknown";
+        }
+
+        resolve(setCachedResult(key, status));
+      },
+      Math.random() * 200 + 50,
+    ); // Random delay between 50-250ms
   });
 }
 
