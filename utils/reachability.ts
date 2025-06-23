@@ -214,11 +214,7 @@ export function getReachabilityColor(status: ReachabilityStatus): {
 } {
   switch (status) {
     case "reachable":
-      return {
-        color: "success",
-        text: "Live",
-        icon: "solar:check-circle-bold",
-      };
+      return { color: "success", text: "", icon: "solar:check-circle-bold" };
     case "unreachable":
       return { color: "danger", text: "Down", icon: "solar:close-circle-bold" };
     case "checking":
