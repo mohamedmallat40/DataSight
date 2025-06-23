@@ -348,7 +348,7 @@ Source: ${userData.source || "N/A"}
                                   </p>
                                 )}
                               </div>
-                              <div className="flex items-center gap-0">
+                              <div className="flex items-center">
                                 <Tooltip content="Make a call">
                                   <Button
                                     isIconOnly
@@ -368,7 +368,7 @@ Source: ${userData.source || "N/A"}
                                 <Tooltip content="Open WhatsApp chat">
                                   <Button
                                     isIconOnly
-                                    className="h-6 w-6 min-w-6 text-success-500 hover:text-success-600"
+                                    className="h-6 w-6 min-w-6 text-success-500 hover:text-success-600 -ml-1"
                                     size="sm"
                                     variant="light"
                                     onPress={() => {
@@ -393,7 +393,7 @@ Source: ${userData.source || "N/A"}
                                 <Tooltip content="Copy phone number">
                                   <Button
                                     isIconOnly
-                                    className="h-6 w-6 min-w-6 text-default-400 hover:text-primary"
+                                    className="h-6 w-6 min-w-6 text-default-400 hover:text-primary -ml-1"
                                     size="sm"
                                     variant="light"
                                     onPress={() => {

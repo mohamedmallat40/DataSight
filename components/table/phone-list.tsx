@@ -171,10 +171,10 @@ export const PhoneList = memo(
                 )}
               </div>
             </div>
-            <div className="flex items-center gap-0">
+            <div className="flex items-center">
               <CallButton phone={phone} />
-              <WhatsAppButton phone={phone} />
-              <CopyButton text={phone} />
+              <WhatsAppButton phone={phone} className="-ml-1" />
+              <CopyButton text={phone} className="-ml-1" />
             </div>
           </div>
         ))}
