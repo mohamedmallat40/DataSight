@@ -120,8 +120,20 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
 
   const chipStyling = getChipStyling();
 
-  // For reachable status with no text, render as icon-only
-  if (reachability.status === "reachable" && !text) {
+  // For statuses with no text, render as icon-only
+  if (!text && reachability.status !== "checking") {
+    const getIconColor = () => {
+      switch (reachability.status) {
+        case "reachable":
+          return "text-success-500 hover:text-success-600";
+        case "unreachable":
+          return "text-danger-500 hover:text-danger-600";
+        case "unknown":
+        default:
+          return "text-default-400 hover:text-default-500";
+      }
+    };
+
     return (
       <Tooltip
         content={getTooltipText()}
@@ -134,10 +146,7 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
             isVisible ? "scale-100 opacity-100" : "scale-75 opacity-0"
           } hover:scale-110`}
         >
-          <Icon
-            className="w-3.5 h-3.5 text-success-500 hover:text-success-600"
-            icon={icon}
-          />
+          <Icon className={`w-3.5 h-3.5 ${getIconColor()}`} icon={icon} />
         </div>
       </Tooltip>
     );
