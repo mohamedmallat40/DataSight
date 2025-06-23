@@ -142,16 +142,29 @@ export function checkWebsiteReachability(
 export function getReachabilityColor(status: ReachabilityStatus): {
   color: "success" | "danger" | "warning" | "default";
   text: string;
+  icon: string;
 } {
   switch (status) {
     case "reachable":
-      return { color: "success", text: "Active" };
+      return {
+        color: "success",
+        text: "Live",
+        icon: "solar:check-circle-bold",
+      };
     case "unreachable":
-      return { color: "danger", text: "Inactive" };
+      return { color: "danger", text: "Down", icon: "solar:close-circle-bold" };
     case "checking":
-      return { color: "warning", text: "Checking..." };
+      return {
+        color: "warning",
+        text: "Checking",
+        icon: "solar:refresh-circle-bold",
+      };
     case "unknown":
     default:
-      return { color: "default", text: "Unknown" };
+      return {
+        color: "default",
+        text: "Unknown",
+        icon: "solar:question-circle-bold",
+      };
   }
 }
