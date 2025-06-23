@@ -85,16 +85,15 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
   }
 
   const getTooltipText = () => {
-    const itemType = type === "email" ? "Email" : "Website";
     switch (reachability.status) {
       case "reachable":
-        return `${itemType} verified`;
+        return type === "email" ? "Email is reachable" : "Website is live";
       case "unreachable":
-        return `${itemType} invalid`;
+        return type === "email" ? "Email invalid" : "Website invalid";
       case "checking":
         return `Checking ${type}...`;
       default:
-        return `${itemType} unknown`;
+        return type === "email" ? "Email unknown" : "Website unknown";
     }
   };
 
