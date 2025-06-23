@@ -15,6 +15,7 @@ import {
   Button,
   Chip,
   User,
+  Avatar,
   Pagination,
   useDisclosure,
   ModalContent,
