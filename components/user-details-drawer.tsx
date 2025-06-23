@@ -463,18 +463,26 @@ Source: ${userData.source || "N/A"}
                             />
                           </div>
                           <div className="flex flex-col gap-0.5 flex-1">
-                            <Link
-                              isExternal
-                              showAnchorIcon
-                              className="text-medium text-foreground font-medium"
-                              href={
-                                userData.website.startsWith("http")
-                                  ? userData.website
-                                  : `https://${userData.website}`
-                              }
-                            >
-                              {userData.website}
-                            </Link>
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <Link
+                                isExternal
+                                showAnchorIcon
+                                className="text-medium text-foreground font-medium"
+                                href={
+                                  userData.website.startsWith("http")
+                                    ? userData.website
+                                    : `https://${userData.website}`
+                                }
+                              >
+                                {userData.website}
+                              </Link>
+                              <ReachabilityChip
+                                type="website"
+                                value={userData.website}
+                                size="sm"
+                                className="text-tiny"
+                              />
+                            </div>
                             <p className="text-tiny text-default-400">
                               Website
                             </p>
