@@ -20,6 +20,11 @@ interface WhatsAppButtonProps {
   className?: string;
 }
 
+interface CallButtonProps {
+  phone: string;
+  className?: string;
+}
+
 const CopyButton = memo(({ text, className }: CopyButtonProps) => {
   const [copied, setCopied] = useState(false);
   const [copyTimeout, setCopyTimeout] = useState<ReturnType<
@@ -99,6 +104,32 @@ const WhatsAppButton = memo(({ phone, className }: WhatsAppButtonProps) => {
 
 WhatsAppButton.displayName = "WhatsAppButton";
 
+const CallButton = memo(({ phone, className }: CallButtonProps) => {
+  const handleCallClick = () => {
+    // Use tel: protocol for direct calling
+    window.location.href = `tel:${phone}`;
+  };
+
+  return (
+    <Tooltip content="Make a call">
+      <Button
+        isIconOnly
+        className={cn(
+          "h-6 w-6 min-w-6 text-blue-500 hover:text-blue-600",
+          className,
+        )}
+        size="sm"
+        variant="light"
+        onPress={handleCallClick}
+      >
+        <Icon className="h-3 w-3" icon="solar:phone-calling-bold" />
+      </Button>
+    </Tooltip>
+  );
+});
+
+CallButton.displayName = "CallButton";
+
 export const PhoneList = memo(
   ({ phones, className, maxVisible = 3 }: PhoneListProps) => {
     const [showAll, setShowAll] = useState(false);
@@ -141,6 +172,7 @@ export const PhoneList = memo(
               </div>
             </div>
             <div className="flex items-center gap-1">
+              <CallButton phone={phone} />
               <WhatsAppButton phone={phone} />
               <CopyButton text={phone} />
             </div>
