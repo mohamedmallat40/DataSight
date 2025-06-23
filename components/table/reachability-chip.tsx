@@ -136,12 +136,7 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
     };
 
     return (
-      <Tooltip
-        content={getTooltipText()}
-        delay={500}
-        className="text-xs max-w-xs"
-        placement="top"
-      >
+      <Tooltip content={getTooltipText()}>
         <div
           className={`inline-flex items-center justify-center cursor-help transition-all duration-300 ${
             isVisible ? "scale-100 opacity-100" : "scale-75 opacity-0"
@@ -154,12 +149,7 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
   }
 
   return (
-    <Tooltip
-      content={getTooltipText()}
-      delay={500}
-      className="text-xs max-w-xs"
-      placement="top"
-    >
+    <Tooltip content={getTooltipText()}>
       <Chip
         className={chipStyling.className}
         color={color}
