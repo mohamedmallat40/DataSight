@@ -338,16 +338,6 @@ Source: ${userData.source || "N/A"}
                                 >
                                   {phone}
                                 </Link>
-                                {index === 0 && phones.length > 1 && (
-                                  <p className="text-tiny text-default-400">
-                                    Primary
-                                  </p>
-                                )}
-                                {index > 0 && (
-                                  <p className="text-tiny text-default-400">
-                                    Secondary {index > 1 ? index : ""}
-                                  </p>
-                                )}
                               </div>
                               <div className="flex items-center">
                                 <Tooltip content="Make a call">
