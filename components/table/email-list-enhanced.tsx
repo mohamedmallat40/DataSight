@@ -8,6 +8,7 @@ import {
   HighlightedText,
   containsSearchTerm,
 } from "../../utils/search-highlight";
+import { ReachabilityChip } from "./reachability-chip";
 
 interface EmailListEnhancedProps {
   emails: string[];
@@ -98,7 +99,7 @@ export const EmailListEnhanced = memo(
           return (
             <div key={index} className="flex items-center gap-2 min-w-0">
               <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-1 flex-wrap">
                   <a
                     className={cn(
                       "text-small hover:text-primary transition-colors truncate block",
@@ -113,6 +114,12 @@ export const EmailListEnhanced = memo(
                       text={email}
                     />
                   </a>
+                  <ReachabilityChip
+                    type="email"
+                    value={email}
+                    size="sm"
+                    className="text-tiny"
+                  />
                   {index === 0 && filteredEmails.length > 1 && (
                     <Chip
                       className="text-tiny"
