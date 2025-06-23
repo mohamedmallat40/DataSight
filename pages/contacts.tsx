@@ -1153,31 +1153,8 @@ export default function ContactsPage(): JSX.Element {
                       width={20}
                     />
                     <span>Delete Contact</span>
-                  </div>
-                </ModalHeader>
-                <ModalBody>
-                  <p className="text-default-600">
-                    Are you sure you want to delete{" "}
-                    <span className="font-semibold text-default-900">
-                      {userToDelete?.full_name || "this contact"}
-                    </span>
-                    ? This action cannot be undone.
-                  </p>
-                </ModalBody>
-                <ModalFooter>
-                  <Button
-                    color="default"
-                    disabled={isDeleting}
-                    variant="flat"
-                    onPress={cancelDeleteUser}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    color="danger"
-                    disabled={isDeleting}
-                    isLoading={isDeleting}
-                    onPress={confirmDeleteUser}
+            </div>
+          );
                   >
                     {isDeleting ? "Deleting..." : "Delete"}
                   </Button>
