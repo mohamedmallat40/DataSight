@@ -53,6 +53,7 @@ import { HighlightedText, containsSearchTerm } from "../utils/search-highlight";
 import CountryFilter from "../components/CountryFilter";
 import UserDetailsDrawer from "../components/user-details-drawer";
 import { ReachabilityChip } from "../components/table/reachability-chip";
+import { GenderIndicator } from "../components/table/gender-indicator";
 
 import MultiStepWizard from "./table/add-card/multi-step-wizard";
 
@@ -596,31 +597,12 @@ export default function ContactsPage(): JSX.Element {
             </div>
           );
         case "gender":
-          const genderInfo =
-            user.gender === true
-              ? { icon: "lucide:male", label: "Male", color: "text-blue-600" }
-              : user.gender === false
-                ? {
-                    icon: "lucide:female",
-                    label: "Female",
-                    color: "text-pink-600",
-                  }
-                : {
-                    icon: "lucide:user",
-                    label: "Unknown",
-                    color: "text-default-400",
-                  };
-
           return (
-            <div className="flex items-center gap-2">
-              <Icon
-                className={`w-3 h-3 flex-shrink-0 ${genderInfo.color}`}
-                icon={genderInfo.icon}
-              />
-              <span className={`text-small ${genderInfo.color}`}>
-                {genderInfo.label}
-              </span>
-            </div>
+            <GenderIndicator
+              gender={user.gender}
+              variant="minimal"
+              className="justify-center"
+            />
           );
         case "date_collected":
           return (
