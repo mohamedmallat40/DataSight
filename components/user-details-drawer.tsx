@@ -279,11 +279,7 @@ Source: ${userData.source || "N/A"}
                               >
                                 {email}
                               </Link>
-                              {index === 0 && emails.length > 1 && (
-                                <p className="text-tiny text-default-400">
-                                  Primary
-                                </p>
-                              )}
+
                               {index > 0 && (
                                 <p className="text-tiny text-default-400">
                                   Secondary {index > 1 ? index : ""}
