@@ -100,7 +100,9 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
   const getChipStyling = () => {
     const baseAnimation = `transform transition-all duration-300 ${
       isVisible ? "scale-100 opacity-100" : "scale-75 opacity-0"
-    } hover:scale-105 cursor-help`;
+    } hover:scale-105 cursor-help ${
+      reachability.status === "checking" ? "animate-pulse" : ""
+    }`;
 
     if (variant === "subtle") {
       return {
@@ -137,9 +139,6 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
             <Icon className="w-2.5 h-2.5 animate-spin" icon={icon} />
           )
         }
-        className={`${chipStyling.className} ${
-          reachability.status === "checking" ? "animate-pulse" : ""
-        }`}
       >
         {variant === "bold" && (
           <span className="text-xs font-medium">{text}</span>
