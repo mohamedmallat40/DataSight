@@ -18,7 +18,7 @@ export const GenderIndicator: React.FC<GenderIndicatorProps> = ({
   const getGenderInfo = () => {
     if (gender === true) {
       return {
-        icon: "solar:men-bold",
+        icon: "solar:men-outline",
         label: "Male",
         shortLabel: "M",
         color: "primary",
@@ -29,7 +29,7 @@ export const GenderIndicator: React.FC<GenderIndicatorProps> = ({
       };
     } else if (gender === false) {
       return {
-        icon: "solar:women-bold",
+        icon: "solar:women-outline",
         label: "Female",
         shortLabel: "F",
         color: "secondary",
@@ -40,7 +40,7 @@ export const GenderIndicator: React.FC<GenderIndicatorProps> = ({
       };
     } else {
       return {
-        icon: "solar:user-bold",
+        icon: "solar:user-outline",
         label: "Not specified",
         shortLabel: "?",
         color: "default",

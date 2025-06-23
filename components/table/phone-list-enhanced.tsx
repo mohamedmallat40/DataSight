@@ -128,7 +128,7 @@ const CallButton = memo(({ phone, className }: CallButtonProps) => {
         variant="light"
         onPress={handleCallClick}
       >
-        <Icon className="h-3 w-3" icon="solar:phone-calling-bold" />
+        <Icon className="h-3 w-3" icon="solar:phone-calling-outline" />
       </Button>
     </Tooltip>
   );

@@ -214,17 +214,21 @@ export function getReachabilityColor(status: ReachabilityStatus): {
 } {
   switch (status) {
     case "reachable":
-      return { color: "success", text: "", icon: "solar:check-circle-bold" };
+      return { color: "success", text: "", icon: "solar:check-circle-outline" };
     case "unreachable":
-      return { color: "danger", text: "", icon: "solar:close-circle-bold" };
+      return { color: "danger", text: "", icon: "solar:close-circle-outline" };
     case "checking":
       return {
         color: "warning",
         text: "Checking",
-        icon: "solar:refresh-circle-bold",
+        icon: "solar:refresh-circle-outline",
       };
     case "unknown":
     default:
-      return { color: "default", text: "", icon: "solar:question-circle-bold" };
+      return {
+        color: "default",
+        text: "",
+        icon: "solar:question-circle-outline",
+      };
   }
 }
