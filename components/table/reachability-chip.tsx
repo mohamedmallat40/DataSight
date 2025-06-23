@@ -120,6 +120,29 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
 
   const chipStyling = getChipStyling();
 
+  // For reachable status with no text, render as icon-only
+  if (reachability.status === "reachable" && !text) {
+    return (
+      <Tooltip
+        content={getTooltipText()}
+        delay={500}
+        className="text-xs max-w-xs"
+        placement="top"
+      >
+        <div
+          className={`inline-flex items-center justify-center cursor-help transition-all duration-300 ${
+            isVisible ? "scale-100 opacity-100" : "scale-75 opacity-0"
+          } hover:scale-110`}
+        >
+          <Icon
+            className="w-3.5 h-3.5 text-success-500 hover:text-success-600"
+            icon={icon}
+          />
+        </div>
+      </Tooltip>
+    );
+  }
+
   return (
     <Tooltip
       content={getTooltipText()}
@@ -140,10 +163,12 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
           )
         }
       >
-        {variant === "bold" && (
+        {text && variant === "bold" && (
           <span className="text-xs font-medium">{text}</span>
         )}
-        {variant === "subtle" && <span className="text-xs">{text}</span>}
+        {text && variant === "subtle" && (
+          <span className="text-xs">{text}</span>
+        )}
       </Chip>
     </Tooltip>
   );
