@@ -151,7 +151,7 @@ export default function DrawerCustomStyles() {
                           </Link>
                           <p className="text-small text-default-500">Phone</p>
                         </div>
-                        <div className="flex items-center gap-1">
+                        <div className="flex items-center gap-0.5">
                           <Tooltip content="Make a call">
                             <Button
                               isIconOnly
