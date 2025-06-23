@@ -159,16 +159,6 @@ export const PhoneList = memo(
                 >
                   {phone}
                 </a>
-                {index === 0 && filteredPhones.length > 1 && (
-                  <Chip
-                    className="text-tiny"
-                    color="secondary"
-                    size="sm"
-                    variant="flat"
-                  >
-                    Primary
-                  </Chip>
-                )}
               </div>
             </div>
             <div className="flex items-center">

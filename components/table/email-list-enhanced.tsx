@@ -121,16 +121,6 @@ export const EmailListEnhanced = memo(
                     variant="subtle"
                     className="text-tiny"
                   />
-                  {index === 0 && filteredEmails.length > 1 && (
-                    <Chip
-                      className="text-tiny"
-                      color="primary"
-                      size="sm"
-                      variant="flat"
-                    >
-                      Primary
-                    </Chip>
-                  )}
                 </div>
               </div>
               <CopyButton text={email} />
