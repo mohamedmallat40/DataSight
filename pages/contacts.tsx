@@ -442,28 +442,6 @@ export default function ContactsPage(): JSX.Element {
               </div>
             </div>
           );
-                </div>
-                <p
-                  className={cn(
-                    "text-tiny truncate max-w-[200px]",
-                    isJobTitleHighlighted
-                      ? "text-default-700"
-                      : "text-default-500",
-                  )}
-                >
-                  {filterValue && user.job_title ? (
-                    <HighlightedText
-                      highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
-                      searchTerm={filterValue}
-                      text={user.job_title}
-                    />
-                  ) : (
-                    user.job_title || ""
-                  )}
-                </p>
-              </div>
-            </div>
-          );
         case "notes":
           const isNotesHighlighted =
             filterValue && containsSearchTerm(user.notes || "", filterValue);
