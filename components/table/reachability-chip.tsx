@@ -89,7 +89,7 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
       case "reachable":
         return type === "email" ? "Email is reachable" : "Website is live";
       case "unreachable":
-        return type === "email" ? "Email invalid" : "Website invalid";
+        return type === "email" ? "Email invalid" : "Website appears down";
       case "checking":
         return `Checking ${type}...`;
       default:
