@@ -15,6 +15,11 @@ interface CopyButtonProps {
   className?: string;
 }
 
+interface WhatsAppButtonProps {
+  phone: string;
+  className?: string;
+}
+
 const CopyButton = memo(({ text, className }: CopyButtonProps) => {
   const [copied, setCopied] = useState(false);
   const [copyTimeout, setCopyTimeout] = useState<ReturnType<
@@ -62,6 +67,38 @@ const CopyButton = memo(({ text, className }: CopyButtonProps) => {
 
 CopyButton.displayName = "CopyButton";
 
+const WhatsAppButton = memo(({ phone, className }: WhatsAppButtonProps) => {
+  const handleWhatsAppClick = () => {
+    // Clean the phone number (remove spaces, dashes, parentheses, etc.)
+    const cleanPhone = phone.replace(/[^\d+]/g, "");
+
+    // Create WhatsApp URL
+    const whatsappUrl = `https://wa.me/${cleanPhone}`;
+
+    // Open in new tab
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+  };
+
+  return (
+    <Tooltip content="Open WhatsApp chat">
+      <Button
+        isIconOnly
+        className={cn(
+          "h-6 w-6 min-w-6 text-success-500 hover:text-success-600",
+          className,
+        )}
+        size="sm"
+        variant="light"
+        onPress={handleWhatsAppClick}
+      >
+        <Icon className="h-3 w-3" icon="ic:baseline-whatsapp" />
+      </Button>
+    </Tooltip>
+  );
+});
+
+WhatsAppButton.displayName = "WhatsAppButton";
+
 export const PhoneList = memo(
   ({ phones, className, maxVisible = 3 }: PhoneListProps) => {
     const [showAll, setShowAll] = useState(false);
@@ -103,7 +140,10 @@ export const PhoneList = memo(
                 )}
               </div>
             </div>
-            <CopyButton text={phone} />
+            <div className="flex items-center gap-1">
+              <WhatsAppButton phone={phone} />
+              <CopyButton text={phone} />
+            </div>
           </div>
         ))}
 
