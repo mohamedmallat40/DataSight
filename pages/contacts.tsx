@@ -34,6 +34,7 @@ import {
   Divider,
   Tabs,
   Tab,
+  Avatar,
 } from "@heroui/react";
 import { SearchIcon } from "@heroui/shared-icons";
 import React, { useMemo, useState, useEffect, useCallback } from "react";
