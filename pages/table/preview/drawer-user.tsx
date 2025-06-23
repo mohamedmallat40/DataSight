@@ -11,6 +11,7 @@ import {
   Avatar,
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
+import { ReachabilityChip } from "../../../components/table/reachability-chip";
 
 export default function DrawerCustomStyles() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -141,57 +142,34 @@ export default function DrawerCustomStyles() {
                       </div>
                       <div className="flex items-center justify-between gap-2 flex-1">
                         <div className="flex flex-col gap-0.5 flex-1">
-                          <Link
-                            isExternal
-                            showAnchorIcon
-                            className="text-medium text-foreground font-medium"
-                            href={`tel:${userData.phone_number[0]}`}
-                          >
-                            {userData.phone_number[0]}
-                          </Link>
-                          <p className="text-small text-default-500">Phone</p>
-                        </div>
-                        <div className="flex items-center">
-                          <Tooltip content="Make a call">
-                            <Button
-                              isIconOnly
-                              className="h-6 w-6 min-w-6 text-blue-500 hover:text-blue-600"
-                              size="sm"
-                              variant="light"
-                              onPress={() => {
-                                window.location.href = `tel:${userData.phone_number[0]}`;
-                              }}
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <Link
+                              isExternal
+                              showAnchorIcon
+                              className="text-medium text-foreground font-medium"
+                              href={`https://${userData.website}`}
                             >
-                              <Icon
-                                className="h-3 w-3"
-                                icon="solar:phone-calling-bold"
-                              />
-                            </Button>
-                          </Tooltip>
-                          <Tooltip content="Open WhatsApp chat">
-                            <Button
-                              isIconOnly
+                              {userData.website}
+                            </Link>
+                            <ReachabilityChip
+                              type="website"
+                              value={userData.website}
+                              size="sm"
+                              className="text-tiny"
+                            />
+                          </div>
+                          <p className="text-small text-default-500">Website</p>
+                        </div>
                               className="h-6 w-6 min-w-6 text-success-500 hover:text-success-600 -ml-1"
                               size="sm"
                               variant="light"
                               onPress={() => {
-                                const cleanPhone =
-                                  userData.phone_number[0].replace(
-                                    /[^\d+]/g,
-                                    "",
-                                  );
+                                const cleanPhone = userData.phone_number[0].replace(/[^\d+]/g, '');
                                 const whatsappUrl = `https://wa.me/${cleanPhone}`;
-                                window.open(
-                                  whatsappUrl,
-                                  "_blank",
-                                  "noopener,noreferrer",
-                                );
+                                window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
                               }}
                             >
-                              <Icon
-                                className="h-3 w-3"
-                                icon="ic:baseline-whatsapp"
-                              />
+                              <Icon className="h-3 w-3" icon="ic:baseline-whatsapp" />
                             </Button>
                           </Tooltip>
                           <Tooltip content="Copy phone number">
@@ -201,15 +179,10 @@ export default function DrawerCustomStyles() {
                               size="sm"
                               variant="light"
                               onPress={() => {
-                                navigator.clipboard.writeText(
-                                  userData.phone_number[0],
-                                );
+                                navigator.clipboard.writeText(userData.phone_number[0]);
                               }}
                             >
-                              <Icon
-                                className="h-3 w-3"
-                                icon="solar:copy-linear"
-                              />
+                              <Icon className="h-3 w-3" icon="solar:copy-linear" />
                             </Button>
                           </Tooltip>
                         </div>
