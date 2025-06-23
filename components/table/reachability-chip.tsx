@@ -88,13 +88,13 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
     const itemType = type === "email" ? "Email" : "Website";
     switch (reachability.status) {
       case "reachable":
-        return `✅ ${itemType} verified and reachable`;
+        return `${itemType} verified`;
       case "unreachable":
-        return `❌ ${itemType} invalid or unreachable`;
+        return `${itemType} invalid`;
       case "checking":
-        return `🔄 Verifying ${type}...`;
+        return `Checking ${type}...`;
       default:
-        return `❓ ${itemType} status unknown`;
+        return `${itemType} unknown`;
     }
   };
 
