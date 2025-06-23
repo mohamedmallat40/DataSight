@@ -118,6 +118,7 @@ export const EmailListEnhanced = memo(
                     type="email"
                     value={email}
                     size="sm"
+                    variant="subtle"
                     className="text-tiny"
                   />
                   {index === 0 && filteredEmails.length > 1 && (
