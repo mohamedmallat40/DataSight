@@ -132,11 +132,14 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
         variant={chipStyling.variant}
         startContent={
           reachability.status !== "checking" ? (
-            <Icon className={`w-2.5 h-2.5`} icon={icon} />
+            <Icon className="w-2.5 h-2.5" icon={icon} />
           ) : (
             <Icon className="w-2.5 h-2.5 animate-spin" icon={icon} />
           )
         }
+        className={`${chipStyling.className} ${
+          reachability.status === "checking" ? "animate-pulse" : ""
+        }`}
       >
         {variant === "bold" && (
           <span className="text-xs font-medium">{text}</span>
