@@ -488,16 +488,19 @@ export default function StatisticsPage(): JSX.Element {
 }
 
 const StatChartCard = React.forwardRef<HTMLDivElement, StatCardProps>(
-  ({
-    title,
-    categories,
-    color,
-    chartData,
-    unit,
-    total,
-    unitTitle,
-    chartType = "radial",
-  }) => {
+  (
+    {
+      title,
+      categories,
+      color,
+      chartData,
+      unit,
+      total,
+      unitTitle,
+      chartType = "radial",
+    },
+    ref,
+  ) => {
     const renderChart = () => {
       switch (chartType) {
         case "bar":
@@ -645,7 +648,10 @@ const StatChartCard = React.forwardRef<HTMLDivElement, StatCardProps>(
     };
 
     return (
-      <Card className="min-h-[420px] border border-transparent dark:border-default-100">
+      <Card
+        ref={ref}
+        className="min-h-[420px] border border-transparent dark:border-default-100"
+      >
         <div className="flex flex-col gap-y-2 p-6 pb-0">
           <div className="flex items-center justify-between gap-x-2">
             <dt>
