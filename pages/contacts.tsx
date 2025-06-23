@@ -442,7 +442,6 @@ export default function ContactsPage(): JSX.Element {
               </div>
             </div>
           );
-                  )}
                 </div>
                 <p
                   className={cn(
