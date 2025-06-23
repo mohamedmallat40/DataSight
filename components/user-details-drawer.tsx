@@ -26,6 +26,7 @@ import { useState } from "react";
 
 import { HighlightedText } from "@/utils/search-highlight";
 import { ReachabilityChip } from "./table/reachability-chip";
+import { GenderIndicator } from "./table/gender-indicator";
 
 interface UserDetailsDrawerProps {
   isOpen: boolean;
@@ -190,23 +191,13 @@ Source: ${userData.source || "N/A"}
                         `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.full_name)}&background=random&size=200`
                       }
                     />
-                    {userData.gender !== null && (
-                      <Chip
-                        className="absolute -bottom-1 -right-1"
-                        size="sm"
-                        startContent={
-                          <Icon
-                            icon={
-                              userData.gender ? "lucide:user" : "lucide:user"
-                            }
-                            width={12}
-                          />
-                        }
-                        variant="flat"
-                      >
-                        {userData.gender ? "M" : "F"}
-                      </Chip>
-                    )}
+                    <div className="absolute -bottom-2 -right-2">
+                      <GenderIndicator
+                        gender={userData.gender}
+                        variant="badge"
+                        className="shadow-sm"
+                      />
+                    </div>
                   </div>
                   <div className="flex-1">
                     <h1 className="text-2xl font-bold leading-7">
