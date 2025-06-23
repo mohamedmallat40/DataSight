@@ -87,9 +87,9 @@ export default function IndexPage(
   const router = useRouter();
   const { theme } = useTheme();
 
-  // Redirect to Statistics page by default
+  // Redirect to Contacts page by default
   useEffect(() => {
-    router.replace("/statistics");
+    router.replace("/contacts");
   }, [router]);
 
   // Create logo configuration based on current theme
