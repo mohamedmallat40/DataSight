@@ -113,26 +113,54 @@ export function checkWebsiteReachability(
       return;
     }
 
-    // For demo purposes, we'll simulate reachability based on common patterns
+    // Enhanced simulation with better domain detection
     // In a real implementation, you'd use a backend service to check this
-    setTimeout(() => {
-      const url = website.toLowerCase();
-      let status: ReachabilityStatus;
+    setTimeout(
+      () => {
+        const url = website.toLowerCase();
+        let status: ReachabilityStatus;
 
-      if (url.includes("localhost") || url.includes("127.0.0.1")) {
-        status = "unreachable";
-      } else if (
-        url.includes("google.com") ||
-        url.includes("github.com") ||
-        url.includes(".com")
-      ) {
-        status = "reachable";
-      } else {
-        status = "unknown";
-      }
+        // Check for obviously invalid URLs
+        if (
+          url.includes("localhost") ||
+          url.includes("127.0.0.1") ||
+          url.includes("example.com") ||
+          url.includes("test.") ||
+          url.includes("placeholder") ||
+          url.includes("dummy")
+        ) {
+          status = "unreachable";
+        }
+        // Check for known reliable domains
+        else if (
+          url.includes("google.com") ||
+          url.includes("github.com") ||
+          url.includes("microsoft.com") ||
+          url.includes("apple.com") ||
+          url.includes("amazon.com") ||
+          url.includes("facebook.com") ||
+          url.includes("linkedin.com") ||
+          url.includes("twitter.com")
+        ) {
+          status = "reachable";
+        }
+        // Check for common TLDs that are likely to be real
+        else if (url.match(/\.(com|org|net|edu|gov|io|co|ai|tech|dev)($|\/)/)) {
+          status = "reachable";
+        }
+        // Less common TLDs or suspicious patterns
+        else if (url.match(/\.(xyz|tk|ml|ga|cf|info|biz)($|\/)/)) {
+          status = "unknown";
+        }
+        // Invalid or malformed URLs
+        else {
+          status = "unreachable";
+        }
 
-      resolve(setCachedResult(key, status));
-    }, 200);
+        resolve(setCachedResult(key, status));
+      },
+      Math.random() * 300 + 100,
+    ); // Random delay between 100-400ms for more realistic feel
   });
 }
 
