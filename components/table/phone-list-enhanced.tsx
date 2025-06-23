@@ -193,7 +193,7 @@ export const PhoneListEnhanced = memo(
                   )}
                 </div>
               </div>
-              <div className="flex items-center gap-0.5">
+              <div className="flex items-center gap-0">
                 <CallButton phone={phone} />
                 <WhatsAppButton phone={phone} />
                 <CopyButton text={phone} />

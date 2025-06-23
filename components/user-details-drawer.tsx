@@ -348,7 +348,7 @@ Source: ${userData.source || "N/A"}
                                   </p>
                                 )}
                               </div>
-                              <div className="flex items-center gap-0.5">
+                              <div className="flex items-center gap-0">
                                 <Tooltip content="Make a call">
                                   <Button
                                     isIconOnly
