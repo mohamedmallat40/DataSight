@@ -25,6 +25,7 @@ import { Icon } from "@iconify/react";
 import { useState } from "react";
 
 import { HighlightedText } from "@/utils/search-highlight";
+import { ReachabilityChip } from "./table/reachability-chip";
 
 interface UserDetailsDrawerProps {
   isOpen: boolean;
