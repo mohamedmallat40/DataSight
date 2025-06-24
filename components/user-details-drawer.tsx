@@ -828,14 +828,24 @@ Source: ${userData.source || "N/A"}
                                       ? userData.back_image_link
                                       : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.back_image_link}`
                                   }
-                                  onClick={() =>
-                                    userData.back_image_link &&
-                                    handleImageClick(
-                                      userData.back_image_link,
-                                      "Business Card - Back",
-                                      "Business card back side",
-                                    )
-                                  }
+                                  onClick={(e) => {
+                                    console.log("🃏 Back card image clicked!");
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    if (userData.back_image_link) {
+                                      console.log(
+                                        "📸 Back image URL:",
+                                        userData.back_image_link,
+                                      );
+                                      handleImageClick(
+                                        userData.back_image_link,
+                                        "Business Card - Back",
+                                        "Business card back side",
+                                      );
+                                    } else {
+                                      console.log("❌ No back image available");
+                                    }
+                                  }}
                                   onError={(e) => {
                                     console.error(
                                       "Back image failed to load:",
