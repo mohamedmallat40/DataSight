@@ -15,6 +15,11 @@ export const GenderIndicator: React.FC<GenderIndicatorProps> = ({
   size = "sm",
   className = "",
 }) => {
+  // Don't render anything if gender is not specified
+  if (gender === null) {
+    return null;
+  }
+
   const getGenderInfo = () => {
     if (gender === true) {
       return {
