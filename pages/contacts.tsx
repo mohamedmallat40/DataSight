@@ -470,11 +470,11 @@ export default function ContactsPage(): JSX.Element {
           );
         case "company_name":
           return (
-            <div className="flex flex-col gap-0.5 min-w-0 max-w-[90px] w-[90px]">
+            <div className="flex flex-col gap-0.5 min-w-0 max-w-[110px] w-[110px]">
               <p
                 className="text-small font-medium text-default-700 truncate overflow-hidden"
                 title={user.company_name || "No company"}
-                style={{ maxWidth: "90px" }}
+                style={{ maxWidth: "110px" }}
               >
                 {user.company_name || "N/A"}
               </p>
