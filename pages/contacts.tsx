@@ -1679,29 +1679,31 @@ export default function ContactsPage(): JSX.Element {
                     </div>
                   )}
                 </ModalBody>
-                <ModalFooter className="px-6 py-4">
+                <ModalFooter className="px-8 py-4 bg-content1/50">
                   <Button
                     variant="light"
                     onPress={onClose}
-                    className="font-medium"
+                    className="font-medium text-sm"
+                    size="sm"
                   >
                     Close
                   </Button>
                   {enrichmentResults && !enrichmentResults.error && (
                     <Button
                       color="primary"
-                      variant="shadow"
+                      variant="flat"
                       startContent={
-                        <Icon icon="solar:database-bold" width={16} />
+                        <Icon icon="solar:database-linear" width={16} />
                       }
-                      className="font-medium"
+                      className="font-medium text-sm"
+                      size="sm"
                       onPress={() => {
                         // Here you would save the enriched data back to the contact
                         console.log("Saving enriched data...");
                         onClose();
                       }}
                     >
-                      Save Enriched Data
+                      Save Changes
                     </Button>
                   )}
                 </ModalFooter>
