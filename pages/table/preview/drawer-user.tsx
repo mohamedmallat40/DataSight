@@ -161,16 +161,31 @@ export default function DrawerCustomStyles() {
                           </div>
                           <p className="text-small text-default-500">Website</p>
                         </div>
+                        <div className="flex items-center gap-1">
+                          <Tooltip content="WhatsApp">
+                            <Button
+                              isIconOnly
                               className="h-6 w-6 min-w-6 text-success-500 hover:text-success-600 -ml-1"
                               size="sm"
                               variant="light"
                               onPress={() => {
-                                const cleanPhone = userData.phone_number[0].replace(/[^\d+]/g, '');
+                                const cleanPhone =
+                                  userData.phone_number[0].replace(
+                                    /[^\d+]/g,
+                                    ""
+                                  );
                                 const whatsappUrl = `https://wa.me/${cleanPhone}`;
-                                window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+                                window.open(
+                                  whatsappUrl,
+                                  "_blank",
+                                  "noopener,noreferrer"
+                                );
                               }}
                             >
-                              <Icon className="h-3 w-3" icon="ic:baseline-whatsapp" />
+                              <Icon
+                                className="h-3 w-3"
+                                icon="ic:baseline-whatsapp"
+                              />
                             </Button>
                           </Tooltip>
                           <Tooltip content="Copy phone number">
@@ -180,10 +195,15 @@ export default function DrawerCustomStyles() {
                               size="sm"
                               variant="light"
                               onPress={() => {
-                                navigator.clipboard.writeText(userData.phone_number[0]);
+                                navigator.clipboard.writeText(
+                                  userData.phone_number[0]
+                                );
                               }}
                             >
-                              <Icon className="h-3 w-3" icon="solar:copy-linear" />
+                              <Icon
+                                className="h-3 w-3"
+                                icon="solar:copy-linear"
+                              />
                             </Button>
                           </Tooltip>
                         </div>
