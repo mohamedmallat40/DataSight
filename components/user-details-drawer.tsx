@@ -55,18 +55,24 @@ export default function UserDetailsDrawer({
   if (!userData) return null;
 
   const handleImageClick = (imageUrl: string, title: string, alt: string) => {
+    console.log("🖼️ handleImageClick called!", { imageUrl, title, alt });
+
     const fullImageUrl = imageUrl.startsWith("http")
       ? imageUrl
       : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${imageUrl}`;
 
-    console.log("Image URL:", fullImageUrl); // Debug log
+    console.log("📷 Full Image URL:", fullImageUrl);
+    console.log("🚀 Setting selected image and opening modal...");
 
     setSelectedImage({
       url: fullImageUrl,
       title,
       alt,
     });
+
+    console.log("🔥 Calling onImageModalOpen...");
     onImageModalOpen();
+    console.log("✅ Modal should be opening now!");
   };
 
   const handleCopyContact = () => {
