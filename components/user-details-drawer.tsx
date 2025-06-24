@@ -740,14 +740,26 @@ Source: ${userData.source || "N/A"}
                                       ? userData.front_image_link
                                       : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.front_image_link}`
                                   }
-                                  onClick={() =>
-                                    userData.front_image_link &&
-                                    handleImageClick(
-                                      userData.front_image_link,
-                                      "Business Card - Front",
-                                      "Business card front side",
-                                    )
-                                  }
+                                  onClick={(e) => {
+                                    console.log("🃏 Front card image clicked!");
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    if (userData.front_image_link) {
+                                      console.log(
+                                        "📸 Front image URL:",
+                                        userData.front_image_link,
+                                      );
+                                      handleImageClick(
+                                        userData.front_image_link,
+                                        "Business Card - Front",
+                                        "Business card front side",
+                                      );
+                                    } else {
+                                      console.log(
+                                        "❌ No front image available",
+                                      );
+                                    }
+                                  }}
                                   onError={(e) => {
                                     console.error(
                                       "Front image failed to load:",
