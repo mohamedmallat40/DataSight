@@ -139,6 +139,16 @@ export default function ContactsPage(): JSX.Element {
   const [userToDelete, setUserToDelete] = useState<Users | null>(null);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
+  // AI Enrichment state
+  const {
+    isOpen: isAIEnrichmentModalOpen,
+    onOpen: onAIEnrichmentModalOpen,
+    onOpenChange: onAIEnrichmentModalOpenChange,
+  } = useDisclosure();
+  const [userToEnrich, setUserToEnrich] = useState<Users | null>(null);
+  const [isEnriching, setIsEnriching] = useState<boolean>(false);
+  const [enrichmentResults, setEnrichmentResults] = useState<any>(null);
+
   // Initialize search from URL parameters
   useEffect(() => {
     const searchParam = router.query.search as string;
