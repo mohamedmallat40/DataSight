@@ -582,9 +582,9 @@ export default function ContactsPage(): JSX.Element {
                   user.card_image_url ||
                   `https://ui-avatars.com/api/?name=${encodeURIComponent(user.full_name)}&background=transparent&color=${
                     user.gender === true
-                      ? "60A5FA"
+                      ? "3B82F6"
                       : user.gender === false
-                        ? "F472B6"
+                        ? "EC4899"
                         : "9CA3AF"
                   }&size=128`
                 }
