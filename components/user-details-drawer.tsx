@@ -186,7 +186,7 @@ Source: ${userData.source || "N/A"}
                   onPress={() => {
                     console.log("Test button clicked!");
                     setSelectedImage({
-                      url: "https://via.placeholder.com/400x300/0066CC/FFFFFF?text=Test+Image",
+                      url: "https://picsum.photos/400/300",
                       title: "Test Image",
                       alt: "Test image for debugging",
                     });
