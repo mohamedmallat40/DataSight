@@ -1313,37 +1313,36 @@ export default function ContactsPage(): JSX.Element {
         {/* AI Enrichment Modal */}
         <Modal
           isOpen={isAIEnrichmentModalOpen}
-          size="3xl"
+          size="4xl"
           onOpenChange={onAIEnrichmentModalOpenChange}
           scrollBehavior="inside"
           classNames={{
-            base: "bg-background",
-            header: "border-b border-divider",
-            footer: "border-t border-divider",
-            closeButton: "hover:bg-default-100 active:bg-default-200",
+            base: "bg-content1",
+            header: "border-b border-divider/30",
+            footer: "border-t border-divider/30 bg-content1/50",
+            closeButton: "hover:bg-default-100/50 active:bg-default-200/50",
           }}
         >
           <ModalContent>
             {(onClose) => (
               <>
-                <ModalHeader className="flex flex-col gap-1 px-6 py-4">
-                  <div className="flex items-center gap-3">
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-secondary/20 to-secondary/10 ring-1 ring-secondary/20">
+                <ModalHeader className="flex flex-col gap-1 px-8 py-6">
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-secondary/10 border border-secondary/20">
                       <Icon
-                        className="text-secondary"
-                        height={24}
-                        icon="solar:magic-stick-3-bold"
-                        width={24}
+                        className="text-secondary-600"
+                        height={20}
+                        icon="solar:magic-stick-3-linear"
+                        width={20}
                       />
                     </div>
                     <div className="flex-1">
-                      <h2 className="text-xl font-semibold text-foreground">
-                        AI Enrichment
+                      <h2 className="text-lg font-medium text-foreground">
+                        AI Contact Enrichment
                       </h2>
                       {userToEnrich && (
-                        <p className="text-sm text-default-500">
-                          Enhance contact information for{" "}
-                          {userToEnrich.full_name}
+                        <p className="text-sm text-default-500 mt-0.5">
+                          Enhance profile for {userToEnrich.full_name}
                         </p>
                       )}
                     </div>
