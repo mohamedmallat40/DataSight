@@ -51,7 +51,7 @@ export const CountryFlag: React.FC<CountryFlagProps> = ({
     return (
       <Icon
         aria-label={`Flag of ${countryCode?.toUpperCase()}`}
-        className={`${sizeClasses[size]} ${className} rounded-[1px]`}
+        className={`${sizeClasses[size]} ${className} rounded-md`}
         icon={`flag:${validCode}-4x3`}
         style={{
           objectFit: "cover",
