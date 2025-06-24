@@ -1310,30 +1310,36 @@ export default function ContactsPage(): JSX.Element {
         {/* AI Enrichment Modal */}
         <Modal
           isOpen={isAIEnrichmentModalOpen}
-          size="2xl"
+          size="3xl"
           onOpenChange={onAIEnrichmentModalOpenChange}
           scrollBehavior="inside"
+          classNames={{
+            base: "bg-background",
+            header: "border-b border-divider",
+            footer: "border-t border-divider",
+            closeButton: "hover:bg-default-100 active:bg-default-200",
+          }}
         >
           <ModalContent>
             {(onClose) => (
               <>
-                <ModalHeader className="flex flex-col gap-1">
-                  <div className="flex items-center gap-2">
-                    <div className="bg-secondary/10 p-2 rounded-full">
+                <ModalHeader className="flex flex-col gap-1 px-6 py-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-gradient-to-br from-secondary/20 to-secondary/10 ring-1 ring-secondary/20">
                       <Icon
                         className="text-secondary"
-                        height={20}
+                        height={24}
                         icon="solar:magic-stick-3-bold"
-                        width={20}
+                        width={24}
                       />
                     </div>
-                    <div>
-                      <span className="text-lg font-semibold">
+                    <div className="flex-1">
+                      <h2 className="text-xl font-semibold text-foreground">
                         AI Enrichment
-                      </span>
+                      </h2>
                       {userToEnrich && (
                         <p className="text-sm text-default-500">
-                          Gathering additional information for{" "}
+                          Enhance contact information for{" "}
                           {userToEnrich.full_name}
                         </p>
                       )}
