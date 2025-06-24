@@ -1677,41 +1677,52 @@ export default function ContactsPage(): JSX.Element {
                   )}
 
                   {enrichmentResults?.error && (
-                    <div className="text-center py-8">
-                      <div className="bg-danger/10 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                        <Icon
-                          className="text-danger"
-                          height={32}
-                          icon="solar:danger-bold"
-                          width={32}
-                        />
-                      </div>
-                      <h3 className="text-lg font-semibold mb-2">
-                        Enrichment Failed
-                      </h3>
-                      <p className="text-default-600 mb-6">
-                        {enrichmentResults.error}
-                      </p>
-                      <Button
-                        color="secondary"
-                        variant="light"
-                        onPress={performAIEnrichment}
-                      >
-                        Try Again
-                      </Button>
-                    </div>
+                    <Card className="border-danger/20 bg-danger/5">
+                      <CardBody className="text-center p-8">
+                        <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-danger/20 to-danger/10 ring-1 ring-danger/20 mx-auto mb-6">
+                          <Icon
+                            className="text-danger"
+                            height={36}
+                            icon="solar:danger-bold"
+                            width={36}
+                          />
+                        </div>
+                        <h3 className="text-xl font-semibold text-foreground mb-3">
+                          Enrichment Failed
+                        </h3>
+                        <p className="text-default-600 mb-8 max-w-md mx-auto">
+                          {enrichmentResults.error}
+                        </p>
+                        <Button
+                          color="danger"
+                          variant="flat"
+                          startContent={
+                            <Icon icon="solar:refresh-bold" width={16} />
+                          }
+                          onPress={performAIEnrichment}
+                        >
+                          Try Again
+                        </Button>
+                      </CardBody>
+                    </Card>
                   )}
                 </ModalBody>
-                <ModalFooter>
-                  <Button variant="light" onPress={onClose}>
+                <ModalFooter className="px-6 py-4">
+                  <Button
+                    variant="light"
+                    onPress={onClose}
+                    className="font-medium"
+                  >
                     Close
                   </Button>
                   {enrichmentResults && !enrichmentResults.error && (
                     <Button
                       color="primary"
+                      variant="shadow"
                       startContent={
                         <Icon icon="solar:database-bold" width={16} />
                       }
+                      className="font-medium"
                       onPress={() => {
                         // Here you would save the enriched data back to the contact
                         console.log("Saving enriched data...");
