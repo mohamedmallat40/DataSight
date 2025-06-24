@@ -181,16 +181,43 @@ Source: ${userData.source || "N/A"}
               <div className="flex flex-col gap-6">
                 {/* Profile Header */}
                 <div className="flex items-start gap-4">
-                  <div className="relative">
+                  <div
+                    className="relative cursor-pointer group"
+                    onClick={() => {
+                      const avatarUrl =
+                        userData.logo_url ||
+                        userData.front_image_link ||
+                        userData.card_image_url ||
+                        `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.full_name)}&background=random&size=400`;
+                      handleImageClick(
+                        avatarUrl,
+                        `${userData.full_name} - Profile`,
+                        "Profile image",
+                      );
+                    }}
+                  >
                     <Avatar
-                      className="w-20 h-20"
+                      className="w-20 h-20 transition-transform group-hover:scale-105"
                       name={userData.full_name}
                       size="lg"
                       src={
                         userData.logo_url ||
+                        userData.front_image_link ||
+                        userData.card_image_url ||
                         `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.full_name)}&background=random&size=200`
                       }
                     />
+                    {/* Click indicator overlay */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100">
+                      <div className="bg-white/90 backdrop-blur-sm rounded-full p-2 transform scale-75 group-hover:scale-100 transition-transform duration-200">
+                        <Icon
+                          className="text-gray-700"
+                          height={16}
+                          icon="lucide:zoom-in"
+                          width={16}
+                        />
+                      </div>
+                    </div>
                     <div className="absolute -bottom-2 -right-2">
                       <GenderIndicator
                         gender={userData.gender}
