@@ -556,7 +556,13 @@ export default function ContactsPage(): JSX.Element {
             <div className="flex items-center gap-3">
               <Avatar
                 isBordered
-                className="w-10 h-10"
+                className={`w-10 h-10 ${
+                  user.gender === true
+                    ? "ring-2 ring-blue-400 ring-offset-1 ring-offset-background border-blue-400"
+                    : user.gender === false
+                      ? "ring-2 ring-pink-400 ring-offset-1 ring-offset-background border-pink-400"
+                      : "ring-2 ring-default-300 ring-offset-1 ring-offset-background border-default-300"
+                }`}
                 radius="lg"
                 showFallback
                 src={
