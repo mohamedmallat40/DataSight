@@ -467,6 +467,81 @@ export default function ContactsPage(): JSX.Element {
     setUserToDelete(null);
   });
 
+  // AI Enrichment handlers
+  const handleAIEnrichment = useMemoizedCallback((user: Users): void => {
+    setUserToEnrich(user);
+    setEnrichmentResults(null);
+    onAIEnrichmentModalOpen();
+  });
+
+  const performAIEnrichment = useMemoizedCallback(async (): Promise<void> => {
+    if (!userToEnrich) return;
+
+    setIsEnriching(true);
+    setEnrichmentResults(null);
+
+    try {
+      console.log("🤖 Starting AI enrichment for:", userToEnrich.full_name);
+
+      // Simulate AI enrichment process
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+
+      // Mock enrichment results - in real implementation, this would call an AI service
+      const mockEnrichmentData = {
+        socialProfiles: {
+          linkedin:
+            userToEnrich.linkedin ||
+            `https://linkedin.com/in/${userToEnrich.full_name.toLowerCase().replace(/\s+/g, "")}`,
+          twitter: `https://twitter.com/${userToEnrich.full_name.toLowerCase().replace(/\s+/g, "")}`,
+          github: userToEnrich.industry?.toLowerCase().includes("tech")
+            ? `https://github.com/${userToEnrich.first_name?.toLowerCase()}`
+            : null,
+        },
+        companyInfo: {
+          foundedYear: 2010 + Math.floor(Math.random() * 14),
+          employees: ["1-10", "11-50", "51-200", "201-1000", "1000+"][
+            Math.floor(Math.random() * 5)
+          ],
+          revenue: ["$1M-$10M", "$10M-$50M", "$50M-$100M", "$100M+"][
+            Math.floor(Math.random() * 4)
+          ],
+          description: `${userToEnrich.company_name} is a leading company in the ${userToEnrich.industry || "business"} sector, known for innovation and excellence.`,
+        },
+        newsAndUpdates: [
+          {
+            title: `${userToEnrich.company_name} Announces New Partnership`,
+            date: "2024-01-15",
+            source: "TechCrunch",
+            summary:
+              "Strategic partnership to expand market presence and enhance service offerings.",
+          },
+          {
+            title: `${userToEnrich.full_name} Speaks at Industry Conference`,
+            date: "2024-01-10",
+            source: "Industry Today",
+            summary:
+              "Shared insights on industry trends and future opportunities.",
+          },
+        ],
+        contactSuggestions: [
+          `${userToEnrich.first_name?.toLowerCase() || "contact"}@${userToEnrich.company_name?.toLowerCase().replace(/\s+/g, "") || "company"}.com`,
+          `${userToEnrich.full_name.toLowerCase().replace(/\s+/g, ".")}@${userToEnrich.company_name?.toLowerCase().replace(/\s+/g, "") || "company"}.com`,
+        ],
+        confidence: 85 + Math.floor(Math.random() * 15), // 85-99%
+      };
+
+      setEnrichmentResults(mockEnrichmentData);
+      console.log("✅ AI enrichment completed:", mockEnrichmentData);
+    } catch (error: unknown) {
+      const errorMessage =
+        error instanceof Error ? error.message : "AI enrichment failed";
+      console.error("❌ Error during AI enrichment:", errorMessage);
+      setEnrichmentResults({ error: errorMessage });
+    } finally {
+      setIsEnriching(false);
+    }
+  });
+
   const renderCell = useMemoizedCallback(
     (user: Users, columnKey: Key): React.ReactNode => {
       const userKey = columnKey as ColumnsKey;
