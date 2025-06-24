@@ -1346,36 +1346,40 @@ export default function ContactsPage(): JSX.Element {
                     </div>
                   </div>
                 </ModalHeader>
-                <ModalBody>
+                <ModalBody className="px-6 py-4">
                   {!enrichmentResults && !isEnriching && (
-                    <div className="text-center py-8">
-                      <div className="bg-secondary/10 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
-                        <Icon
-                          className="text-secondary"
-                          height={32}
-                          icon="solar:magic-stick-3-bold"
-                          width={32}
-                        />
-                      </div>
-                      <h3 className="text-lg font-semibold mb-2">
-                        Ready to Enrich
-                      </h3>
-                      <p className="text-default-600 mb-6">
-                        AI will search for additional information including
-                        social profiles, company updates, recent news, and
-                        missing contact details.
-                      </p>
-                      <Button
-                        color="secondary"
-                        size="lg"
-                        startContent={
-                          <Icon icon="solar:magic-stick-3-bold" width={20} />
-                        }
-                        onPress={performAIEnrichment}
-                      >
-                        Start AI Enrichment
-                      </Button>
-                    </div>
+                    <Card className="p-8">
+                      <CardBody className="text-center">
+                        <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-secondary/20 to-secondary/10 ring-1 ring-secondary/20 mx-auto mb-6">
+                          <Icon
+                            className="text-secondary"
+                            height={36}
+                            icon="solar:magic-stick-3-bold"
+                            width={36}
+                          />
+                        </div>
+                        <h3 className="text-xl font-semibold text-foreground mb-3">
+                          Ready to Enrich
+                        </h3>
+                        <p className="text-default-600 mb-8 max-w-md mx-auto">
+                          AI will search for additional information including
+                          social profiles, company updates, recent news, and
+                          missing contact details.
+                        </p>
+                        <Button
+                          color="secondary"
+                          size="lg"
+                          variant="shadow"
+                          startContent={
+                            <Icon icon="solar:magic-stick-3-bold" width={20} />
+                          }
+                          className="font-medium"
+                          onPress={performAIEnrichment}
+                        >
+                          Start AI Enrichment
+                        </Button>
+                      </CardBody>
+                    </Card>
                   )}
 
                   {isEnriching && (
