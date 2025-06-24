@@ -1382,35 +1382,28 @@ export default function ContactsPage(): JSX.Element {
                   )}
 
                   {isEnriching && (
-                    <Card className="p-8">
-                      <CardBody className="text-center">
-                        <div className="mb-8">
-                          <div className="relative mb-6">
-                            <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-secondary/20 to-secondary/10 ring-1 ring-secondary/20 mx-auto">
-                              <Icon
-                                className="text-secondary animate-pulse"
-                                height={36}
-                                icon="solar:magic-stick-3-bold"
-                                width={36}
-                              />
-                            </div>
-                            <div
-                              className="absolute -inset-2 rounded-3xl border-2 border-secondary/30 animate-spin"
-                              style={{ borderTopColor: "transparent" }}
-                            ></div>
-                          </div>
-                          <h3 className="text-xl font-semibold text-foreground mb-3">
-                            AI is Working...
-                          </h3>
-                          <p className="text-default-600 max-w-md mx-auto">
-                            Analyzing data and gathering insights about{" "}
-                            <span className="font-medium text-foreground">
-                              {userToEnrich?.full_name}
-                            </span>
-                          </p>
+                    <div className="text-center py-12">
+                      <div className="relative mb-6">
+                        <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-secondary/8 border border-secondary/15 mx-auto">
+                          <Icon
+                            className="text-secondary-600"
+                            height={24}
+                            icon="solar:magic-stick-3-linear"
+                            width={24}
+                          />
                         </div>
-                      </CardBody>
-                    </Card>
+                        <div className="absolute inset-0 rounded-xl border border-secondary/30 animate-pulse"></div>
+                      </div>
+                      <h3 className="text-lg font-medium text-foreground mb-2">
+                        Processing...
+                      </h3>
+                      <p className="text-default-500 text-sm">
+                        Gathering insights for{" "}
+                        <span className="font-medium text-foreground">
+                          {userToEnrich?.full_name}
+                        </span>
+                      </p>
+                    </div>
                   )}
 
                   {enrichmentResults && !enrichmentResults.error && (
