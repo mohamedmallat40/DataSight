@@ -555,7 +555,6 @@ export default function ContactsPage(): JSX.Element {
           return (
             <div className="flex items-center gap-3">
               <Avatar
-                isBordered
                 className={`w-10 h-10 bg-transparent ${
                   user.gender === true
                     ? "border-2 border-blue-400 text-blue-400"
