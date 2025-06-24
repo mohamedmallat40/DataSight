@@ -179,23 +179,6 @@ Source: ${userData.source || "N/A"}
 
             <DrawerBody className="pt-20 px-4">
               <div className="flex flex-col gap-6">
-                {/* Debug Test Button */}
-                <Button
-                  color="warning"
-                  size="sm"
-                  onPress={() => {
-                    console.log("Test button clicked!");
-                    setSelectedImage({
-                      url: "https://picsum.photos/400/300",
-                      title: "Test Image",
-                      alt: "Test image for debugging",
-                    });
-                    onImageModalOpen();
-                  }}
-                >
-                  🔧 Test Image Modal
-                </Button>
-
                 {/* Profile Header */}
                 <div className="flex items-start gap-4">
                   <div
