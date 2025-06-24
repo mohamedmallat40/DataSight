@@ -269,11 +269,15 @@ export default function ContactsPage(): JSX.Element {
         },
       ];
 
+      console.log("🎭 Setting mock data...");
       setUserList(mockData);
       setTotalPages(1);
       setTotalItems(1);
+      console.log("✅ Mock data set successfully!");
     } finally {
+      console.log("🏁 Setting loading to false...");
       setLoading(false);
+      console.log("✅ fetchUsers completed!");
     }
   }, [page, filterValue, poolFilter, countryFilter, genderFilter]);
 
