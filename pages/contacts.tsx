@@ -1420,23 +1420,27 @@ export default function ContactsPage(): JSX.Element {
                   {enrichmentResults && !enrichmentResults.error && (
                     <div className="space-y-6">
                       {/* Confidence Score */}
-                      <div className="bg-success/10 border border-success/20 rounded-xl p-4">
-                        <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-2">
-                            <Icon
-                              className="text-success"
-                              icon="solar:shield-check-bold"
-                              width={20}
-                            />
-                            <span className="font-medium">
-                              Confidence Score
-                            </span>
+                      <Card className="border-success/20 bg-success/5">
+                        <CardBody className="py-4">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-3">
+                              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-success/20">
+                                <Icon
+                                  className="text-success"
+                                  icon="solar:shield-check-bold"
+                                  width={16}
+                                />
+                              </div>
+                              <span className="font-medium text-foreground">
+                                Confidence Score
+                              </span>
+                            </div>
+                            <Chip color="success" variant="flat" size="lg">
+                              {enrichmentResults.confidence}%
+                            </Chip>
                           </div>
-                          <Chip color="success" variant="flat">
-                            {enrichmentResults.confidence}%
-                          </Chip>
-                        </div>
-                      </div>
+                        </CardBody>
+                      </Card>
 
                       {/* Social Profiles */}
                       <div>
