@@ -1383,31 +1383,35 @@ export default function ContactsPage(): JSX.Element {
                   )}
 
                   {isEnriching && (
-                    <div className="text-center py-8">
-                      <div className="mb-6">
-                        <div className="relative">
-                          <div className="w-16 h-16 mx-auto mb-4 relative">
-                            <div className="absolute inset-0 rounded-full border-4 border-secondary/20"></div>
-                            <div className="absolute inset-0 rounded-full border-4 border-secondary border-t-transparent animate-spin"></div>
-                            <div className="absolute inset-0 flex items-center justify-center">
+                    <Card className="p-8">
+                      <CardBody className="text-center">
+                        <div className="mb-8">
+                          <div className="relative mb-6">
+                            <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-secondary/20 to-secondary/10 ring-1 ring-secondary/20 mx-auto">
                               <Icon
-                                className="text-secondary"
-                                height={24}
+                                className="text-secondary animate-pulse"
+                                height={36}
                                 icon="solar:magic-stick-3-bold"
-                                width={24}
+                                width={36}
                               />
                             </div>
+                            <div
+                              className="absolute -inset-2 rounded-3xl border-2 border-secondary/30 animate-spin"
+                              style={{ borderTopColor: "transparent" }}
+                            ></div>
                           </div>
+                          <h3 className="text-xl font-semibold text-foreground mb-3">
+                            AI is Working...
+                          </h3>
+                          <p className="text-default-600 max-w-md mx-auto">
+                            Analyzing data and gathering insights about{" "}
+                            <span className="font-medium text-foreground">
+                              {userToEnrich?.full_name}
+                            </span>
+                          </p>
                         </div>
-                        <h3 className="text-lg font-semibold mb-2">
-                          AI is Working...
-                        </h3>
-                        <p className="text-default-600">
-                          Analyzing data and gathering insights about{" "}
-                          {userToEnrich?.full_name}
-                        </p>
-                      </div>
-                    </div>
+                      </CardBody>
+                    </Card>
                   )}
 
                   {enrichmentResults && !enrichmentResults.error && (
