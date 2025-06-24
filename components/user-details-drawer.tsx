@@ -226,9 +226,9 @@ Source: ${userData.source || "N/A"}
                       name={userData.full_name}
                       size="lg"
                       src={
-                        userData.logo_url ||
                         userData.front_image_link ||
                         userData.card_image_url ||
+                        userData.logo_url ||
                         `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.full_name)}&background=random&size=200`
                       }
                     />
