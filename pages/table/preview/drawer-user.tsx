@@ -6,14 +6,12 @@ import {
   DrawerFooter,
   Button,
   useDisclosure,
-  Image,
   Link,
   Tooltip,
   Avatar,
-  AvatarGroup,
 } from "@heroui/react";
-
 import { Icon } from "@iconify/react";
+import { ReachabilityChip } from "../../../components/table/reachability-chip";
 
 export default function DrawerCustomStyles() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
@@ -36,7 +34,7 @@ export default function DrawerCustomStyles() {
     <>
       <Button
         color="primary"
-        endContent={<Icon icon="lucide:user" width={16} height={16} />}
+        endContent={<Icon height={16} icon="lucide:user" width={16} />}
         variant="flat"
         onPress={onOpen}
       >
@@ -63,7 +61,7 @@ export default function DrawerCustomStyles() {
                     variant="light"
                     onPress={onClose}
                   >
-                    <Icon icon="lucide:chevron-left" width={20} height={20} />
+                    <Icon height={20} icon="lucide:chevron-left" width={20} />
                   </Button>
                 </Tooltip>
                 <div className="w-full flex justify-start gap-2">
@@ -71,7 +69,7 @@ export default function DrawerCustomStyles() {
                     className="font-medium text-small text-default-500"
                     size="sm"
                     startContent={
-                      <Icon icon="lucide:copy" width={16} height={16} />
+                      <Icon height={16} icon="lucide:copy" width={16} />
                     }
                     variant="flat"
                   >
@@ -81,9 +79,9 @@ export default function DrawerCustomStyles() {
                     className="font-medium text-small text-default-500"
                     endContent={
                       <Icon
+                        height={16}
                         icon="lucide:external-link"
                         width={16}
-                        height={16}
                       />
                     }
                     size="sm"
@@ -115,18 +113,18 @@ export default function DrawerCustomStyles() {
                     <div className="flex gap-3 items-center">
                       <div className="flex items-center justify-center border-1 border-default-200/50 rounded-small w-11 h-11">
                         <Icon
-                          icon="lucide:mail"
                           className="text-default-500"
-                          width={20}
                           height={20}
+                          icon="lucide:mail"
+                          width={20}
                         />
                       </div>
                       <div className="flex flex-col gap-0.5">
                         <Link
                           isExternal
                           showAnchorIcon
-                          href={`mailto:${userData.email[0]}`}
                           className="text-medium text-foreground font-medium"
+                          href={`mailto:${userData.email[0]}`}
                         >
                           {userData.email[0]}
                         </Link>
@@ -136,39 +134,76 @@ export default function DrawerCustomStyles() {
                     <div className="flex gap-3 items-center">
                       <div className="flex items-center justify-center border-1 border-default-200/50 rounded-small w-11 h-11">
                         <Icon
-                          icon="lucide:phone"
                           className="text-default-500"
-                          width={20}
                           height={20}
+                          icon="lucide:phone"
+                          width={20}
                         />
                       </div>
-                      <div className="flex flex-col gap-0.5">
-                        <Link
-                          isExternal
-                          showAnchorIcon
-                          href={`tel:${userData.phone_number[0]}`}
-                          className="text-medium text-foreground font-medium"
-                        >
-                          {userData.phone_number[0]}
-                        </Link>
-                        <p className="text-small text-default-500">Phone</p>
+                      <div className="flex items-center justify-between gap-2 flex-1">
+                        <div className="flex flex-col gap-0.5 flex-1">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <Link
+                              isExternal
+                              showAnchorIcon
+                              className="text-medium text-foreground font-medium"
+                              href={`https://${userData.website}`}
+                            >
+                              {userData.website}
+                            </Link>
+                            <ReachabilityChip
+                              type="website"
+                              value={userData.website}
+                              size="sm"
+                              variant="subtle"
+                              className="text-tiny"
+                            />
+                          </div>
+                          <p className="text-small text-default-500">Website</p>
+                        </div>
+                              className="h-6 w-6 min-w-6 text-success-500 hover:text-success-600 -ml-1"
+                              size="sm"
+                              variant="light"
+                              onPress={() => {
+                                const cleanPhone = userData.phone_number[0].replace(/[^\d+]/g, '');
+                                const whatsappUrl = `https://wa.me/${cleanPhone}`;
+                                window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
+                              }}
+                            >
+                              <Icon className="h-3 w-3" icon="ic:baseline-whatsapp" />
+                            </Button>
+                          </Tooltip>
+                          <Tooltip content="Copy phone number">
+                            <Button
+                              isIconOnly
+                              className="h-6 w-6 min-w-6 text-default-400 hover:text-primary -ml-1"
+                              size="sm"
+                              variant="light"
+                              onPress={() => {
+                                navigator.clipboard.writeText(userData.phone_number[0]);
+                              }}
+                            >
+                              <Icon className="h-3 w-3" icon="solar:copy-linear" />
+                            </Button>
+                          </Tooltip>
+                        </div>
                       </div>
                     </div>
                     <div className="flex gap-3 items-center">
                       <div className="flex items-center justify-center border-1 border-default-200/50 rounded-small w-11 h-11">
                         <Icon
-                          icon="lucide:globe"
                           className="text-default-500"
-                          width={20}
                           height={20}
+                          icon="lucide:globe"
+                          width={20}
                         />
                       </div>
                       <div className="flex flex-col gap-0.5">
                         <Link
                           isExternal
                           showAnchorIcon
-                          href={`https://${userData.website}`}
                           className="text-medium text-foreground font-medium"
+                          href={`https://${userData.website}`}
                         >
                           {userData.website}
                         </Link>
@@ -178,10 +213,10 @@ export default function DrawerCustomStyles() {
                     <div className="flex gap-3 items-center">
                       <div className="flex items-center justify-center border-1 border-default-200/50 rounded-small w-11 h-11">
                         <Icon
-                          icon="lucide:map-pin"
                           className="text-default-500"
-                          width={20}
                           height={20}
+                          icon="lucide:map-pin"
+                          width={20}
                         />
                       </div>
                       <div className="flex flex-col gap-0.5">

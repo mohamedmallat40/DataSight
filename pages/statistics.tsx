@@ -1,7 +1,6 @@
 "use client";
 
 import type { ButtonProps } from "@heroui/react";
-import type { Users } from "../types/data";
 
 import React, { useState, useEffect, useMemo } from "react";
 import {
@@ -17,8 +16,6 @@ import {
   CartesianGrid,
   PieChart,
   Pie,
-  LineChart,
-  Line,
 } from "recharts";
 import {
   Card,
@@ -31,14 +28,14 @@ import {
   DropdownItem,
   DropdownMenu,
   DropdownTrigger,
-  cn,
   Chip,
   Skeleton,
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 
-import DefaultLayout from "@/layouts/default";
 import { CountryFlag } from "../components/CountryFlag";
+
+import DefaultLayout from "@/layouts/default";
 import apiClient from "@/config/api";
 
 type ChartData = {
@@ -90,6 +87,7 @@ const colorIndexMap = (index: number) => {
     2: 700,
     3: 900,
   };
+
   return mapIndex[index] ?? 200;
 };
 
@@ -237,9 +235,9 @@ export default function StatisticsPage(): JSX.Element {
         <div className="h-full w-full p-6">
           <div className="text-center py-12">
             <Icon
+              className="mx-auto mb-4 text-default-400"
               icon="solar:chart-square-linear"
               width={80}
-              className="mx-auto mb-4 text-default-400"
             />
             <h2 className="text-2xl font-bold text-default-600 mb-2">
               No Data Available
@@ -301,8 +299,8 @@ export default function StatisticsPage(): JSX.Element {
             <div className="flex items-center gap-3">
               <div className="p-2 bg-primary/10 rounded-lg">
                 <Icon
-                  icon="solar:users-group-two-rounded-bold"
                   className="text-primary"
+                  icon="solar:users-group-two-rounded-bold"
                   width={24}
                 />
               </div>
@@ -319,8 +317,8 @@ export default function StatisticsPage(): JSX.Element {
             <div className="flex items-center gap-3">
               <div className="p-2 bg-success/10 rounded-lg">
                 <Icon
-                  icon="solar:check-circle-bold"
                   className="text-success"
+                  icon="solar:check-circle-bold"
                   width={24}
                 />
               </div>
@@ -337,8 +335,8 @@ export default function StatisticsPage(): JSX.Element {
             <div className="flex items-center gap-3">
               <div className="p-2 bg-warning/10 rounded-lg">
                 <Icon
-                  icon="solar:phone-bold"
                   className="text-warning"
+                  icon="solar:phone-bold"
                   width={24}
                 />
               </div>
@@ -355,8 +353,8 @@ export default function StatisticsPage(): JSX.Element {
             <div className="flex items-center gap-3">
               <div className="p-2 bg-secondary/10 rounded-lg">
                 <Icon
-                  icon="solar:buildings-2-bold"
                   className="text-secondary"
+                  icon="solar:buildings-2-bold"
                   width={24}
                 />
               </div>
@@ -392,8 +390,8 @@ export default function StatisticsPage(): JSX.Element {
                   </p>
                 </div>
                 <Icon
-                  icon="solar:global-bold"
                   className="text-default-400"
+                  icon="solar:global-bold"
                   width={24}
                 />
               </div>
@@ -404,6 +402,7 @@ export default function StatisticsPage(): JSX.Element {
                   const percentage = Math.round(
                     (country.count / stats.total) * 100,
                   );
+
                   return (
                     <div
                       key={country.code}
@@ -441,8 +440,8 @@ export default function StatisticsPage(): JSX.Element {
                   </p>
                 </div>
                 <Icon
-                  icon="solar:buildings-3-bold"
                   className="text-default-400"
+                  icon="solar:buildings-3-bold"
                   width={24}
                 />
               </div>
@@ -453,6 +452,7 @@ export default function StatisticsPage(): JSX.Element {
                   const percentage = Math.round(
                     (industry.count / stats.total) * 100,
                   );
+
                   return (
                     <div
                       key={industry.industry}
@@ -460,8 +460,8 @@ export default function StatisticsPage(): JSX.Element {
                     >
                       <div className="flex items-center gap-3">
                         <Icon
-                          icon="solar:briefcase-bold"
                           className="text-default-400 w-4 h-4"
+                          icon="solar:briefcase-bold"
                         />
                         <span className="text-small font-medium truncate">
                           {industry.industry}
@@ -488,16 +488,19 @@ export default function StatisticsPage(): JSX.Element {
 }
 
 const StatChartCard = React.forwardRef<HTMLDivElement, StatCardProps>(
-  ({
-    title,
-    categories,
-    color,
-    chartData,
-    unit,
-    total,
-    unitTitle,
-    chartType = "radial",
-  }) => {
+  (
+    {
+      title,
+      categories,
+      color,
+      chartData,
+      unit,
+      total,
+      unitTitle,
+      chartType = "radial",
+    },
+    ref,
+  ) => {
     const renderChart = () => {
       switch (chartType) {
         case "bar":
@@ -505,17 +508,17 @@ const StatChartCard = React.forwardRef<HTMLDivElement, StatCardProps>(
             <ResponsiveContainer height={260} width="100%">
               <BarChart data={chartData}>
                 <CartesianGrid
-                  strokeDasharray="3 3"
                   stroke="hsl(var(--heroui-default-200))"
+                  strokeDasharray="3 3"
                 />
                 <XAxis
                   dataKey="name"
-                  tick={{ fontSize: 12 }}
                   stroke="hsl(var(--heroui-default-500))"
+                  tick={{ fontSize: 12 }}
                 />
                 <YAxis
-                  tick={{ fontSize: 12 }}
                   stroke="hsl(var(--heroui-default-500))"
+                  tick={{ fontSize: 12 }}
                 />
                 <Tooltip
                   content={({ payload, label }) => (
@@ -543,11 +546,11 @@ const StatChartCard = React.forwardRef<HTMLDivElement, StatCardProps>(
             <ResponsiveContainer height={260} width="100%">
               <PieChart>
                 <Pie
-                  data={chartData}
                   cx="50%"
                   cy="50%"
-                  outerRadius={90}
+                  data={chartData}
                   dataKey="value"
+                  outerRadius={90}
                   stroke="none"
                 >
                   {chartData.map((_, index) => (
@@ -645,7 +648,10 @@ const StatChartCard = React.forwardRef<HTMLDivElement, StatCardProps>(
     };
 
     return (
-      <Card className="min-h-[420px] border border-transparent dark:border-default-100">
+      <Card
+        ref={ref}
+        className="min-h-[420px] border border-transparent dark:border-default-100"
+      >
         <div className="flex flex-col gap-y-2 p-6 pb-0">
           <div className="flex items-center justify-between gap-x-2">
             <dt>
@@ -671,6 +677,7 @@ const StatChartCard = React.forwardRef<HTMLDivElement, StatCardProps>(
           <div className="flex flex-col justify-center gap-y-3 pb-6 pl-6 text-tiny text-default-500 lg:pb-0">
             {categories.slice(0, 4).map((category, index) => {
               const data = chartData.find((c) => c.name === category);
+
               return (
                 <div key={index} className="flex flex-col items-start gap-y-1">
                   <span className="text-small font-medium capitalize text-default-500">

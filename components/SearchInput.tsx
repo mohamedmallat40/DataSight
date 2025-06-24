@@ -27,13 +27,16 @@ export const SearchInput: React.FC<SearchInputProps> = ({
 
   // Initialize search value from URL query parameter
   useEffect(() => {
+    if (!router.isReady) return;
+
     const searchParam = router.query.search as string;
+
     if (searchParam) {
       setLocalValue(searchParam);
       setDebouncedValue(searchParam);
       onSearchChange(searchParam);
     }
-  }, [router.query.search, onSearchChange]);
+  }, [router.isReady, router.query.search, onSearchChange]);
 
   // Debounce the search value
   useEffect(() => {
@@ -46,14 +49,18 @@ export const SearchInput: React.FC<SearchInputProps> = ({
 
   // Update URL and trigger search when debounced value changes
   useEffect(() => {
+    if (!router.isReady) return;
+
     if (debouncedValue !== (router.query.search || "")) {
       updateUrlWithSearch(debouncedValue);
       onSearchChange(debouncedValue);
     }
-  }, [debouncedValue, router.query.search, onSearchChange]);
+  }, [router.isReady, debouncedValue, router.query.search, onSearchChange]);
 
   const updateUrlWithSearch = useCallback(
     (searchValue: string) => {
+      if (!router.isReady) return;
+
       const query = { ...router.query };
 
       if (searchValue.trim()) {
@@ -90,12 +97,12 @@ export const SearchInput: React.FC<SearchInputProps> = ({
     <Input
       className={className}
       endContent={<SearchIcon className="text-default-400" width={16} />}
+      isClearable={!!localValue}
       placeholder={placeholder}
       size={size}
       value={localValue}
-      onValueChange={handleValueChange}
       onClear={handleClear}
-      isClearable={!!localValue}
+      onValueChange={handleValueChange}
     />
   );
 };

@@ -3,6 +3,7 @@ import { Tooltip, Chip } from "@heroui/react";
 import React, { memo, useState } from "react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
+import { ReachabilityChip } from "./reachability-chip";
 
 interface EmailListProps {
   emails: string[];
@@ -83,24 +84,21 @@ export const EmailList = memo(
         {visibleEmails.map((email, index) => (
           <div key={index} className="flex items-center gap-2 min-w-0">
             <div className="flex-1 min-w-0">
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 flex-wrap">
                 <a
-                  href={`mailto:${email}`}
                   className="text-small text-default-700 hover:text-primary transition-colors truncate block"
+                  href={`mailto:${email}`}
                   title={email}
                 >
                   {email}
                 </a>
-                {index === 0 && filteredEmails.length > 1 && (
-                  <Chip
-                    size="sm"
-                    variant="flat"
-                    color="primary"
-                    className="text-tiny"
-                  >
-                    Primary
-                  </Chip>
-                )}
+                <ReachabilityChip
+                  type="email"
+                  value={email}
+                  size="sm"
+                  variant="subtle"
+                  className="text-tiny"
+                />
               </div>
             </div>
             <CopyButton text={email} />
@@ -109,13 +107,13 @@ export const EmailList = memo(
 
         {hasMore && (
           <button
-            onClick={() => setShowAll(!showAll)}
             className="text-tiny text-primary hover:text-primary-600 transition-colors self-start flex items-center gap-1"
+            onClick={() => setShowAll(!showAll)}
           >
             <Icon
+              height={12}
               icon={showAll ? "lucide:chevron-up" : "lucide:chevron-down"}
               width={12}
-              height={12}
             />
             {showAll
               ? "Show less"

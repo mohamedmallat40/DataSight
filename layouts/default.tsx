@@ -14,9 +14,9 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
 
       {/* Main Content with smooth animation */}
       <motion.main
+        animate={{ opacity: 1, y: 0 }}
         className="mx-2.5 flex-grow pt-4"
         initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
       >
         {children}
@@ -36,7 +36,7 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
               <span className="text-default-600">Powered by</span>
               <span className="text-primary font-semibold">Perla IT</span>
             </Link>
-            <div className="hidden sm:block w-px h-4 bg-default-300"></div>
+            <div className="hidden sm:block w-px h-4 bg-default-300" />
             <span className="text-tiny text-default-500">
               © 2024 All Care Medical Group. All rights reserved.
             </span>
@@ -45,20 +45,20 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
           {/* Footer Links */}
           <div className="flex items-center gap-6 text-tiny">
             <Link
-              href="/privacy"
               className="text-default-500 hover:text-foreground transition-colors"
+              href="/privacy"
             >
               Privacy Policy
             </Link>
             <Link
-              href="/terms"
               className="text-default-500 hover:text-foreground transition-colors"
+              href="/terms"
             >
               Terms of Service
             </Link>
             <Link
-              href="mailto:support@example.com"
               className="text-default-500 hover:text-foreground transition-colors"
+              href="mailto:support@example.com"
             >
               Support
             </Link>

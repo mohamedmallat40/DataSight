@@ -21,8 +21,6 @@ export default function App({ Component, pageProps }: AppProps) {
   const [mounted, setMounted] = useState(false);
   const [locale, setLocale] = useState("en");
 
-  const { t } = useTranslations();
-
   useEffect(() => {
     setMounted(true);
   }, []);

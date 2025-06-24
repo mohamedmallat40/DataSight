@@ -8,9 +8,7 @@ import {
   NavbarMenuToggle,
 } from "@heroui/navbar";
 import { Button } from "@heroui/button";
-import { Kbd } from "@heroui/kbd";
 import { Link } from "@heroui/link";
-import { Input } from "@heroui/input";
 import {
   Dropdown,
   DropdownTrigger,
@@ -24,14 +22,15 @@ import { useRouter } from "next/router";
 import clsx from "clsx";
 import { useLocale } from "@react-aria/i18n";
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
+import { Icon } from "@iconify/react";
 
 import { LanguageSwitcher } from "./LanguageSwitcher";
+
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import { HeartFilledIcon, SearchIcon, Logo } from "@/components/icons";
+import { HeartFilledIcon, Logo } from "@/components/icons";
 import { useTranslations } from "@/hooks/use-translation";
-import { Icon } from "@iconify/react";
 
 interface NavbarProps {
   setLocale: (locale: string) => void;
@@ -64,11 +63,13 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
   const handleNavigation = (href: string, external = false) => {
     if (external) {
       window.open(href, "_blank");
+
       return;
     }
 
     if (href.startsWith("#")) {
       const element = document.getElementById(href.replace("#", ""));
+
       if (element) {
         element.scrollIntoView({ behavior: "smooth" });
       }
@@ -94,11 +95,11 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
 
   const companyLogo = (
     <NextLink
-      href="/"
       className={clsx(
         "flex items-center gap-2 transition-all duration-200 hover:opacity-80",
         isRTL ? "flex-row-reverse" : "",
       )}
+      href="/"
     >
       <Logo />
       <div className="flex flex-col">
@@ -116,13 +117,13 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
     <div className="flex items-center gap-2">
       {/* CTA Button */}
       <Button
-        as={Link}
-        href={siteConfig.links.sponsor}
         isExternal
+        as={Link}
         className="hidden md:flex bg-gradient-to-r from-primary to-secondary text-white font-medium"
         endContent={
-          <HeartFilledIcon className="text-white" width={16} height={16} />
+          <HeartFilledIcon className="text-white" height={16} width={16} />
         }
+        href={siteConfig.links.sponsor}
         size="sm"
         variant="solid"
       >
@@ -136,7 +137,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
       </div>
 
       {/* Profile/User Menu for larger screens */}
-      <Dropdown placement="bottom-end" className="hidden lg:block">
+      <Dropdown className="hidden lg:block" placement="bottom-end">
         <DropdownTrigger>
           <Avatar
             as="button"
@@ -181,7 +182,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
           <NavbarBrand>{companyLogo}</NavbarBrand>
         </NavbarContent>
         <NavbarContent justify="end">
-          <div className="w-20 h-8 bg-default-100 rounded animate-pulse"></div>
+          <div className="w-20 h-8 bg-default-100 rounded animate-pulse" />
         </NavbarContent>
       </HeroUINavbar>
     );
@@ -194,9 +195,9 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
           "px-2.5 backdrop-blur-md bg-background/80 border-b border-default-200/50",
           isRTL ? "rtl" : "",
         )}
+        isMenuOpen={isMenuOpen}
         maxWidth="full"
         position="sticky"
-        isMenuOpen={isMenuOpen}
         onMenuOpenChange={setIsMenuOpen}
       >
         {/* Main Brand Section */}
@@ -220,32 +221,32 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
               <NavbarItem key={item.href}>
                 <Link
                   className={clsx(
-                  "flex items-center gap-2 transition-all duration-200 font-medium px-3 py-2 rounded-lg",
-                  router.asPath === item.href
-                    ? "text-primary bg-primary/10 font-semibold"
-                    : "text-foreground hover:text-primary hover:bg-primary/5",
+                    "flex items-center gap-2 transition-all duration-200 font-medium px-3 py-2 rounded-lg",
+                    router.asPath === item.href
+                      ? "text-primary bg-primary/10 font-semibold"
+                      : "text-foreground hover:text-primary hover:bg-primary/5",
                   )}
                   href={item.href}
                   onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
-                  e.preventDefault();
-                  handleNavigation(item.href, item.external);
+                    e.preventDefault();
+                    handleNavigation(item.href, item.external);
                   }}
                 >
                   {item.icon && (
-                  <Icon
-                    icon={item.icon}
-                    width={18}
-                    height={18}
-                    className={
-                    router.asPath === item.href ? "text-primary" : ""
-                    }
-                  />
+                    <Icon
+                      className={
+                        router.asPath === item.href ? "text-primary" : ""
+                      }
+                      height={18}
+                      icon={item.icon}
+                      width={18}
+                    />
                   )}
                   {item.label}
                   {item.badge && (
-                  <span className="bg-primary text-white text-tiny px-1.5 py-0.5 rounded-full">
-                    {item.badge}
-                  </span>
+                    <span className="bg-primary text-white text-tiny px-1.5 py-0.5 rounded-full">
+                      {item.badge}
+                    </span>
                   )}
                 </Link>
               </NavbarItem>
@@ -268,7 +269,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
                 variant="light"
                 onPress={() => setIsMenuOpen(false)}
               >
-                <Icon icon="solar:close-circle-linear" width={20} height={20} />
+                <Icon height={20} icon="solar:close-circle-linear" width={20} />
               </Button>
             </div>
             <Divider />
@@ -279,45 +280,45 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
             {navigationItems.map((item, index) => (
               <NavbarMenuItem key={item.href}>
                 <motion.div
-                  initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, x: -20 }}
                   transition={{ delay: index * 0.1 }}
                 >
-                    <Link
+                  <Link
                     className={clsx(
                       "flex items-center gap-3 w-full py-3 px-4 rounded-lg transition-all duration-200",
                       router.asPath === item.href
-                      ? "bg-primary/15 text-primary font-semibold border border-primary/20"
-                      : "text-foreground hover:text-primary hover:bg-primary/5",
+                        ? "bg-primary/15 text-primary font-semibold border border-primary/20"
+                        : "text-foreground hover:text-primary hover:bg-primary/5",
                     )}
                     href={item.href}
                     onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
                       e.preventDefault();
                       handleNavigation(item.href, item.external);
                     }}
-                    >
+                  >
                     {item.icon && (
                       <Icon
-                      icon={item.icon}
-                      width={20}
-                      height={20}
-                      className={
-                        router.asPath === item.href
-                        ? "text-primary"
-                        : "text-default-500"
-                      }
+                        className={
+                          router.asPath === item.href
+                            ? "text-primary"
+                            : "text-default-500"
+                        }
+                        height={20}
+                        icon={item.icon}
+                        width={20}
                       />
                     )}
                     <span className="font-medium">{item.label}</span>
                     {item.external && (
                       <Icon
-                      icon="solar:external-link-linear"
-                      width={16}
-                      height={16}
-                      className="ml-auto text-default-400"
+                        className="ml-auto text-default-400"
+                        height={16}
+                        icon="solar:external-link-linear"
+                        width={16}
                       />
                     )}
-                    </Link>
+                  </Link>
                 </motion.div>
               </NavbarMenuItem>
             ))}
@@ -329,19 +330,19 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
 
             {/* Mobile CTA */}
             <Button
-              as={Link}
-              href={siteConfig.links.sponsor}
+              fullWidth
               isExternal
+              as={Link}
               className="bg-gradient-to-r from-primary to-secondary text-white font-medium"
               endContent={
                 <HeartFilledIcon
                   className="text-white"
-                  width={16}
                   height={16}
+                  width={16}
                 />
               }
+              href={siteConfig.links.sponsor}
               size="lg"
-              fullWidth
             >
               {t("navbar_slogon") || "Get Started"}
             </Button>
@@ -357,7 +358,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
                 <p className="text-tiny text-default-500">demo@example.com</p>
               </div>
               <Button isIconOnly size="sm" variant="light">
-                <Icon icon="solar:settings-linear" width={18} height={18} />
+                <Icon height={18} icon="solar:settings-linear" width={18} />
               </Button>
             </div>
           </div>

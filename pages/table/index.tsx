@@ -3,14 +3,7 @@
 import type { Selection, SortDescriptor } from "@heroui/react";
 import type { ColumnsKey, Users, ColumnDefinition } from "../../types/data";
 import type { Key } from "@react-types/shared";
-import type {
-  TableState,
-  FilterState,
-  TableAction,
-  PaginationState,
-  AsyncState,
-  ModalState,
-} from "../../types/components";
+import type { TableState, FilterState } from "../../types/components";
 
 import {
   Table,
@@ -22,6 +15,7 @@ import {
   Button,
   Chip,
   User,
+  Avatar,
   Pagination,
   useDisclosure,
   ModalContent,
@@ -45,9 +39,9 @@ import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
 
 import { CountryFlag } from "../../components/CountryFlag";
-import { CopyText } from "../../components/table/copy-text";
 import { EmailList } from "../../components/table/email-list";
 import { PhoneList } from "../../components/table/phone-list";
+import { GenderIndicator } from "../../components/table/gender-indicator";
 import { EyeFilledIcon } from "../../components/table/eye";
 import { EditLinearIcon } from "../../components/table/edit";
 import { DeleteFilledIcon } from "../../components/table/delete";
@@ -57,9 +51,10 @@ import {
   HighlightedText,
   containsSearchTerm,
 } from "../../utils/search-highlight";
+import UserDetailsDrawer from "../../components/user-details-drawer";
 
 import MultiStepWizard from "./add-card/multi-step-wizard";
-import UserDetailsDrawer from "../../components/user-details-drawer";
+
 import apiClient from "@/config/api";
 import { normalizeValue } from "@/utils/utils";
 
@@ -149,6 +144,7 @@ export default function Component(): JSX.Element {
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error occurred";
+
       console.error("Error fetching users:", errorMessage);
       setUserList([]);
     } finally {
@@ -247,6 +243,7 @@ export default function Component(): JSX.Element {
     // Apply search filter with type safety
     if (filterValue.trim()) {
       const searchTerm = filterValue.toLowerCase();
+
       filtered = filtered.filter((user: Users): boolean => {
         const searchFields = [
           user.full_name?.toLowerCase() || "",
@@ -283,6 +280,7 @@ export default function Component(): JSX.Element {
         // Handle array fields
         const aValue = a[col];
         const bValue = b[col];
+
         first = Array.isArray(aValue) && aValue.length > 0 ? aValue[0] : "";
         second = Array.isArray(bValue) && bValue.length > 0 ? bValue[0] : "";
       } else {
@@ -295,6 +293,7 @@ export default function Component(): JSX.Element {
       const secondStr = String(second ?? "");
 
       const cmp = firstStr.localeCompare(secondStr);
+
       return sortDescriptor.direction === "descending" ? -cmp : cmp;
     });
   }, [items, sortDescriptor]);
@@ -317,6 +316,7 @@ export default function Component(): JSX.Element {
   // Search and filter functions with proper typing
   const onSearchChange = useMemoizedCallback((value?: string): void => {
     const searchValue = value?.trim() || "";
+
     setFilterValue(searchValue);
     if (searchValue !== filterValue) {
       setPage(1); // Reset to first page when search changes
@@ -329,6 +329,7 @@ export default function Component(): JSX.Element {
       .map((user: Users) => user.industry)
       .filter((industry): industry is string => Boolean(industry))
       .filter((value, index, self) => self.indexOf(value) === index);
+
     return industries.sort();
   }, [userList]);
 
@@ -337,6 +338,7 @@ export default function Component(): JSX.Element {
       .map((user: Users) => user.country)
       .filter((country): country is string => Boolean(country))
       .filter((value, index, self) => self.indexOf(value) === index);
+
     return countries.sort();
   }, [userList]);
 
@@ -356,38 +358,29 @@ export default function Component(): JSX.Element {
       switch (userKey) {
         case "full_name":
           return (
-            <User
-              avatarProps={{
-                radius: "lg",
-                name: user.full_name || "User",
-                showFallback: true,
-              }}
-              description={user.job_title || user.company_name || ""}
-              name={user.full_name || "N/A"}
-              classNames={{
-                wrapper: "min-w-0",
-                description: "truncate max-w-[200px]",
-                name: "truncate max-w-[200px]",
-              }}
-            />
-          );
-        case "job_title":
-          return (
-            <div className="flex flex-col gap-0.5 min-w-0 max-w-[120px]">
-              <p
-                className="text-small font-medium text-default-700 truncate"
-                title={user.job_title || "No job title"}
-              >
-                {user.job_title || "N/A"}
-              </p>
-              {user.industry && (
-                <p
-                  className="text-tiny text-default-500 truncate"
-                  title={user.industry}
-                >
-                  {user.industry}
-                </p>
-              )}
+            <div className="flex items-center gap-3">
+              <Avatar
+                isBordered
+                className="w-10 h-10"
+                radius="lg"
+                showFallback
+                src={
+                  user.front_image_link ||
+                  user.card_image_url ||
+                  `https://ui-avatars.com/api/?name=${encodeURIComponent(user.full_name)}&background=random&size=128`
+                }
+              />
+              <div className="flex flex-col">
+                <div className="flex items-center gap-2">
+                  <span className="text-small font-medium text-default-700">
+                    {user.full_name}
+                  </span>
+                  <GenderIndicator gender={user.gender} variant="minimal" />
+                </div>
+                <span className="text-tiny text-default-500">
+                  {user.job_title || "No job title"}
+                </span>
+              </div>
             </div>
           );
         case "company_name":
@@ -401,14 +394,14 @@ export default function Component(): JSX.Element {
               </p>
               {user.website && (
                 <a
+                  className="text-tiny text-primary hover:text-primary-600 transition-colors truncate"
                   href={
                     user.website.startsWith("http")
                       ? user.website
                       : `https://${user.website}`
                   }
-                  target="_blank"
                   rel="noopener noreferrer"
-                  className="text-tiny text-primary hover:text-primary-600 transition-colors truncate"
+                  target="_blank"
                   title={user.website}
                   onClick={(e: React.MouseEvent) => e.stopPropagation()}
                 >
@@ -427,8 +420,8 @@ export default function Component(): JSX.Element {
         case "phone_number":
           return (
             <PhoneList
-              phones={Array.isArray(user.phone_number) ? user.phone_number : []}
               maxVisible={2}
+              phones={Array.isArray(user.phone_number) ? user.phone_number : []}
             />
           );
         case "country":
@@ -437,8 +430,8 @@ export default function Component(): JSX.Element {
               <div className="flex items-center gap-2">
                 <CountryFlag
                   countryCode={user.country_code}
-                  size="sm"
                   showFallback={false}
+                  size="sm"
                 />
                 <p
                   className="text-small font-medium text-default-700 truncate"
@@ -464,8 +457,8 @@ export default function Component(): JSX.Element {
           return (
             <div className="flex items-center gap-2">
               <Icon
-                icon="lucide:briefcase"
                 className="text-default-400 w-3 h-3 flex-shrink-0"
+                icon="lucide:briefcase"
               />
               <p
                 className={cn(
@@ -478,9 +471,9 @@ export default function Component(): JSX.Element {
               >
                 {filterValue && user.industry ? (
                   <HighlightedText
-                    text={user.industry}
-                    searchTerm={filterValue}
                     highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
+                    searchTerm={filterValue}
+                    text={user.industry}
                   />
                 ) : (
                   user.industry || "N/A"
@@ -488,33 +481,7 @@ export default function Component(): JSX.Element {
               </p>
             </div>
           );
-        case "gender":
-          const genderInfo =
-            user.gender === true
-              ? { icon: "lucide:male", label: "Male", color: "text-blue-600" }
-              : user.gender === false
-                ? {
-                    icon: "lucide:female",
-                    label: "Female",
-                    color: "text-pink-600",
-                  }
-                : {
-                    icon: "lucide:user",
-                    label: "Unknown",
-                    color: "text-default-400",
-                  };
 
-          return (
-            <div className="flex items-center gap-2">
-              <Icon
-                icon={genderInfo.icon}
-                className={`w-3 h-3 flex-shrink-0 ${genderInfo.color}`}
-              />
-              <span className={`text-small ${genderInfo.color}`}>
-                {genderInfo.label}
-              </span>
-            </div>
-          );
         case "date_collected":
           return (
             <p
@@ -530,26 +497,26 @@ export default function Component(): JSX.Element {
           return (
             <div className="flex gap-2 justify-end">
               <button
+                aria-label={`View details for ${user.full_name || "user"}`}
                 className="text-default-400 cursor-pointer hover:text-primary transition-colors p-1 rounded-small"
+                type="button"
                 onClick={(e: React.MouseEvent) => {
                   e.stopPropagation();
                   handleViewUser(user);
                 }}
-                aria-label={`View details for ${user.full_name || "user"}`}
-                type="button"
               >
                 <EyeFilledIcon />
               </button>
               <button
-                className="text-default-400 cursor-pointer hover:text-warning transition-colors p-1 rounded-small"
                 aria-label={`Edit ${user.full_name || "user"}`}
+                className="text-default-400 cursor-pointer hover:text-warning transition-colors p-1 rounded-small"
                 type="button"
               >
                 <EditLinearIcon />
               </button>
               <button
-                className="text-default-400 cursor-pointer hover:text-danger transition-colors p-1 rounded-small"
                 aria-label={`Delete ${user.full_name || "user"}`}
+                className="text-default-400 cursor-pointer hover:text-danger transition-colors p-1 rounded-small"
                 type="button"
               >
                 <DeleteFilledIcon />
@@ -850,8 +817,6 @@ export default function Component(): JSX.Element {
         aria-label="Enhanced table with improved contact display and filters"
         bottomContent={bottomContent}
         bottomContentPlacement="outside"
-        topContent={topContent}
-        topContentPlacement="outside"
         classNames={{
           td: "before:bg-transparent py-3",
           wrapper: "min-h-[400px]",
@@ -860,6 +825,8 @@ export default function Component(): JSX.Element {
         selectedKeys={filterSelectedKeys}
         selectionMode="multiple"
         sortDescriptor={sortDescriptor}
+        topContent={topContent}
+        topContentPlacement="outside"
         onSelectionChange={onSelectionChange}
         onSortChange={setSortDescriptor}
       >
@@ -919,8 +886,8 @@ export default function Component(): JSX.Element {
 
       <UserDetailsDrawer
         isOpen={isDrawerOpen}
-        onOpenChange={onDrawerOpenChange}
         userData={selectedUser}
+        onOpenChange={onDrawerOpenChange}
       />
     </div>
   );

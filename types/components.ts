@@ -1,6 +1,7 @@
-import { ReactNode, ButtonHTMLAttributes, HTMLAttributes } from "react";
+import { ReactNode } from "react";
 import { Selection, SortDescriptor } from "@heroui/react";
-import { Users, ColumnsKey } from "./data";
+
+import { Users } from "./data";
 
 // Layout component interfaces
 export interface DefaultLayoutProps {

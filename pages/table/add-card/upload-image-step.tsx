@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Button, Image, Spinner } from "@heroui/react";
+import { Card, Button, Image } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
 
@@ -346,12 +346,12 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
 
         <div className="flex flex-col gap-2 mt-4">
           <Button
+            className="mx-auto"
             color="primary"
             isDisabled={!frontImage || isLoading}
             isLoading={isLoading}
             startContent={!isLoading && <Icon icon="lucide:scan-text" />}
             onPress={handleUpload}
-            className="mx-auto"
           >
             {isLoading ? "Processing..." : "Extract Information"}
           </Button>

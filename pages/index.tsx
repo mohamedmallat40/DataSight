@@ -1,7 +1,9 @@
+import type { GetStaticProps, InferGetStaticPropsType } from "next";
+import type { LogoItem, ThemeType } from "@/types";
+
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { useTheme } from "next-themes";
-import type { GetStaticProps, InferGetStaticPropsType } from "next";
 
 // Import logo components with proper types
 import {
@@ -18,14 +20,13 @@ import {
 } from "../components/logos";
 
 // Import page components
-import Footer from "./footer/footer";
 
 // Import layout and main components
-import DefaultLayout from "@/layouts/default";
 import Network from "./table";
 
+import DefaultLayout from "@/layouts/default";
+
 // Import types
-import type { LogoItem, ThemeType } from "@/types";
 
 /**
  * Props for the IndexPage component
@@ -81,20 +82,20 @@ const createLogoConfig = (theme: ThemeType): readonly LogoItem[] => {
  * @returns JSX.Element representing the main page
  */
 export default function IndexPage(
-  props: InferGetStaticPropsType<typeof getStaticProps>
+  props: InferGetStaticPropsType<typeof getStaticProps>,
 ): JSX.Element {
   const router = useRouter();
   const { theme } = useTheme();
 
-  // Redirect to Statistics page by default
+  // Redirect to Contacts page by default
   useEffect(() => {
-    router.replace("/statistics");
+    router.replace("/contacts");
   }, [router]);
 
   // Create logo configuration based on current theme
   const logos: readonly LogoItem[] = React.useMemo(
     () => createLogoConfig(theme as ThemeType),
-    [theme]
+    [theme],
   );
 
   // Render logo items with proper typing
@@ -102,9 +103,9 @@ export default function IndexPage(
     return logos.map(({ key, logo }: LogoItem) => (
       <div
         key={key}
+        aria-label={`${key} logo`}
         className="flex items-center justify-center text-foreground"
         role="img"
-        aria-label={`${key} logo`}
       >
         {logo}
       </div>

@@ -78,6 +78,7 @@ export const LanguageSwitcher = ({
   const handleSelectionChange = useCallback(
     (keys: Selection) => {
       const selectedKey = Array.from(keys)[0] as string;
+
       if (selectedKey && selectedKey !== locale) {
         setSelectedKeys(keys);
         onChange(selectedKey);
@@ -86,6 +87,7 @@ export const LanguageSwitcher = ({
         const selectedLang = languages.find(
           (lang) => lang.code === selectedKey,
         );
+
         if (selectedLang?.rtl) {
           document.documentElement.setAttribute("dir", "rtl");
           document.documentElement.setAttribute("lang", selectedKey);
@@ -106,9 +108,9 @@ export const LanguageSwitcher = ({
       <div className="flex items-center gap-2 w-full">
         {showFlag && (
           <span
+            aria-label={`${language.name} flag`}
             className="text-lg"
             role="img"
-            aria-label={`${language.name} flag`}
           >
             {language.flag}
           </span>
@@ -127,10 +129,10 @@ export const LanguageSwitcher = ({
         </div>
         {isSelected && (
           <Icon
-            icon="solar:check-circle-bold"
             className="text-primary ml-auto"
-            width={16}
             height={16}
+            icon="solar:check-circle-bold"
+            width={16}
           />
         )}
       </div>
@@ -141,18 +143,18 @@ export const LanguageSwitcher = ({
     <Dropdown>
       <DropdownTrigger>
         <Button
-          variant="light"
-          size={size}
-          className="min-w-unit-10 h-unit-10 p-2 text-default-600 hover:text-foreground transition-colors"
           aria-label="Select language"
+          className="min-w-unit-10 h-unit-10 p-2 text-default-600 hover:text-foreground transition-colors"
+          size={size}
+          variant="light"
         >
           {variant === "compact" ? (
             <div className="flex items-center gap-1">
               {showFlag && (
                 <span
+                  aria-label={`${currentLanguage.name} flag`}
                   className="text-sm"
                   role="img"
-                  aria-label={`${currentLanguage.name} flag`}
                 >
                   {currentLanguage.flag}
                 </span>
@@ -160,12 +162,12 @@ export const LanguageSwitcher = ({
               <span className="text-tiny font-medium uppercase tracking-wide">
                 {currentLanguage.code}
               </span>
-              <Icon icon="solar:alt-arrow-down-linear" width={12} height={12} />
+              <Icon height={12} icon="solar:alt-arrow-down-linear" width={12} />
             </div>
           ) : (
             <div className="flex items-center gap-2">
               {renderLanguageItem(currentLanguage, true)}
-              <Icon icon="solar:alt-arrow-down-linear" width={14} height={14} />
+              <Icon height={14} icon="solar:alt-arrow-down-linear" width={14} />
             </div>
           )}
         </Button>
@@ -173,19 +175,19 @@ export const LanguageSwitcher = ({
 
       <DropdownMenu
         aria-label="Language selection"
-        selectedKeys={selectedKeys}
-        selectionMode="single"
-        onSelectionChange={handleSelectionChange}
         className="min-w-[200px]"
         itemClasses={{
           base: "py-2 px-3 data-[hover=true]:bg-default-100 data-[selected=true]:bg-primary/10",
         }}
+        selectedKeys={selectedKeys}
+        selectionMode="single"
+        onSelectionChange={handleSelectionChange}
       >
         {languages.map((language) => (
           <DropdownItem
             key={language.code}
-            textValue={language.name}
             className="group"
+            textValue={language.name}
           >
             {renderLanguageItem(language, language.code === locale)}
           </DropdownItem>

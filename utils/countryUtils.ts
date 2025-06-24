@@ -9,6 +9,7 @@ export function groupCountriesByContinent(
         acc[country.continent] = [];
       }
       acc[country.continent].push(country);
+
       return acc;
     },
     {} as Record<string, Country[]>,
@@ -36,6 +37,7 @@ export function searchCountries(
   query: string,
 ): Country[] {
   const searchTerm = query.toLowerCase().trim();
+
   if (!searchTerm) return countries;
 
   return countries.filter(
