@@ -556,19 +556,38 @@ export default function ContactsPage(): JSX.Element {
             <div className="flex items-center gap-3">
               <Avatar
                 isBordered
-                className={`w-10 h-10 ${
+                className={`w-10 h-10 bg-transparent ${
                   user.gender === true
-                    ? "ring-2 ring-blue-400 ring-offset-1 ring-offset-background border-blue-400"
+                    ? "border-2 border-blue-400 text-blue-400"
                     : user.gender === false
-                      ? "ring-2 ring-pink-400 ring-offset-1 ring-offset-background border-pink-400"
-                      : "ring-2 ring-default-300 ring-offset-1 ring-offset-background border-default-300"
+                      ? "border-2 border-pink-400 text-pink-400"
+                      : "border-2 border-default-400 text-default-400"
                 }`}
                 radius="lg"
                 showFallback
+                fallback={
+                  <Icon
+                    icon="solar:user-linear"
+                    width={20}
+                    className={
+                      user.gender === true
+                        ? "text-blue-400"
+                        : user.gender === false
+                          ? "text-pink-400"
+                          : "text-default-400"
+                    }
+                  />
+                }
                 src={
                   user.front_image_link ||
                   user.card_image_url ||
-                  `https://ui-avatars.com/api/?name=${encodeURIComponent(user.full_name)}&background=random&size=128`
+                  `https://ui-avatars.com/api/?name=${encodeURIComponent(user.full_name)}&background=transparent&color=${
+                    user.gender === true
+                      ? "60A5FA"
+                      : user.gender === false
+                        ? "F472B6"
+                        : "9CA3AF"
+                  }&size=128`
                 }
               />
               <div className="flex flex-col">
