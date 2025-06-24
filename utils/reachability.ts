@@ -222,23 +222,28 @@ export async function checkWebsiteOnline(website: string): Promise<boolean> {
  */
 function checkViaImage(url: string): Promise<boolean | null> {
   return new Promise((resolve) => {
-    const img = new Image();
-    const timeout = setTimeout(() => {
-      resolve(null); // Timeout, method not conclusive
-    }, 3000);
+    try {
+      const img = new Image();
+      const timeout = setTimeout(() => {
+        resolve(null); // Timeout, method not conclusive
+      }, 2000); // Reduced timeout
 
-    img.onload = () => {
-      clearTimeout(timeout);
-      resolve(true); // Site responded and served content
-    };
+      img.onload = () => {
+        clearTimeout(timeout);
+        resolve(true); // Site responded and served content
+      };
 
-    img.onerror = () => {
-      clearTimeout(timeout);
-      resolve(false); // Site didn't respond or error occurred
-    };
+      img.onerror = () => {
+        clearTimeout(timeout);
+        resolve(false); // Site didn't respond or error occurred
+      };
 
-    // Try to load favicon or root path
-    img.src = url + "/favicon.ico";
+      // Try to load favicon or root path
+      img.src = url + "/favicon.ico";
+    } catch (error) {
+      // Handle any synchronous errors
+      resolve(null);
+    }
   });
 }
 
