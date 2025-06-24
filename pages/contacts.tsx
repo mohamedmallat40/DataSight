@@ -1433,78 +1433,73 @@ export default function ContactsPage(): JSX.Element {
                       </div>
 
                       {/* Social Profiles */}
-                      <Card>
-                        <CardHeader className="pb-3">
-                          <div className="flex items-center gap-3">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/20">
-                              <Icon
-                                className="text-primary"
-                                icon="solar:user-bold"
-                                width={16}
-                              />
-                            </div>
-                            <h4 className="text-lg font-semibold text-foreground">
-                              Social Profiles
-                            </h4>
+                      <div>
+                        <div className="flex items-center gap-2 mb-4">
+                          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary/10">
+                            <Icon
+                              className="text-primary-600"
+                              icon="solar:user-linear"
+                              width={12}
+                            />
                           </div>
-                        </CardHeader>
-                        <CardBody className="pt-0">
-                          <div className="space-y-3">
-                            {Object.entries(
-                              enrichmentResults.socialProfiles,
-                            ).map(
-                              ([platform, url]) =>
-                                url && (
-                                  <div
-                                    key={platform}
-                                    className="flex items-center justify-between p-4 bg-default-50 rounded-xl border border-default-200 hover:bg-default-100 transition-colors"
-                                  >
-                                    <div className="flex items-center gap-3">
-                                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white shadow-sm">
-                                        <Icon
-                                          className={
-                                            platform === "linkedin"
-                                              ? "text-blue-600"
-                                              : platform === "twitter"
-                                                ? "text-sky-500"
-                                                : "text-default-600"
-                                          }
-                                          icon={
-                                            platform === "linkedin"
-                                              ? "solar:linkedin-bold"
-                                              : platform === "twitter"
-                                                ? "solar:twitter-bold"
-                                                : "solar:global-bold"
-                                          }
-                                          width={16}
-                                        />
-                                      </div>
-                                      <span className="capitalize font-medium text-foreground">
-                                        {platform}
-                                      </span>
+                          <h4 className="font-medium text-foreground">
+                            Social Profiles
+                          </h4>
+                        </div>
+                        <div className="space-y-2">
+                          {Object.entries(enrichmentResults.socialProfiles).map(
+                            ([platform, url]) =>
+                              url && (
+                                <div
+                                  key={platform}
+                                  className="flex items-center justify-between p-3 bg-default-50/50 border border-default-200/50 rounded-lg hover:bg-default-100/50 transition-colors"
+                                >
+                                  <div className="flex items-center gap-3">
+                                    <div className="flex h-6 w-6 items-center justify-center rounded-md bg-background border border-default-200/50">
+                                      <Icon
+                                        className={
+                                          platform === "linkedin"
+                                            ? "text-blue-600"
+                                            : platform === "twitter"
+                                              ? "text-sky-500"
+                                              : "text-default-600"
+                                        }
+                                        icon={
+                                          platform === "linkedin"
+                                            ? "solar:linkedin-linear"
+                                            : platform === "twitter"
+                                              ? "solar:twitter-linear"
+                                              : "solar:global-linear"
+                                        }
+                                        width={12}
+                                      />
                                     </div>
-                                    <Button
-                                      as={Link}
-                                      href={url as string}
-                                      size="sm"
-                                      variant="flat"
-                                      color="primary"
-                                      isExternal
-                                      endContent={
-                                        <Icon
-                                          icon="solar:external-link-bold"
-                                          width={14}
-                                        />
-                                      }
-                                    >
-                                      Visit
-                                    </Button>
+                                    <span className="capitalize font-medium text-foreground text-sm">
+                                      {platform}
+                                    </span>
                                   </div>
-                                ),
-                            )}
-                          </div>
-                        </CardBody>
-                      </Card>
+                                  <Button
+                                    as={Link}
+                                    href={url as string}
+                                    size="sm"
+                                    variant="light"
+                                    color="primary"
+                                    isExternal
+                                    endContent={
+                                      <Icon
+                                        icon="solar:external-link-linear"
+                                        width={12}
+                                      />
+                                    }
+                                    className="font-medium text-xs h-6 px-2"
+                                  >
+                                    Visit
+                                  </Button>
+                                </div>
+                              ),
+                          )}
+                        </div>
+                      </div>
 
                       {/* Company Information */}
                       <Card>
