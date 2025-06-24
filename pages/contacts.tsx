@@ -1383,8 +1383,10 @@ export default function ContactsPage(): JSX.Element {
 
                   {isEnriching && (
                     <div className="text-center py-12">
-                      <div className="relative mb-6">
-                        <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-secondary/8 border border-secondary/15 mx-auto">
+                      {/* Beautiful animated loader */}
+                      <div className="relative mb-8">
+                        {/* Main icon container */}
+                        <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-secondary/8 border border-secondary/15 mx-auto relative z-10">
                           <Icon
                             className="text-secondary-600"
                             height={24}
@@ -1392,17 +1394,140 @@ export default function ContactsPage(): JSX.Element {
                             width={24}
                           />
                         </div>
-                        <div className="absolute inset-0 rounded-xl border border-secondary/30 animate-pulse"></div>
+
+                        {/* Animated rings */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div
+                            className="w-20 h-20 border-2 border-secondary/20 rounded-xl animate-spin"
+                            style={{
+                              animation: "spin 3s linear infinite",
+                              borderTopColor:
+                                "rgb(var(--heroui-secondary) / 0.4)",
+                            }}
+                          ></div>
+                        </div>
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div
+                            className="w-24 h-24 border border-secondary/10 rounded-xl animate-spin"
+                            style={{
+                              animation: "spin 4s linear infinite reverse",
+                              borderRightColor:
+                                "rgb(var(--heroui-secondary) / 0.2)",
+                            }}
+                          ></div>
+                        </div>
+
+                        {/* Floating particles */}
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div
+                            className="w-2 h-2 bg-secondary/40 rounded-full animate-bounce"
+                            style={{
+                              position: "absolute",
+                              top: "20%",
+                              left: "50%",
+                              animationDelay: "0s",
+                              animationDuration: "1.5s",
+                            }}
+                          ></div>
+                          <div
+                            className="w-1.5 h-1.5 bg-secondary/30 rounded-full animate-bounce"
+                            style={{
+                              position: "absolute",
+                              top: "30%",
+                              right: "25%",
+                              animationDelay: "0.3s",
+                              animationDuration: "1.8s",
+                            }}
+                          ></div>
+                          <div
+                            className="w-1 h-1 bg-secondary/20 rounded-full animate-bounce"
+                            style={{
+                              position: "absolute",
+                              bottom: "25%",
+                              left: "30%",
+                              animationDelay: "0.6s",
+                              animationDuration: "2s",
+                            }}
+                          ></div>
+                        </div>
                       </div>
-                      <h3 className="text-lg font-medium text-foreground mb-2">
-                        Processing...
-                      </h3>
-                      <p className="text-default-500 text-sm">
+
+                      {/* Processing text with animated dots */}
+                      <div className="mb-2">
+                        <h3 className="text-lg font-medium text-foreground inline">
+                          Processing
+                        </h3>
+                        <span className="inline-flex ml-1">
+                          <span
+                            className="animate-pulse"
+                            style={{
+                              animationDelay: "0s",
+                              animationDuration: "1.5s",
+                            }}
+                          >
+                            .
+                          </span>
+                          <span
+                            className="animate-pulse"
+                            style={{
+                              animationDelay: "0.3s",
+                              animationDuration: "1.5s",
+                            }}
+                          >
+                            .
+                          </span>
+                          <span
+                            className="animate-pulse"
+                            style={{
+                              animationDelay: "0.6s",
+                              animationDuration: "1.5s",
+                            }}
+                          >
+                            .
+                          </span>
+                        </span>
+                      </div>
+
+                      <p className="text-default-500 text-sm mb-6">
                         Gathering insights for{" "}
                         <span className="font-medium text-foreground">
                           {userToEnrich?.full_name}
                         </span>
                       </p>
+
+                      {/* Progress steps */}
+                      <div className="max-w-sm mx-auto">
+                        <div className="flex items-center justify-between text-xs text-default-400 mb-2">
+                          <span className="flex items-center gap-1">
+                            <div className="w-1.5 h-1.5 bg-secondary rounded-full animate-pulse"></div>
+                            Social Profiles
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <div
+                              className="w-1.5 h-1.5 bg-secondary/60 rounded-full animate-pulse"
+                              style={{ animationDelay: "0.5s" }}
+                            ></div>
+                            Company Data
+                          </span>
+                          <span className="flex items-center gap-1">
+                            <div
+                              className="w-1.5 h-1.5 bg-secondary/40 rounded-full animate-pulse"
+                              style={{ animationDelay: "1s" }}
+                            ></div>
+                            Recent News
+                          </span>
+                        </div>
+                        <div className="w-full bg-default-200 rounded-full h-1">
+                          <div
+                            className="bg-secondary h-1 rounded-full animate-pulse"
+                            style={{
+                              width: "60%",
+                              animation:
+                                "pulse 2s ease-in-out infinite alternate",
+                            }}
+                          ></div>
+                        </div>
+                      </div>
                     </div>
                   )}
 
