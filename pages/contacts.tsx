@@ -1548,10 +1548,10 @@ export default function ContactsPage(): JSX.Element {
                       {/* Recent News */}
                       <div>
                         <div className="flex items-center gap-2 mb-4">
-                          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-danger/10">
+                          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-blue/10">
                             <Icon
-                              className="text-danger-600"
-                              icon="solar:news-linear"
+                              className="text-blue-600"
+                              icon="solar:document-text-linear"
                               width={12}
                             />
                           </div>
