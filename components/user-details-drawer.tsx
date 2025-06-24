@@ -190,11 +190,15 @@ Source: ${userData.source || "N/A"}
                       e.preventDefault();
                       e.stopPropagation();
                       console.log("Avatar clicked!"); // Debug log
+
+                      // Priority: actual photo images first, then generated avatar
                       const avatarUrl =
-                        userData.logo_url ||
                         userData.front_image_link ||
                         userData.card_image_url ||
+                        userData.logo_url ||
                         `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.full_name)}&background=random&size=400`;
+
+                      console.log("Opening image:", avatarUrl);
                       handleImageClick(
                         avatarUrl,
                         `${userData.full_name} - Profile`,
@@ -205,9 +209,9 @@ Source: ${userData.source || "N/A"}
                       if (e.key === "Enter" || e.key === " ") {
                         e.preventDefault();
                         const avatarUrl =
-                          userData.logo_url ||
                           userData.front_image_link ||
                           userData.card_image_url ||
+                          userData.logo_url ||
                           `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.full_name)}&background=random&size=400`;
                         handleImageClick(
                           avatarUrl,
