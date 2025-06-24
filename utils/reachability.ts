@@ -236,9 +236,13 @@ function checkViaFetch(url: string): Promise<boolean | null> {
   return new Promise((resolve) => {
     const controller = new AbortController();
     const timeout = setTimeout(() => {
-      controller.abort();
+      try {
+        controller.abort();
+      } catch (e) {
+        // Ignore abort errors
+      }
       resolve(null);
-    }, 3000);
+    }, 2000); // Reduced timeout to 2 seconds
 
     fetch(url, {
       mode: "no-cors",
@@ -251,8 +255,9 @@ function checkViaFetch(url: string): Promise<boolean | null> {
       })
       .catch((error) => {
         clearTimeout(timeout);
-        if (error.name === "AbortError") {
-          resolve(null); // Timeout
+        // Handle all errors gracefully - don't throw
+        if (error.name === "AbortError" || error.message?.includes("aborted")) {
+          resolve(null); // Timeout or abort
         } else {
           resolve(false); // Network error or site down
         }
