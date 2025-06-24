@@ -676,14 +676,24 @@ Source: ${userData.source || "N/A"}
                                       ? userData.card_image_url
                                       : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.card_image_url}`
                                   }
-                                  onClick={() =>
-                                    userData.card_image_url &&
-                                    handleImageClick(
-                                      userData.card_image_url,
-                                      "Business Card",
-                                      "Business card image",
-                                    )
-                                  }
+                                  onClick={(e) => {
+                                    console.log("🃏 Card image clicked!");
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    if (userData.card_image_url) {
+                                      console.log(
+                                        "📸 Card image URL:",
+                                        userData.card_image_url,
+                                      );
+                                      handleImageClick(
+                                        userData.card_image_url,
+                                        "Business Card",
+                                        "Business card image",
+                                      );
+                                    } else {
+                                      console.log("❌ No card image available");
+                                    }
+                                  }}
                                   onError={(e) => {
                                     console.error(
                                       "Gallery image failed to load:",
