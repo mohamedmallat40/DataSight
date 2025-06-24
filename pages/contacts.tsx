@@ -1306,6 +1306,317 @@ export default function ContactsPage(): JSX.Element {
           </ModalContent>
         </Modal>
 
+        {/* AI Enrichment Modal */}
+        <Modal
+          isOpen={isAIEnrichmentModalOpen}
+          size="2xl"
+          onOpenChange={onAIEnrichmentModalOpenChange}
+          scrollBehavior="inside"
+        >
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
+                    <div className="bg-secondary/10 p-2 rounded-full">
+                      <Icon
+                        className="text-secondary"
+                        height={20}
+                        icon="solar:magic-stick-3-bold"
+                        width={20}
+                      />
+                    </div>
+                    <div>
+                      <span className="text-lg font-semibold">
+                        AI Enrichment
+                      </span>
+                      {userToEnrich && (
+                        <p className="text-sm text-default-500">
+                          Gathering additional information for{" "}
+                          {userToEnrich.full_name}
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </ModalHeader>
+                <ModalBody>
+                  {!enrichmentResults && !isEnriching && (
+                    <div className="text-center py-8">
+                      <div className="bg-secondary/10 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                        <Icon
+                          className="text-secondary"
+                          height={32}
+                          icon="solar:magic-stick-3-bold"
+                          width={32}
+                        />
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2">
+                        Ready to Enrich
+                      </h3>
+                      <p className="text-default-600 mb-6">
+                        AI will search for additional information including
+                        social profiles, company updates, recent news, and
+                        missing contact details.
+                      </p>
+                      <Button
+                        color="secondary"
+                        size="lg"
+                        startContent={
+                          <Icon icon="solar:magic-stick-3-bold" width={20} />
+                        }
+                        onPress={performAIEnrichment}
+                      >
+                        Start AI Enrichment
+                      </Button>
+                    </div>
+                  )}
+
+                  {isEnriching && (
+                    <div className="text-center py-8">
+                      <div className="mb-6">
+                        <div className="relative">
+                          <div className="w-16 h-16 mx-auto mb-4 relative">
+                            <div className="absolute inset-0 rounded-full border-4 border-secondary/20"></div>
+                            <div className="absolute inset-0 rounded-full border-4 border-secondary border-t-transparent animate-spin"></div>
+                            <div className="absolute inset-0 flex items-center justify-center">
+                              <Icon
+                                className="text-secondary"
+                                height={24}
+                                icon="solar:magic-stick-3-bold"
+                                width={24}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        <h3 className="text-lg font-semibold mb-2">
+                          AI is Working...
+                        </h3>
+                        <p className="text-default-600">
+                          Analyzing data and gathering insights about{" "}
+                          {userToEnrich?.full_name}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+
+                  {enrichmentResults && !enrichmentResults.error && (
+                    <div className="space-y-6">
+                      {/* Confidence Score */}
+                      <div className="bg-success/10 border border-success/20 rounded-xl p-4">
+                        <div className="flex items-center justify-between">
+                          <div className="flex items-center gap-2">
+                            <Icon
+                              className="text-success"
+                              icon="solar:shield-check-bold"
+                              width={20}
+                            />
+                            <span className="font-medium">
+                              Confidence Score
+                            </span>
+                          </div>
+                          <Chip color="success" variant="flat">
+                            {enrichmentResults.confidence}%
+                          </Chip>
+                        </div>
+                      </div>
+
+                      {/* Social Profiles */}
+                      <div>
+                        <h4 className="text-lg font-semibold mb-3 flex items-center gap-2">
+                          <Icon icon="solar:user-bold" width={20} />
+                          Social Profiles
+                        </h4>
+                        <div className="grid grid-cols-1 gap-3">
+                          {Object.entries(enrichmentResults.socialProfiles).map(
+                            ([platform, url]) =>
+                              url && (
+                                <div
+                                  key={platform}
+                                  className="flex items-center justify-between p-3 bg-default-50 rounded-lg"
+                                >
+                                  <div className="flex items-center gap-3">
+                                    <Icon
+                                      icon={
+                                        platform === "linkedin"
+                                          ? "solar:linkedin-bold"
+                                          : platform === "twitter"
+                                            ? "solar:twitter-bold"
+                                            : "solar:global-bold"
+                                      }
+                                      width={20}
+                                    />
+                                    <span className="capitalize font-medium">
+                                      {platform}
+                                    </span>
+                                  </div>
+                                  <Button
+                                    as={Link}
+                                    href={url as string}
+                                    size="sm"
+                                    variant="light"
+                                    isExternal
+                                  >
+                                    Visit
+                                  </Button>
+                                </div>
+                              ),
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Company Information */}
+                      <div>
+                        <h4 className="text-lg font-semibold mb-3 flex items-center gap-2">
+                          <Icon icon="solar:buildings-bold" width={20} />
+                          Company Information
+                        </h4>
+                        <div className="bg-default-50 rounded-lg p-4 space-y-3">
+                          <div className="grid grid-cols-2 gap-4">
+                            <div>
+                              <span className="text-sm text-default-500">
+                                Founded
+                              </span>
+                              <p className="font-medium">
+                                {enrichmentResults.companyInfo.foundedYear}
+                              </p>
+                            </div>
+                            <div>
+                              <span className="text-sm text-default-500">
+                                Employees
+                              </span>
+                              <p className="font-medium">
+                                {enrichmentResults.companyInfo.employees}
+                              </p>
+                            </div>
+                          </div>
+                          <div>
+                            <span className="text-sm text-default-500">
+                              Description
+                            </span>
+                            <p className="text-sm mt-1">
+                              {enrichmentResults.companyInfo.description}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Recent News */}
+                      <div>
+                        <h4 className="text-lg font-semibold mb-3 flex items-center gap-2">
+                          <Icon icon="solar:news-bold" width={20} />
+                          Recent News & Updates
+                        </h4>
+                        <div className="space-y-3">
+                          {enrichmentResults.newsAndUpdates.map(
+                            (news: any, index: number) => (
+                              <div
+                                key={index}
+                                className="border border-default-200 rounded-lg p-4"
+                              >
+                                <h5 className="font-medium mb-1">
+                                  {news.title}
+                                </h5>
+                                <div className="flex items-center gap-2 text-sm text-default-500 mb-2">
+                                  <span>{news.source}</span>
+                                  <span>•</span>
+                                  <span>{news.date}</span>
+                                </div>
+                                <p className="text-sm text-default-600">
+                                  {news.summary}
+                                </p>
+                              </div>
+                            ),
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Contact Suggestions */}
+                      <div>
+                        <h4 className="text-lg font-semibold mb-3 flex items-center gap-2">
+                          <Icon icon="solar:mailbox-bold" width={20} />
+                          Suggested Contacts
+                        </h4>
+                        <div className="space-y-2">
+                          {enrichmentResults.contactSuggestions.map(
+                            (email: string, index: number) => (
+                              <div
+                                key={index}
+                                className="flex items-center justify-between p-3 bg-default-50 rounded-lg"
+                              >
+                                <span className="font-mono text-sm">
+                                  {email}
+                                </span>
+                                <Button
+                                  size="sm"
+                                  variant="light"
+                                  startContent={
+                                    <Icon icon="solar:copy-bold" width={16} />
+                                  }
+                                  onPress={() =>
+                                    navigator.clipboard.writeText(email)
+                                  }
+                                >
+                                  Copy
+                                </Button>
+                              </div>
+                            ),
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
+                  {enrichmentResults?.error && (
+                    <div className="text-center py-8">
+                      <div className="bg-danger/10 p-4 rounded-full w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                        <Icon
+                          className="text-danger"
+                          height={32}
+                          icon="solar:danger-bold"
+                          width={32}
+                        />
+                      </div>
+                      <h3 className="text-lg font-semibold mb-2">
+                        Enrichment Failed
+                      </h3>
+                      <p className="text-default-600 mb-6">
+                        {enrichmentResults.error}
+                      </p>
+                      <Button
+                        color="secondary"
+                        variant="light"
+                        onPress={performAIEnrichment}
+                      >
+                        Try Again
+                      </Button>
+                    </div>
+                  )}
+                </ModalBody>
+                <ModalFooter>
+                  <Button variant="light" onPress={onClose}>
+                    Close
+                  </Button>
+                  {enrichmentResults && !enrichmentResults.error && (
+                    <Button
+                      color="primary"
+                      startContent={
+                        <Icon icon="solar:database-bold" width={16} />
+                      }
+                      onPress={() => {
+                        // Here you would save the enriched data back to the contact
+                        console.log("Saving enriched data...");
+                        onClose();
+                      }}
+                    >
+                      Save Enriched Data
+                    </Button>
+                  )}
+                </ModalFooter>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
+
         <UserDetailsDrawer
           isOpen={isDrawerOpen}
           searchTerm={filterValue}
