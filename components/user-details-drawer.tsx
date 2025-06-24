@@ -188,14 +188,14 @@ Source: ${userData.source || "N/A"}
                 {/* Profile Header */}
                 <div className="flex items-start gap-4">
                   <div
-                    className="relative cursor-pointer group hover:cursor-pointer"
+                    className="relative cursor-pointer group hover:cursor-pointer p-2 -m-2 rounded-full hover:bg-gray-100"
                     style={{ cursor: "pointer" }}
                     role="button"
                     tabIndex={0}
                     onClick={(e) => {
+                      console.log("🖱️ Avatar container clicked!");
                       e.preventDefault();
                       e.stopPropagation();
-                      console.log("Avatar clicked!"); // Debug log
 
                       // Priority: actual photo images first, then generated avatar
                       const avatarUrl =
@@ -204,7 +204,7 @@ Source: ${userData.source || "N/A"}
                         userData.logo_url ||
                         `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.full_name)}&background=random&size=400`;
 
-                      console.log("Opening image:", avatarUrl);
+                      console.log("🎯 Avatar URL to open:", avatarUrl);
                       handleImageClick(
                         avatarUrl,
                         `${userData.full_name} - Profile`,
