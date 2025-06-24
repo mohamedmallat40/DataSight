@@ -36,6 +36,9 @@ import {
   Tab,
   Avatar,
   Link,
+  Card,
+  CardBody,
+  CardHeader,
 } from "@heroui/react";
 import { SearchIcon } from "@heroui/shared-icons";
 import React, { useMemo, useState, useEffect, useCallback } from "react";
