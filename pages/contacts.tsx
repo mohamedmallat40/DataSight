@@ -589,9 +589,12 @@ export default function ContactsPage(): JSX.Element {
                   }&size=128`
                 }
               />
-              <div className="flex flex-col">
-                <div className="flex items-center gap-2">
-                  <span className="text-small font-medium text-default-700">
+              <div className="flex flex-col min-w-0 flex-1 max-w-[180px]">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span
+                    className="text-small font-medium text-default-700 truncate min-w-0 flex-1"
+                    title={user.full_name}
+                  >
                     <HighlightedText
                       highlightClassName="bg-yellow-200 text-yellow-900 px-0.5 rounded-sm font-medium"
                       searchTerm={filterValue}
@@ -600,7 +603,10 @@ export default function ContactsPage(): JSX.Element {
                   </span>
                   <GenderIndicator gender={user.gender} variant="minimal" />
                 </div>
-                <span className="text-tiny text-default-500">
+                <span
+                  className="text-tiny text-default-500 truncate"
+                  title={user.job_title || "No job title"}
+                >
                   {user.job_title || "No job title"}
                 </span>
               </div>
