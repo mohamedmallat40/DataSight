@@ -557,9 +557,9 @@ export default function ContactsPage(): JSX.Element {
               <Avatar
                 className={`w-10 h-10 bg-transparent ${
                   user.gender === true
-                    ? "border-2 border-blue-400 text-blue-400"
+                    ? "border-2 border-blue-500 text-blue-500"
                     : user.gender === false
-                      ? "border-2 border-pink-400 text-pink-400"
+                      ? "border-2 border-pink-500 text-pink-500"
                       : "border-2 border-default-400 text-default-400"
                 }`}
                 radius="lg"
