@@ -1517,40 +1517,52 @@ export default function ContactsPage(): JSX.Element {
                       </Card>
 
                       {/* Company Information */}
-                      <div>
-                        <h4 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                          <Icon icon="solar:buildings-bold" width={20} />
-                          Company Information
-                        </h4>
-                        <div className="bg-default-50 rounded-lg p-4 space-y-3">
-                          <div className="grid grid-cols-2 gap-4">
-                            <div>
-                              <span className="text-sm text-default-500">
-                                Founded
-                              </span>
-                              <p className="font-medium">
-                                {enrichmentResults.companyInfo.foundedYear}
-                              </p>
+                      <Card>
+                        <CardHeader className="pb-3">
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-warning/20">
+                              <Icon
+                                className="text-warning"
+                                icon="solar:buildings-bold"
+                                width={16}
+                              />
                             </div>
-                            <div>
-                              <span className="text-sm text-default-500">
-                                Employees
+                            <h4 className="text-lg font-semibold text-foreground">
+                              Company Information
+                            </h4>
+                          </div>
+                        </CardHeader>
+                        <CardBody className="pt-0">
+                          <div className="space-y-4">
+                            <div className="grid grid-cols-2 gap-4">
+                              <div className="bg-default-50 rounded-xl p-4 border border-default-200">
+                                <span className="text-sm font-medium text-default-500">
+                                  Founded
+                                </span>
+                                <p className="text-lg font-semibold text-foreground mt-1">
+                                  {enrichmentResults.companyInfo.foundedYear}
+                                </p>
+                              </div>
+                              <div className="bg-default-50 rounded-xl p-4 border border-default-200">
+                                <span className="text-sm font-medium text-default-500">
+                                  Employees
+                                </span>
+                                <p className="text-lg font-semibold text-foreground mt-1">
+                                  {enrichmentResults.companyInfo.employees}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="bg-default-50 rounded-xl p-4 border border-default-200">
+                              <span className="text-sm font-medium text-default-500 block mb-2">
+                                Description
                               </span>
-                              <p className="font-medium">
-                                {enrichmentResults.companyInfo.employees}
+                              <p className="text-sm text-foreground leading-relaxed">
+                                {enrichmentResults.companyInfo.description}
                               </p>
                             </div>
                           </div>
-                          <div>
-                            <span className="text-sm text-default-500">
-                              Description
-                            </span>
-                            <p className="text-sm mt-1">
-                              {enrichmentResults.companyInfo.description}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
+                        </CardBody>
+                      </Card>
 
                       {/* Recent News */}
                       <div>
