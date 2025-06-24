@@ -1443,48 +1443,78 @@ export default function ContactsPage(): JSX.Element {
                       </Card>
 
                       {/* Social Profiles */}
-                      <div>
-                        <h4 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                          <Icon icon="solar:user-bold" width={20} />
-                          Social Profiles
-                        </h4>
-                        <div className="grid grid-cols-1 gap-3">
-                          {Object.entries(enrichmentResults.socialProfiles).map(
-                            ([platform, url]) =>
-                              url && (
-                                <div
-                                  key={platform}
-                                  className="flex items-center justify-between p-3 bg-default-50 rounded-lg"
-                                >
-                                  <div className="flex items-center gap-3">
-                                    <Icon
-                                      icon={
-                                        platform === "linkedin"
-                                          ? "solar:linkedin-bold"
-                                          : platform === "twitter"
-                                            ? "solar:twitter-bold"
-                                            : "solar:global-bold"
-                                      }
-                                      width={20}
-                                    />
-                                    <span className="capitalize font-medium">
-                                      {platform}
-                                    </span>
-                                  </div>
-                                  <Button
-                                    as={Link}
-                                    href={url as string}
-                                    size="sm"
-                                    variant="light"
-                                    isExternal
+                      <Card>
+                        <CardHeader className="pb-3">
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary/20">
+                              <Icon
+                                className="text-primary"
+                                icon="solar:user-bold"
+                                width={16}
+                              />
+                            </div>
+                            <h4 className="text-lg font-semibold text-foreground">
+                              Social Profiles
+                            </h4>
+                          </div>
+                        </CardHeader>
+                        <CardBody className="pt-0">
+                          <div className="space-y-3">
+                            {Object.entries(
+                              enrichmentResults.socialProfiles,
+                            ).map(
+                              ([platform, url]) =>
+                                url && (
+                                  <div
+                                    key={platform}
+                                    className="flex items-center justify-between p-4 bg-default-50 rounded-xl border border-default-200 hover:bg-default-100 transition-colors"
                                   >
-                                    Visit
-                                  </Button>
-                                </div>
-                              ),
-                          )}
-                        </div>
-                      </div>
+                                    <div className="flex items-center gap-3">
+                                      <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white shadow-sm">
+                                        <Icon
+                                          className={
+                                            platform === "linkedin"
+                                              ? "text-blue-600"
+                                              : platform === "twitter"
+                                                ? "text-sky-500"
+                                                : "text-default-600"
+                                          }
+                                          icon={
+                                            platform === "linkedin"
+                                              ? "solar:linkedin-bold"
+                                              : platform === "twitter"
+                                                ? "solar:twitter-bold"
+                                                : "solar:global-bold"
+                                          }
+                                          width={16}
+                                        />
+                                      </div>
+                                      <span className="capitalize font-medium text-foreground">
+                                        {platform}
+                                      </span>
+                                    </div>
+                                    <Button
+                                      as={Link}
+                                      href={url as string}
+                                      size="sm"
+                                      variant="flat"
+                                      color="primary"
+                                      isExternal
+                                      endContent={
+                                        <Icon
+                                          icon="solar:external-link-bold"
+                                          width={14}
+                                        />
+                                      }
+                                    >
+                                      Visit
+                                    </Button>
+                                  </div>
+                                ),
+                            )}
+                          </div>
+                        </CardBody>
+                      </Card>
 
                       {/* Company Information */}
                       <div>
