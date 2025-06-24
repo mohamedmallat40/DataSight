@@ -658,6 +658,17 @@ export default function ContactsPage(): JSX.Element {
                 <EyeFilledIcon />
               </button>
               <button
+                aria-label={`AI enrichment for ${user.full_name || "user"}`}
+                className="text-default-400 cursor-pointer hover:text-secondary transition-colors p-1 rounded-small"
+                type="button"
+                onClick={(e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  handleAIEnrichment(user);
+                }}
+              >
+                <Icon className="w-4 h-4" icon="solar:magic-stick-3-bold" />
+              </button>
+              <button
                 aria-label={`Edit ${user.full_name || "user"}`}
                 className="text-default-400 cursor-pointer hover:text-warning transition-colors p-1 rounded-small"
                 type="button"
