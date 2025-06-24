@@ -570,9 +570,9 @@ export default function ContactsPage(): JSX.Element {
                     width={20}
                     className={
                       user.gender === true
-                        ? "text-blue-400"
+                        ? "text-blue-500"
                         : user.gender === false
-                          ? "text-pink-400"
+                          ? "text-pink-500"
                           : "text-default-400"
                     }
                   />
