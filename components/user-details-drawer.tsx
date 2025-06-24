@@ -55,18 +55,24 @@ export default function UserDetailsDrawer({
   if (!userData) return null;
 
   const handleImageClick = (imageUrl: string, title: string, alt: string) => {
+    console.log("🖼️ handleImageClick called!", { imageUrl, title, alt });
+
     const fullImageUrl = imageUrl.startsWith("http")
       ? imageUrl
       : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${imageUrl}`;
 
-    console.log("Image URL:", fullImageUrl); // Debug log
+    console.log("📷 Full Image URL:", fullImageUrl);
+    console.log("🚀 Setting selected image and opening modal...");
 
     setSelectedImage({
       url: fullImageUrl,
       title,
       alt,
     });
+
+    console.log("🔥 Calling onImageModalOpen...");
     onImageModalOpen();
+    console.log("✅ Modal should be opening now!");
   };
 
   const handleCopyContact = () => {
@@ -181,16 +187,68 @@ Source: ${userData.source || "N/A"}
               <div className="flex flex-col gap-6">
                 {/* Profile Header */}
                 <div className="flex items-start gap-4">
-                  <div className="relative">
+                  <div
+                    className="relative cursor-pointer group hover:cursor-pointer p-2 -m-2 rounded-full hover:bg-gray-100"
+                    style={{ cursor: "pointer" }}
+                    role="button"
+                    tabIndex={0}
+                    onClick={(e) => {
+                      console.log("🖱️ Avatar container clicked!");
+                      e.preventDefault();
+                      e.stopPropagation();
+
+                      // Priority: actual photo images first, then generated avatar
+                      const avatarUrl =
+                        userData.front_image_link ||
+                        userData.card_image_url ||
+                        userData.logo_url ||
+                        `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.full_name)}&background=random&size=400`;
+
+                      console.log("🎯 Avatar URL to open:", avatarUrl);
+                      handleImageClick(
+                        avatarUrl,
+                        `${userData.full_name} - Profile`,
+                        "Profile image",
+                      );
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        const avatarUrl =
+                          userData.front_image_link ||
+                          userData.card_image_url ||
+                          userData.logo_url ||
+                          `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.full_name)}&background=random&size=400`;
+                        handleImageClick(
+                          avatarUrl,
+                          `${userData.full_name} - Profile`,
+                          "Profile image",
+                        );
+                      }
+                    }}
+                  >
                     <Avatar
-                      className="w-20 h-20"
+                      className="w-20 h-20 transition-transform group-hover:scale-105 cursor-pointer"
                       name={userData.full_name}
                       size="lg"
                       src={
+                        userData.front_image_link ||
+                        userData.card_image_url ||
                         userData.logo_url ||
                         `https://ui-avatars.com/api/?name=${encodeURIComponent(userData.full_name)}&background=random&size=200`
                       }
                     />
+                    {/* Click indicator overlay */}
+                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-200 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
+                      <div className="bg-white/90 backdrop-blur-sm rounded-full p-2 transform scale-75 group-hover:scale-100 transition-transform duration-200">
+                        <Icon
+                          className="text-gray-700"
+                          height={16}
+                          icon="lucide:zoom-in"
+                          width={16}
+                        />
+                      </div>
+                    </div>
                     <div className="absolute -bottom-2 -right-2">
                       <GenderIndicator
                         gender={userData.gender}
@@ -618,14 +676,24 @@ Source: ${userData.source || "N/A"}
                                       ? userData.card_image_url
                                       : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.card_image_url}`
                                   }
-                                  onClick={() =>
-                                    userData.card_image_url &&
-                                    handleImageClick(
-                                      userData.card_image_url,
-                                      "Business Card",
-                                      "Business card image",
-                                    )
-                                  }
+                                  onClick={(e) => {
+                                    console.log("🃏 Card image clicked!");
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    if (userData.card_image_url) {
+                                      console.log(
+                                        "📸 Card image URL:",
+                                        userData.card_image_url,
+                                      );
+                                      handleImageClick(
+                                        userData.card_image_url,
+                                        "Business Card",
+                                        "Business card image",
+                                      );
+                                    } else {
+                                      console.log("❌ No card image available");
+                                    }
+                                  }}
                                   onError={(e) => {
                                     console.error(
                                       "Gallery image failed to load:",
@@ -637,7 +705,7 @@ Source: ${userData.source || "N/A"}
                                 />
 
                                 {/* Overlay */}
-                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
                                   <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 transform scale-75 group-hover:scale-100 transition-transform duration-300">
                                     <Icon
                                       className="text-gray-700"
@@ -682,14 +750,26 @@ Source: ${userData.source || "N/A"}
                                       ? userData.front_image_link
                                       : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.front_image_link}`
                                   }
-                                  onClick={() =>
-                                    userData.front_image_link &&
-                                    handleImageClick(
-                                      userData.front_image_link,
-                                      "Business Card - Front",
-                                      "Business card front side",
-                                    )
-                                  }
+                                  onClick={(e) => {
+                                    console.log("🃏 Front card image clicked!");
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    if (userData.front_image_link) {
+                                      console.log(
+                                        "📸 Front image URL:",
+                                        userData.front_image_link,
+                                      );
+                                      handleImageClick(
+                                        userData.front_image_link,
+                                        "Business Card - Front",
+                                        "Business card front side",
+                                      );
+                                    } else {
+                                      console.log(
+                                        "❌ No front image available",
+                                      );
+                                    }
+                                  }}
                                   onError={(e) => {
                                     console.error(
                                       "Front image failed to load:",
@@ -701,7 +781,7 @@ Source: ${userData.source || "N/A"}
                                 />
 
                                 {/* Overlay */}
-                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
                                   <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 transform scale-75 group-hover:scale-100 transition-transform duration-300">
                                     <Icon
                                       className="text-gray-700"
@@ -758,14 +838,24 @@ Source: ${userData.source || "N/A"}
                                       ? userData.back_image_link
                                       : `https://eu2.contabostorage.com/a694c4e82ef342c1a1413e1459bf9cdb:perla-storage/${userData.back_image_link}`
                                   }
-                                  onClick={() =>
-                                    userData.back_image_link &&
-                                    handleImageClick(
-                                      userData.back_image_link,
-                                      "Business Card - Back",
-                                      "Business card back side",
-                                    )
-                                  }
+                                  onClick={(e) => {
+                                    console.log("🃏 Back card image clicked!");
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    if (userData.back_image_link) {
+                                      console.log(
+                                        "📸 Back image URL:",
+                                        userData.back_image_link,
+                                      );
+                                      handleImageClick(
+                                        userData.back_image_link,
+                                        "Business Card - Back",
+                                        "Business card back side",
+                                      );
+                                    } else {
+                                      console.log("❌ No back image available");
+                                    }
+                                  }}
                                   onError={(e) => {
                                     console.error(
                                       "Back image failed to load:",
@@ -777,7 +867,7 @@ Source: ${userData.source || "N/A"}
                                 />
 
                                 {/* Overlay */}
-                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100 pointer-events-none">
                                   <div className="bg-white/90 backdrop-blur-sm rounded-full p-3 transform scale-75 group-hover:scale-100 transition-transform duration-300">
                                     <Icon
                                       className="text-gray-700"

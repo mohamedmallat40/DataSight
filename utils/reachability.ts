@@ -132,8 +132,8 @@ export function checkEmailReachability(
 }
 
 /**
- * Check website reachability using a simple approach
- * Note: Due to CORS restrictions, this is a simplified check
+ * Check website reachability using multiple approaches
+ * Falls back to simulation if real checking isn't available
  */
 export function checkWebsiteReachability(
   website: string,
@@ -153,55 +153,272 @@ export function checkWebsiteReachability(
       return;
     }
 
-    // Enhanced simulation with better domain detection
-    // In a real implementation, you'd use a backend service to check this
-    setTimeout(
-      () => {
-        const url = website.toLowerCase();
-        let status: ReachabilityStatus;
-
-        // Check for obviously invalid URLs
-        if (
-          url.includes("localhost") ||
-          url.includes("127.0.0.1") ||
-          url.includes("example.com") ||
-          url.includes("test.") ||
-          url.includes("placeholder") ||
-          url.includes("dummy")
-        ) {
-          status = "unreachable";
-        }
-        // Check for known reliable domains
-        else if (
-          url.includes("google.com") ||
-          url.includes("github.com") ||
-          url.includes("microsoft.com") ||
-          url.includes("apple.com") ||
-          url.includes("amazon.com") ||
-          url.includes("facebook.com") ||
-          url.includes("linkedin.com") ||
-          url.includes("twitter.com")
-        ) {
-          status = "reachable";
-        }
-        // Check for common TLDs that are likely to be real
-        else if (url.match(/\.(com|org|net|edu|gov|io|co|ai|tech|dev)($|\/)/)) {
-          status = "reachable";
-        }
-        // Less common TLDs or suspicious patterns
-        else if (url.match(/\.(xyz|tk|ml|ga|cf|info|biz)($|\/)/)) {
-          status = "unknown";
-        }
-        // Invalid or malformed URLs
-        else {
-          status = "unreachable";
-        }
-
+    // Try real website checking first (if available)
+    checkWebsiteOnline(website)
+      .then((isOnline) => {
+        const status: ReachabilityStatus = isOnline
+          ? "reachable"
+          : "unreachable";
         resolve(setCachedResult(key, status));
-      },
-      Math.random() * 300 + 100,
-    ); // Random delay between 100-400ms for more realistic feel
+      })
+      .catch(() => {
+        // Fallback to simulation-based checking
+        checkWebsiteSimulated(website, resolve, key);
+      });
   });
+}
+
+/**
+ * Real website online checker using multiple methods
+ * This function attempts to determine if a website is actually online
+ */
+export async function checkWebsiteOnline(website: string): Promise<boolean> {
+  const urlWithProtocol = website.startsWith("http")
+    ? website
+    : `https://${website}`;
+
+  try {
+    // Method 1: Try to load the website in an image (works for many sites)
+    try {
+      const isReachableViaImage = await checkViaImage(urlWithProtocol);
+      if (isReachableViaImage !== null) {
+        return isReachableViaImage;
+      }
+    } catch (e) {
+      // Silently continue to next method
+    }
+
+    // Method 2: Try using fetch with no-cors mode (limited but sometimes works)
+    try {
+      const isReachableViaFetch = await checkViaFetch(urlWithProtocol);
+      if (isReachableViaFetch !== null) {
+        return isReachableViaFetch;
+      }
+    } catch (e) {
+      // Silently continue to next method
+    }
+
+    // Method 3: Check if we can create a connection (very limited)
+    try {
+      const isReachableViaConnection =
+        await checkViaConnection(urlWithProtocol);
+      if (isReachableViaConnection !== null) {
+        return isReachableViaConnection;
+      }
+    } catch (e) {
+      // Silently continue to fallback
+    }
+
+    // If all methods fail, throw to use simulation
+    throw new Error("Real checking methods not available");
+  } catch (error) {
+    // Throw to trigger fallback simulation
+    throw error;
+  }
+}
+
+/**
+ * Check website via image loading (works for some sites that allow cross-origin requests)
+ */
+function checkViaImage(url: string): Promise<boolean | null> {
+  return new Promise((resolve) => {
+    try {
+      const img = new Image();
+      const timeout = setTimeout(() => {
+        resolve(null); // Timeout, method not conclusive
+      }, 2000); // Reduced timeout
+
+      img.onload = () => {
+        clearTimeout(timeout);
+        resolve(true); // Site responded and served content
+      };
+
+      img.onerror = () => {
+        clearTimeout(timeout);
+        resolve(false); // Site didn't respond or error occurred
+      };
+
+      // Try to load favicon or root path
+      img.src = url + "/favicon.ico";
+    } catch (error) {
+      // Handle any synchronous errors
+      resolve(null);
+    }
+  });
+}
+
+/**
+ * Check website via fetch with no-cors mode
+ */
+function checkViaFetch(url: string): Promise<boolean | null> {
+  return new Promise((resolve) => {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => {
+      try {
+        controller.abort();
+      } catch (e) {
+        // Ignore abort errors
+      }
+      resolve(null);
+    }, 2000); // Reduced timeout to 2 seconds
+
+    fetch(url, {
+      mode: "no-cors",
+      method: "HEAD",
+      signal: controller.signal,
+    })
+      .then(() => {
+        clearTimeout(timeout);
+        resolve(true); // Request completed successfully
+      })
+      .catch((error) => {
+        clearTimeout(timeout);
+        // Handle all errors gracefully - don't throw
+        if (error.name === "AbortError" || error.message?.includes("aborted")) {
+          resolve(null); // Timeout or abort
+        } else {
+          resolve(false); // Network error or site down
+        }
+      });
+  });
+}
+
+/**
+ * Check website via connection attempt
+ */
+function checkViaConnection(url: string): Promise<boolean | null> {
+  return new Promise((resolve) => {
+    // This is very limited in browsers due to security restrictions
+    // Mainly here for completeness
+    try {
+      const link = document.createElement("link");
+      link.rel = "prefetch";
+      link.href = url;
+
+      link.onload = () => resolve(true);
+      link.onerror = () => resolve(false);
+
+      document.head.appendChild(link);
+
+      // Clean up after timeout
+      setTimeout(() => {
+        try {
+          document.head.removeChild(link);
+        } catch {}
+        resolve(null);
+      }, 2000);
+    } catch {
+      resolve(null);
+    }
+  });
+}
+
+/**
+ * Fallback simulation-based website checking
+ */
+function checkWebsiteSimulated(
+  website: string,
+  resolve: (result: ReachabilityResult) => void,
+  key: string,
+): void {
+  setTimeout(
+    () => {
+      const url = website.toLowerCase();
+      let status: ReachabilityStatus;
+
+      // Check for obviously invalid URLs
+      if (
+        url.includes("localhost") ||
+        url.includes("127.0.0.1") ||
+        url.includes("example.com") ||
+        url.includes("test.") ||
+        url.includes("placeholder") ||
+        url.includes("dummy")
+      ) {
+        status = "unreachable";
+      }
+      // Check for known reliable domains
+      else if (
+        url.includes("google.com") ||
+        url.includes("github.com") ||
+        url.includes("microsoft.com") ||
+        url.includes("apple.com") ||
+        url.includes("amazon.com") ||
+        url.includes("facebook.com") ||
+        url.includes("linkedin.com") ||
+        url.includes("twitter.com")
+      ) {
+        status = "reachable";
+      }
+      // Check for common TLDs that are likely to be real
+      else if (url.match(/\.(com|org|net|edu|gov|io|co|ai|tech|dev)($|\/)/)) {
+        status = "reachable";
+      }
+      // Less common TLDs or suspicious patterns
+      else if (url.match(/\.(xyz|tk|ml|ga|cf|info|biz)($|\/)/)) {
+        status = "unknown";
+      }
+      // Invalid or malformed URLs
+      else {
+        status = "unreachable";
+      }
+
+      resolve(setCachedResult(key, status));
+    },
+    Math.random() * 300 + 100,
+  );
+}
+
+/**
+ * Simple function to check if a website is online
+ * Returns true if online, false if offline, null if unable to determine
+ *
+ * Usage:
+ * const isOnline = await isWebsiteOnline('https://google.com');
+ * if (isOnline === true) console.log('Website is online');
+ * else if (isOnline === false) console.log('Website is offline');
+ * else console.log('Unable to determine website status');
+ */
+export async function isWebsiteOnline(
+  website: string,
+): Promise<boolean | null> {
+  if (!isValidUrl(website)) {
+    return false;
+  }
+
+  try {
+    const result = await checkWebsiteOnline(website);
+    return result;
+  } catch {
+    // Fallback to basic heuristic check
+    const url = website.toLowerCase();
+
+    // Obviously invalid URLs
+    if (
+      url.includes("localhost") ||
+      url.includes("127.0.0.1") ||
+      url.includes("example.com") ||
+      url.includes("test.") ||
+      url.includes("placeholder") ||
+      url.includes("dummy")
+    ) {
+      return false;
+    }
+
+    // Known reliable domains
+    if (
+      url.includes("google.com") ||
+      url.includes("github.com") ||
+      url.includes("microsoft.com") ||
+      url.includes("apple.com") ||
+      url.includes("amazon.com")
+    ) {
+      return true;
+    }
+
+    // Return null for unknown cases
+    return null;
+  }
 }
 
 /**
