@@ -1595,92 +1595,88 @@ export default function ContactsPage(): JSX.Element {
                       </div>
 
                       {/* Contact Suggestions */}
-                      <Card>
-                        <CardHeader className="pb-3">
-                          <div className="flex items-center gap-3">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary/20">
-                              <Icon
-                                className="text-secondary"
-                                icon="solar:mailbox-bold"
-                                width={16}
-                              />
-                            </div>
-                            <h4 className="text-lg font-semibold text-foreground">
-                              Suggested Contacts
-                            </h4>
+                      <div>
+                        <div className="flex items-center gap-2 mb-4">
+                          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-secondary/10">
+                            <Icon
+                              className="text-secondary-600"
+                              icon="solar:mailbox-linear"
+                              width={12}
+                            />
                           </div>
-                        </CardHeader>
-                        <CardBody className="pt-0">
-                          <div className="space-y-3">
-                            {enrichmentResults.contactSuggestions.map(
-                              (email: string, index: number) => (
-                                <div
-                                  key={index}
-                                  className="flex items-center justify-between p-4 bg-default-50 rounded-xl border border-default-200 hover:bg-default-100 transition-colors"
-                                >
-                                  <div className="flex items-center gap-3">
-                                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white shadow-sm">
-                                      <Icon
-                                        className="text-default-600"
-                                        icon="solar:mailbox-bold"
-                                        width={16}
-                                      />
-                                    </div>
-                                    <span className="font-mono text-sm text-foreground">
-                                      {email}
-                                    </span>
+                          <h4 className="font-medium text-foreground">
+                            Suggested Contacts
+                          </h4>
+                        </div>
+                        <div className="space-y-2">
+                          {enrichmentResults.contactSuggestions.map(
+                            (email: string, index: number) => (
+                              <div
+                                key={index}
+                                className="flex items-center justify-between p-3 bg-default-50/50 border border-default-200/50 rounded-lg hover:bg-default-100/50 transition-colors"
+                              >
+                                <div className="flex items-center gap-3">
+                                  <div className="flex h-6 w-6 items-center justify-center rounded-md bg-background border border-default-200/50">
+                                    <Icon
+                                      className="text-default-600"
+                                      icon="solar:mailbox-linear"
+                                      width={12}
+                                    />
                                   </div>
-                                  <Button
-                                    size="sm"
-                                    variant="flat"
-                                    color="default"
-                                    startContent={
-                                      <Icon icon="solar:copy-bold" width={14} />
-                                    }
-                                    onPress={() =>
-                                      navigator.clipboard.writeText(email)
-                                    }
-                                  >
-                                    Copy
-                                  </Button>
+                                  <span className="font-mono text-xs text-foreground">
+                                    {email}
+                                  </span>
                                 </div>
-                              ),
-                            )}
-                          </div>
-                        </CardBody>
-                      </Card>
+                                <Button
+                                  size="sm"
+                                  variant="light"
+                                  color="default"
+                                  startContent={
+                                    <Icon icon="solar:copy-linear" width={12} />
+                                  }
+                                  className="font-medium text-xs h-6 px-2"
+                                  onPress={() =>
+                                    navigator.clipboard.writeText(email)
+                                  }
+                                >
+                                  Copy
+                                </Button>
+                              </div>
+                            ),
+                          )}
+                        </div>
+                      </div>
                     </div>
                   )}
 
                   {enrichmentResults?.error && (
-                    <Card className="border-danger/20 bg-danger/5">
-                      <CardBody className="text-center p-8">
-                        <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-danger/20 to-danger/10 ring-1 ring-danger/20 mx-auto mb-6">
-                          <Icon
-                            className="text-danger"
-                            height={36}
-                            icon="solar:danger-bold"
-                            width={36}
-                          />
-                        </div>
-                        <h3 className="text-xl font-semibold text-foreground mb-3">
-                          Enrichment Failed
-                        </h3>
-                        <p className="text-default-600 mb-8 max-w-md mx-auto">
-                          {enrichmentResults.error}
-                        </p>
-                        <Button
-                          color="danger"
-                          variant="flat"
-                          startContent={
-                            <Icon icon="solar:refresh-bold" width={16} />
-                          }
-                          onPress={performAIEnrichment}
-                        >
-                          Try Again
-                        </Button>
-                      </CardBody>
-                    </Card>
+                    <div className="text-center py-12">
+                      <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-danger/8 border border-danger/15 mx-auto mb-6">
+                        <Icon
+                          className="text-danger-600"
+                          height={24}
+                          icon="solar:danger-linear"
+                          width={24}
+                        />
+                      </div>
+                      <h3 className="text-lg font-medium text-foreground mb-2">
+                        Enrichment Failed
+                      </h3>
+                      <p className="text-default-500 mb-6 max-w-sm mx-auto text-sm">
+                        {enrichmentResults.error}
+                      </p>
+                      <Button
+                        color="danger"
+                        variant="flat"
+                        size="sm"
+                        startContent={
+                          <Icon icon="solar:refresh-linear" width={16} />
+                        }
+                        onPress={performAIEnrichment}
+                      >
+                        Try Again
+                      </Button>
+                    </div>
                   )}
                 </ModalBody>
                 <ModalFooter className="px-6 py-4">
