@@ -177,6 +177,7 @@ export default function ContactsPage(): JSX.Element {
   }, []);
 
   const fetchUsers = useCallback(async (): Promise<void> => {
+    console.log("🔄 Starting fetchUsers...");
     setLoading(true);
     try {
       // Build query parameters
@@ -204,9 +205,13 @@ export default function ContactsPage(): JSX.Element {
         params.append("gender", genderFilter);
       }
 
-      const response = await apiClient.get<ApiResponse<Users[]>>(
-        `/card-info?${params.toString()}`,
-      );
+      console.log("🌐 Making API request...");
+      const response = (await Promise.race([
+        apiClient.get<ApiResponse<Users[]>>(`/card-info?${params.toString()}`),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error("API timeout")), 5000),
+        ),
+      ])) as any;
       const { data } = response;
 
       if (data?.success && Array.isArray(data?.data)) {
