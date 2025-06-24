@@ -1619,38 +1619,60 @@ export default function ContactsPage(): JSX.Element {
                       </Card>
 
                       {/* Contact Suggestions */}
-                      <div>
-                        <h4 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                          <Icon icon="solar:mailbox-bold" width={20} />
-                          Suggested Contacts
-                        </h4>
-                        <div className="space-y-2">
-                          {enrichmentResults.contactSuggestions.map(
-                            (email: string, index: number) => (
-                              <div
-                                key={index}
-                                className="flex items-center justify-between p-3 bg-default-50 rounded-lg"
-                              >
-                                <span className="font-mono text-sm">
-                                  {email}
-                                </span>
-                                <Button
-                                  size="sm"
-                                  variant="light"
-                                  startContent={
-                                    <Icon icon="solar:copy-bold" width={16} />
-                                  }
-                                  onPress={() =>
-                                    navigator.clipboard.writeText(email)
-                                  }
+                      <Card>
+                        <CardHeader className="pb-3">
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-secondary/20">
+                              <Icon
+                                className="text-secondary"
+                                icon="solar:mailbox-bold"
+                                width={16}
+                              />
+                            </div>
+                            <h4 className="text-lg font-semibold text-foreground">
+                              Suggested Contacts
+                            </h4>
+                          </div>
+                        </CardHeader>
+                        <CardBody className="pt-0">
+                          <div className="space-y-3">
+                            {enrichmentResults.contactSuggestions.map(
+                              (email: string, index: number) => (
+                                <div
+                                  key={index}
+                                  className="flex items-center justify-between p-4 bg-default-50 rounded-xl border border-default-200 hover:bg-default-100 transition-colors"
                                 >
-                                  Copy
-                                </Button>
-                              </div>
-                            ),
-                          )}
-                        </div>
-                      </div>
+                                  <div className="flex items-center gap-3">
+                                    <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-white shadow-sm">
+                                      <Icon
+                                        className="text-default-600"
+                                        icon="solar:mailbox-bold"
+                                        width={16}
+                                      />
+                                    </div>
+                                    <span className="font-mono text-sm text-foreground">
+                                      {email}
+                                    </span>
+                                  </div>
+                                  <Button
+                                    size="sm"
+                                    variant="flat"
+                                    color="default"
+                                    startContent={
+                                      <Icon icon="solar:copy-bold" width={14} />
+                                    }
+                                    onPress={() =>
+                                      navigator.clipboard.writeText(email)
+                                    }
+                                  >
+                                    Copy
+                                  </Button>
+                                </div>
+                              ),
+                            )}
+                          </div>
+                        </CardBody>
+                      </Card>
                     </div>
                   )}
 
