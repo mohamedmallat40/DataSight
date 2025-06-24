@@ -1546,58 +1546,53 @@ export default function ContactsPage(): JSX.Element {
                       </div>
 
                       {/* Recent News */}
-                      <Card>
-                        <CardHeader className="pb-3">
-                          <div className="flex items-center gap-3">
-                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-danger/20">
-                              <Icon
-                                className="text-danger"
-                                icon="solar:news-bold"
-                                width={16}
-                              />
-                            </div>
-                            <h4 className="text-lg font-semibold text-foreground">
-                              Recent News & Updates
-                            </h4>
+                      <div>
+                        <div className="flex items-center gap-2 mb-4">
+                          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-danger/10">
+                            <Icon
+                              className="text-danger-600"
+                              icon="solar:news-linear"
+                              width={12}
+                            />
                           </div>
-                        </CardHeader>
-                        <CardBody className="pt-0">
-                          <div className="space-y-4">
-                            {enrichmentResults.newsAndUpdates.map(
-                              (news: any, index: number) => (
-                                <Card
-                                  key={index}
-                                  className="border border-default-200 shadow-sm"
-                                >
-                                  <CardBody className="p-4">
-                                    <h5 className="font-semibold text-foreground mb-2">
-                                      {news.title}
-                                    </h5>
-                                    <div className="flex items-center gap-2 mb-3">
-                                      <Chip
-                                        size="sm"
-                                        variant="flat"
-                                        color="default"
-                                      >
-                                        {news.source}
-                                      </Chip>
-                                      <span className="text-tiny text-default-400">
-                                        •
-                                      </span>
-                                      <span className="text-tiny text-default-500">
-                                        {news.date}
-                                      </span>
-                                    </div>
-                                    <p className="text-sm text-default-600 leading-relaxed">
-                                      {news.summary}
-                                    </p>
-                                  </CardBody>
-                                </Card>
-                              ),
-                            )}
-                          </div>
-                        </CardBody>
-                      </Card>
+                          <h4 className="font-medium text-foreground">
+                            Recent News
+                          </h4>
+                        </div>
+                        <div className="space-y-3">
+                          {enrichmentResults.newsAndUpdates.map(
+                            (news: any, index: number) => (
+                              <div
+                                key={index}
+                                className="border border-default-200/50 rounded-lg p-4 bg-default-50/30"
+                              >
+                                <h5 className="font-medium text-foreground mb-2 text-sm">
+                                  {news.title}
+                                </h5>
+                                <div className="flex items-center gap-2 mb-2">
+                                  <Chip
+                                    size="sm"
+                                    variant="flat"
+                                    color="default"
+                                    className="text-xs h-5"
+                                  >
+                                    {news.source}
+                                  </Chip>
+                                  <span className="text-xs text-default-400">
+                                    •
+                                  </span>
+                                  <span className="text-xs text-default-500">
+                                    {news.date}
+                                  </span>
+                                </div>
+                                <p className="text-xs text-default-600 leading-relaxed">
+                                  {news.summary}
+                                </p>
+                              </div>
+                            ),
+                          )}
+                        </div>
+                      </div>
 
                       {/* Contact Suggestions */}
                       <Card>
