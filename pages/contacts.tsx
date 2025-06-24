@@ -1067,7 +1067,7 @@ export default function ContactsPage(): JSX.Element {
                   column.uid === "full_name" ? "min-w-[250px]" : "",
                   column.uid === "notes" ? "min-w-[180px] max-w-[180px]" : "",
                   column.uid === "company_name"
-                    ? "min-w-[110px] max-w-[110px] w-[110px]"
+                    ? "min-w-[220px] max-w-[220px] w-[220px]"
                     : "",
                   column.uid === "email" ? "min-w-[220px] max-w-[220px]" : "",
                   column.uid === "phone_number" ? "min-w-[160px]" : "",
