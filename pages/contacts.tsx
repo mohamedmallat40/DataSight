@@ -1565,34 +1565,58 @@ export default function ContactsPage(): JSX.Element {
                       </Card>
 
                       {/* Recent News */}
-                      <div>
-                        <h4 className="text-lg font-semibold mb-3 flex items-center gap-2">
-                          <Icon icon="solar:news-bold" width={20} />
-                          Recent News & Updates
-                        </h4>
-                        <div className="space-y-3">
-                          {enrichmentResults.newsAndUpdates.map(
-                            (news: any, index: number) => (
-                              <div
-                                key={index}
-                                className="border border-default-200 rounded-lg p-4"
-                              >
-                                <h5 className="font-medium mb-1">
-                                  {news.title}
-                                </h5>
-                                <div className="flex items-center gap-2 text-sm text-default-500 mb-2">
-                                  <span>{news.source}</span>
-                                  <span>•</span>
-                                  <span>{news.date}</span>
-                                </div>
-                                <p className="text-sm text-default-600">
-                                  {news.summary}
-                                </p>
-                              </div>
-                            ),
-                          )}
-                        </div>
-                      </div>
+                      <Card>
+                        <CardHeader className="pb-3">
+                          <div className="flex items-center gap-3">
+                            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-danger/20">
+                              <Icon
+                                className="text-danger"
+                                icon="solar:news-bold"
+                                width={16}
+                              />
+                            </div>
+                            <h4 className="text-lg font-semibold text-foreground">
+                              Recent News & Updates
+                            </h4>
+                          </div>
+                        </CardHeader>
+                        <CardBody className="pt-0">
+                          <div className="space-y-4">
+                            {enrichmentResults.newsAndUpdates.map(
+                              (news: any, index: number) => (
+                                <Card
+                                  key={index}
+                                  className="border border-default-200 shadow-sm"
+                                >
+                                  <CardBody className="p-4">
+                                    <h5 className="font-semibold text-foreground mb-2">
+                                      {news.title}
+                                    </h5>
+                                    <div className="flex items-center gap-2 mb-3">
+                                      <Chip
+                                        size="sm"
+                                        variant="flat"
+                                        color="default"
+                                      >
+                                        {news.source}
+                                      </Chip>
+                                      <span className="text-tiny text-default-400">
+                                        •
+                                      </span>
+                                      <span className="text-tiny text-default-500">
+                                        {news.date}
+                                      </span>
+                                    </div>
+                                    <p className="text-sm text-default-600 leading-relaxed">
+                                      {news.summary}
+                                    </p>
+                                  </CardBody>
+                                </Card>
+                              ),
+                            )}
+                          </div>
+                        </CardBody>
+                      </Card>
 
                       {/* Contact Suggestions */}
                       <div>
