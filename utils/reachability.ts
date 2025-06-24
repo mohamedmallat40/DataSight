@@ -179,21 +179,34 @@ export async function checkWebsiteOnline(website: string): Promise<boolean> {
 
   try {
     // Method 1: Try to load the website in an image (works for many sites)
-    const isReachableViaImage = await checkViaImage(urlWithProtocol);
-    if (isReachableViaImage !== null) {
-      return isReachableViaImage;
+    try {
+      const isReachableViaImage = await checkViaImage(urlWithProtocol);
+      if (isReachableViaImage !== null) {
+        return isReachableViaImage;
+      }
+    } catch (e) {
+      // Silently continue to next method
     }
 
     // Method 2: Try using fetch with no-cors mode (limited but sometimes works)
-    const isReachableViaFetch = await checkViaFetch(urlWithProtocol);
-    if (isReachableViaFetch !== null) {
-      return isReachableViaFetch;
+    try {
+      const isReachableViaFetch = await checkViaFetch(urlWithProtocol);
+      if (isReachableViaFetch !== null) {
+        return isReachableViaFetch;
+      }
+    } catch (e) {
+      // Silently continue to next method
     }
 
     // Method 3: Check if we can create a connection (very limited)
-    const isReachableViaConnection = await checkViaConnection(urlWithProtocol);
-    if (isReachableViaConnection !== null) {
-      return isReachableViaConnection;
+    try {
+      const isReachableViaConnection =
+        await checkViaConnection(urlWithProtocol);
+      if (isReachableViaConnection !== null) {
+        return isReachableViaConnection;
+      }
+    } catch (e) {
+      // Silently continue to fallback
     }
 
     // If all methods fail, throw to use simulation
