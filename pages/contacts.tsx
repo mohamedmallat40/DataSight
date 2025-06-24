@@ -212,21 +212,23 @@ export default function ContactsPage(): JSX.Element {
           setTimeout(() => reject(new Error("API timeout")), 5000),
         ),
       ])) as any;
+      console.log("✅ API request successful!");
       const { data } = response;
 
       if (data?.success && Array.isArray(data?.data)) {
+        console.log("📊 API data loaded:", data.data.length, "contacts");
         setUserList(data.data);
         setTotalPages(data.pagination?.totalPages ?? 1);
         setTotalItems(data.pagination?.total ?? 0);
       } else {
-        setUserList([]);
         console.warn("API response does not contain valid user data");
+        setUserList([]);
       }
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : "Unknown error occurred";
 
-      console.error("Error fetching users:", errorMessage);
+      console.error("❌ Error fetching users:", errorMessage);
       console.log("🚀 API failed, using mock data for testing...");
 
       // Mock data for testing image functionality
