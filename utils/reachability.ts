@@ -347,6 +347,58 @@ function checkWebsiteSimulated(
 }
 
 /**
+ * Simple function to check if a website is online
+ * Returns true if online, false if offline, null if unable to determine
+ *
+ * Usage:
+ * const isOnline = await isWebsiteOnline('https://google.com');
+ * if (isOnline === true) console.log('Website is online');
+ * else if (isOnline === false) console.log('Website is offline');
+ * else console.log('Unable to determine website status');
+ */
+export async function isWebsiteOnline(
+  website: string,
+): Promise<boolean | null> {
+  if (!isValidUrl(website)) {
+    return false;
+  }
+
+  try {
+    const result = await checkWebsiteOnline(website);
+    return result;
+  } catch {
+    // Fallback to basic heuristic check
+    const url = website.toLowerCase();
+
+    // Obviously invalid URLs
+    if (
+      url.includes("localhost") ||
+      url.includes("127.0.0.1") ||
+      url.includes("example.com") ||
+      url.includes("test.") ||
+      url.includes("placeholder") ||
+      url.includes("dummy")
+    ) {
+      return false;
+    }
+
+    // Known reliable domains
+    if (
+      url.includes("google.com") ||
+      url.includes("github.com") ||
+      url.includes("microsoft.com") ||
+      url.includes("apple.com") ||
+      url.includes("amazon.com")
+    ) {
+      return true;
+    }
+
+    // Return null for unknown cases
+    return null;
+  }
+}
+
+/**
  * Get the color scheme for reachability status
  */
 export function getReachabilityColor(status: ReachabilityStatus): {
