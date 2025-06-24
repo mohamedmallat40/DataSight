@@ -1044,7 +1044,7 @@ export default function ContactsPage(): JSX.Element {
           classNames={{
             td: "before:bg-transparent py-3",
             wrapper: "min-h-[400px]",
-            table: "min-w-[1000px]",
+            table: "min-w-[1000px] table-fixed",
           }}
           selectedKeys={filterSelectedKeys}
           selectionMode="multiple"
