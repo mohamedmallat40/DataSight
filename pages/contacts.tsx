@@ -1407,29 +1407,30 @@ export default function ContactsPage(): JSX.Element {
                   )}
 
                   {enrichmentResults && !enrichmentResults.error && (
-                    <div className="space-y-6">
+                    <div className="space-y-5">
                       {/* Confidence Score */}
-                      <Card className="border-success/20 bg-success/5">
-                        <CardBody className="py-4">
-                          <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3">
-                              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-success/20">
-                                <Icon
-                                  className="text-success"
-                                  icon="solar:shield-check-bold"
-                                  width={16}
-                                />
-                              </div>
-                              <span className="font-medium text-foreground">
-                                Confidence Score
-                              </span>
-                            </div>
-                            <Chip color="success" variant="flat" size="lg">
-                              {enrichmentResults.confidence}%
-                            </Chip>
+                      <div className="flex items-center justify-between p-4 bg-success/5 border border-success/15 rounded-lg">
+                        <div className="flex items-center gap-3">
+                          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-success/15">
+                            <Icon
+                              className="text-success-600"
+                              icon="solar:shield-check-linear"
+                              width={14}
+                            />
                           </div>
-                        </CardBody>
-                      </Card>
+                          <span className="font-medium text-foreground text-sm">
+                            Confidence
+                          </span>
+                        </div>
+                        <Chip
+                          color="success"
+                          variant="flat"
+                          size="sm"
+                          className="font-medium"
+                        >
+                          {enrichmentResults.confidence}%
+                        </Chip>
+                      </div>
 
                       {/* Social Profiles */}
                       <Card>
