@@ -443,6 +443,11 @@ export default function ContactsPage(): JSX.Element {
     onDrawerOpen();
   });
 
+  const handleEditUser = useMemoizedCallback((user: Users): void => {
+    setUserToEdit(user);
+    onEditModalOpen();
+  });
+
   const handleDeleteUser = useMemoizedCallback((user: Users): void => {
     setUserToDelete(user);
     onDeleteModalOpen();
