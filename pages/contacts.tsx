@@ -144,6 +144,14 @@ export default function ContactsPage(): JSX.Element {
   const [userToDelete, setUserToDelete] = useState<Users | null>(null);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
+  // Edit modal state
+  const {
+    isOpen: isEditModalOpen,
+    onOpen: onEditModalOpen,
+    onOpenChange: onEditModalOpenChange,
+  } = useDisclosure();
+  const [userToEdit, setUserToEdit] = useState<Users | null>(null);
+
   // AI Enrichment state
   const {
     isOpen: isAIEnrichmentModalOpen,
