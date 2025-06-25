@@ -657,7 +657,7 @@ export default function EditUserModal({
                       />
                       Location Information
                     </h3>
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                       <Textarea
                         label="Address"
                         labelPlacement="outside"
