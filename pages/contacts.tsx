@@ -805,6 +805,10 @@ export default function ContactsPage(): JSX.Element {
                 aria-label={`Edit ${user.full_name || "user"}`}
                 className="text-default-400 cursor-pointer hover:text-warning transition-colors p-1 rounded-small"
                 type="button"
+                onClick={(e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  handleEditUser(user);
+                }}
               >
                 <EditLinearIcon />
               </button>
