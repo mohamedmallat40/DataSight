@@ -414,7 +414,7 @@ export default function EditUserModal({
                             Add Email
                           </Button>
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-3">
                           {(formData.email || [""]).map((email, index) => (
                             <div
                               key={`email-${index}`}
