@@ -542,7 +542,7 @@ export default function EditUserModal({
                       />
                       Company Information
                     </h3>
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                       <Input
                         label="Company Name"
                         labelPlacement="outside"
