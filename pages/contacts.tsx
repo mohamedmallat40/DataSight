@@ -59,6 +59,7 @@ import CountryFilter from "../components/CountryFilter";
 import UserDetailsDrawer from "../components/user-details-drawer";
 import { ReachabilityChip } from "../components/table/reachability-chip";
 import { GenderIndicator } from "../components/table/gender-indicator";
+import EditUserModal from "../components/table/edit-user-modal";
 
 import MultiStepWizard from "./table/add-card/multi-step-wizard";
 
