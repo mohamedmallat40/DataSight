@@ -1891,6 +1891,16 @@ export default function ContactsPage(): JSX.Element {
           userData={selectedUser}
           onOpenChange={onDrawerOpenChange}
         />
+
+        <EditUserModal
+          isOpen={isEditModalOpen}
+          userData={userToEdit}
+          onOpenChange={onEditModalOpenChange}
+          onSuccess={() => {
+            // Refresh the user list after successful edit
+            fetchUsers();
+          }}
+        />
       </div>
     </DefaultLayout>
   );
