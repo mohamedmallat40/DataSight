@@ -395,7 +395,7 @@ export default function EditUserModal({
                       />
                       Contact Information
                     </h3>
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                       {/* Email Addresses */}
                       <div>
                         <div className="flex items-center justify-between mb-3">
