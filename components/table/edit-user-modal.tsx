@@ -272,7 +272,7 @@ export default function EditUserModal({
                       />
                       Personal Information
                     </h3>
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                       <Input
                         label="Full Name"
                         labelPlacement="outside"
