@@ -479,7 +479,7 @@ export default function EditUserModal({
                             Add Phone
                           </Button>
                         </div>
-                        <div className="space-y-2">
+                        <div className="space-y-3">
                           {(formData.phone_number || [""]).map(
                             (phone, index) => (
                               <div
