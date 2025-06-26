@@ -59,6 +59,7 @@ import CountryFilter from "../components/CountryFilter";
 import UserDetailsDrawer from "../components/user-details-drawer";
 import { ReachabilityChip } from "../components/table/reachability-chip";
 import { GenderIndicator } from "../components/table/gender-indicator";
+import EditUserModal from "../components/table/edit-user-modal";
 
 import MultiStepWizard from "./table/add-card/multi-step-wizard";
 
@@ -142,6 +143,14 @@ export default function ContactsPage(): JSX.Element {
   // Delete confirmation state
   const [userToDelete, setUserToDelete] = useState<Users | null>(null);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
+
+  // Edit modal state
+  const {
+    isOpen: isEditModalOpen,
+    onOpen: onEditModalOpen,
+    onOpenChange: onEditModalOpenChange,
+  } = useDisclosure();
+  const [userToEdit, setUserToEdit] = useState<Users | null>(null);
 
   // AI Enrichment state
   const {
@@ -432,6 +441,11 @@ export default function ContactsPage(): JSX.Element {
   const handleViewUser = useMemoizedCallback((user: Users): void => {
     setSelectedUser(user);
     onDrawerOpen();
+  });
+
+  const handleEditUser = useMemoizedCallback((user: Users): void => {
+    setUserToEdit(user);
+    onEditModalOpen();
   });
 
   const handleDeleteUser = useMemoizedCallback((user: Users): void => {
@@ -791,6 +805,10 @@ export default function ContactsPage(): JSX.Element {
                 aria-label={`Edit ${user.full_name || "user"}`}
                 className="text-default-400 cursor-pointer hover:text-warning transition-colors p-1 rounded-small"
                 type="button"
+                onClick={(e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  handleEditUser(user);
+                }}
               >
                 <EditLinearIcon />
               </button>
@@ -1872,6 +1890,16 @@ export default function ContactsPage(): JSX.Element {
           searchTerm={filterValue}
           userData={selectedUser}
           onOpenChange={onDrawerOpenChange}
+        />
+
+        <EditUserModal
+          isOpen={isEditModalOpen}
+          userData={userToEdit}
+          onOpenChange={onEditModalOpenChange}
+          onSuccess={() => {
+            // Refresh the user list after successful edit
+            fetchUsers();
+          }}
         />
       </div>
     </DefaultLayout>
