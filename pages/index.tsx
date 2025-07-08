@@ -26,7 +26,7 @@ export default function IndexPage(
   props: InferGetStaticPropsType<typeof getStaticProps>,
 ): JSX.Element {
   const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   // Check authentication status
   useEffect(() => {
@@ -38,32 +38,16 @@ export default function IndexPage(
 
         if (isAuth) {
           router.replace("/contacts");
+          return;
         }
       } catch (error) {
         // If localStorage is not available (SSR), assume not authenticated
-        setIsAuthenticated(false);
+        console.log("Auth check error:", error);
       }
     };
 
-    // Add a small delay to ensure the component has mounted
-    const timeoutId = setTimeout(checkAuth, 100);
-    return () => clearTimeout(timeoutId);
+    checkAuth();
   }, [router]);
-
-  // Show loading only briefly while checking auth
-  if (isAuthenticated === null) {
-    return (
-      <LandingLayout>
-        <div className="flex items-center justify-center min-h-96">
-          <div className="text-center">
-            <div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
-            <h1 className="text-2xl font-bold">Loading...</h1>
-            <p className="text-gray-500">Checking authentication...</p>
-          </div>
-        </div>
-      </LandingLayout>
-    );
-  }
 
   // Landing page for unauthenticated users
   return (
