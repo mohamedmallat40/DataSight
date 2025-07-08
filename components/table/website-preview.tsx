@@ -97,6 +97,8 @@ export const WebsitePreview: React.FC<WebsitePreviewProps> = ({
     // Default position below the element
     let top = "100%";
     let left = "0";
+    let right: string | undefined = undefined;
+    let bottom: string | undefined = undefined;
 
     // If too close to right edge, align to right
     if (rect.right + 300 > viewportWidth) {
@@ -110,7 +112,11 @@ export const WebsitePreview: React.FC<WebsitePreviewProps> = ({
       bottom = "100%";
     }
 
-    return { top, left, right };
+    const position: { [key: string]: string } = { top, left };
+    if (right !== undefined) position.right = right;
+    if (bottom !== undefined) position.bottom = bottom;
+
+    return position;
   };
 
   const position = getPreviewPosition();
