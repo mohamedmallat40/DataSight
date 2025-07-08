@@ -48,4 +48,4 @@ export default function App({ Component, pageProps }: AppProps) {
   );
 }
 
-export { reportWebVitals } from "next-axiom";
+// Removed next-axiom dependency - not needed for this app
