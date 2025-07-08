@@ -91,11 +91,6 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
       href: "/statistics",
       icon: "lucide:line-chart",
     },
-    {
-      label: "Reachability Test",
-      href: "/reachability-test",
-      icon: "solar:global-outline",
-    },
   ];
 
   const companyLogo = (
