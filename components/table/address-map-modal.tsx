@@ -192,7 +192,7 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                           </h4>
                         </div>
 
-                        <div className="p-3 bg-default-50 rounded-lg border-l-3 border-orange-400">
+                        <div className="p-3 bg-default-50 rounded-lg">
                           <p className="text-sm text-default-700 leading-relaxed">
                             {fullAddress}
                           </p>
