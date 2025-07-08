@@ -10,9 +10,12 @@ interface DefaultLayoutProps {
 }
 
 export default function DefaultLayout({ children }: DefaultLayoutProps) {
+  const [locale, setLocale] = useState("en");
+
   return (
     <div className="relative flex flex-col min-h-screen overflow-x-hidden bg-background">
       <Head />
+      <Navbar setLocale={setLocale} />
 
       {/* Main Content with smooth animation */}
       <motion.main
