@@ -14,6 +14,7 @@ import {
 import { Icon } from "@iconify/react";
 import dynamic from "next/dynamic";
 import { smartGeocode, type Coordinates } from "@/utils/geocoding";
+import { CustomIcon, FallbackIcon, initLeaflet } from "@/utils/leaflet-config";
 
 // Dynamically import Leaflet components to avoid SSR issues
 const MapContainer = dynamic(
@@ -94,6 +95,9 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
       setMapError(false);
       setCoordinates(null);
       setGeocodeSource(null);
+
+      // Initialize Leaflet configuration
+      initLeaflet();
 
       const geocodeAddress = async () => {
         try {
@@ -241,6 +245,11 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                             />
                             <Marker
                               position={[coordinates.lat, coordinates.lng]}
+                              icon={
+                                geocodeSource === "api"
+                                  ? CustomIcon
+                                  : FallbackIcon
+                              }
                             >
                               <Popup>
                                 <div className="text-sm">
@@ -252,7 +261,12 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                                   </div>
                                   {geocodeSource === "fallback" && (
                                     <div className="text-xs text-orange-500 mt-1">
-                                      Approximate location
+                                      📍 Approximate location
+                                    </div>
+                                  )}
+                                  {geocodeSource === "api" && (
+                                    <div className="text-xs text-green-600 mt-1">
+                                      📍 Precise location
                                     </div>
                                   )}
                                 </div>
