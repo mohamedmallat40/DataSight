@@ -45,7 +45,7 @@ export default function IndexPage(
   // Show loading while checking auth
   if (isAuthenticated === null) {
     return (
-      <DefaultLayout>
+      <LandingLayout>
         <div className="flex items-center justify-center min-h-96">
           <div className="text-center">
             <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
@@ -53,13 +53,13 @@ export default function IndexPage(
             <p className="text-default-500">Checking authentication...</p>
           </div>
         </div>
-      </DefaultLayout>
+      </LandingLayout>
     );
   }
 
   // Landing page for unauthenticated users
   return (
-    <DefaultLayout>
+    <LandingLayout>
       <div className="max-w-6xl mx-auto px-4 py-12">
         {/* Hero Section */}
         <div className="text-center mb-16">
@@ -67,9 +67,7 @@ export default function IndexPage(
             All Care Medical Group
           </h1>
           <p className="text-xl text-default-600 mb-8 max-w-3xl mx-auto">
-            Advanced Healthcare Management Platform powered by AI. Streamline
-            your medical practice with intelligent contact management, automated
-            workflows, and comprehensive patient care solutions.
+            Advanced Healthcare Management Platform powered by AI. Streamline your medical practice with intelligent contact management, automated workflows, and comprehensive patient care solutions.
           </p>
           <div className="flex gap-4 justify-center">
             <Button
@@ -103,46 +101,30 @@ export default function IndexPage(
         <div className="grid md:grid-cols-3 gap-8 mb-16">
           <Card className="hover:scale-105 transition-transform duration-200">
             <CardBody className="text-center p-8">
-              <Icon
-                icon="lucide:users"
-                className="w-12 h-12 text-primary mx-auto mb-4"
-              />
+              <Icon icon="lucide:users" className="w-12 h-12 text-primary mx-auto mb-4" />
               <h3 className="text-xl font-semibold mb-2">Contact Management</h3>
               <p className="text-default-600">
-                Organize and manage patient contacts with advanced filtering,
-                search, and bulk operations.
+                Organize and manage patient contacts with advanced filtering, search, and bulk operations.
               </p>
             </CardBody>
           </Card>
 
           <Card className="hover:scale-105 transition-transform duration-200">
             <CardBody className="text-center p-8">
-              <Icon
-                icon="lucide:brain"
-                className="w-12 h-12 text-secondary mx-auto mb-4"
-              />
-              <h3 className="text-xl font-semibold mb-2">
-                AI-Powered Insights
-              </h3>
+              <Icon icon="lucide:brain" className="w-12 h-12 text-secondary mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">AI-Powered Insights</h3>
               <p className="text-default-600">
-                Leverage artificial intelligence for predictive analytics and
-                automated healthcare workflows.
+                Leverage artificial intelligence for predictive analytics and automated healthcare workflows.
               </p>
             </CardBody>
           </Card>
 
           <Card className="hover:scale-105 transition-transform duration-200">
             <CardBody className="text-center p-8">
-              <Icon
-                icon="lucide:activity"
-                className="w-12 h-12 text-success mx-auto mb-4"
-              />
-              <h3 className="text-xl font-semibold mb-2">
-                Real-time Analytics
-              </h3>
+              <Icon icon="lucide:activity" className="w-12 h-12 text-success mx-auto mb-4" />
+              <h3 className="text-xl font-semibold mb-2">Real-time Analytics</h3>
               <p className="text-default-600">
-                Monitor key metrics and performance indicators with
-                comprehensive dashboard views.
+                Monitor key metrics and performance indicators with comprehensive dashboard views.
               </p>
             </CardBody>
           </Card>
@@ -151,12 +133,9 @@ export default function IndexPage(
         {/* CTA Section */}
         <Card className="bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/20">
           <CardBody className="text-center p-12">
-            <h2 className="text-3xl font-bold mb-4">
-              Ready to Transform Your Practice?
-            </h2>
+            <h2 className="text-3xl font-bold mb-4">Ready to Transform Your Practice?</h2>
             <p className="text-lg text-default-600 mb-6 max-w-2xl mx-auto">
-              Join thousands of healthcare professionals who trust All Care
-              Medical Group for their practice management needs.
+              Join thousands of healthcare professionals who trust All Care Medical Group for their practice management needs.
             </p>
             <Button
               size="lg"
