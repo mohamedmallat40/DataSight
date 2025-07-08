@@ -5,6 +5,7 @@ import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { useRouter } from "next/router";
 
 import { fontSans, fontMono } from "@/config/fonts";
+import { AuthProvider } from "@/components/auth/auth-provider";
 import "@/styles/globals.css";
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -15,6 +16,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <NextThemesProvider>
         <main className={`${fontSans.variable} ${fontMono.variable} font-sans`}>
           <Component {...pageProps} />
+          <AuthProvider />
         </main>
       </NextThemesProvider>
     </HeroUIProvider>
