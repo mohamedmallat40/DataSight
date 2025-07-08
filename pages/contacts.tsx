@@ -59,6 +59,8 @@ import CountryFilter from "../components/CountryFilter";
 import UserDetailsDrawer from "../components/user-details-drawer";
 import { ReachabilityChip } from "../components/table/reachability-chip";
 import { WebsitePreview } from "../components/table/website-preview";
+import { MapButton } from "../components/table/map-button";
+import { AddressMapModal } from "../components/table/address-map-modal";
 import { GenderIndicator } from "../components/table/gender-indicator";
 import EditUserModal from "../components/table/edit-user-modal";
 
@@ -152,6 +154,14 @@ export default function ContactsPage(): JSX.Element {
     onOpenChange: onEditModalOpenChange,
   } = useDisclosure();
   const [userToEdit, setUserToEdit] = useState<Users | null>(null);
+
+  // Map modal state
+  const {
+    isOpen: isMapModalOpen,
+    onOpen: onMapModalOpen,
+    onOpenChange: onMapModalOpenChange,
+  } = useDisclosure();
+  const [userForMap, setUserForMap] = useState<Users | null>(null);
 
   // AI Enrichment state
   const {
