@@ -275,18 +275,29 @@ export default function IndexPage(
                 </div>
               </div>
             </div>
-            <div className="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl p-8 text-center">
+            <div className="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl p-8 text-center border border-primary/10">
               <Icon
-                icon="lucide:heart-handshake"
+                icon="lucide:scan-line"
                 className="w-20 h-20 text-primary mx-auto mb-4"
               />
               <h3 className="text-xl font-semibold mb-2">
-                Patient-Centered Care
+                Instant Data Extraction
               </h3>
-              <p className="text-default-600">
-                Our mission is to improve patient outcomes through better
-                healthcare management and communication.
+              <p className="text-default-600 mb-4">
+                Upload any business card or document and watch our AI instantly
+                extract, categorize, and enrich the data with additional
+                business intelligence.
               </p>
+              <div className="flex justify-center">
+                <Button
+                  size="sm"
+                  variant="bordered"
+                  className="border-primary/20 text-primary hover:bg-primary/10"
+                  startContent={<Icon icon="lucide:play" width={16} />}
+                >
+                  Watch Demo
+                </Button>
+              </div>
             </div>
           </div>
         </section>
