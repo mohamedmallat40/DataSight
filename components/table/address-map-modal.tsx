@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import {
   Modal,
   ModalContent,
@@ -12,6 +12,25 @@ import {
   Chip,
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
+import dynamic from "next/dynamic";
+import { smartGeocode, type Coordinates } from "@/utils/geocoding";
+
+// Dynamically import Leaflet components to avoid SSR issues
+const MapContainer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.MapContainer),
+  { ssr: false },
+);
+const TileLayer = dynamic(
+  () => import("react-leaflet").then((mod) => mod.TileLayer),
+  { ssr: false },
+);
+const Marker = dynamic(
+  () => import("react-leaflet").then((mod) => mod.Marker),
+  { ssr: false },
+);
+const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
+  ssr: false,
+});
 
 interface AddressMapModalProps {
   isOpen: boolean;
@@ -38,18 +57,19 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
 }) => {
   const [isLoadingMap, setIsLoadingMap] = useState(true);
   const [mapError, setMapError] = useState(false);
+  const [coordinates, setCoordinates] = useState<Coordinates | null>(null);
+  const [geocodeSource, setGeocodeSource] = useState<"api" | "fallback" | null>(
+    null,
+  );
+  const mapRef = useRef<any>(null);
 
   // Combine all address components into a full address
   const fullAddress = [address || street, city, state, postal_code, country]
     .filter(Boolean)
     .join(", ");
 
-  // Create Google Maps embed URL
-  const encodedAddress = encodeURIComponent(fullAddress);
-  const mapUrl = `https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=${encodedAddress}`;
-
-  // Alternative: OpenStreetMap embed (no API key required)
-  const openStreetMapUrl = `https://www.openstreetmap.org/export/embed.html?bbox=&layer=mapnik&marker=&query=${encodedAddress}`;
+  // Default coordinates (centered on Europe)
+  const defaultCoords: Coordinates = { lat: 50.1109, lng: 8.6821 };
 
   // Copy address to clipboard
   const copyAddress = () => {
@@ -69,16 +89,38 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
   };
 
   useEffect(() => {
-    if (isOpen) {
+    if (isOpen && city && country) {
       setIsLoadingMap(true);
       setMapError(false);
-      // Simulate map loading time
-      const timer = setTimeout(() => {
-        setIsLoadingMap(false);
-      }, 1500);
+      setCoordinates(null);
+      setGeocodeSource(null);
+
+      const geocodeAddress = async () => {
+        try {
+          const result = await smartGeocode(fullAddress, city, country);
+          if (result) {
+            setCoordinates(result.coordinates);
+            setGeocodeSource(result.source);
+          } else {
+            // Use default coordinates if geocoding fails completely
+            setCoordinates(defaultCoords);
+            setGeocodeSource("fallback");
+          }
+        } catch (error) {
+          console.error("Geocoding failed:", error);
+          setMapError(true);
+          setCoordinates(defaultCoords);
+          setGeocodeSource("fallback");
+        } finally {
+          setIsLoadingMap(false);
+        }
+      };
+
+      // Add a small delay to show loading state
+      const timer = setTimeout(geocodeAddress, 500);
       return () => clearTimeout(timer);
     }
-  }, [isOpen]);
+  }, [isOpen, fullAddress, city, country]);
 
   return (
     <Modal
@@ -160,7 +202,7 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                   <CardBody className="p-0">
                     <div className="relative w-full h-80 bg-default-50 rounded-lg overflow-hidden">
                       {isLoadingMap && (
-                        <div className="absolute inset-0 flex items-center justify-center bg-default-50">
+                        <div className="absolute inset-0 flex items-center justify-center bg-default-50 z-10">
                           <div className="flex flex-col items-center gap-3">
                             <div className="relative">
                               <Spinner size="lg" color="primary" />
@@ -184,26 +226,51 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                         </div>
                       )}
 
-                      {!isLoadingMap && !mapError && (
-                        <div className="w-full h-full bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
-                          <div className="text-center p-8">
-                            <div className="w-16 h-16 bg-primary-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                              <Icon
-                                icon="solar:map-point-bold"
-                                className="w-8 h-8 text-primary-600"
-                              />
+                      {!isLoadingMap && !mapError && coordinates && (
+                        <div className="w-full h-full relative">
+                          <MapContainer
+                            ref={mapRef}
+                            center={[coordinates.lat, coordinates.lng]}
+                            zoom={geocodeSource === "api" ? 16 : 12}
+                            className="w-full h-full rounded-lg"
+                            style={{ minHeight: "320px" }}
+                          >
+                            <TileLayer
+                              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            />
+                            <Marker
+                              position={[coordinates.lat, coordinates.lng]}
+                            >
+                              <Popup>
+                                <div className="text-sm">
+                                  <div className="font-semibold mb-1">
+                                    {contactName}
+                                  </div>
+                                  <div className="text-gray-600">
+                                    {fullAddress}
+                                  </div>
+                                  {geocodeSource === "fallback" && (
+                                    <div className="text-xs text-orange-500 mt-1">
+                                      Approximate location
+                                    </div>
+                                  )}
+                                </div>
+                              </Popup>
+                            </Marker>
+                          </MapContainer>
+
+                          {geocodeSource === "fallback" && (
+                            <div className="absolute top-2 right-2 z-[1000]">
+                              <Chip size="sm" color="warning" variant="flat">
+                                <Icon
+                                  icon="solar:info-circle-outline"
+                                  className="w-3 h-3 mr-1"
+                                />
+                                Approximate
+                              </Chip>
                             </div>
-                            <h4 className="font-semibold text-default-700 mb-2">
-                              Interactive Map
-                            </h4>
-                            <p className="text-sm text-default-500 mb-4">
-                              Map integration ready for your preferred mapping
-                              service
-                            </p>
-                            <div className="text-xs text-default-400">
-                              Address: {city}, {country}
-                            </div>
-                          </div>
+                          )}
                         </div>
                       )}
 
