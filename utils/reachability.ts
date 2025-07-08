@@ -79,10 +79,9 @@ function setCachedResult(
 }
 
 /**
- * Check email reachability (simplified validation-based approach)
- * In a real implementation, you might use an email validation service
+ * Check email reachability using API endpoint with fallback to validation
  */
-export function checkEmailReachability(
+export async function checkEmailReachability(
   email: string,
 ): Promise<ReachabilityResult> {
   const key = `email:${email}`;
@@ -93,54 +92,67 @@ export function checkEmailReachability(
     return Promise.resolve(cached);
   }
 
-  return new Promise((resolve) => {
-    // Enhanced email validation simulation
-    setTimeout(
-      () => {
-        if (!isValidEmail(email)) {
-          resolve(setCachedResult(key, "unreachable"));
-          return;
-        }
+  // Basic validation first
+  if (!isValidEmail(email)) {
+    return setCachedResult(key, "unreachable");
+  }
 
-        const domain = email.split("@")[1]?.toLowerCase();
-        let status: ReachabilityStatus;
+  try {
+    // Try to use API endpoint
+    const { checkEmailAlive } = await import("../config/api");
+    const response: EmailReachabilityResponse = await checkEmailAlive(email);
 
-        // Known good domains
-        if (
-          domain &&
-          (domain.includes("gmail.com") ||
-            domain.includes("outlook.com") ||
-            domain.includes("hotmail.com") ||
-            domain.includes("yahoo.com") ||
-            domain.includes("icloud.com") ||
-            domain.includes("protonmail.com"))
-        ) {
-          status = "reachable";
-        }
-        // Suspicious or temporary email domains
-        else if (
-          domain &&
-          (domain.includes("tempmail") ||
-            domain.includes("10minutemail") ||
-            domain.includes("guerrillamail") ||
-            domain.includes("mailinator"))
-        ) {
-          status = "unreachable";
-        }
-        // Corporate domains (likely valid)
-        else if (domain && domain.match(/\.(com|org|net|edu|gov)$/)) {
-          status = "reachable";
-        }
-        // Unknown or suspicious TLDs
-        else {
-          status = "unknown";
-        }
+    const status: ReachabilityStatus = response.isAlive
+      ? "reachable"
+      : "unreachable";
+    return setCachedResult(key, status);
+  } catch (error) {
+    console.warn("Email API check failed, falling back to validation:", error);
 
-        resolve(setCachedResult(key, status));
-      },
-      Math.random() * 200 + 50,
-    ); // Random delay between 50-250ms
-  });
+    // Fallback to enhanced validation
+    return new Promise((resolve) => {
+      setTimeout(
+        () => {
+          const domain = email.split("@")[1]?.toLowerCase();
+          let status: ReachabilityStatus;
+
+          // Known good domains
+          if (
+            domain &&
+            (domain.includes("gmail.com") ||
+              domain.includes("outlook.com") ||
+              domain.includes("hotmail.com") ||
+              domain.includes("yahoo.com") ||
+              domain.includes("icloud.com") ||
+              domain.includes("protonmail.com"))
+          ) {
+            status = "reachable";
+          }
+          // Suspicious or temporary email domains
+          else if (
+            domain &&
+            (domain.includes("tempmail") ||
+              domain.includes("10minutemail") ||
+              domain.includes("guerrillamail") ||
+              domain.includes("mailinator"))
+          ) {
+            status = "unreachable";
+          }
+          // Corporate domains (likely valid)
+          else if (domain && domain.match(/\.(com|org|net|edu|gov)$/)) {
+            status = "reachable";
+          }
+          // Unknown or suspicious TLDs
+          else {
+            status = "unknown";
+          }
+
+          resolve(setCachedResult(key, status));
+        },
+        Math.random() * 200 + 50,
+      );
+    });
+  }
 }
 
 /**
