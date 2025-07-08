@@ -10,6 +10,18 @@ export interface ReachabilityResult {
   checkedAt: Date;
 }
 
+// API response types
+export interface EmailReachabilityResponse {
+  isAlive: boolean;
+  message?: string;
+}
+
+export interface WebsiteReachabilityResponse {
+  isReachable: boolean;
+  statusCode?: number;
+  message?: string;
+}
+
 // Cache for storing reachability results
 const reachabilityCache = new Map<string, ReachabilityResult>();
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
