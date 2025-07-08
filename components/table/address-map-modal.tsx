@@ -389,24 +389,31 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                         )}
 
                         {mapError && (
-                          <div className="absolute inset-0 flex items-center justify-center bg-default-100">
+                          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-red-50 to-orange-50">
                             <div className="text-center p-8">
-                              <Icon
-                                icon="solar:map-point-remove-outline"
-                                className="w-12 h-12 text-default-400 mx-auto mb-4"
-                              />
-                              <h4 className="font-medium text-foreground mb-2">
+                              <div className="w-16 h-16 bg-gradient-to-br from-red-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                                <Icon
+                                  icon="solar:map-point-remove-bold"
+                                  className="w-8 h-8 text-white"
+                                />
+                              </div>
+                              <h4 className="font-medium text-red-800 mb-2 flex items-center gap-2 justify-center">
+                                <Icon
+                                  icon="solar:danger-triangle-bold"
+                                  className="w-4 h-4 text-red-600"
+                                />
                                 Unable to load map
                               </h4>
-                              <p className="text-sm text-default-500 mb-4">
+                              <p className="text-sm text-red-600 mb-4">
                                 Please try opening in external map app
                               </p>
                               <Button
+                                color="danger"
                                 variant="flat"
                                 size="sm"
                                 startContent={
                                   <Icon
-                                    icon="solar:refresh-outline"
+                                    icon="solar:refresh-bold"
                                     className="w-4 h-4"
                                   />
                                 }
