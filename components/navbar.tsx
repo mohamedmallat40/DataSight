@@ -115,6 +115,13 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
 
   const actionButtons = (
     <div className="flex items-center gap-2">
+      {/* Auth Buttons */}
+      <Button as={NextLink} href="/login" size="sm" variant="ghost">
+        Sign In
+      </Button>
+      <Button as={NextLink} href="/register" size="sm" color="primary">
+        Sign Up
+      </Button>
       {/* CTA Button */}
       <Button
         isExternal
