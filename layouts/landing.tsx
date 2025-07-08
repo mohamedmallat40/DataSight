@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Icon } from "@iconify/react";
 
 import { Head } from "./head";
 import { LandingNavbar } from "@/components/landing-navbar";
