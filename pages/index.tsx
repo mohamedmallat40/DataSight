@@ -289,74 +289,125 @@ export default function IndexPage(
 
       <div className="max-w-6xl mx-auto px-4 py-12">
         {/* Features Grid */}
-        <section id="features" className="scroll-mt-16">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">
-              <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Revolutionary Technology
+        <section id="features" className="scroll-mt-16 py-20">
+          <m.div
+            animate={{ opacity: 1, y: 0 }}
+            initial={{ opacity: 0, y: 40 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="text-center mb-16"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/10 mb-6">
+              <Icon
+                icon="solar:stars-bold"
+                className="text-primary"
+                width={20}
+              />
+              <span className="text-primary font-medium text-sm">
+                Revolutionary Features
+              </span>
+            </div>
+            <h2 className="text-5xl font-bold mb-6 leading-tight">
+              <span className="bg-gradient-to-br from-foreground via-foreground to-foreground/70 bg-clip-text text-transparent">
+                Next-Generation
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
+                AI Technology
               </span>
             </h2>
-            <p className="text-lg text-default-600 max-w-3xl mx-auto">
-              Experience the next generation of contact management with
-              cutting-edge OCR technology and AI-powered automation that
-              transforms how you handle business information.
+            <p className="text-xl text-default-500 max-w-2xl mx-auto leading-relaxed">
+              Experience the future of contact management with cutting-edge OCR
+              and AI-powered automation
             </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <Card className="group hover:scale-105 transition-all duration-300 border-primary/10 hover:border-primary/30 hover:shadow-xl">
-              <CardBody className="text-center p-8">
-                <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                  <Icon
-                    icon="lucide:scan-text"
-                    className="w-10 h-10 text-primary"
-                  />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">
-                  Advanced OCR Engine
-                </h3>
-                <p className="text-default-600 leading-relaxed">
-                  Instantly extract text from business cards, documents, and
-                  images with 99.9% accuracy. Support for multiple languages and
-                  handwritten text recognition.
-                </p>
-              </CardBody>
-            </Card>
+          </m.div>
+          <div className="grid md:grid-cols-3 gap-8 mb-20">
+            <m.div
+              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <Card className="group hover:scale-[1.02] transition-all duration-500 border-0 bg-gradient-to-br from-white/60 to-white/40 dark:from-background/60 dark:to-background/40 backdrop-blur-sm shadow-lg hover:shadow-xl">
+                <CardBody className="text-center p-10">
+                  <div className="relative mb-8">
+                    <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
+                    <div className="relative bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-500">
+                      <Icon
+                        icon="solar:scanner-bold"
+                        className="w-10 h-10 text-primary"
+                      />
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-foreground/90">
+                    Advanced OCR Engine
+                  </h3>
+                  <p className="text-default-500 leading-relaxed text-base">
+                    Extract text from business cards and documents with{" "}
+                    <span className="text-primary font-semibold">
+                      99.9% accuracy
+                    </span>
+                    . Supports multiple languages and handwriting recognition.
+                  </p>
+                </CardBody>
+              </Card>
+            </m.div>
 
-            <Card className="group hover:scale-105 transition-all duration-300 border-secondary/10 hover:border-secondary/30 hover:shadow-xl">
-              <CardBody className="text-center p-8">
-                <div className="bg-gradient-to-r from-secondary/10 to-primary/10 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                  <Icon
-                    icon="lucide:brain-circuit"
-                    className="w-10 h-10 text-secondary"
-                  />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">
-                  AI Data Enrichment
-                </h3>
-                <p className="text-default-600 leading-relaxed">
-                  Automatically enhance contact data with company information,
-                  social profiles, and business insights using advanced machine
-                  learning algorithms.
-                </p>
-              </CardBody>
-            </Card>
+            <m.div
+              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+            >
+              <Card className="group hover:scale-[1.02] transition-all duration-500 border-0 bg-gradient-to-br from-white/60 to-white/40 dark:from-background/60 dark:to-background/40 backdrop-blur-sm shadow-lg hover:shadow-xl">
+                <CardBody className="text-center p-10">
+                  <div className="relative mb-8">
+                    <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 to-primary/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
+                    <div className="relative bg-gradient-to-r from-secondary/10 to-primary/10 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-500">
+                      <Icon
+                        icon="solar:brain-bold"
+                        className="w-10 h-10 text-secondary"
+                      />
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-foreground/90">
+                    AI Data Enrichment
+                  </h3>
+                  <p className="text-default-500 leading-relaxed text-base">
+                    Automatically enhance contacts with company information and{" "}
+                    <span className="text-secondary font-semibold">
+                      business insights
+                    </span>{" "}
+                    using advanced machine learning.
+                  </p>
+                </CardBody>
+              </Card>
+            </m.div>
 
-            <Card className="group hover:scale-105 transition-all duration-300 border-success/10 hover:border-success/30 hover:shadow-xl">
-              <CardBody className="text-center p-8">
-                <div className="bg-gradient-to-r from-success/10 to-primary/10 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
-                  <Icon
-                    icon="lucide:workflow"
-                    className="w-10 h-10 text-success"
-                  />
-                </div>
-                <h3 className="text-xl font-semibold mb-3">Smart Automation</h3>
-                <p className="text-default-600 leading-relaxed">
-                  Intelligent workflows that automatically categorize, tag, and
-                  organize contacts. Reduce manual work by 90% with AI-powered
-                  data processing.
-                </p>
-              </CardBody>
-            </Card>
+            <m.div
+              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 30 }}
+              transition={{ duration: 0.6, delay: 0.5 }}
+            >
+              <Card className="group hover:scale-[1.02] transition-all duration-500 border-0 bg-gradient-to-br from-white/60 to-white/40 dark:from-background/60 dark:to-background/40 backdrop-blur-sm shadow-lg hover:shadow-xl">
+                <CardBody className="text-center p-10">
+                  <div className="relative mb-8">
+                    <div className="absolute inset-0 bg-gradient-to-r from-success/20 to-primary/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
+                    <div className="relative bg-gradient-to-r from-success/10 to-primary/10 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-500">
+                      <Icon
+                        icon="solar:magic-stick-bold"
+                        className="w-10 h-10 text-success"
+                      />
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-bold mb-4 text-foreground/90">
+                    Smart Automation
+                  </h3>
+                  <p className="text-default-500 leading-relaxed text-base">
+                    Intelligent workflows that reduce manual work by{" "}
+                    <span className="text-success font-semibold">90%</span> with
+                    automated categorization and organization.
+                  </p>
+                </CardBody>
+              </Card>
+            </m.div>
           </div>
 
           {/* Additional Features Row */}
