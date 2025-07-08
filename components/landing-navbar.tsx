@@ -69,7 +69,7 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
           <NavbarItem isActive className="data-[active='true']:font-medium">
             <Link
               aria-current="page"
-              className="text-default-foreground"
+              className="text-primary font-medium"
               href="#"
               size="sm"
             >
@@ -77,22 +77,38 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link className="text-default-500" href="#features" size="sm">
+            <Link
+              className="text-default-500 hover:text-primary transition-colors"
+              href="#features"
+              size="sm"
+            >
               Features
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link className="text-default-500" href="#customers" size="sm">
+            <Link
+              className="text-default-500 hover:text-primary transition-colors"
+              href="#customers"
+              size="sm"
+            >
               Customers
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link className="text-default-500" href="#about" size="sm">
+            <Link
+              className="text-default-500 hover:text-primary transition-colors"
+              href="#about"
+              size="sm"
+            >
               About Us
             </Link>
           </NavbarItem>
           <NavbarItem>
-            <Link className="text-default-500" href="#integrations" size="sm">
+            <Link
+              className="text-default-500 hover:text-primary transition-colors"
+              href="#integrations"
+              size="sm"
+            >
               Integrations
             </Link>
           </NavbarItem>
