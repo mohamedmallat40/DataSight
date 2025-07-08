@@ -188,7 +188,7 @@ export async function checkWebsiteReachability(
     const response: WebsiteReachabilityResponse =
       await checkWebsiteReachable(normalizedUrl);
 
-    const status: ReachabilityStatus = response.isReachable
+    const status: ReachabilityStatus = response.reachable
       ? "reachable"
       : "unreachable";
     return setCachedResult(key, status);
