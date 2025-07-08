@@ -29,6 +29,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [isLoginOpen, setIsLoginOpen] = useState(false);
   const [isRegisterOpen, setIsRegisterOpen] = useState(false);
 
+  // Listen for global events to open modals
+  React.useEffect(() => {
+    const handleTriggerLogin = () => openLogin();
+    const handleTriggerRegister = () => openRegister();
+
+    window.addEventListener("openLogin", handleTriggerLogin);
+    window.addEventListener("openRegister", handleTriggerRegister);
+
+    return () => {
+      window.removeEventListener("openLogin", handleTriggerLogin);
+      window.removeEventListener("openRegister", handleTriggerRegister);
+    };
+  }, []);
+
   const openLogin = () => {
     setIsRegisterOpen(false);
     setIsLoginOpen(true);

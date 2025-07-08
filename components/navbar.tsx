@@ -17,6 +17,7 @@ import {
 } from "@heroui/dropdown";
 import { Avatar } from "@heroui/avatar";
 import { Divider } from "@heroui/divider";
+import { Icon } from "@iconify/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import clsx from "clsx";
