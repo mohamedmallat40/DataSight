@@ -1,38 +1,9 @@
-import type { GetStaticProps, InferGetStaticPropsType } from "next";
-
-import React, { useEffect } from "react";
-import { useRouter } from "next/router";
-
-import DefaultLayout from "@/layouts/default";
-import Component from "./table";
-
-/**
- * Props for the IndexPage component
- */
-interface IndexPageProps {
-  staticData?: {
-    lastUpdated: string;
-    version: string;
-  };
-}
-
-/**
- * Main index page component
- */
-export default function IndexPage(
-  props: InferGetStaticPropsType<typeof getStaticProps>,
-): JSX.Element {
-  const router = useRouter();
-
-  // Redirect to Contacts page by default
-  useEffect(() => {
-    router.replace("/contacts");
-  }, [router]);
-
+export default function IndexPage(): JSX.Element {
   return (
-    <DefaultLayout>
-      <Component />
-    </DefaultLayout>
+    <div>
+      <h1>Hello World</h1>
+      <p>This is a simple test page</p>
+    </div>
   );
 }
 
