@@ -464,6 +464,11 @@ export default function ContactsPage(): JSX.Element {
     onDeleteModalOpen();
   });
 
+  const handleViewOnMap = useMemoizedCallback((user: Users): void => {
+    setUserForMap(user);
+    onMapModalOpen();
+  });
+
   const confirmDeleteUser = useMemoizedCallback(async (): Promise<void> => {
     if (!userToDelete) return;
 
