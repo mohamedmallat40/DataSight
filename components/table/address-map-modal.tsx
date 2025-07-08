@@ -253,11 +253,12 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                           <Button
                             size="sm"
                             variant="flat"
+                            color="primary"
                             fullWidth
                             className="justify-start"
                             startContent={
                               <Icon
-                                icon="solar:copy-outline"
+                                icon="solar:copy-bold"
                                 className="w-4 h-4"
                               />
                             }
@@ -269,11 +270,12 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                           <Button
                             size="sm"
                             variant="flat"
+                            color="success"
                             fullWidth
                             className="justify-start"
                             startContent={
                               <Icon
-                                icon="solar:global-outline"
+                                icon="solar:global-bold"
                                 className="w-4 h-4"
                               />
                             }
