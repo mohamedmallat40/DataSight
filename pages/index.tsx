@@ -102,81 +102,89 @@ export default function IndexPage(
                 <AnimatePresence mode="wait">
                   <m.div
                     key="hero-section-title"
-                    animate={{ filter: "blur(0px)", opacity: 1, x: 0 }}
-                    className="text-start text-[clamp(40px,10vw,44px)] font-bold leading-[1.2] tracking-tighter sm:text-[64px]"
-                    initial={{
-                      filter: "blur(16px)",
-                      opacity: 0,
-                      x: 15 + 1 * 2,
-                    }}
+                    animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
+                    className="text-start text-[clamp(42px,10vw,48px)] font-bold leading-[1.15] tracking-tight sm:text-[72px] sm:leading-[1.1]"
+                    initial={{ filter: "blur(12px)", opacity: 0, y: 30 }}
                     transition={{
                       bounce: 0,
-                      delay: 0.01 * 10,
-                      duration: 0.8 + 0.1 * 8,
+                      delay: 0.2,
+                      duration: 0.8,
                       type: "spring",
+                      stiffness: 100,
                     }}
                   >
-                    <div className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                      Smart Contact Management <br /> with OCR & AI.
+                    <div className="bg-gradient-to-br from-foreground via-foreground to-foreground/70 bg-clip-text text-transparent">
+                      Smart Contact <br />
+                      <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent font-extrabold">
+                        Management
+                      </span>{" "}
+                      <br />
+                      <span className="text-[0.85em] font-medium text-foreground/60">
+                        with OCR & AI
+                      </span>
                     </div>
                   </m.div>
 
                   <m.div
                     key="hero-section-description"
-                    animate={{ filter: "blur(0px)", opacity: 1, x: 0 }}
-                    className="text-start font-normal leading-7 text-default-500 sm:w-[466px] sm:text-[18px]"
-                    initial={{
-                      filter: "blur(16px)",
-                      opacity: 0,
-                      x: 15 + 1 * 3,
-                    }}
+                    animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
+                    className="text-start font-normal leading-[1.7] text-default-500 sm:w-[520px] sm:text-[19px] text-[17px]"
+                    initial={{ filter: "blur(8px)", opacity: 0, y: 20 }}
                     transition={{
                       bounce: 0,
-                      delay: 0.01 * 30,
-                      duration: 0.8 + 0.1 * 9,
+                      delay: 0.4,
+                      duration: 0.7,
                       type: "spring",
+                      stiffness: 80,
                     }}
                   >
                     Transform your business cards and documents into actionable
                     data instantly. Our AI-driven CMS automatically extracts,
-                    processes, and organizes contact information with advanced
-                    OCR technology.
+                    processes, and organizes contact information with{" "}
+                    <span className="text-primary font-medium">
+                      advanced OCR technology
+                    </span>
+                    .
                   </m.div>
 
                   <m.div
                     key="hero-section-buttons"
-                    animate={{ filter: "blur(0px)", opacity: 1, x: 0 }}
-                    className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6"
-                    initial={{
-                      filter: "blur(16px)",
-                      opacity: 0,
-                      x: 15 + 1 * 4,
-                    }}
+                    animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
+                    className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6"
+                    initial={{ filter: "blur(8px)", opacity: 0, y: 20 }}
                     transition={{
                       bounce: 0,
-                      delay: 0.01 * 50,
-                      duration: 0.8 + 0.1 * 10,
+                      delay: 0.6,
+                      duration: 0.6,
                       type: "spring",
+                      stiffness: 90,
                     }}
                   >
                     <Button
-                      className="h-10 w-[163px] bg-default-foreground px-[16px] py-[10px] text-small font-medium leading-5 text-background"
+                      className="h-12 w-[180px] bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 px-[20px] py-[12px] text-small font-semibold leading-5 text-white shadow-lg hover:shadow-xl transition-all duration-300"
                       radius="full"
                       onPress={() => {
                         const event = new CustomEvent("openRegister");
                         window.dispatchEvent(event);
                       }}
+                      startContent={
+                        <Icon
+                          className="text-white/90"
+                          icon="solar:scanner-bold"
+                          width={18}
+                        />
+                      }
                     >
                       Start Scanning
                     </Button>
                     <Button
-                      className="h-10 w-[163px] border-1 border-default-100 px-[16px] py-[10px] text-small font-medium leading-5"
+                      className="h-12 w-[180px] border-1 border-default-200 hover:border-primary/30 bg-background/60 backdrop-blur-sm hover:bg-primary/5 px-[20px] py-[12px] text-small font-semibold leading-5 transition-all duration-300"
                       endContent={
-                        <span className="pointer-events-none flex h-[22px] w-[22px] items-center justify-center rounded-full bg-default-100">
+                        <span className="pointer-events-none flex h-[24px] w-[24px] items-center justify-center rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
                           <Icon
-                            className="text-default-500 [&>path]:stroke-[1.5]"
+                            className="text-primary [&>path]:stroke-[1.5]"
                             icon="solar:arrow-right-linear"
-                            width={16}
+                            width={14}
                           />
                         </span>
                       }
@@ -193,43 +201,46 @@ export default function IndexPage(
 
                   <m.div
                     key="hero-section-features"
-                    animate={{ filter: "blur(0px)", opacity: 1, x: 0 }}
-                    className="flex items-center gap-8 text-sm text-default-500"
-                    initial={{
-                      filter: "blur(16px)",
-                      opacity: 0,
-                      x: 15 + 1 * 5,
-                    }}
+                    animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
+                    className="flex flex-wrap items-center gap-6 text-sm"
+                    initial={{ filter: "blur(6px)", opacity: 0, y: 15 }}
                     transition={{
                       bounce: 0,
-                      delay: 0.01 * 70,
-                      duration: 0.8 + 0.1 * 11,
+                      delay: 0.8,
+                      duration: 0.5,
                       type: "spring",
+                      stiffness: 100,
                     }}
                   >
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-success/10 border border-success/20">
                       <Icon
-                        icon="lucide:check"
+                        icon="solar:check-circle-bold"
                         className="text-success"
                         width={16}
                       />
-                      <span>Instant OCR</span>
+                      <span className="text-success/80 font-medium">
+                        Instant OCR
+                      </span>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-primary/10 border border-primary/20">
                       <Icon
-                        icon="lucide:check"
-                        className="text-success"
+                        icon="solar:check-circle-bold"
+                        className="text-primary"
                         width={16}
                       />
-                      <span>AI Enrichment</span>
+                      <span className="text-primary/80 font-medium">
+                        AI Enrichment
+                      </span>
                     </div>
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-secondary/10 border border-secondary/20">
                       <Icon
-                        icon="lucide:check"
-                        className="text-success"
+                        icon="solar:check-circle-bold"
+                        className="text-secondary"
                         width={16}
                       />
-                      <span>Smart Organization</span>
+                      <span className="text-secondary/80 font-medium">
+                        Smart Organization
+                      </span>
                     </div>
                   </m.div>
                 </AnimatePresence>
