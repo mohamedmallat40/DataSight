@@ -199,6 +199,69 @@ export default function ReachabilityTestPage(): JSX.Element {
             </CardBody>
           </Card>
 
+          {/* Website Preview Demo */}
+          <Card className="w-full">
+            <CardHeader className="pb-0">
+              <div className="flex items-center gap-2">
+                <Icon icon="solar:eye-outline" className="w-5 h-5" />
+                <h2 className="text-xl font-semibold">Website Preview</h2>
+              </div>
+              <p className="text-sm text-gray-600">
+                Hover over website links to see live previews
+              </p>
+            </CardHeader>
+            <CardBody className="pt-2">
+              <div className="flex flex-col gap-4">
+                <p className="text-sm text-gray-600">
+                  Hover over any of these website links to see the preview
+                  functionality:
+                </p>
+                <div className="flex flex-wrap gap-4">
+                  <WebsitePreview url="https://perla-it.com">
+                    <Chip
+                      as="button"
+                      color="primary"
+                      variant="bordered"
+                      className="cursor-pointer hover:bg-primary/10"
+                    >
+                      perla-it.com
+                    </Chip>
+                  </WebsitePreview>
+
+                  <WebsitePreview url="https://google.com">
+                    <Chip
+                      as="button"
+                      color="secondary"
+                      variant="bordered"
+                      className="cursor-pointer hover:bg-secondary/10"
+                    >
+                      google.com
+                    </Chip>
+                  </WebsitePreview>
+
+                  <WebsitePreview url="github.com">
+                    <Chip
+                      as="button"
+                      color="success"
+                      variant="bordered"
+                      className="cursor-pointer hover:bg-success/10"
+                    >
+                      github.com
+                    </Chip>
+                  </WebsitePreview>
+                </div>
+                <div className="text-xs text-gray-500">
+                  <p>• Hover shows preview with 300ms delay</p>
+                  <p>
+                    • Uses endpoint:{" "}
+                    <code>/preview-website?url=https://example.com</code>
+                  </p>
+                  <p>• Includes loading spinner while generating image</p>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+
           {/* API Information Card */}
           <Card className="w-full">
             <CardHeader className="pb-0">
