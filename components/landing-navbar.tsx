@@ -61,7 +61,7 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
             <Logo className="text-white" />
           </div>
           <span className="ml-2 text-small font-medium bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            ALL CARE MEDICAL
+            SMARTCMS
           </span>
         </NavbarBrand>
 
