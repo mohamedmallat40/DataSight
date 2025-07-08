@@ -51,6 +51,7 @@ export default function IndexPage(
   }, [router]);
 
   // Landing page for unauthenticated users
+  console.log("Rendering landing page, isAuthenticated:", isAuthenticated);
   return (
     <LandingLayout>
       <div className="bg-[#FDF7F4] min-h-screen">
