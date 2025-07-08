@@ -127,10 +127,10 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
             <ModalHeader className="flex flex-col gap-1 p-6">
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg">
+                  <div className="w-10 h-10 bg-default-100 rounded-lg flex items-center justify-center">
                     <Icon
-                      icon="solar:map-point-bold"
-                      className="w-5 h-5 text-white"
+                      icon="solar:map-point-outline"
+                      className="w-5 h-5 text-blue-600"
                     />
                   </div>
                   <div>
@@ -160,8 +160,8 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                         <Icon
                           icon={
                             geocodeSource === "api"
-                              ? "solar:check-circle-bold"
-                              : "solar:info-circle-bold"
+                              ? "solar:check-circle-outline"
+                              : "solar:info-circle-outline"
                           }
                           className="w-3 h-3"
                         />
@@ -181,10 +181,10 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                     <CardBody className="p-4">
                       <div className="space-y-4">
                         <div className="flex items-center gap-2">
-                          <div className="w-6 h-6 bg-gradient-to-br from-orange-400 to-red-500 rounded-md flex items-center justify-center">
+                          <div className="w-6 h-6 bg-default-100 rounded-md flex items-center justify-center">
                             <Icon
-                              icon="solar:home-bold"
-                              className="w-3 h-3 text-white"
+                              icon="solar:home-outline"
+                              className="w-3 h-3 text-orange-600"
                             />
                           </div>
                           <h4 className="font-medium text-foreground">
@@ -258,7 +258,7 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                             className="justify-start"
                             startContent={
                               <Icon
-                                icon="solar:copy-bold"
+                                icon="solar:copy-outline"
                                 className="w-4 h-4"
                               />
                             }
@@ -275,7 +275,7 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                             className="justify-start"
                             startContent={
                               <Icon
-                                icon="solar:global-bold"
+                                icon="solar:global-outline"
                                 className="w-4 h-4"
                               />
                             }
@@ -293,10 +293,10 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                     <Card>
                       <CardBody className="p-4">
                         <div className="flex items-center gap-2 mb-3">
-                          <div className="w-6 h-6 bg-gradient-to-br from-pink-400 to-rose-500 rounded-md flex items-center justify-center">
+                          <div className="w-6 h-6 bg-default-100 rounded-md flex items-center justify-center">
                             <Icon
-                              icon="solar:target-bold"
-                              className="w-3 h-3 text-white"
+                              icon="solar:target-outline"
+                              className="w-3 h-3 text-pink-600"
                             />
                           </div>
                           <h5 className="font-medium text-foreground">
@@ -433,8 +433,8 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
             <ModalFooter>
               <div className="flex items-center gap-2 text-xs text-default-500">
                 <Icon
-                  icon="solar:copyright-bold"
-                  className="w-3 h-3 text-emerald-500"
+                  icon="solar:copyright-outline"
+                  className="w-3 h-3 text-emerald-600"
                 />
                 <span>OpenStreetMap</span>
               </div>
@@ -444,7 +444,10 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                   variant="light"
                   onPress={onClose}
                   startContent={
-                    <Icon icon="solar:close-circle-bold" className="w-4 h-4" />
+                    <Icon
+                      icon="solar:close-circle-outline"
+                      className="w-4 h-4"
+                    />
                   }
                 >
                   Close
@@ -453,7 +456,7 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                   <Button
                     color="primary"
                     startContent={
-                      <Icon icon="solar:share-bold" className="w-4 h-4" />
+                      <Icon icon="solar:share-outline" className="w-4 h-4" />
                     }
                     onPress={() => {
                       const shareData = {
