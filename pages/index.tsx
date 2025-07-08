@@ -136,51 +136,106 @@ export default function IndexPage(
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8 mb-16">
-            <Card className="hover:scale-105 transition-transform duration-200">
+            <Card className="group hover:scale-105 transition-all duration-300 border-primary/10 hover:border-primary/30 hover:shadow-xl">
               <CardBody className="text-center p-8">
-                <Icon
-                  icon="lucide:users"
-                  className="w-12 h-12 text-primary mx-auto mb-4"
-                />
-                <h3 className="text-xl font-semibold mb-2">
-                  Contact Management
+                <div className="bg-gradient-to-r from-primary/10 to-secondary/10 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                  <Icon
+                    icon="lucide:scan-text"
+                    className="w-10 h-10 text-primary"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">
+                  Advanced OCR Engine
                 </h3>
-                <p className="text-default-600">
-                  Organize and manage patient contacts with advanced filtering,
-                  search, and bulk operations.
+                <p className="text-default-600 leading-relaxed">
+                  Instantly extract text from business cards, documents, and
+                  images with 99.9% accuracy. Support for multiple languages and
+                  handwritten text recognition.
                 </p>
               </CardBody>
             </Card>
 
-            <Card className="hover:scale-105 transition-transform duration-200">
+            <Card className="group hover:scale-105 transition-all duration-300 border-secondary/10 hover:border-secondary/30 hover:shadow-xl">
               <CardBody className="text-center p-8">
-                <Icon
-                  icon="lucide:brain"
-                  className="w-12 h-12 text-secondary mx-auto mb-4"
-                />
-                <h3 className="text-xl font-semibold mb-2">
-                  AI-Powered Insights
+                <div className="bg-gradient-to-r from-secondary/10 to-primary/10 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                  <Icon
+                    icon="lucide:brain-circuit"
+                    className="w-10 h-10 text-secondary"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">
+                  AI Data Enrichment
                 </h3>
-                <p className="text-default-600">
-                  Leverage artificial intelligence for predictive analytics and
-                  automated healthcare workflows.
+                <p className="text-default-600 leading-relaxed">
+                  Automatically enhance contact data with company information,
+                  social profiles, and business insights using advanced machine
+                  learning algorithms.
                 </p>
               </CardBody>
             </Card>
 
-            <Card className="hover:scale-105 transition-transform duration-200">
+            <Card className="group hover:scale-105 transition-all duration-300 border-success/10 hover:border-success/30 hover:shadow-xl">
               <CardBody className="text-center p-8">
-                <Icon
-                  icon="lucide:activity"
-                  className="w-12 h-12 text-success mx-auto mb-4"
-                />
-                <h3 className="text-xl font-semibold mb-2">
-                  Real-time Analytics
-                </h3>
-                <p className="text-default-600">
-                  Monitor key metrics and performance indicators with
-                  comprehensive dashboard views.
+                <div className="bg-gradient-to-r from-success/10 to-primary/10 rounded-full w-20 h-20 flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform">
+                  <Icon
+                    icon="lucide:workflow"
+                    className="w-10 h-10 text-success"
+                  />
+                </div>
+                <h3 className="text-xl font-semibold mb-3">Smart Automation</h3>
+                <p className="text-default-600 leading-relaxed">
+                  Intelligent workflows that automatically categorize, tag, and
+                  organize contacts. Reduce manual work by 90% with AI-powered
+                  data processing.
                 </p>
+              </CardBody>
+            </Card>
+          </div>
+
+          {/* Additional Features Row */}
+          <div className="grid md:grid-cols-2 gap-8 mb-16">
+            <Card className="group hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-primary/5 to-transparent">
+              <CardBody className="p-8">
+                <div className="flex items-start gap-4">
+                  <div className="bg-primary/10 rounded-lg p-3 group-hover:bg-primary/20 transition-colors">
+                    <Icon
+                      icon="lucide:database"
+                      className="w-6 h-6 text-primary"
+                    />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold mb-2">
+                      Intelligent CMS
+                    </h4>
+                    <p className="text-default-600">
+                      Advanced content management with smart search, filtering,
+                      and organization. Find any contact or document in seconds
+                      with AI-powered search.
+                    </p>
+                  </div>
+                </div>
+              </CardBody>
+            </Card>
+
+            <Card className="group hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-secondary/5 to-transparent">
+              <CardBody className="p-8">
+                <div className="flex items-start gap-4">
+                  <div className="bg-secondary/10 rounded-lg p-3 group-hover:bg-secondary/20 transition-colors">
+                    <Icon
+                      icon="lucide:shield-check"
+                      className="w-6 h-6 text-secondary"
+                    />
+                  </div>
+                  <div>
+                    <h4 className="text-lg font-semibold mb-2">
+                      Enterprise Security
+                    </h4>
+                    <p className="text-default-600">
+                      Bank-level encryption and security protocols. GDPR
+                      compliant with advanced privacy controls and audit trails.
+                    </p>
+                  </div>
+                </div>
               </CardBody>
             </Card>
           </div>
