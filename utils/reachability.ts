@@ -156,10 +156,9 @@ export async function checkEmailReachability(
 }
 
 /**
- * Check website reachability using multiple approaches
- * Falls back to simulation if real checking isn't available
+ * Check website reachability using API endpoint with fallback
  */
-export function checkWebsiteReachability(
+export async function checkWebsiteReachability(
   website: string,
 ): Promise<ReachabilityResult> {
   const key = `website:${website}`;
@@ -170,26 +169,42 @@ export function checkWebsiteReachability(
     return Promise.resolve(cached);
   }
 
-  return new Promise((resolve) => {
-    // Basic URL validation
-    if (!isValidUrl(website)) {
-      resolve(setCachedResult(key, "unreachable"));
-      return;
-    }
+  // Basic URL validation
+  if (!isValidUrl(website)) {
+    return setCachedResult(key, "unreachable");
+  }
 
-    // Try real website checking first (if available)
-    checkWebsiteOnline(website)
-      .then((isOnline) => {
-        const status: ReachabilityStatus = isOnline
-          ? "reachable"
-          : "unreachable";
-        resolve(setCachedResult(key, status));
-      })
-      .catch(() => {
-        // Fallback to simulation-based checking
-        checkWebsiteSimulated(website, resolve, key);
-      });
-  });
+  try {
+    // Try to use API endpoint
+    const { checkWebsiteReachable } = await import("../config/api");
+    const response: WebsiteReachabilityResponse =
+      await checkWebsiteReachable(website);
+
+    const status: ReachabilityStatus = response.isReachable
+      ? "reachable"
+      : "unreachable";
+    return setCachedResult(key, status);
+  } catch (error) {
+    console.warn(
+      "Website API check failed, falling back to browser-based checking:",
+      error,
+    );
+
+    // Fallback to existing browser-based checking
+    return new Promise((resolve) => {
+      checkWebsiteOnline(website)
+        .then((isOnline) => {
+          const status: ReachabilityStatus = isOnline
+            ? "reachable"
+            : "unreachable";
+          resolve(setCachedResult(key, status));
+        })
+        .catch(() => {
+          // Final fallback to simulation-based checking
+          checkWebsiteSimulated(website, resolve, key);
+        });
+    });
+  }
 }
 
 /**
