@@ -304,31 +304,31 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                           </h5>
                         </div>
                         <div className="space-y-2">
-                          <div className="flex justify-between items-center p-2 bg-gradient-to-r from-pink-50 to-rose-50 rounded-md">
+                          <div className="flex justify-between items-center p-2 bg-default-50 rounded-md">
                             <div className="flex items-center gap-2">
                               <Icon
-                                icon="solar:square-arrow-up-bold"
+                                icon="solar:square-arrow-up-outline"
                                 className="w-3 h-3 text-pink-600"
                               />
-                              <span className="text-xs text-pink-700 font-medium">
+                              <span className="text-xs text-default-700 font-medium">
                                 Lat:
                               </span>
                             </div>
-                            <span className="font-mono text-xs text-pink-800 bg-white px-2 py-1 rounded">
+                            <span className="font-mono text-xs text-default-800 bg-white px-2 py-1 rounded border">
                               {coordinates.lat.toFixed(4)}
                             </span>
                           </div>
-                          <div className="flex justify-between items-center p-2 bg-gradient-to-r from-rose-50 to-pink-50 rounded-md">
+                          <div className="flex justify-between items-center p-2 bg-default-50 rounded-md">
                             <div className="flex items-center gap-2">
                               <Icon
-                                icon="solar:square-arrow-right-bold"
+                                icon="solar:square-arrow-right-outline"
                                 className="w-3 h-3 text-rose-600"
                               />
-                              <span className="text-xs text-rose-700 font-medium">
+                              <span className="text-xs text-default-700 font-medium">
                                 Lng:
                               </span>
                             </div>
-                            <span className="font-mono text-xs text-rose-800 bg-white px-2 py-1 rounded">
+                            <span className="font-mono text-xs text-default-800 bg-white px-2 py-1 rounded border">
                               {coordinates.lng.toFixed(4)}
                             </span>
                           </div>
