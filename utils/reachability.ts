@@ -12,7 +12,7 @@ export interface ReachabilityResult {
 
 // API response types
 export interface EmailReachabilityResponse {
-  reachable: boolean;
+  alive: boolean;
 }
 
 export interface WebsiteReachabilityResponse {
