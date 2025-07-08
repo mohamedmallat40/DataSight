@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { Button } from "@heroui/button";
 import { Card, CardBody } from "@heroui/card";
 import { Icon } from "@iconify/react";
+import { AnimatePresence, LazyMotion, domAnimation, m } from "framer-motion";
 
 import LandingLayout from "@/layouts/landing";
 
@@ -60,67 +61,219 @@ export default function IndexPage(
   // Landing page for unauthenticated users
   return (
     <LandingLayout>
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        {/* Hero Section */}
-        <div className="text-center mb-20">
-          <div className="mb-6">
-            <span className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
-              <Icon icon="lucide:sparkles" width={16} />
-              AI-Powered CMS Solution
-            </span>
-          </div>
-          <h1 className="text-6xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
-            Smart Contact Management
-            <br />
-            <span className="text-5xl">with OCR & AI</span>
-          </h1>
-          <p className="text-xl text-default-600 mb-8 max-w-4xl mx-auto">
-            Transform your business cards and documents into actionable data
-            instantly. Our AI-driven CMS automatically extracts, processes, and
-            organizes contact information with advanced OCR technology and
-            intelligent data enrichment.
-          </p>
-          <div className="flex gap-4 justify-center mb-8">
+      <div className="relative flex min-h-[80vh] w-full flex-col overflow-hidden bg-background">
+        <main className="container mx-auto mt-[40px] flex max-w-[1024px] flex-col items-start px-8">
+          <section className="z-20 flex flex-col items-start justify-center gap-[18px] sm:gap-6">
             <Button
-              size="lg"
-              className="bg-gradient-to-r from-primary to-secondary text-white font-semibold shadow-lg hover:shadow-xl transition-all"
-              onPress={() => {
-                const event = new CustomEvent("openRegister");
-                window.dispatchEvent(event);
-              }}
-              startContent={<Icon icon="lucide:scan" width={20} />}
-            >
-              Start Scanning Now
-            </Button>
-            <Button
-              size="lg"
+              className="h-9 overflow-hidden border-1 border-default-100 bg-default-50 px-[18px] py-2 text-small font-normal leading-5 text-default-500"
+              endContent={
+                <Icon
+                  className="flex-none outline-none [&>path]:stroke-[2]"
+                  icon="solar:arrow-right-linear"
+                  width={20}
+                />
+              }
+              radius="full"
               variant="bordered"
-              className="font-semibold border-primary/20 text-primary hover:bg-primary/5"
-              onPress={() => {
-                const event = new CustomEvent("openLogin");
-                window.dispatchEvent(event);
-              }}
-              startContent={<Icon icon="lucide:eye" width={20} />}
             >
-              View Demo
+              AI-Powered CMS Solution
             </Button>
-          </div>
-          <div className="flex items-center justify-center gap-8 text-sm text-default-500">
-            <div className="flex items-center gap-2">
-              <Icon icon="lucide:check" className="text-success" width={16} />
-              <span>Instant OCR Processing</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Icon icon="lucide:check" className="text-success" width={16} />
-              <span>AI Data Enrichment</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Icon icon="lucide:check" className="text-success" width={16} />
-              <span>Smart Organization</span>
-            </div>
-          </div>
-        </div>
+            <LazyMotion features={domAnimation}>
+              <m.div
+                animate="kick"
+                className="flex flex-col gap-6"
+                exit="auto"
+                initial="auto"
+                transition={{
+                  duration: 0.25,
+                  ease: "easeInOut",
+                }}
+                variants={{
+                  auto: { width: "auto" },
+                  kick: { width: "auto" },
+                }}
+              >
+                <AnimatePresence mode="wait">
+                  <m.div
+                    key="hero-section-title"
+                    animate={{ filter: "blur(0px)", opacity: 1, x: 0 }}
+                    className="text-start text-[clamp(40px,10vw,44px)] font-bold leading-[1.2] tracking-tighter sm:text-[64px]"
+                    initial={{
+                      filter: "blur(16px)",
+                      opacity: 0,
+                      x: 15 + 1 * 2,
+                    }}
+                    transition={{
+                      bounce: 0,
+                      delay: 0.01 * 10,
+                      duration: 0.8 + 0.1 * 8,
+                      type: "spring",
+                    }}
+                  >
+                    <div className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                      Smart Contact Management <br /> with OCR & AI.
+                    </div>
+                  </m.div>
 
+                  <m.div
+                    key="hero-section-description"
+                    animate={{ filter: "blur(0px)", opacity: 1, x: 0 }}
+                    className="text-start font-normal leading-7 text-default-500 sm:w-[466px] sm:text-[18px]"
+                    initial={{
+                      filter: "blur(16px)",
+                      opacity: 0,
+                      x: 15 + 1 * 3,
+                    }}
+                    transition={{
+                      bounce: 0,
+                      delay: 0.01 * 30,
+                      duration: 0.8 + 0.1 * 9,
+                      type: "spring",
+                    }}
+                  >
+                    Transform your business cards and documents into actionable
+                    data instantly. Our AI-driven CMS automatically extracts,
+                    processes, and organizes contact information with advanced
+                    OCR technology.
+                  </m.div>
+
+                  <m.div
+                    key="hero-section-buttons"
+                    animate={{ filter: "blur(0px)", opacity: 1, x: 0 }}
+                    className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6"
+                    initial={{
+                      filter: "blur(16px)",
+                      opacity: 0,
+                      x: 15 + 1 * 4,
+                    }}
+                    transition={{
+                      bounce: 0,
+                      delay: 0.01 * 50,
+                      duration: 0.8 + 0.1 * 10,
+                      type: "spring",
+                    }}
+                  >
+                    <Button
+                      className="h-10 w-[163px] bg-default-foreground px-[16px] py-[10px] text-small font-medium leading-5 text-background"
+                      radius="full"
+                      onPress={() => {
+                        const event = new CustomEvent("openRegister");
+                        window.dispatchEvent(event);
+                      }}
+                    >
+                      Start Scanning
+                    </Button>
+                    <Button
+                      className="h-10 w-[163px] border-1 border-default-100 px-[16px] py-[10px] text-small font-medium leading-5"
+                      endContent={
+                        <span className="pointer-events-none flex h-[22px] w-[22px] items-center justify-center rounded-full bg-default-100">
+                          <Icon
+                            className="text-default-500 [&>path]:stroke-[1.5]"
+                            icon="solar:arrow-right-linear"
+                            width={16}
+                          />
+                        </span>
+                      }
+                      radius="full"
+                      variant="bordered"
+                      onPress={() => {
+                        const event = new CustomEvent("openLogin");
+                        window.dispatchEvent(event);
+                      }}
+                    >
+                      View Demo
+                    </Button>
+                  </m.div>
+
+                  <m.div
+                    key="hero-section-features"
+                    animate={{ filter: "blur(0px)", opacity: 1, x: 0 }}
+                    className="flex items-center gap-8 text-sm text-default-500"
+                    initial={{
+                      filter: "blur(16px)",
+                      opacity: 0,
+                      x: 15 + 1 * 5,
+                    }}
+                    transition={{
+                      bounce: 0,
+                      delay: 0.01 * 70,
+                      duration: 0.8 + 0.1 * 11,
+                      type: "spring",
+                    }}
+                  >
+                    <div className="flex items-center gap-2">
+                      <Icon
+                        icon="lucide:check"
+                        className="text-success"
+                        width={16}
+                      />
+                      <span>Instant OCR</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Icon
+                        icon="lucide:check"
+                        className="text-success"
+                        width={16}
+                      />
+                      <span>AI Enrichment</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Icon
+                        icon="lucide:check"
+                        className="text-success"
+                        width={16}
+                      />
+                      <span>Smart Organization</span>
+                    </div>
+                  </m.div>
+                </AnimatePresence>
+              </m.div>
+            </LazyMotion>
+          </section>
+        </main>
+
+        <LazyMotion features={domAnimation}>
+          <AnimatePresence mode="wait">
+            <m.div
+              key="hero-section-app-screenshot"
+              animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
+              className="absolute top-[40%] w-full"
+              initial={{ filter: "blur(16px)", opacity: 0, y: 300 }}
+              transition={{
+                bounce: 0,
+                delay: 0.01 * 10,
+                duration: 0.8 + 0.1 * 8,
+                type: "spring",
+              }}
+            >
+              <div className="relative h-[500px] w-full overflow-hidden">
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/10 to-transparent rounded-t-3xl" />
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[90%] h-[80%] bg-gradient-to-t from-background/90 to-background/30 rounded-t-2xl border border-default-200 shadow-2xl">
+                  <div className="p-8 h-full flex flex-col justify-center items-center text-center">
+                    <Icon
+                      icon="lucide:scan-line"
+                      className="w-20 h-20 text-primary mb-4"
+                    />
+                    <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                      Advanced OCR Processing
+                    </h3>
+                    <p className="text-default-600 max-w-md">
+                      Experience real-time document scanning with AI-powered
+                      data extraction
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </m.div>
+          </AnimatePresence>
+        </LazyMotion>
+
+        <div className="pointer-events-none absolute inset-0 top-[-25%] z-0 scale-150 select-none sm:scale-125">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
+        </div>
+      </div>
+
+      <div className="max-w-6xl mx-auto px-4 py-12">
         {/* Features Grid */}
         <section id="features" className="scroll-mt-16">
           <div className="text-center mb-12">
