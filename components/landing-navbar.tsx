@@ -43,9 +43,8 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
         ref={ref}
         {...props}
         classNames={{
-          base: cn("border-primary/10 bg-transparent shadow-sm", {
-            "bg-gradient-to-r from-primary/5 to-secondary/5 backdrop-blur-md":
-              isMenuOpen,
+          base: cn("border-gray-200 bg-white/80 shadow-sm backdrop-blur-md", {
+            "bg-white/90 backdrop-blur-md": isMenuOpen,
           }),
           wrapper: "w-full justify-center",
           item: "hidden md:flex",
@@ -57,11 +56,15 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
       >
         {/* Left Content */}
         <NavbarBrand>
-          <div className="rounded-full bg-gradient-to-r from-primary to-secondary p-2">
-            <Logo className="text-white" />
+          <div className="rounded-lg bg-gradient-to-r from-orange-500 to-red-500 p-1.5">
+            <Icon
+              icon="solar:document-text-bold"
+              className="text-white"
+              width={20}
+            />
           </div>
-          <span className="ml-2 text-small font-medium bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            SMARTCMS
+          <span className="ml-2 text-small font-semibold text-gray-900">
+            Convents
           </span>
         </NavbarBrand>
 
@@ -70,7 +73,7 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
           <NavbarItem isActive className="data-[active='true']:font-medium">
             <Link
               aria-current="page"
-              className="text-primary font-medium"
+              className="text-gray-900 font-medium"
               href="#"
               size="sm"
             >
@@ -79,26 +82,8 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
           </NavbarItem>
           <NavbarItem>
             <Link
-              className="text-default-500 hover:text-primary transition-colors"
+              className="text-gray-600 hover:text-gray-900 transition-colors"
               href="#features"
-              size="sm"
-            >
-              Features
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link
-              className="text-default-500 hover:text-primary transition-colors"
-              href="#customers"
-              size="sm"
-            >
-              Customers
-            </Link>
-          </NavbarItem>
-          <NavbarItem>
-            <Link
-              className="text-default-500 hover:text-primary transition-colors"
-              href="#about"
               size="sm"
             >
               About Us
@@ -106,11 +91,29 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
           </NavbarItem>
           <NavbarItem>
             <Link
-              className="text-default-500 hover:text-primary transition-colors"
-              href="#integrations"
+              className="text-gray-600 hover:text-gray-900 transition-colors"
+              href="#customers"
               size="sm"
             >
-              Integrations
+              Our Features
+            </Link>
+          </NavbarItem>
+          <NavbarItem>
+            <Link
+              className="text-gray-600 hover:text-gray-900 transition-colors"
+              href="#pricing"
+              size="sm"
+            >
+              Pricing
+            </Link>
+          </NavbarItem>
+          <NavbarItem>
+            <Link
+              className="text-gray-600 hover:text-gray-900 transition-colors"
+              href="#testimonials"
+              size="sm"
+            >
+              Testimonials
             </Link>
           </NavbarItem>
         </NavbarContent>
@@ -119,16 +122,15 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
         <NavbarContent className="hidden md:flex" justify="end">
           <NavbarItem className="ml-2 !flex gap-2">
             <Button
-              className="text-primary border-primary/20 hover:bg-primary/10"
+              className="text-gray-700 hover:text-gray-900"
               radius="full"
-              variant="bordered"
+              variant="light"
               onPress={() => handleAuthAction("login")}
             >
               Login
             </Button>
             <Button
-              className="bg-gradient-to-r from-primary to-secondary font-medium text-white shadow-lg hover:shadow-xl transition-all"
-              endContent={<Icon icon="solar:alt-arrow-right-linear" />}
+              className="bg-gray-900 hover:bg-gray-800 font-medium text-white shadow-lg hover:shadow-xl transition-all"
               radius="full"
               variant="solid"
               onPress={() => handleAuthAction("register")}
