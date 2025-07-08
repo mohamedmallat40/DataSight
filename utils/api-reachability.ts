@@ -8,6 +8,7 @@ import type {
   EmailReachabilityResponse,
   WebsiteReachabilityResponse,
 } from "./reachability";
+import { normalizeUrl } from "./reachability";
 
 /**
  * Check if an email is alive using the API endpoint
