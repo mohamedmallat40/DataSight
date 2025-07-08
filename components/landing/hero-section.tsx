@@ -10,7 +10,8 @@ export default function HeroSection() {
   const router = useRouter();
 
   const handleGetStarted = () => {
-    router.push("/register");
+    const event = new CustomEvent("openRegister");
+    window.dispatchEvent(event);
   };
 
   const handleViewDemo = () => {

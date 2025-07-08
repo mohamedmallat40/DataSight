@@ -19,11 +19,13 @@ export default function LandingNavbar() {
   const router = useRouter();
 
   const handleLogin = () => {
-    router.push("/login");
+    const event = new CustomEvent("openLogin");
+    window.dispatchEvent(event);
   };
 
   const handleSignUp = () => {
-    router.push("/register");
+    const event = new CustomEvent("openRegister");
+    window.dispatchEvent(event);
   };
 
   return (

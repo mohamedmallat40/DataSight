@@ -113,15 +113,67 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
     </NextLink>
   );
 
+  // Check if user is authenticated
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkAuth = () => {
+      const token = localStorage.getItem("auth_token");
+      setIsAuthenticated(!!token);
+    };
+
+    checkAuth();
+    // Listen for storage changes to update auth state
+    window.addEventListener("storage", checkAuth);
+    return () => window.removeEventListener("storage", checkAuth);
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("auth_token");
+    localStorage.removeItem("user_session");
+    setIsAuthenticated(false);
+    // Navigate to landing page
+    window.location.href = "/";
+  };
+
   const actionButtons = (
     <div className="flex items-center gap-2">
-      {/* Auth Buttons */}
-      <Button as={NextLink} href="/login" size="sm" variant="ghost">
-        Sign In
-      </Button>
-      <Button as={NextLink} href="/register" size="sm" color="primary">
-        Sign Up
-      </Button>
+      {isAuthenticated ? (
+        /* Authenticated User Actions */
+        <Button
+          size="sm"
+          variant="ghost"
+          color="danger"
+          onPress={handleLogout}
+          startContent={<Icon icon="lucide:log-out" width={16} />}
+        >
+          Logout
+        </Button>
+      ) : (
+        /* Unauthenticated User Actions */
+        <>
+          <Button
+            size="sm"
+            variant="ghost"
+            onPress={() => {
+              const event = new CustomEvent("openLogin");
+              window.dispatchEvent(event);
+            }}
+          >
+            Sign In
+          </Button>
+          <Button
+            size="sm"
+            color="primary"
+            onPress={() => {
+              const event = new CustomEvent("openRegister");
+              window.dispatchEvent(event);
+            }}
+          >
+            Sign Up
+          </Button>
+        </>
+      )}
       {/* CTA Button */}
       <Button
         isExternal
