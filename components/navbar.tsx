@@ -114,9 +114,9 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
   );
 
   // Check if user is authenticated
-  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const checkAuth = () => {
       const token = localStorage.getItem("auth_token");
       setIsAuthenticated(!!token);
