@@ -100,53 +100,107 @@ export default function IndexPage(
         </div>
 
         {/* Features Grid */}
-        <div className="grid md:grid-cols-3 gap-8 mb-16">
-          <Card className="hover:scale-105 transition-transform duration-200">
-            <CardBody className="text-center p-8">
-              <Icon
-                icon="lucide:users"
-                className="w-12 h-12 text-primary mx-auto mb-4"
-              />
-              <h3 className="text-xl font-semibold mb-2">Contact Management</h3>
-              <p className="text-default-600">
-                Organize and manage patient contacts with advanced filtering,
-                search, and bulk operations.
-              </p>
-            </CardBody>
-          </Card>
+        <section id="features" className="scroll-mt-16">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold mb-4">Powerful Features</h2>
+            <p className="text-lg text-default-600 max-w-2xl mx-auto">
+              Discover the comprehensive tools that make All Care Medical Group
+              the leading healthcare management platform.
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-8 mb-16">
+            <Card className="hover:scale-105 transition-transform duration-200">
+              <CardBody className="text-center p-8">
+                <Icon
+                  icon="lucide:users"
+                  className="w-12 h-12 text-primary mx-auto mb-4"
+                />
+                <h3 className="text-xl font-semibold mb-2">
+                  Contact Management
+                </h3>
+                <p className="text-default-600">
+                  Organize and manage patient contacts with advanced filtering,
+                  search, and bulk operations.
+                </p>
+              </CardBody>
+            </Card>
 
-          <Card className="hover:scale-105 transition-transform duration-200">
-            <CardBody className="text-center p-8">
+            <Card className="hover:scale-105 transition-transform duration-200">
+              <CardBody className="text-center p-8">
+                <Icon
+                  icon="lucide:brain"
+                  className="w-12 h-12 text-secondary mx-auto mb-4"
+                />
+                <h3 className="text-xl font-semibold mb-2">
+                  AI-Powered Insights
+                </h3>
+                <p className="text-default-600">
+                  Leverage artificial intelligence for predictive analytics and
+                  automated healthcare workflows.
+                </p>
+              </CardBody>
+            </Card>
+
+            <Card className="hover:scale-105 transition-transform duration-200">
+              <CardBody className="text-center p-8">
+                <Icon
+                  icon="lucide:activity"
+                  className="w-12 h-12 text-success mx-auto mb-4"
+                />
+                <h3 className="text-xl font-semibold mb-2">
+                  Real-time Analytics
+                </h3>
+                <p className="text-default-600">
+                  Monitor key metrics and performance indicators with
+                  comprehensive dashboard views.
+                </p>
+              </CardBody>
+            </Card>
+          </div>
+        </section>
+
+        {/* About Section */}
+        <section id="about" className="scroll-mt-16 mb-16">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div>
+              <h2 className="text-4xl font-bold mb-6">
+                About All Care Medical
+              </h2>
+              <p className="text-lg text-default-600 mb-6">
+                We're dedicated to revolutionizing healthcare management through
+                innovative technology and AI-powered solutions. Our platform
+                serves thousands of healthcare professionals worldwide.
+              </p>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="text-center">
+                  <p className="text-3xl font-bold text-primary">10k+</p>
+                  <p className="text-sm text-default-500">
+                    Healthcare Professionals
+                  </p>
+                </div>
+                <div className="text-center">
+                  <p className="text-3xl font-bold text-secondary">500+</p>
+                  <p className="text-sm text-default-500">
+                    Medical Institutions
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div className="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl p-8 text-center">
               <Icon
-                icon="lucide:brain"
-                className="w-12 h-12 text-secondary mx-auto mb-4"
+                icon="lucide:heart-handshake"
+                className="w-20 h-20 text-primary mx-auto mb-4"
               />
               <h3 className="text-xl font-semibold mb-2">
-                AI-Powered Insights
+                Patient-Centered Care
               </h3>
               <p className="text-default-600">
-                Leverage artificial intelligence for predictive analytics and
-                automated healthcare workflows.
+                Our mission is to improve patient outcomes through better
+                healthcare management and communication.
               </p>
-            </CardBody>
-          </Card>
-
-          <Card className="hover:scale-105 transition-transform duration-200">
-            <CardBody className="text-center p-8">
-              <Icon
-                icon="lucide:activity"
-                className="w-12 h-12 text-success mx-auto mb-4"
-              />
-              <h3 className="text-xl font-semibold mb-2">
-                Real-time Analytics
-              </h3>
-              <p className="text-default-600">
-                Monitor key metrics and performance indicators with
-                comprehensive dashboard views.
-              </p>
-            </CardBody>
-          </Card>
-        </div>
+            </div>
+          </div>
+        </section>
 
         {/* CTA Section */}
         <Card className="bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/20">
