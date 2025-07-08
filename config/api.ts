@@ -66,4 +66,15 @@ export const checkWebsiteReachable = async (url: string) => {
   return response.data;
 };
 
+// Website preview endpoint
+export const getWebsitePreview = async (url: string) => {
+  const response = await apiClient.get(
+    `/preview-website?url=${encodeURIComponent(url)}`,
+    {
+      responseType: "blob",
+    },
+  );
+  return response.data;
+};
+
 export default apiClient;
