@@ -24,7 +24,6 @@ import clsx from "clsx";
 import { useLocale } from "@react-aria/i18n";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Icon } from "@iconify/react";
 
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
