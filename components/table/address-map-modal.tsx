@@ -458,16 +458,41 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                     startContent={
                       <Icon icon="solar:share-outline" className="w-4 h-4" />
                     }
-                    onPress={() => {
+                    onPress={async () => {
+                      const shareUrl = `https://www.openstreetmap.org/?mlat=${coordinates.lat}&mlon=${coordinates.lng}&zoom=16`;
                       const shareData = {
                         title: `Location: ${contactName || "Address"}`,
                         text: fullAddress,
-                        url: `https://www.openstreetmap.org/?mlat=${coordinates.lat}&mlon=${coordinates.lng}&zoom=16`,
+                        url: shareUrl,
                       };
-                      if (navigator.share) {
-                        navigator.share(shareData);
-                      } else {
-                        navigator.clipboard.writeText(shareData.url);
+
+                      try {
+                        if (
+                          navigator.share &&
+                          navigator.canShare &&
+                          navigator.canShare(shareData)
+                        ) {
+                          await navigator.share(shareData);
+                        } else {
+                          // Fallback: copy to clipboard
+                          await navigator.clipboard.writeText(
+                            `${fullAddress}\n${shareUrl}`,
+                          );
+                          // You could add a toast notification here if available
+                        }
+                      } catch (error) {
+                        // If sharing fails, fall back to clipboard
+                        try {
+                          await navigator.clipboard.writeText(
+                            `${fullAddress}\n${shareUrl}`,
+                          );
+                        } catch (clipboardError) {
+                          console.error(
+                            "Share and clipboard both failed:",
+                            error,
+                            clipboardError,
+                          );
+                        }
                       }
                     }}
                   >
