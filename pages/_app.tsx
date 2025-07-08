@@ -7,7 +7,7 @@ import { useEffect } from "react";
 
 import { fontSans, fontMono } from "@/config/fonts";
 import "@/styles/globals.css";
-import { AuthProvider } from "@/components/auth/auth-provider";
+// import { AuthProvider } from "@/components/auth/auth-provider";
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -36,13 +36,9 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <NextUIProvider navigate={router.push}>
       <NextThemesProvider>
-        <AuthProvider>
-          <main
-            className={`${fontSans.variable} ${fontMono.variable} font-sans`}
-          >
-            <Component {...pageProps} />
-          </main>
-        </AuthProvider>
+        <main className={`${fontSans.variable} ${fontMono.variable} font-sans`}>
+          <Component {...pageProps} />
+        </main>
       </NextThemesProvider>
     </NextUIProvider>
   );
