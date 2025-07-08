@@ -43,8 +43,9 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
         ref={ref}
         {...props}
         classNames={{
-          base: cn("border-default-100 bg-transparent", {
-            "bg-default-200/50 dark:bg-default-100/50": isMenuOpen,
+          base: cn("border-primary/10 bg-transparent shadow-sm", {
+            "bg-gradient-to-r from-primary/5 to-secondary/5 backdrop-blur-md":
+              isMenuOpen,
           }),
           wrapper: "w-full justify-center",
           item: "hidden md:flex",
