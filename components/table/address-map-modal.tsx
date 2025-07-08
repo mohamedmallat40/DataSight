@@ -181,20 +181,72 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                     <CardBody className="p-4">
                       <div className="space-y-4">
                         <div className="flex items-center gap-2">
-                          <Icon
-                            icon="solar:home-outline"
-                            className="w-4 h-4 text-default-500"
-                          />
+                          <div className="w-6 h-6 bg-gradient-to-br from-orange-400 to-red-500 rounded-md flex items-center justify-center">
+                            <Icon
+                              icon="solar:home-bold"
+                              className="w-3 h-3 text-white"
+                            />
+                          </div>
                           <h4 className="font-medium text-foreground">
                             Address
                           </h4>
                         </div>
 
-                        <div className="p-3 bg-default-50 rounded-lg">
+                        <div className="p-3 bg-default-50 rounded-lg border-l-3 border-orange-400">
                           <p className="text-sm text-default-700 leading-relaxed">
                             {fullAddress}
                           </p>
                         </div>
+
+                        {/* Location Details with Icons */}
+                        {(city || state || postal_code || country) && (
+                          <div className="grid grid-cols-2 gap-2">
+                            {city && (
+                              <div className="flex items-center gap-2 p-2 bg-blue-50 rounded-md">
+                                <Icon
+                                  icon="solar:buildings-bold"
+                                  className="w-3 h-3 text-blue-600"
+                                />
+                                <span className="text-xs text-blue-700 font-medium">
+                                  {city}
+                                </span>
+                              </div>
+                            )}
+                            {state && (
+                              <div className="flex items-center gap-2 p-2 bg-purple-50 rounded-md">
+                                <Icon
+                                  icon="solar:map-bold"
+                                  className="w-3 h-3 text-purple-600"
+                                />
+                                <span className="text-xs text-purple-700 font-medium">
+                                  {state}
+                                </span>
+                              </div>
+                            )}
+                            {postal_code && (
+                              <div className="flex items-center gap-2 p-2 bg-green-50 rounded-md">
+                                <Icon
+                                  icon="solar:letter-bold"
+                                  className="w-3 h-3 text-green-600"
+                                />
+                                <span className="text-xs text-green-700 font-medium">
+                                  {postal_code}
+                                </span>
+                              </div>
+                            )}
+                            {country && (
+                              <div className="flex items-center gap-2 p-2 bg-indigo-50 rounded-md">
+                                <Icon
+                                  icon="solar:globe-bold"
+                                  className="w-3 h-3 text-indigo-600"
+                                />
+                                <span className="text-xs text-indigo-700 font-medium">
+                                  {country}
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        )}
 
                         {/* Action Buttons */}
                         <div className="space-y-2">
