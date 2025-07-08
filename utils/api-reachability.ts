@@ -30,8 +30,9 @@ export async function isEmailAlive(email: string): Promise<boolean> {
  */
 export async function isWebsiteReachable(url: string): Promise<boolean> {
   try {
+    const normalizedUrl = normalizeUrl(url);
     const response: WebsiteReachabilityResponse =
-      await checkWebsiteReachable(url);
+      await checkWebsiteReachable(normalizedUrl);
     return response.isReachable;
   } catch (error) {
     console.error("Website reachable check failed:", error);
