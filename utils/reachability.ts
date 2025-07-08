@@ -109,7 +109,7 @@ export async function checkEmailReachability(
     const { checkEmailAlive } = await import("../config/api");
     const response: EmailReachabilityResponse = await checkEmailAlive(email);
 
-    const status: ReachabilityStatus = response.reachable
+    const status: ReachabilityStatus = response.alive
       ? "reachable"
       : "unreachable";
     return setCachedResult(key, status);

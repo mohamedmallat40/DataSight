@@ -17,7 +17,7 @@ import { normalizeUrl } from "./reachability";
 export async function isEmailAlive(email: string): Promise<boolean> {
   try {
     const response: EmailReachabilityResponse = await checkEmailAlive(email);
-    return response.reachable;
+    return response.alive;
   } catch (error) {
     console.error("Email alive check failed:", error);
     throw error;
