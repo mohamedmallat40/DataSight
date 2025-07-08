@@ -16,16 +16,13 @@ import {
   cn,
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import { Logo } from "./icons";
 
 const menuItems = [
-  "About",
-  "Features",
-  "Customers",
+  "Home",
+  "About Us",
+  "Our Features",
   "Pricing",
-  "Enterprise",
-  "Documentation",
-  "Contact Us",
+  "Testimonials",
 ];
 
 const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
@@ -43,37 +40,34 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
         ref={ref}
         {...props}
         classNames={{
-          base: cn(
-            "border-default-200 bg-background/80 shadow-sm backdrop-blur-md",
-            {
-              "bg-background/90 backdrop-blur-md": isMenuOpen,
-            },
-          ),
-          wrapper: "w-full justify-center",
+          base: cn("border-divider bg-background/60 backdrop-blur-lg", {
+            "bg-background/80": isMenuOpen,
+          }),
+          wrapper: "w-full justify-center bg-transparent",
           item: "hidden md:flex",
           ...classNames,
         }}
-        height="60px"
+        height="64px"
         isMenuOpen={isMenuOpen}
         onMenuOpenChange={setIsMenuOpen}
       >
-        {/* Left Content */}
+        {/* Left Content - Brand */}
         <NavbarBrand>
-          <div className="rounded-lg bg-gradient-to-r from-primary to-secondary p-1.5">
+          <div className="rounded-lg bg-gradient-to-r from-primary to-secondary p-2">
             <Icon
-              icon="solar:document-text-bold"
+              icon="solar:document-text-linear"
               className="text-white"
               width={20}
             />
           </div>
-          <span className="ml-2 text-small font-semibold text-foreground">
+          <span className="ml-2 text-medium font-semibold text-foreground">
             Convents
           </span>
         </NavbarBrand>
 
-        {/* Center Content */}
+        {/* Center Content - Navigation */}
         <NavbarContent justify="center">
-          <NavbarItem isActive className="data-[active='true']:font-medium">
+          <NavbarItem isActive>
             <Link
               aria-current="page"
               className="text-primary font-medium"
@@ -85,8 +79,8 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
           </NavbarItem>
           <NavbarItem>
             <Link
-              className="text-default-500 hover:text-primary transition-colors"
-              href="#features"
+              className="text-foreground/60 hover:text-foreground transition-colors"
+              href="#about"
               size="sm"
             >
               About Us
@@ -94,8 +88,8 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
           </NavbarItem>
           <NavbarItem>
             <Link
-              className="text-default-500 hover:text-primary transition-colors"
-              href="#customers"
+              className="text-foreground/60 hover:text-foreground transition-colors"
+              href="#features"
               size="sm"
             >
               Our Features
@@ -103,7 +97,7 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
           </NavbarItem>
           <NavbarItem>
             <Link
-              className="text-default-500 hover:text-primary transition-colors"
+              className="text-foreground/60 hover:text-foreground transition-colors"
               href="#pricing"
               size="sm"
             >
@@ -112,7 +106,7 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
           </NavbarItem>
           <NavbarItem>
             <Link
-              className="text-default-500 hover:text-primary transition-colors"
+              className="text-foreground/60 hover:text-foreground transition-colors"
               href="#testimonials"
               size="sm"
             >
@@ -121,19 +115,18 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
           </NavbarItem>
         </NavbarContent>
 
-        {/* Right Content */}
+        {/* Right Content - Actions */}
         <NavbarContent className="hidden md:flex" justify="end">
           <NavbarItem className="ml-2 !flex gap-2">
             <Button
-              className="text-default-500 hover:text-primary"
-              radius="full"
               variant="light"
+              radius="full"
               onPress={() => handleAuthAction("login")}
             >
               Login
             </Button>
             <Button
-              className="bg-gradient-to-r from-primary to-secondary font-medium text-white shadow-lg hover:shadow-xl transition-all"
+              color="primary"
               radius="full"
               variant="solid"
               onPress={() => handleAuthAction("register")}
@@ -143,24 +136,15 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
           </NavbarItem>
         </NavbarContent>
 
-        <NavbarMenuToggle className="text-default-400 md:hidden" />
+        {/* Mobile Menu Toggle */}
+        <NavbarMenuToggle className="md:hidden" />
 
-        <NavbarMenu
-          className="top-[calc(var(--navbar-height)_-_1px)] max-h-fit bg-gradient-to-b from-primary/5 to-secondary/5 pb-6 pt-6 shadow-medium backdrop-blur-md backdrop-saturate-150 border-primary/10"
-          motionProps={{
-            initial: { opacity: 0, y: -20 },
-            animate: { opacity: 1, y: 0 },
-            exit: { opacity: 0, y: -20 },
-            transition: {
-              ease: "easeInOut",
-              duration: 0.2,
-            },
-          }}
-        >
+        {/* Mobile Menu */}
+        <NavbarMenu className="bg-background/80 backdrop-blur-lg">
           <NavbarMenuItem>
             <Button
               fullWidth
-              className="text-primary border-primary/20 bg-primary/5"
+              color="primary"
               variant="bordered"
               onPress={() => handleAuthAction("login")}
             >
@@ -170,7 +154,8 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
           <NavbarMenuItem className="mb-4">
             <Button
               fullWidth
-              className="bg-gradient-to-r from-primary to-secondary text-white font-medium shadow-lg"
+              color="primary"
+              variant="solid"
               onPress={() => handleAuthAction("register")}
             >
               Get Started
@@ -179,15 +164,13 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
           {menuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
-                className="mb-2 w-full text-default-600 hover:text-primary transition-colors font-medium"
+                className="mb-2 w-full text-foreground/60 hover:text-foreground transition-colors"
                 href={`#${item.toLowerCase().replace(" ", "-")}`}
-                size="md"
+                size="lg"
               >
                 {item}
               </Link>
-              {index < menuItems.length - 1 && (
-                <Divider className="opacity-30 bg-primary/20" />
-              )}
+              {index < menuItems.length - 1 && <Divider className="my-2" />}
             </NavbarMenuItem>
           ))}
         </NavbarMenu>
