@@ -31,27 +31,34 @@ export default function IndexPage(
   // Check authentication status
   useEffect(() => {
     const checkAuth = () => {
-      const token = localStorage.getItem("auth_token");
-      const isAuth = !!token;
-      setIsAuthenticated(isAuth);
+      try {
+        const token = localStorage.getItem("auth_token");
+        const isAuth = !!token;
+        setIsAuthenticated(isAuth);
 
-      if (isAuth) {
-        router.replace("/contacts");
+        if (isAuth) {
+          router.replace("/contacts");
+        }
+      } catch (error) {
+        // If localStorage is not available (SSR), assume not authenticated
+        setIsAuthenticated(false);
       }
     };
 
-    checkAuth();
+    // Add a small delay to ensure the component has mounted
+    const timeoutId = setTimeout(checkAuth, 100);
+    return () => clearTimeout(timeoutId);
   }, [router]);
 
-  // Show loading while checking auth
+  // Show loading only briefly while checking auth
   if (isAuthenticated === null) {
     return (
       <LandingLayout>
         <div className="flex items-center justify-center min-h-96">
           <div className="text-center">
-            <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+            <div className="animate-spin w-8 h-8 border-4 border-blue-600 border-t-transparent rounded-full mx-auto mb-4"></div>
             <h1 className="text-2xl font-bold">Loading...</h1>
-            <p className="text-default-500">Checking authentication...</p>
+            <p className="text-gray-500">Checking authentication...</p>
           </div>
         </div>
       </LandingLayout>
