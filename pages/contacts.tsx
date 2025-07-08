@@ -734,12 +734,24 @@ export default function ContactsPage(): JSX.Element {
                   showFallback={false}
                   size="sm"
                 />
-                <p
-                  className="text-small font-medium text-default-700 truncate"
-                  title={user.country || "No country"}
-                >
-                  {user.country || "N/A"}
-                </p>
+                <div className="flex-1 min-w-0">
+                  <p
+                    className="text-small font-medium text-default-700 truncate"
+                    title={user.country || "No country"}
+                  >
+                    {user.country || "N/A"}
+                  </p>
+                </div>
+                <MapButton
+                  address={user.address}
+                  street={user.street}
+                  city={user.city}
+                  state={user.state}
+                  postal_code={user.postal_code}
+                  country={user.country}
+                  contactName={user.full_name}
+                  onPress={() => handleViewOnMap(user)}
+                />
               </div>
               {user.city && (
                 <p
