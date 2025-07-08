@@ -293,24 +293,42 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                     <Card>
                       <CardBody className="p-4">
                         <div className="flex items-center gap-2 mb-3">
-                          <Icon
-                            icon="solar:target-outline"
-                            className="w-4 h-4 text-default-500"
-                          />
+                          <div className="w-6 h-6 bg-gradient-to-br from-pink-400 to-rose-500 rounded-md flex items-center justify-center">
+                            <Icon
+                              icon="solar:target-bold"
+                              className="w-3 h-3 text-white"
+                            />
+                          </div>
                           <h5 className="font-medium text-foreground">
                             Coordinates
                           </h5>
                         </div>
-                        <div className="space-y-2 text-xs">
-                          <div className="flex justify-between">
-                            <span className="text-default-500">Lat:</span>
-                            <span className="font-mono text-default-700">
+                        <div className="space-y-2">
+                          <div className="flex justify-between items-center p-2 bg-gradient-to-r from-pink-50 to-rose-50 rounded-md">
+                            <div className="flex items-center gap-2">
+                              <Icon
+                                icon="solar:square-arrow-up-bold"
+                                className="w-3 h-3 text-pink-600"
+                              />
+                              <span className="text-xs text-pink-700 font-medium">
+                                Lat:
+                              </span>
+                            </div>
+                            <span className="font-mono text-xs text-pink-800 bg-white px-2 py-1 rounded">
                               {coordinates.lat.toFixed(4)}
                             </span>
                           </div>
-                          <div className="flex justify-between">
-                            <span className="text-default-500">Lng:</span>
-                            <span className="font-mono text-default-700">
+                          <div className="flex justify-between items-center p-2 bg-gradient-to-r from-rose-50 to-pink-50 rounded-md">
+                            <div className="flex items-center gap-2">
+                              <Icon
+                                icon="solar:square-arrow-right-bold"
+                                className="w-3 h-3 text-rose-600"
+                              />
+                              <span className="text-xs text-rose-700 font-medium">
+                                Lng:
+                              </span>
+                            </div>
+                            <span className="font-mono text-xs text-rose-800 bg-white px-2 py-1 rounded">
                               {coordinates.lng.toFixed(4)}
                             </span>
                           </div>
