@@ -56,10 +56,10 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
       >
         {/* Left Content */}
         <NavbarBrand>
-          <div className="rounded-full bg-default-foreground text-background">
-            <Logo />
+          <div className="rounded-full bg-gradient-to-r from-primary to-secondary p-2">
+            <Logo className="text-white" />
           </div>
-          <span className="ml-2 text-small font-medium text-default-foreground">
+          <span className="ml-2 text-small font-medium bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
             ALL CARE MEDICAL
           </span>
         </NavbarBrand>
