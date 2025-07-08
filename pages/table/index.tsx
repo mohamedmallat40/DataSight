@@ -831,46 +831,51 @@ export default function Component(): JSX.Element {
           onSelectionChange={onSelectionChange}
           onSortChange={setSortDescriptor}
         >
-        <TableHeader columns={headerColumns}>
-          {(column: ExtendedColumnDefinition) => (
-            <TableColumn
-              key={column.uid}
-              align={column.uid === "actions" ? "end" : "start"}
-              className={cn([
-                column.uid === "actions"
-                  ? "flex items-center justify-end px-[20px] w-[120px]"
-                  : "",
-                column.uid === "full_name" ? "min-w-[250px]" : "",
-                column.uid === "job_title" ? "min-w-[120px] max-w-[120px]" : "",
-                column.uid === "company_name"
-                  ? "min-w-[160px] max-w-[160px]"
-                  : "",
-                column.uid === "email" ? "min-w-[220px] max-w-[220px]" : "",
-                column.uid === "phone_number" ? "min-w-[160px]" : "",
-                column.uid === "industry" ? "min-w-[140px] max-w-[140px]" : "",
-                column.uid === "gender" ? "min-w-[100px] max-w-[100px]" : "",
-                column.uid === "country" ? "min-w-[150px]" : "",
-              ])}
-            >
-              {column.name}
-            </TableColumn>
-          )}
-        </TableHeader>
-        <TableBody
-          emptyContent="No users found"
-          items={sortedItems}
-          loadingContent="Loading users..."
-          loadingState={loading ? "loading" : "idle"}
-        >
-          {(item: Users) => (
-            <TableRow key={item.id}>
-              {(columnKey: Key) => (
-                <TableCell>{renderCell(item, columnKey)}</TableCell>
-              )}
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+          <TableHeader columns={headerColumns}>
+            {(column: ExtendedColumnDefinition) => (
+              <TableColumn
+                key={column.uid}
+                align={column.uid === "actions" ? "end" : "start"}
+                className={cn([
+                  column.uid === "actions"
+                    ? "flex items-center justify-end px-[20px] w-[120px]"
+                    : "",
+                  column.uid === "full_name" ? "min-w-[250px]" : "",
+                  column.uid === "job_title"
+                    ? "min-w-[120px] max-w-[120px]"
+                    : "",
+                  column.uid === "company_name"
+                    ? "min-w-[160px] max-w-[160px]"
+                    : "",
+                  column.uid === "email" ? "min-w-[220px] max-w-[220px]" : "",
+                  column.uid === "phone_number" ? "min-w-[160px]" : "",
+                  column.uid === "industry"
+                    ? "min-w-[140px] max-w-[140px]"
+                    : "",
+                  column.uid === "gender" ? "min-w-[100px] max-w-[100px]" : "",
+                  column.uid === "country" ? "min-w-[150px]" : "",
+                ])}
+              >
+                {column.name}
+              </TableColumn>
+            )}
+          </TableHeader>
+          <TableBody
+            emptyContent="No users found"
+            items={sortedItems}
+            loadingContent="Loading users..."
+            loadingState={loading ? "loading" : "idle"}
+          >
+            {(item: Users) => (
+              <TableRow key={item.id}>
+                {(columnKey: Key) => (
+                  <TableCell>{renderCell(item, columnKey)}</TableCell>
+                )}
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
 
       <Modal
         shouldBlockScroll
