@@ -127,10 +127,10 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
             <ModalHeader className="flex flex-col gap-1 p-6">
               <div className="flex items-center justify-between w-full">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-default-100 rounded-lg flex items-center justify-center">
+                  <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center shadow-lg">
                     <Icon
-                      icon="solar:map-point-outline"
-                      className="w-5 h-5 text-default-600"
+                      icon="solar:map-point-bold"
+                      className="w-5 h-5 text-white"
                     />
                   </div>
                   <div>
@@ -138,13 +138,35 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                       Location
                     </h3>
                     {contactName && (
-                      <p className="text-sm text-default-500">{contactName}</p>
+                      <div className="flex items-center gap-2">
+                        <Icon
+                          icon="solar:user-bold"
+                          className="w-3 h-3 text-emerald-500"
+                        />
+                        <p className="text-sm text-default-500">
+                          {contactName}
+                        </p>
+                      </div>
                     )}
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
                   {!isLoadingMap && coordinates && (
-                    <Chip size="sm" variant="flat" color="default">
+                    <Chip
+                      size="sm"
+                      variant="flat"
+                      color={geocodeSource === "api" ? "success" : "warning"}
+                      startContent={
+                        <Icon
+                          icon={
+                            geocodeSource === "api"
+                              ? "solar:check-circle-bold"
+                              : "solar:info-circle-bold"
+                          }
+                          className="w-3 h-3"
+                        />
+                      }
+                    >
                       {geocodeSource === "api" ? "Precise" : "Approximate"}
                     </Chip>
                   )}
