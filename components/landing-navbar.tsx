@@ -118,19 +118,18 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
         <NavbarContent className="hidden md:flex" justify="end">
           <NavbarItem className="ml-2 !flex gap-2">
             <Button
-              className="text-default-500"
+              className="text-primary border-primary/20 hover:bg-primary/10"
               radius="full"
-              variant="light"
+              variant="bordered"
               onPress={() => handleAuthAction("login")}
             >
               Login
             </Button>
             <Button
-              className="bg-default-foreground font-medium text-background"
-              color="secondary"
+              className="bg-gradient-to-r from-primary to-secondary font-medium text-white shadow-lg hover:shadow-xl transition-all"
               endContent={<Icon icon="solar:alt-arrow-right-linear" />}
               radius="full"
-              variant="flat"
+              variant="solid"
               onPress={() => handleAuthAction("register")}
             >
               Get Started
