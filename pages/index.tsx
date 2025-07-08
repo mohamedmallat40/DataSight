@@ -1,38 +1,17 @@
 import type { GetStaticProps, InferGetStaticPropsType } from "next";
-import type { LogoItem, ThemeType } from "@/types";
 
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { useTheme } from "next-themes";
 
-// Import logo components with proper types
-import {
-  alwasaet,
-  proxymLight,
-  aramco,
-  extraexpertise,
-  proxymDark,
-  zacta,
-  dnextDark,
-  dnextLight,
-  tawazi,
-  tawazi_dark,
-} from "../components/logos";
-
-// Import page components
-
-// Import layout and main components
-import Network from "./table";
-
+// Import layout and components
 import DefaultLayout from "@/layouts/default";
-
-// Import types
+import LandingPage from "@/components/landing/landing-page";
+import Network from "./table";
 
 /**
  * Props for the IndexPage component
  */
 interface IndexPageProps {
-  // Add any static props here if needed in the future
   staticData?: {
     lastUpdated: string;
     version: string;
@@ -40,83 +19,63 @@ interface IndexPageProps {
 }
 
 /**
- * Configuration for logo display based on theme
- */
-const createLogoConfig = (theme: ThemeType): readonly LogoItem[] => {
-  return [
-    {
-      key: "alwasaet",
-      logo: alwasaet,
-    },
-    {
-      key: "proxym-it",
-      logo: theme === "dark" ? proxymLight : proxymDark,
-    },
-    {
-      key: "dnext",
-      logo: theme === "dark" ? dnextLight : dnextDark,
-    },
-    {
-      key: "aramco",
-      logo: aramco,
-    },
-    {
-      key: "extraexpertise",
-      logo: extraexpertise,
-    },
-    {
-      key: "zacta",
-      logo: zacta,
-    },
-    {
-      key: "tawazi",
-      logo: theme === "dark" ? tawazi : tawazi_dark,
-    },
-  ] as const;
-};
-
-/**
- * Main index page component with enhanced TypeScript typing
- *
- * @param props - The component props
- * @returns JSX.Element representing the main page
+ * Main index page component with authentication routing
+ * Shows landing page for unauthenticated users, contacts for authenticated users
  */
 export default function IndexPage(
   props: InferGetStaticPropsType<typeof getStaticProps>,
 ): JSX.Element {
   const router = useRouter();
-  const { theme } = useTheme();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
-  // Redirect to Contacts page by default
+  // Check authentication status
   useEffect(() => {
-    router.replace("/contacts");
+    // TODO: Replace with actual authentication check
+    // For now, we'll check for a simple localStorage token or session
+    const checkAuth = () => {
+      try {
+        // Check for authentication token/session
+        const token = localStorage.getItem("auth_token");
+        const userSession = localStorage.getItem("user_session");
+
+        // If user has valid authentication, redirect to contacts
+        if (token || userSession) {
+          setIsAuthenticated(true);
+          router.replace("/contacts");
+        } else {
+          setIsAuthenticated(false);
+        }
+      } catch (error) {
+        // In case localStorage is not available (SSR), default to unauthenticated
+        setIsAuthenticated(false);
+      }
+    };
+
+    checkAuth();
   }, [router]);
 
-  // Create logo configuration based on current theme
-  const logos: readonly LogoItem[] = React.useMemo(
-    () => createLogoConfig(theme as ThemeType),
-    [theme],
-  );
+  // Show loading state while checking authentication
+  if (isAuthenticated === null) {
+    return (
+      <DefaultLayout>
+        <div className="flex items-center justify-center min-h-[50vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+        </div>
+      </DefaultLayout>
+    );
+  }
 
-  // Render logo items with proper typing
-  const renderLogos = React.useCallback(() => {
-    return logos.map(({ key, logo }: LogoItem) => (
-      <div
-        key={key}
-        aria-label={`${key} logo`}
-        className="flex items-center justify-center text-foreground"
-        role="img"
-      >
-        {logo}
-      </div>
-    ));
-  }, [logos]);
+  // Show contacts page for authenticated users
+  if (isAuthenticated) {
+    return (
+      <DefaultLayout>
+        <Network />
+      </DefaultLayout>
+    );
+  }
 
-  return (
-    <DefaultLayout>
-      <Network />
-    </DefaultLayout>
-  );
+  // Show landing page for unauthenticated users
+  return <LandingPage />;
 }
 
 /**
