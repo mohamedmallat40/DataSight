@@ -24,15 +24,15 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
       </motion.main>
 
       {/* Landing Page Footer */}
-      <footer className="w-full border-t border-default-200/50 bg-background/80 backdrop-blur-sm mt-16">
+      <footer className="w-full border-t border-primary/10 bg-gradient-to-r from-primary/5 to-secondary/5 backdrop-blur-sm mt-16">
         <div className="flex flex-col sm:flex-row items-center justify-between py-8 px-6 max-w-7xl mx-auto gap-4">
           {/* Company Info */}
           <div className="flex flex-col sm:flex-row items-center gap-4">
             <div className="text-center sm:text-left">
-              <p className="text-lg font-semibold text-default-foreground">
+              <p className="text-lg font-semibold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                 All Care Medical Group
               </p>
-              <p className="text-sm text-default-500">
+              <p className="text-sm text-default-600">
                 Advanced Healthcare Management Platform
               </p>
             </div>
@@ -41,19 +41,19 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
           {/* Footer Links */}
           <div className="flex items-center gap-6 text-sm">
             <a
-              className="text-default-500 hover:text-foreground transition-colors"
+              className="text-default-500 hover:text-primary transition-colors"
               href="#privacy"
             >
               Privacy Policy
             </a>
             <a
-              className="text-default-500 hover:text-foreground transition-colors"
+              className="text-default-500 hover:text-primary transition-colors"
               href="#terms"
             >
               Terms of Service
             </a>
             <a
-              className="text-default-500 hover:text-foreground transition-colors"
+              className="text-default-500 hover:text-primary transition-colors"
               href="mailto:support@allcaremedical.com"
             >
               Support
@@ -62,18 +62,18 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-default-200/50">
+        <div className="border-t border-primary/10">
           <div className="flex flex-col sm:flex-row items-center justify-between py-4 px-6 max-w-7xl mx-auto gap-2">
-            <p className="text-xs text-default-400">
+            <p className="text-xs text-default-500">
               © 2024 All Care Medical Group. All rights reserved.
             </p>
-            <div className="flex items-center gap-2 text-xs text-default-400">
+            <div className="flex items-center gap-2 text-xs text-default-500">
               <span>Powered by</span>
               <a
                 href="https://www.perla-it.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-primary hover:text-primary-600 transition-colors font-medium"
+                className="text-primary hover:text-secondary transition-colors font-medium"
               >
                 Perla IT
               </a>
