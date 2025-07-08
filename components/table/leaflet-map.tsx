@@ -54,55 +54,35 @@ const LeafletMap: React.FC<LeafletMapProps> = ({
             "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
         });
 
-        // Create enhanced custom icons with better styling
+        // Create clean, minimal icons
         const CustomIcon = L.icon({
           iconUrl:
             "data:image/svg+xml;base64," +
             btoa(`
-            <svg width="32" height="45" viewBox="0 0 32 45" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.3"/>
-                </filter>
-                <linearGradient id="gradientBlue" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" style="stop-color:#0070F3;stop-opacity:1" />
-                  <stop offset="100%" style="stop-color:#006FEE;stop-opacity:1" />
-                </linearGradient>
-              </defs>
-              <path d="M16 0C7.2 0 0 7.2 0 16C0 28 16 45 16 45S32 28 32 16C32 7.2 24.8 0 16 0Z" fill="url(#gradientBlue)" filter="url(#shadow)"/>
-              <circle cx="16" cy="16" r="8" fill="white" opacity="0.9"/>
-              <circle cx="16" cy="16" r="5" fill="#006FEE"/>
-              <circle cx="16" cy="16" r="2" fill="white"/>
+            <svg width="24" height="36" viewBox="0 0 24 36" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0C5.4 0 0 5.4 0 12C0 21 12 36 12 36S24 21 24 12C24 5.4 18.6 0 12 0Z" fill="#006FEE"/>
+              <circle cx="12" cy="12" r="6" fill="white"/>
+              <circle cx="12" cy="12" r="3" fill="#006FEE"/>
             </svg>
           `),
-          iconSize: [32, 45],
-          iconAnchor: [16, 45],
-          popupAnchor: [0, -45],
+          iconSize: [24, 36],
+          iconAnchor: [12, 36],
+          popupAnchor: [0, -36],
         });
 
         const FallbackIcon = L.icon({
           iconUrl:
             "data:image/svg+xml;base64," +
             btoa(`
-            <svg width="32" height="45" viewBox="0 0 32 45" xmlns="http://www.w3.org/2000/svg">
-              <defs>
-                <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.3"/>
-                </filter>
-                <linearGradient id="gradientOrange" x1="0%" y1="0%" x2="0%" y2="100%">
-                  <stop offset="0%" style="stop-color:#FF8C00;stop-opacity:1" />
-                  <stop offset="100%" style="stop-color:#F5A524;stop-opacity:1" />
-                </linearGradient>
-              </defs>
-              <path d="M16 0C7.2 0 0 7.2 0 16C0 28 16 45 16 45S32 28 32 16C32 7.2 24.8 0 16 0Z" fill="url(#gradientOrange)" filter="url(#shadow)"/>
-              <circle cx="16" cy="16" r="8" fill="white" opacity="0.9"/>
-              <circle cx="16" cy="16" r="5" fill="#F5A524"/>
-              <circle cx="16" cy="16" r="2" fill="white"/>
+            <svg width="24" height="36" viewBox="0 0 24 36" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 0C5.4 0 0 5.4 0 12C0 21 12 36 12 36S24 21 24 12C24 5.4 18.6 0 12 0Z" fill="#71717A"/>
+              <circle cx="12" cy="12" r="6" fill="white"/>
+              <circle cx="12" cy="12" r="3" fill="#71717A"/>
             </svg>
           `),
-          iconSize: [32, 45],
-          iconAnchor: [16, 45],
-          popupAnchor: [0, -45],
+          iconSize: [24, 36],
+          iconAnchor: [12, 36],
+          popupAnchor: [0, -36],
         });
 
         // Initialize map with enhanced styling
@@ -140,49 +120,31 @@ const LeafletMap: React.FC<LeafletMapProps> = ({
           riseOnHover: true,
         }).addTo(map);
 
-        // Enhanced popup with better styling
+        // Clean popup styling
         const popupContent = `
           <div style="
-            font-family: system-ui, -apple-system, sans-serif;
-            padding: 8px;
-            max-width: 250px;
+            font-family: inherit;
+            padding: 12px;
+            max-width: 200px;
           ">
             <div style="
-              display: flex;
-              align-items: center;
-              gap: 8px;
-              margin-bottom: 8px;
-              padding-bottom: 6px;
-              border-bottom: 1px solid #e5e7eb;
-            ">
-              <div style="
-                width: 8px;
-                height: 8px;
-                border-radius: 50%;
-                background: ${isPrecise ? "#10b981" : "#f59e0b"};
-              "></div>
-              <div style="
-                font-weight: 600;
-                font-size: 14px;
-                color: #1f2937;
-              ">${contactName || "Location"}</div>
-            </div>
+              font-weight: 600;
+              font-size: 14px;
+              color: #18181b;
+              margin-bottom: 4px;
+            ">${contactName || "Location"}</div>
             <div style="
-              color: #6b7280;
+              color: #71717a;
               font-size: 12px;
               line-height: 1.4;
-              margin-bottom: 6px;
+              margin-bottom: 8px;
             ">${address}</div>
             <div style="
-              display: flex;
-              align-items: center;
-              gap: 4px;
-              font-size: 11px;
-              color: ${isPrecise ? "#10b981" : "#f59e0b"};
+              font-size: 10px;
+              color: #a1a1aa;
               font-weight: 500;
             ">
-              <span>${isPrecise ? "🎯" : "📍"}</span>
-              ${isPrecise ? "Exact location" : "Approximate area"}
+              ${isPrecise ? "Precise location" : "Approximate area"}
             </div>
           </div>
         `;
@@ -193,15 +155,15 @@ const LeafletMap: React.FC<LeafletMapProps> = ({
           className: "custom-popup",
         });
 
-        // Add a subtle circle to show the area
+        // Add a subtle circle for approximate locations
         if (!isPrecise) {
           L.circle([coordinates.lat, coordinates.lng], {
-            color: "#f59e0b",
-            fillColor: "#fbbf24",
+            color: "#71717a",
+            fillColor: "#a1a1aa",
             fillOpacity: 0.1,
             radius: 500,
-            weight: 2,
-            dashArray: "5, 5",
+            weight: 1,
+            dashArray: "3, 3",
           }).addTo(map);
         }
 
