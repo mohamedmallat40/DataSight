@@ -431,28 +431,47 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
               </div>
             </ModalBody>
             <ModalFooter>
-              <Button color="danger" variant="light" onPress={onClose}>
-                Close
-              </Button>
-              {coordinates && (
+              <div className="flex items-center gap-2 text-xs text-default-500">
+                <Icon
+                  icon="solar:copyright-bold"
+                  className="w-3 h-3 text-emerald-500"
+                />
+                <span>OpenStreetMap</span>
+              </div>
+              <div className="flex gap-2">
                 <Button
-                  color="primary"
-                  onPress={() => {
-                    const shareData = {
-                      title: `Location: ${contactName || "Address"}`,
-                      text: fullAddress,
-                      url: `https://www.openstreetmap.org/?mlat=${coordinates.lat}&mlon=${coordinates.lng}&zoom=16`,
-                    };
-                    if (navigator.share) {
-                      navigator.share(shareData);
-                    } else {
-                      navigator.clipboard.writeText(shareData.url);
-                    }
-                  }}
+                  color="danger"
+                  variant="light"
+                  onPress={onClose}
+                  startContent={
+                    <Icon icon="solar:close-circle-bold" className="w-4 h-4" />
+                  }
                 >
-                  Share
+                  Close
                 </Button>
-              )}
+                {coordinates && (
+                  <Button
+                    color="primary"
+                    startContent={
+                      <Icon icon="solar:share-bold" className="w-4 h-4" />
+                    }
+                    onPress={() => {
+                      const shareData = {
+                        title: `Location: ${contactName || "Address"}`,
+                        text: fullAddress,
+                        url: `https://www.openstreetmap.org/?mlat=${coordinates.lat}&mlon=${coordinates.lng}&zoom=16`,
+                      };
+                      if (navigator.share) {
+                        navigator.share(shareData);
+                      } else {
+                        navigator.clipboard.writeText(shareData.url);
+                      }
+                    }}
+                  >
+                    Share Location
+                  </Button>
+                )}
+              </div>
             </ModalFooter>
           </>
         )}
