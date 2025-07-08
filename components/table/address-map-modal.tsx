@@ -173,7 +173,7 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                         <p className="text-sm text-default-600 leading-relaxed">
                           {fullAddress}
                         </p>
-                        <div className="flex items-center gap-2 mt-3">
+                        <div className="flex items-center gap-2 mt-3 flex-wrap">
                           <Button
                             size="sm"
                             variant="flat"
@@ -195,6 +195,24 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                             />
                             {city}, {country}
                           </Chip>
+                          {geocodeSource === "api" && !isLoadingMap && (
+                            <Chip size="sm" variant="flat" color="success">
+                              <Icon
+                                icon="solar:check-circle-outline"
+                                className="w-3 h-3 mr-1"
+                              />
+                              Precise
+                            </Chip>
+                          )}
+                          {geocodeSource === "fallback" && !isLoadingMap && (
+                            <Chip size="sm" variant="flat" color="warning">
+                              <Icon
+                                icon="solar:info-circle-outline"
+                                className="w-3 h-3 mr-1"
+                              />
+                              Approximate
+                            </Chip>
+                          )}
                         </div>
                       </div>
                     </div>
