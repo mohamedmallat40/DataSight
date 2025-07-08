@@ -248,20 +248,13 @@ export default function IndexPage(
             >
               <div className="relative h-[500px] w-full overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/10 to-transparent rounded-t-3xl" />
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[90%] h-[80%] bg-gradient-to-t from-background/90 to-background/30 rounded-t-2xl border border-default-200 shadow-2xl">
-                  <div className="p-8 h-full flex flex-col justify-center items-center text-center">
-                    <Icon
-                      icon="lucide:scan-line"
-                      className="w-20 h-20 text-primary mb-4"
-                    />
-                    <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                      Advanced OCR Processing
-                    </h3>
-                    <p className="text-default-600 max-w-md">
-                      Experience real-time document scanning with AI-powered
-                      data extraction
-                    </p>
-                  </div>
+                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[90%] h-[80%] bg-background rounded-t-2xl border border-default-200 shadow-2xl overflow-hidden">
+                  <img
+                    src="https://cdn.builder.io/api/v1/image/assets%2F14c1ca08871e4f80a1054797b1e2a6eb%2F3de12bbdf4ae42888e89ee06b42be323?format=webp&width=800"
+                    alt="SmartCMS Contact Management Dashboard"
+                    className="w-full h-full object-cover object-top"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/30 via-transparent to-transparent" />
                 </div>
               </div>
             </m.div>
