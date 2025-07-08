@@ -81,12 +81,8 @@ export const WebsitePreview: React.FC<WebsitePreviewProps> = ({
       timeoutRef.current = null;
     }
 
-    // Hide preview with delay
-    setTimeout(() => {
-      if (!isHovered) {
-        setIsVisible(false);
-      }
-    }, 200); // 200ms delay before hiding
+    // Hide preview immediately when mouse leaves
+    setIsVisible(false);
   };
 
   const getPreviewPosition = () => {
