@@ -61,7 +61,8 @@ export async function getWebsiteDetails(
   url: string,
 ): Promise<WebsiteReachabilityResponse> {
   try {
-    return await checkWebsiteReachable(url);
+    const normalizedUrl = normalizeUrl(url);
+    return await checkWebsiteReachable(normalizedUrl);
   } catch (error) {
     console.error("Website details check failed:", error);
     throw error;
