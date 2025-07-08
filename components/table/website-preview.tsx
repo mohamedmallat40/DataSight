@@ -51,9 +51,16 @@ export const WebsitePreview: React.FC<WebsitePreviewProps> = ({
       // Create object URL from blob
       const imageUrl = URL.createObjectURL(blob);
       setPreviewImage(imageUrl);
-    } catch (error) {
-      console.error("Failed to fetch website preview:", error);
-      setHasError(true);
+    } catch (error: any) {
+      console.warn("Website preview failed:", error?.message || error);
+
+      // For now, don't show error state for API failures since the endpoint might not be ready
+      // Just silently fail and don't show the preview
+      setHasError(false);
+      setIsVisible(false);
+
+      // Optional: Show a subtle indicator that preview is not available
+      // setHasError(true);
     } finally {
       setIsLoading(false);
     }

@@ -77,13 +77,37 @@ export const checkWebsiteReachable = async (url: string) => {
 
 // Website preview endpoint
 export const getWebsitePreview = async (url: string) => {
-  const response = await apiClient.get(
-    `/preview-website?url=${encodeURIComponent(url)}`,
-    {
-      responseType: "blob",
-    },
-  );
-  return response.data;
+  try {
+    const response = await apiClient.get(
+      `/preview-website?url=${encodeURIComponent(url)}`,
+      {
+        responseType: "blob",
+        timeout: 30000, // 30 second timeout for preview generation
+      },
+    );
+
+    // Validate that we got a valid image blob
+    if (
+      response.data &&
+      response.data.type &&
+      response.data.type.startsWith("image/")
+    ) {
+      return response.data;
+    } else {
+      throw new Error("Invalid image response received");
+    }
+  } catch (error: any) {
+    // Add more specific error information
+    if (error.response?.status === 500) {
+      throw new Error("Preview generation failed on server");
+    } else if (error.response?.status === 404) {
+      throw new Error("Preview endpoint not available");
+    } else if (error.code === "ECONNABORTED") {
+      throw new Error("Preview generation timed out");
+    } else {
+      throw new Error(`Preview failed: ${error.message}`);
+    }
+  }
 };
 
 export default apiClient;
