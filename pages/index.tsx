@@ -61,520 +61,417 @@ export default function IndexPage(
   // Landing page for unauthenticated users
   return (
     <LandingLayout>
-      <div className="relative flex min-h-[100vh] w-full flex-col overflow-hidden bg-gradient-to-br from-background via-background to-primary/[0.02]">
-        <main className="container mx-auto mt-[60px] flex max-w-[1100px] flex-col items-start px-8">
-          <section className="z-20 flex flex-col items-start justify-center gap-[24px] sm:gap-8 pb-[420px]">
-            <m.div
-              animate={{ opacity: 1, y: 0 }}
-              initial={{ opacity: 0, y: 20 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-            >
-              <Button
-                className="h-10 overflow-hidden border-1 border-primary/20 bg-primary/5 px-[20px] py-2 text-small font-medium leading-5 text-primary backdrop-blur-sm"
-                endContent={
-                  <Icon
-                    className="flex-none outline-none [&>path]:stroke-[2] text-primary/70"
-                    icon="solar:arrow-right-linear"
-                    width={18}
-                  />
-                }
-                radius="full"
-                variant="bordered"
-              >
-                ✨ AI-Powered CMS Solution
-              </Button>
-            </m.div>
-            <LazyMotion features={domAnimation}>
+      <div className="bg-[#FDF7F4] min-h-screen">
+        {/* Hero Section */}
+        <section className="relative overflow-hidden">
+          <div className="max-w-7xl mx-auto px-6 pt-16 pb-8">
+            <div className="text-center">
+              {/* Badge */}
               <m.div
-                animate="kick"
-                className="flex flex-col gap-6"
-                exit="auto"
-                initial="auto"
-                transition={{
-                  duration: 0.25,
-                  ease: "easeInOut",
-                }}
-                variants={{
-                  auto: { width: "auto" },
-                  kick: { width: "auto" },
-                }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="inline-flex items-center gap-2 bg-blue-50 border border-blue-200 rounded-full px-4 py-2 mb-8"
               >
-                <AnimatePresence mode="wait">
-                  <m.div
-                    key="hero-section-title"
-                    animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
-                    className="text-start text-[clamp(42px,10vw,48px)] font-bold leading-[1.15] tracking-tight sm:text-[72px] sm:leading-[1.1]"
-                    initial={{ filter: "blur(12px)", opacity: 0, y: 30 }}
-                    transition={{
-                      bounce: 0,
-                      delay: 0.2,
-                      duration: 0.8,
-                      type: "spring",
-                      stiffness: 100,
-                    }}
-                  >
-                    <div className="bg-gradient-to-br from-foreground via-foreground to-foreground/70 bg-clip-text text-transparent">
-                      Smart Contact <br />
-                      <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent font-extrabold">
-                        Management
-                      </span>{" "}
-                      <br />
-                      <span className="text-[0.85em] font-medium text-foreground/60">
-                        with OCR & AI
-                      </span>
-                    </div>
-                  </m.div>
-
-                  <m.div
-                    key="hero-section-description"
-                    animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
-                    className="text-start font-normal leading-[1.7] text-default-500 sm:w-[520px] sm:text-[19px] text-[17px]"
-                    initial={{ filter: "blur(8px)", opacity: 0, y: 20 }}
-                    transition={{
-                      bounce: 0,
-                      delay: 0.4,
-                      duration: 0.7,
-                      type: "spring",
-                      stiffness: 80,
-                    }}
-                  >
-                    Transform your business cards and documents into actionable
-                    data instantly. Our AI-driven CMS automatically extracts,
-                    processes, and organizes contact information with{" "}
-                    <span className="text-primary font-medium">
-                      advanced OCR technology
-                    </span>
-                    .
-                  </m.div>
-
-                  <m.div
-                    key="hero-section-buttons"
-                    animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
-                    className="flex flex-col gap-4 sm:flex-row sm:items-center sm:gap-6"
-                    initial={{ filter: "blur(8px)", opacity: 0, y: 20 }}
-                    transition={{
-                      bounce: 0,
-                      delay: 0.6,
-                      duration: 0.6,
-                      type: "spring",
-                      stiffness: 90,
-                    }}
-                  >
-                    <Button
-                      className="h-12 w-[180px] bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90 px-[20px] py-[12px] text-small font-semibold leading-5 text-white shadow-lg hover:shadow-xl transition-all duration-300"
-                      radius="full"
-                      onPress={() => {
-                        const event = new CustomEvent("openRegister");
-                        window.dispatchEvent(event);
-                      }}
-                      startContent={
-                        <Icon
-                          className="text-white/90"
-                          icon="solar:scanner-bold"
-                          width={18}
-                        />
-                      }
-                    >
-                      Start Scanning
-                    </Button>
-                    <Button
-                      className="h-12 w-[180px] border-1 border-default-200 hover:border-primary/30 bg-background/60 backdrop-blur-sm hover:bg-primary/5 px-[20px] py-[12px] text-small font-semibold leading-5 transition-all duration-300"
-                      endContent={
-                        <span className="pointer-events-none flex h-[24px] w-[24px] items-center justify-center rounded-full bg-primary/10 group-hover:bg-primary/20 transition-colors">
-                          <Icon
-                            className="text-primary [&>path]:stroke-[1.5]"
-                            icon="solar:arrow-right-linear"
-                            width={14}
-                          />
-                        </span>
-                      }
-                      radius="full"
-                      variant="bordered"
-                      onPress={() => {
-                        const event = new CustomEvent("openLogin");
-                        window.dispatchEvent(event);
-                      }}
-                    >
-                      View Demo
-                    </Button>
-                  </m.div>
-
-                  <m.div
-                    key="hero-section-features"
-                    animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
-                    className="flex flex-wrap items-center gap-6 text-sm"
-                    initial={{ filter: "blur(6px)", opacity: 0, y: 15 }}
-                    transition={{
-                      bounce: 0,
-                      delay: 0.8,
-                      duration: 0.5,
-                      type: "spring",
-                      stiffness: 100,
-                    }}
-                  >
-                    <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-success/10 border border-success/20">
-                      <Icon
-                        icon="solar:check-circle-bold"
-                        className="text-success"
-                        width={16}
-                      />
-                      <span className="text-success/80 font-medium">
-                        Instant OCR
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-primary/10 border border-primary/20">
-                      <Icon
-                        icon="solar:check-circle-bold"
-                        className="text-primary"
-                        width={16}
-                      />
-                      <span className="text-primary/80 font-medium">
-                        AI Enrichment
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-2 px-3 py-2 rounded-full bg-secondary/10 border border-secondary/20">
-                      <Icon
-                        icon="solar:check-circle-bold"
-                        className="text-secondary"
-                        width={16}
-                      />
-                      <span className="text-secondary/80 font-medium">
-                        Smart Organization
-                      </span>
-                    </div>
-                  </m.div>
-                </AnimatePresence>
+                <Icon
+                  icon="solar:star-bold"
+                  className="text-blue-600"
+                  width={16}
+                />
+                <span className="text-blue-600 text-sm font-medium">
+                  Best Contact Management Platform
+                </span>
               </m.div>
-            </LazyMotion>
-          </section>
-        </main>
 
-        <LazyMotion features={domAnimation}>
-          <AnimatePresence mode="wait">
-            <m.div
-              key="hero-section-app-screenshot"
-              animate={{ filter: "blur(0px)", opacity: 1, y: 0, scale: 1 }}
-              className="absolute top-[340px] left-1/2 transform -translate-x-1/2 w-[92%] max-w-[950px] z-10"
-              initial={{ filter: "blur(12px)", opacity: 0, y: 80, scale: 0.95 }}
-              transition={{
-                bounce: 0,
-                delay: 1.0,
-                duration: 0.8,
-                type: "spring",
-                stiffness: 80,
+              {/* Main Heading */}
+              <m.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="text-5xl md:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 leading-tight"
+              >
+                Let's Make Your Company <br />
+                Management <span className="inline-block">🔥</span> Easier
+              </m.h1>
+
+              {/* Description */}
+              <m.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.4 }}
+                className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto leading-relaxed"
+              >
+                Transform your business operations with our intelligent contact
+                management system. Streamline workflows, improve efficiency, and
+                focus on what truly matters.
+              </m.p>
+
+              {/* Buttons */}
+              <m.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.6 }}
+                className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12"
+              >
+                <Button
+                  size="lg"
+                  className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-3 h-12 rounded-full shadow-lg hover:shadow-xl transition-all"
+                  onPress={() => {
+                    const event = new CustomEvent("openRegister");
+                    window.dispatchEvent(event);
+                  }}
+                >
+                  Get Started
+                </Button>
+                <Button
+                  size="lg"
+                  variant="light"
+                  className="text-gray-700 font-semibold px-8 py-3 h-12 rounded-full"
+                  startContent={
+                    <Icon
+                      icon="solar:play-bold"
+                      className="text-orange-500"
+                      width={20}
+                    />
+                  }
+                  onPress={() => {
+                    const event = new CustomEvent("openLogin");
+                    window.dispatchEvent(event);
+                  }}
+                >
+                  Play Video
+                </Button>
+              </m.div>
+
+              {/* Feature Icons */}
+              <m.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.8 }}
+                className="flex justify-center gap-8 md:gap-16 mb-16"
+              >
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
+                    <Icon
+                      icon="solar:user-bold"
+                      className="text-blue-600"
+                      width={24}
+                    />
+                  </div>
+                  <span className="text-sm text-gray-600">Personal</span>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
+                    <Icon
+                      icon="solar:users-group-two-rounded-bold"
+                      className="text-green-600"
+                      width={24}
+                    />
+                  </div>
+                  <span className="text-sm text-gray-600">Employee</span>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
+                    <Icon
+                      icon="solar:chart-bold"
+                      className="text-purple-600"
+                      width={24}
+                    />
+                  </div>
+                  <span className="text-sm text-gray-600">Mining</span>
+                </div>
+                <div className="flex flex-col items-center gap-2">
+                  <div className="w-12 h-12 bg-pink-100 rounded-xl flex items-center justify-center">
+                    <Icon
+                      icon="solar:calendar-bold"
+                      className="text-pink-600"
+                      width={24}
+                    />
+                  </div>
+                  <span className="text-sm text-gray-600">Schedule</span>
+                </div>
+              </m.div>
+            </div>
+          </div>
+
+          {/* Dashboard Preview */}
+          <m.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.0 }}
+            className="relative max-w-6xl mx-auto px-6"
+          >
+            <div className="relative">
+              <div className="absolute -inset-8 bg-gradient-to-r from-blue-500/10 to-purple-500/10 rounded-3xl blur-3xl" />
+              <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
+                <img
+                  src="https://cdn.builder.io/api/v1/image/assets%2F14c1ca08871e4f80a1054797b1e2a6eb%2F6d2b85599d164d2f869d61202dfe3b26?format=webp&width=800"
+                  alt="Company Management Dashboard"
+                  className="w-full h-auto"
+                />
+              </div>
+            </div>
+          </m.div>
+        </section>
+
+        {/* Content Section */}
+        <section className="py-20">
+          <div className="max-w-7xl mx-auto px-6">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <div>
+                <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-6 leading-tight">
+                  Effortlessly manage and optimize{" "}
+                  <span className="text-gray-500">your company operations</span>{" "}
+                  with our all-in-one platform.{" "}
+                  <span className="text-gray-500">
+                    Simplify workflows, improve efficiency, and focus on what
+                    truly matters.
+                  </span>
+                </h2>
+              </div>
+              <div className="grid gap-6">
+                <Card className="p-6 border-0 bg-white shadow-sm hover:shadow-md transition-shadow">
+                  <CardBody className="p-0">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <Icon
+                          icon="solar:widget-bold"
+                          className="text-blue-600"
+                          width={24}
+                        />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-gray-900 mb-2">
+                          Ease Of Works
+                        </h3>
+                        <p className="text-gray-600 text-sm">
+                          Streamline your business processes with intuitive
+                          tools and automated workflows
+                        </p>
+                      </div>
+                    </div>
+                  </CardBody>
+                </Card>
+
+                <Card className="p-6 border-0 bg-white shadow-sm hover:shadow-md transition-shadow">
+                  <CardBody className="p-0">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <Icon
+                          icon="solar:layers-bold"
+                          className="text-green-600"
+                          width={24}
+                        />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-gray-900 mb-2">
+                          All In One Solution
+                        </h3>
+                        <p className="text-gray-600 text-sm">
+                          Complete business management solution with integrated
+                          contact and document systems
+                        </p>
+                      </div>
+                    </div>
+                  </CardBody>
+                </Card>
+
+                <Card className="p-6 border-0 bg-white shadow-sm hover:shadow-md transition-shadow">
+                  <CardBody className="p-0">
+                    <div className="flex items-start gap-4">
+                      <div className="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center flex-shrink-0">
+                        <Icon
+                          icon="solar:settings-bold"
+                          className="text-purple-600"
+                          width={24}
+                        />
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-gray-900 mb-2">
+                          Customization
+                        </h3>
+                        <p className="text-gray-600 text-sm">
+                          Tailor the platform to match your unique business
+                          requirements and workflows
+                        </p>
+                      </div>
+                    </div>
+                  </CardBody>
+                </Card>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Solution Multiple Aspects */}
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-6 text-center">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Solution Multiple <span className="text-blue-600">📊</span>{" "}
+              Aspects
+            </h2>
+            <p className="text-gray-600 mb-16">
+              We believe various aspects always give best platform for your
+              convenience
+            </p>
+
+            <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+              <Card className="p-8 border-0 bg-gradient-to-br from-blue-50 to-white shadow-lg">
+                <CardBody className="p-0 text-center">
+                  <div className="mb-6">
+                    <div className="inline-block p-4 bg-blue-100 rounded-2xl">
+                      <Icon
+                        icon="solar:users-group-rounded-bold"
+                        className="text-blue-600"
+                        width={32}
+                      />
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">
+                    Organized Employee
+                  </h3>
+                  <p className="text-gray-600 text-sm">
+                    Manage your team effectively with our comprehensive employee
+                    management tools and analytics
+                  </p>
+                </CardBody>
+              </Card>
+
+              <Card className="p-8 border-0 bg-gradient-to-br from-green-50 to-white shadow-lg">
+                <CardBody className="p-0 text-center">
+                  <div className="mb-6">
+                    <div className="inline-block p-4 bg-green-100 rounded-2xl">
+                      <Icon
+                        icon="solar:dollar-bold"
+                        className="text-green-600"
+                        width={32}
+                      />
+                    </div>
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-3">
+                    Financial Management
+                  </h3>
+                  <p className="text-gray-600 text-sm">
+                    Track expenses, manage budgets, and get financial insights
+                    with advanced reporting tools
+                  </p>
+                </CardBody>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Simplify Your Productivity */}
+        <section className="py-20 bg-[#FDF7F4]">
+          <div className="max-w-7xl mx-auto px-6 text-center">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              Simplify Your <span className="text-blue-600">💻</span>{" "}
+              Productivity
+            </h2>
+            <p className="text-gray-600 mb-16">
+              With various platform integrations, it can make your work easier
+            </p>
+
+            <div className="flex justify-center flex-wrap gap-6 mb-12">
+              <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center">
+                <Icon icon="logos:slack-icon" width={32} />
+              </div>
+              <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center">
+                <Icon icon="logos:microsoft-teams" width={32} />
+              </div>
+              <div className="w-16 h-16 bg-red-100 rounded-2xl flex items-center justify-center">
+                <Icon icon="logos:google-gmail" width={32} />
+              </div>
+              <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center">
+                <Icon icon="logos:dropbox" width={32} />
+              </div>
+              <div className="w-16 h-16 bg-orange-100 rounded-2xl flex items-center justify-center">
+                <Icon
+                  icon="solar:figma-bold"
+                  className="text-orange-500"
+                  width={32}
+                />
+              </div>
+              <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center">
+                <Icon icon="logos:whatsapp-icon" width={32} />
+              </div>
+              <div className="w-16 h-16 bg-gray-100 rounded-2xl flex items-center justify-center">
+                <Icon icon="logos:notion-icon" width={32} />
+              </div>
+              <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center">
+                <Icon icon="logos:zoom-icon" width={32} />
+              </div>
+            </div>
+
+            <p className="text-gray-600 text-lg">
+              Can be integrated with 10+ Platforms
+            </p>
+            <p className="text-gray-500 text-sm">
+              Platform that can be integrated and support for the ease and
+              functions
+            </p>
+          </div>
+        </section>
+
+        {/* Testimonials */}
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-6 text-center">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+              What They Say <span className="text-green-600">✅</span> About Us
+            </h2>
+            <p className="text-gray-600 mb-16">
+              More of their best comments are already satisfied with our
+              platform
+            </p>
+
+            <div className="max-w-4xl mx-auto">
+              <Card className="p-8 border-0 bg-gradient-to-br from-gray-50 to-white shadow-lg">
+                <CardBody className="p-0">
+                  <div className="flex items-start gap-6">
+                    <div className="w-16 h-16 bg-gray-300 rounded-2xl flex-shrink-0"></div>
+                    <div className="text-left">
+                      <p className="text-lg text-gray-700 mb-4 italic">
+                        "This platform helps us to manage our team, finances,
+                        hiring process, & daily tasks efficiently in one
+                        platform. This seamless workflow really helps us
+                        maintain our operations."
+                      </p>
+                      <div>
+                        <p className="font-bold text-gray-900">
+                          Alejandra Mevera
+                        </p>
+                        <p className="text-gray-600 text-sm">Head Team Ops</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardBody>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        {/* Final CTA */}
+        <section className="py-20 bg-[#FDF7F4]">
+          <div className="max-w-4xl mx-auto px-6 text-center">
+            <h2 className="text-4xl lg:text-5xl font-bold text-gray-900 mb-8">
+              Ready to simplify your business operations today?
+            </h2>
+            <p className="text-xl text-gray-600 mb-8">
+              Start using Convents Make and get access of many features for your
+              business and scale up your operation
+            </p>
+            <Button
+              size="lg"
+              className="bg-orange-500 hover:bg-orange-600 text-white font-semibold px-8 py-3 h-12 rounded-full shadow-lg hover:shadow-xl transition-all"
+              onPress={() => {
+                const event = new CustomEvent("openRegister");
+                window.dispatchEvent(event);
               }}
             >
-              <div className="relative group">
-                <div className="absolute -inset-6 bg-gradient-to-br from-primary/15 via-secondary/8 to-primary/10 rounded-3xl blur-2xl opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
-                <div className="relative bg-background/95 backdrop-blur-sm rounded-2xl border border-default-100 shadow-2xl hover:shadow-3xl overflow-hidden transition-all duration-500 group-hover:border-primary/20">
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] via-transparent to-transparent pointer-events-none" />
-                  <img
-                    src="https://cdn.builder.io/api/v1/image/assets%2F14c1ca08871e4f80a1054797b1e2a6eb%2F3de12bbdf4ae42888e89ee06b42be323?format=webp&width=800"
-                    alt="SmartCMS Contact Management Dashboard"
-                    className="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-700"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/10 via-transparent to-transparent pointer-events-none" />
-                </div>
-              </div>
-            </m.div>
-          </AnimatePresence>
-        </LazyMotion>
-
-        <div className="pointer-events-none absolute inset-0 top-[-30%] z-0 scale-150 select-none sm:scale-125">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-secondary/3" />
-          <div className="absolute top-[20%] left-[10%] w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-          <div className="absolute bottom-[20%] right-[10%] w-80 h-80 bg-secondary/5 rounded-full blur-3xl" />
-        </div>
-      </div>
-
-      <div className="max-w-6xl mx-auto px-4 py-12">
-        {/* Features Grid */}
-        <section id="features" className="scroll-mt-16 py-20">
-          <m.div
-            animate={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 40 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-center mb-16"
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/10 mb-6">
-              <Icon
-                icon="solar:stars-bold"
-                className="text-primary"
-                width={20}
-              />
-              <span className="text-primary font-medium text-sm">
-                Revolutionary Features
-              </span>
-            </div>
-            <h2 className="text-5xl font-bold mb-6 leading-tight">
-              <span className="bg-gradient-to-br from-foreground via-foreground to-foreground/70 bg-clip-text text-transparent">
-                Next-Generation
-              </span>
-              <br />
-              <span className="bg-gradient-to-r from-primary via-secondary to-primary bg-clip-text text-transparent">
-                AI Technology
-              </span>
-            </h2>
-            <p className="text-xl text-default-500 max-w-2xl mx-auto leading-relaxed">
-              Experience the future of contact management with cutting-edge OCR
-              and AI-powered automation
-            </p>
-          </m.div>
-          <div className="grid md:grid-cols-3 gap-8 mb-20">
-            <m.div
-              animate={{ opacity: 1, y: 0 }}
-              initial={{ opacity: 0, y: 30 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-            >
-              <Card className="group hover:scale-[1.02] transition-all duration-500 border-0 bg-gradient-to-br from-white/60 to-white/40 dark:from-background/60 dark:to-background/40 backdrop-blur-sm shadow-lg hover:shadow-xl">
-                <CardBody className="text-center p-10">
-                  <div className="relative mb-8">
-                    <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
-                    <div className="relative bg-gradient-to-r from-primary/10 to-secondary/10 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-500">
-                      <Icon
-                        icon="solar:scanner-bold"
-                        className="w-10 h-10 text-primary"
-                      />
-                    </div>
-                  </div>
-                  <h3 className="text-2xl font-bold mb-4 text-foreground/90">
-                    Advanced OCR Engine
-                  </h3>
-                  <p className="text-default-500 leading-relaxed text-base">
-                    Extract text from business cards and documents with{" "}
-                    <span className="text-primary font-semibold">
-                      99.9% accuracy
-                    </span>
-                    . Supports multiple languages and handwriting recognition.
-                  </p>
-                </CardBody>
-              </Card>
-            </m.div>
-
-            <m.div
-              animate={{ opacity: 1, y: 0 }}
-              initial={{ opacity: 0, y: 30 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
-            >
-              <Card className="group hover:scale-[1.02] transition-all duration-500 border-0 bg-gradient-to-br from-white/60 to-white/40 dark:from-background/60 dark:to-background/40 backdrop-blur-sm shadow-lg hover:shadow-xl">
-                <CardBody className="text-center p-10">
-                  <div className="relative mb-8">
-                    <div className="absolute inset-0 bg-gradient-to-r from-secondary/20 to-primary/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
-                    <div className="relative bg-gradient-to-r from-secondary/10 to-primary/10 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-500">
-                      <Icon
-                        icon="solar:brain-bold"
-                        className="w-10 h-10 text-secondary"
-                      />
-                    </div>
-                  </div>
-                  <h3 className="text-2xl font-bold mb-4 text-foreground/90">
-                    AI Data Enrichment
-                  </h3>
-                  <p className="text-default-500 leading-relaxed text-base">
-                    Automatically enhance contacts with company information and{" "}
-                    <span className="text-secondary font-semibold">
-                      business insights
-                    </span>{" "}
-                    using advanced machine learning.
-                  </p>
-                </CardBody>
-              </Card>
-            </m.div>
-
-            <m.div
-              animate={{ opacity: 1, y: 0 }}
-              initial={{ opacity: 0, y: 30 }}
-              transition={{ duration: 0.6, delay: 0.5 }}
-            >
-              <Card className="group hover:scale-[1.02] transition-all duration-500 border-0 bg-gradient-to-br from-white/60 to-white/40 dark:from-background/60 dark:to-background/40 backdrop-blur-sm shadow-lg hover:shadow-xl">
-                <CardBody className="text-center p-10">
-                  <div className="relative mb-8">
-                    <div className="absolute inset-0 bg-gradient-to-r from-success/20 to-primary/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
-                    <div className="relative bg-gradient-to-r from-success/10 to-primary/10 rounded-2xl w-20 h-20 flex items-center justify-center mx-auto group-hover:scale-110 transition-transform duration-500">
-                      <Icon
-                        icon="solar:magic-stick-bold"
-                        className="w-10 h-10 text-success"
-                      />
-                    </div>
-                  </div>
-                  <h3 className="text-2xl font-bold mb-4 text-foreground/90">
-                    Smart Automation
-                  </h3>
-                  <p className="text-default-500 leading-relaxed text-base">
-                    Intelligent workflows that reduce manual work by{" "}
-                    <span className="text-success font-semibold">90%</span> with
-                    automated categorization and organization.
-                  </p>
-                </CardBody>
-              </Card>
-            </m.div>
-          </div>
-
-          {/* Additional Features Row */}
-          <div className="grid md:grid-cols-2 gap-8 mb-16">
-            <Card className="group hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-primary/5 to-transparent">
-              <CardBody className="p-8">
-                <div className="flex items-start gap-4">
-                  <div className="bg-primary/10 rounded-lg p-3 group-hover:bg-primary/20 transition-colors">
-                    <Icon
-                      icon="lucide:database"
-                      className="w-6 h-6 text-primary"
-                    />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-semibold mb-2">
-                      Intelligent CMS
-                    </h4>
-                    <p className="text-default-600">
-                      Advanced content management with smart search, filtering,
-                      and organization. Find any contact or document in seconds
-                      with AI-powered search.
-                    </p>
-                  </div>
-                </div>
-              </CardBody>
-            </Card>
-
-            <Card className="group hover:shadow-lg transition-all duration-300 bg-gradient-to-br from-secondary/5 to-transparent">
-              <CardBody className="p-8">
-                <div className="flex items-start gap-4">
-                  <div className="bg-secondary/10 rounded-lg p-3 group-hover:bg-secondary/20 transition-colors">
-                    <Icon
-                      icon="lucide:shield-check"
-                      className="w-6 h-6 text-secondary"
-                    />
-                  </div>
-                  <div>
-                    <h4 className="text-lg font-semibold mb-2">
-                      Enterprise Security
-                    </h4>
-                    <p className="text-default-600">
-                      Bank-level encryption and security protocols. GDPR
-                      compliant with advanced privacy controls and audit trails.
-                    </p>
-                  </div>
-                </div>
-              </CardBody>
-            </Card>
+              Get Started
+            </Button>
           </div>
         </section>
-
-        {/* About Section */}
-        <section id="about" className="scroll-mt-16 mb-16">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl font-bold mb-6">
-                <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                  Next-Gen Technology
-                </span>
-              </h2>
-              <p className="text-lg text-default-600 mb-6">
-                Built with cutting-edge OCR and AI technology, our CMS solution
-                transforms how businesses handle contact data. From business
-                cards to complex documents, extract and organize information
-                with unprecedented accuracy and speed.
-              </p>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="text-center p-4 bg-primary/5 rounded-xl">
-                  <p className="text-3xl font-bold text-primary">99.9%</p>
-                  <p className="text-sm text-default-500">OCR Accuracy</p>
-                </div>
-                <div className="text-center p-4 bg-secondary/5 rounded-xl">
-                  <p className="text-3xl font-bold text-secondary">90%</p>
-                  <p className="text-sm text-default-500">Time Reduction</p>
-                </div>
-                <div className="text-center p-4 bg-success/5 rounded-xl">
-                  <p className="text-3xl font-bold text-success">50+</p>
-                  <p className="text-sm text-default-500">Languages</p>
-                </div>
-                <div className="text-center p-4 bg-warning/5 rounded-xl">
-                  <p className="text-3xl font-bold text-warning">24/7</p>
-                  <p className="text-sm text-default-500">AI Processing</p>
-                </div>
-              </div>
-            </div>
-            <div className="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl p-8 text-center border border-primary/10">
-              <Icon
-                icon="lucide:scan-line"
-                className="w-20 h-20 text-primary mx-auto mb-4"
-              />
-              <h3 className="text-xl font-semibold mb-2">
-                Instant Data Extraction
-              </h3>
-              <p className="text-default-600 mb-4">
-                Upload any business card or document and watch our AI instantly
-                extract, categorize, and enrich the data with additional
-                business intelligence.
-              </p>
-              <div className="flex justify-center">
-                <Button
-                  size="sm"
-                  variant="bordered"
-                  className="border-primary/20 text-primary hover:bg-primary/10"
-                  startContent={<Icon icon="lucide:play" width={16} />}
-                >
-                  Watch Demo
-                </Button>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* CTA Section */}
-        <Card className="bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/20 overflow-hidden">
-          <CardBody className="text-center p-12 relative">
-            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary"></div>
-            <div className="mb-6">
-              <Icon
-                icon="lucide:zap"
-                className="w-16 h-16 text-primary mx-auto mb-4"
-              />
-            </div>
-            <h2 className="text-3xl font-bold mb-4">
-              Ready to Transform Your Business?
-            </h2>
-            <p className="text-lg text-default-600 mb-8 max-w-3xl mx-auto">
-              Experience the power of AI-driven contact management. Upload your
-              first business card and see the magic happen in seconds. No credit
-              card required for your free trial.
-            </p>
-            <div className="flex gap-4 justify-center">
-              <Button
-                size="lg"
-                className="bg-gradient-to-r from-primary to-secondary text-white font-semibold shadow-lg hover:shadow-xl transition-all"
-                onPress={() => {
-                  const event = new CustomEvent("openRegister");
-                  window.dispatchEvent(event);
-                }}
-                startContent={<Icon icon="lucide:rocket" width={20} />}
-              >
-                Start Free Trial
-              </Button>
-              <Button
-                size="lg"
-                variant="bordered"
-                className="border-primary/20 text-primary hover:bg-primary/5 font-semibold"
-                startContent={<Icon icon="lucide:phone" width={20} />}
-              >
-                Schedule Demo
-              </Button>
-            </div>
-            <div className="mt-6 flex items-center justify-center gap-6 text-sm text-default-500">
-              <div className="flex items-center gap-2">
-                <Icon icon="lucide:check" className="text-success" width={16} />
-                <span>Free 14-day trial</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Icon icon="lucide:check" className="text-success" width={16} />
-                <span>No credit card required</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <Icon icon="lucide:check" className="text-success" width={16} />
-                <span>Cancel anytime</span>
-              </div>
-            </div>
-          </CardBody>
-        </Card>
       </div>
     </LandingLayout>
   );
