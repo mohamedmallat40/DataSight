@@ -62,40 +62,62 @@ export default function IndexPage(
     <LandingLayout>
       <div className="max-w-6xl mx-auto px-4 py-12">
         {/* Hero Section */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-20">
+          <div className="mb-6">
+            <span className="inline-flex items-center gap-2 bg-primary/10 text-primary px-4 py-2 rounded-full text-sm font-medium mb-6">
+              <Icon icon="lucide:sparkles" width={16} />
+              AI-Powered CMS Solution
+            </span>
+          </div>
           <h1 className="text-6xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent mb-6">
-            All Care Medical Group
+            Smart Contact Management
+            <br />
+            <span className="text-5xl">with OCR & AI</span>
           </h1>
-          <p className="text-xl text-default-600 mb-8 max-w-3xl mx-auto">
-            Advanced Healthcare Management Platform powered by AI. Streamline
-            your medical practice with intelligent contact management, automated
-            workflows, and comprehensive patient care solutions.
+          <p className="text-xl text-default-600 mb-8 max-w-4xl mx-auto">
+            Transform your business cards and documents into actionable data
+            instantly. Our AI-driven CMS automatically extracts, processes, and
+            organizes contact information with advanced OCR technology and
+            intelligent data enrichment.
           </p>
-          <div className="flex gap-4 justify-center">
+          <div className="flex gap-4 justify-center mb-8">
             <Button
               size="lg"
-              color="primary"
-              className="font-semibold"
+              className="bg-gradient-to-r from-primary to-secondary text-white font-semibold shadow-lg hover:shadow-xl transition-all"
               onPress={() => {
                 const event = new CustomEvent("openRegister");
                 window.dispatchEvent(event);
               }}
-              startContent={<Icon icon="lucide:user-plus" width={20} />}
+              startContent={<Icon icon="lucide:scan" width={20} />}
             >
-              Get Started
+              Start Scanning Now
             </Button>
             <Button
               size="lg"
               variant="bordered"
-              className="font-semibold"
+              className="font-semibold border-primary/20 text-primary hover:bg-primary/5"
               onPress={() => {
                 const event = new CustomEvent("openLogin");
                 window.dispatchEvent(event);
               }}
-              startContent={<Icon icon="lucide:log-in" width={20} />}
+              startContent={<Icon icon="lucide:eye" width={20} />}
             >
-              Sign In
+              View Demo
             </Button>
+          </div>
+          <div className="flex items-center justify-center gap-8 text-sm text-default-500">
+            <div className="flex items-center gap-2">
+              <Icon icon="lucide:check" className="text-success" width={16} />
+              <span>Instant OCR Processing</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Icon icon="lucide:check" className="text-success" width={16} />
+              <span>AI Data Enrichment</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Icon icon="lucide:check" className="text-success" width={16} />
+              <span>Smart Organization</span>
+            </div>
           </div>
         </div>
 
