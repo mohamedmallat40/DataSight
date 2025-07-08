@@ -185,10 +185,11 @@ export async function checkWebsiteReachability(
   }
 
   try {
-    // Try to use API endpoint
+    // Try to use API endpoint with normalized URL
     const { checkWebsiteReachable } = await import("../config/api");
+    const normalizedUrl = normalizeUrl(website);
     const response: WebsiteReachabilityResponse =
-      await checkWebsiteReachable(website);
+      await checkWebsiteReachable(normalizedUrl);
 
     const status: ReachabilityStatus = response.isReachable
       ? "reachable"
