@@ -202,45 +202,45 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                         {(city || state || postal_code || country) && (
                           <div className="grid grid-cols-2 gap-2">
                             {city && (
-                              <div className="flex items-center gap-2 p-2 bg-blue-50 rounded-md">
+                              <div className="flex items-center gap-2 p-2 bg-default-50 rounded-md">
                                 <Icon
-                                  icon="solar:buildings-bold"
+                                  icon="solar:buildings-outline"
                                   className="w-3 h-3 text-blue-600"
                                 />
-                                <span className="text-xs text-blue-700 font-medium">
+                                <span className="text-xs text-default-700 font-medium">
                                   {city}
                                 </span>
                               </div>
                             )}
                             {state && (
-                              <div className="flex items-center gap-2 p-2 bg-purple-50 rounded-md">
+                              <div className="flex items-center gap-2 p-2 bg-default-50 rounded-md">
                                 <Icon
-                                  icon="solar:map-bold"
+                                  icon="solar:map-outline"
                                   className="w-3 h-3 text-purple-600"
                                 />
-                                <span className="text-xs text-purple-700 font-medium">
+                                <span className="text-xs text-default-700 font-medium">
                                   {state}
                                 </span>
                               </div>
                             )}
                             {postal_code && (
-                              <div className="flex items-center gap-2 p-2 bg-green-50 rounded-md">
+                              <div className="flex items-center gap-2 p-2 bg-default-50 rounded-md">
                                 <Icon
-                                  icon="solar:letter-bold"
+                                  icon="solar:letter-outline"
                                   className="w-3 h-3 text-green-600"
                                 />
-                                <span className="text-xs text-green-700 font-medium">
+                                <span className="text-xs text-default-700 font-medium">
                                   {postal_code}
                                 </span>
                               </div>
                             )}
                             {country && (
-                              <div className="flex items-center gap-2 p-2 bg-indigo-50 rounded-md">
+                              <div className="flex items-center gap-2 p-2 bg-default-50 rounded-md">
                                 <Icon
-                                  icon="solar:globe-bold"
+                                  icon="solar:globe-outline"
                                   className="w-3 h-3 text-indigo-600"
                                 />
-                                <span className="text-xs text-indigo-700 font-medium">
+                                <span className="text-xs text-default-700 font-medium">
                                   {country}
                                 </span>
                               </div>
