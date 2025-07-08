@@ -30,10 +30,10 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
           <div className="flex flex-col sm:flex-row items-center gap-4">
             <div className="text-center sm:text-left">
               <p className="text-lg font-semibold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                All Care Medical Group
+                SmartCMS
               </p>
               <p className="text-sm text-default-600">
-                Advanced Healthcare Management Platform
+                AI-Powered Contact Management with OCR Technology
               </p>
             </div>
           </div>
