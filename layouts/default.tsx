@@ -1,24 +1,31 @@
 import { Link } from "@heroui/link";
-// import { motion } from "framer-motion";
-// import { useState } from "react";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 import { Head } from "./head";
-// import { Navbar } from "@/components/navbar";
+import { Navbar } from "@/components/navbar";
 
 interface DefaultLayoutProps {
   children: React.ReactNode;
 }
 
 export default function DefaultLayout({ children }: DefaultLayoutProps) {
-  // const [locale, setLocale] = useState("en");
+  const [locale, setLocale] = useState("en");
 
   return (
     <div className="relative flex flex-col min-h-screen overflow-x-hidden bg-background">
       <Head />
-      {/* <Navbar setLocale={setLocale} /> */}
+      <Navbar setLocale={setLocale} />
 
       {/* Main Content with smooth animation */}
-      <main className="mx-2.5 flex-grow pt-4">{children}</main>
+      <motion.main
+        animate={{ opacity: 1, y: 0 }}
+        className="mx-2.5 flex-grow pt-4"
+        initial={{ opacity: 0, y: 20 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+      >
+        {children}
+      </motion.main>
 
       {/* Enhanced Footer */}
       <footer className="w-full border-t border-default-200/50 bg-background/80 backdrop-blur-sm">
