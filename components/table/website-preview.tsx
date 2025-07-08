@@ -139,6 +139,11 @@ export const WebsitePreview: React.FC<WebsitePreviewProps> = ({
               : "scale(0.95) translateY(-5px)",
             opacity: isVisible ? 1 : 0,
           }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => {
+            setIsHovered(false);
+            setIsVisible(false);
+          }}
         >
           <Card className="w-80 shadow-xl border border-default-200 bg-background backdrop-blur-md">
             <CardBody className="p-4">
