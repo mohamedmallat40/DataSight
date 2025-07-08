@@ -65,7 +65,7 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
         <div className="border-t border-primary/10">
           <div className="flex flex-col sm:flex-row items-center justify-between py-4 px-6 max-w-7xl mx-auto gap-2">
             <p className="text-xs text-default-500">
-              © 2024 All Care Medical Group. All rights reserved.
+              © 2024 SmartCMS. All rights reserved.
             </p>
             <div className="flex items-center gap-2 text-xs text-default-500">
               <span>Powered by</span>
