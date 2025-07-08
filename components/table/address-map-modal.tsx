@@ -14,7 +14,6 @@ import {
 import { Icon } from "@iconify/react";
 import dynamic from "next/dynamic";
 import { smartGeocode, type Coordinates } from "@/utils/geocoding";
-import { CustomIcon, FallbackIcon, initLeaflet } from "@/utils/leaflet-config";
 
 // Dynamically import Leaflet components to avoid SSR issues
 const MapContainer = dynamic(
@@ -62,6 +61,10 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
   const [geocodeSource, setGeocodeSource] = useState<"api" | "fallback" | null>(
     null,
   );
+  const [customIcons, setCustomIcons] = useState<{
+    CustomIcon: any;
+    FallbackIcon: any;
+  } | null>(null);
   const mapRef = useRef<any>(null);
 
   // Combine all address components into a full address
@@ -96,11 +99,17 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
       setCoordinates(null);
       setGeocodeSource(null);
 
-      // Initialize Leaflet configuration
-      initLeaflet();
-
-      const geocodeAddress = async () => {
+      const geocodeAndLoadIcons = async () => {
         try {
+          // Load icons dynamically (client-side only)
+          if (typeof window !== "undefined") {
+            const { CustomIcon, FallbackIcon, initLeaflet } = await import(
+              "@/utils/leaflet-config"
+            );
+            initLeaflet();
+            setCustomIcons({ CustomIcon, FallbackIcon });
+          }
+
           const result = await smartGeocode(fullAddress, city, country);
           if (result) {
             setCoordinates(result.coordinates);
@@ -121,7 +130,7 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
       };
 
       // Add a small delay to show loading state
-      const timer = setTimeout(geocodeAddress, 500);
+      const timer = setTimeout(geocodeAndLoadIcons, 500);
       return () => clearTimeout(timer);
     }
   }, [isOpen, fullAddress, city, country]);
@@ -264,9 +273,11 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                             <Marker
                               position={[coordinates.lat, coordinates.lng]}
                               icon={
-                                geocodeSource === "api"
-                                  ? CustomIcon
-                                  : FallbackIcon
+                                customIcons && geocodeSource === "api"
+                                  ? customIcons.CustomIcon
+                                  : customIcons
+                                    ? customIcons.FallbackIcon
+                                    : undefined
                               }
                             >
                               <Popup>
