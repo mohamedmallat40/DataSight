@@ -33,7 +33,7 @@ export async function isWebsiteReachable(url: string): Promise<boolean> {
     const normalizedUrl = normalizeUrl(url);
     const response: WebsiteReachabilityResponse =
       await checkWebsiteReachable(normalizedUrl);
-    return response.isReachable;
+    return response.reachable;
   } catch (error) {
     console.error("Website reachable check failed:", error);
     throw error;
