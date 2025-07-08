@@ -192,20 +192,22 @@ export const WebsitePreview: React.FC<WebsitePreviewProps> = ({
                 )}
 
                 {hasError && !isLoading && (
-                  <div className="flex items-center justify-center h-44 bg-default-50 rounded-lg border border-default-200">
-                    <div className="flex flex-col items-center gap-3 text-default-400">
-                      <div className="p-3 bg-danger-50 rounded-full">
+                  <div className="flex items-center justify-center h-44 bg-gradient-to-br from-default-50 to-default-100 rounded-lg border border-default-200">
+                    <div className="flex flex-col items-center gap-3 text-default-500">
+                      <div className="p-3 bg-warning-50 rounded-full border border-warning-200">
                         <Icon
-                          icon="solar:close-circle-outline"
-                          className="w-6 h-6 text-danger-400"
+                          icon="solar:info-circle-outline"
+                          className="w-6 h-6 text-warning-600"
                         />
                       </div>
-                      <div className="flex flex-col items-center gap-1">
-                        <span className="text-sm font-medium">
-                          Preview unavailable
+                      <div className="flex flex-col items-center gap-1 text-center">
+                        <span className="text-sm font-medium text-default-700">
+                          Preview not available
                         </span>
-                        <span className="text-xs">
-                          Unable to generate website preview
+                        <span className="text-xs text-default-500 px-4 leading-relaxed">
+                          Preview service is being set up.
+                          <br />
+                          Click the link above to visit the website.
                         </span>
                       </div>
                     </div>
