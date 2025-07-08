@@ -359,67 +359,47 @@ html[dir="rtl"] ::-webkit-scrollbar {
   }
 }
 
-/* Enhanced Leaflet Map Styles */
+/* Clean Leaflet Map Styles */
 .leaflet-container {
   font-family: inherit;
   border-radius: 8px;
 }
 
 .leaflet-popup-content-wrapper {
-  background: white;
-  border-radius: 12px;
-  box-shadow:
-    0 10px 25px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  border: 1px solid #e5e7eb;
-  overflow: hidden;
+  background: hsl(var(--heroui-background));
+  border-radius: 8px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid hsl(var(--heroui-default-200));
 }
 
 .leaflet-popup-tip {
-  background: white;
-  border: 1px solid #e5e7eb;
+  background: hsl(var(--heroui-background));
+  border: 1px solid hsl(var(--heroui-default-200));
 }
 
 .leaflet-popup-close-button {
-  color: #6b7280 !important;
-  font-size: 16px !important;
-  font-weight: bold !important;
-  background: #f9fafb;
-  border-radius: 50%;
-  width: 20px !important;
-  height: 20px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  top: 8px !important;
+  color: hsl(var(--heroui-default-500)) !important;
+  font-size: 14px !important;
   right: 8px !important;
-  transition: all 0.2s ease;
-}
-
-.leaflet-popup-close-button:hover {
-  background: #e5e7eb !important;
-  color: #374151 !important;
+  top: 8px !important;
 }
 
 .leaflet-control-zoom {
   border: none !important;
-  border-radius: 8px !important;
+  border-radius: 6px !important;
   overflow: hidden;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .leaflet-control-zoom a {
-  background-color: white !important;
-  color: #374151 !important;
+  background-color: hsl(var(--heroui-background)) !important;
+  color: hsl(var(--heroui-foreground)) !important;
   border: none !important;
-  border-bottom: 1px solid #e5e7eb !important;
-  font-weight: 600 !important;
-  transition: all 0.2s ease !important;
+  border-bottom: 1px solid hsl(var(--heroui-default-200)) !important;
 }
 
 .leaflet-control-zoom a:hover {
-  background-color: #f3f4f6 !important;
-  color: #111827 !important;
+  background-color: hsl(var(--heroui-default-100)) !important;
 }
 
 .leaflet-control-zoom a:last-child {
@@ -427,40 +407,8 @@ html[dir="rtl"] ::-webkit-scrollbar {
 }
 
 .leaflet-control-attribution {
-  background: rgba(255, 255, 255, 0.9) !important;
-  color: #6b7280 !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  color: hsl(var(--heroui-default-500)) !important;
   font-size: 10px !important;
-  padding: 2px 6px !important;
   border-radius: 4px !important;
-  backdrop-filter: blur(10px);
-}
-
-.map-tiles {
-  filter: contrast(1.1) saturate(1.1);
-}
-
-/* Custom popup animations */
-.leaflet-popup {
-  animation: popupFadeIn 0.3s ease-out;
-}
-
-@keyframes popupFadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-10px) scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-  }
-}
-
-/* Marker hover effects */
-.leaflet-marker-icon {
-  transition: all 0.2s ease !important;
-}
-
-.leaflet-marker-icon:hover {
-  transform: scale(1.1) !important;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2)) !important;
 }
