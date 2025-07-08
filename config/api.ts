@@ -28,7 +28,16 @@ apiClient.interceptors.response.use(
   },
   (error) => {
     // Handle common errors here
-    console.error("API Error:", error.response?.data || error.message);
+    let errorMessage = error.message;
+
+    // Better handling for blob responses
+    if (error.response?.data instanceof Blob) {
+      errorMessage = `${error.response.status} ${error.response.statusText}`;
+    } else if (error.response?.data) {
+      errorMessage = error.response.data;
+    }
+
+    console.error("API Error:", errorMessage);
 
     return Promise.reject(error);
   },
