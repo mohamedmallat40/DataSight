@@ -460,6 +460,7 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                     }
                     onPress={async () => {
                       const shareUrl = `https://www.openstreetmap.org/?mlat=${coordinates.lat}&mlon=${coordinates.lng}&zoom=16`;
+                      const shareText = `${fullAddress}\n${shareUrl}`;
                       const shareData = {
                         title: `Location: ${contactName || "Address"}`,
                         text: fullAddress,
@@ -467,32 +468,65 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                       };
 
                       try {
+                        // Try native sharing first
                         if (
                           navigator.share &&
                           navigator.canShare &&
                           navigator.canShare(shareData)
                         ) {
                           await navigator.share(shareData);
-                        } else {
-                          // Fallback: copy to clipboard
-                          await navigator.clipboard.writeText(
-                            `${fullAddress}\n${shareUrl}`,
-                          );
-                          // You could add a toast notification here if available
+                          return;
                         }
                       } catch (error) {
-                        // If sharing fails, fall back to clipboard
-                        try {
-                          await navigator.clipboard.writeText(
-                            `${fullAddress}\n${shareUrl}`,
-                          );
-                        } catch (clipboardError) {
-                          console.error(
-                            "Share and clipboard both failed:",
-                            error,
-                            clipboardError,
-                          );
+                        console.log("Native sharing failed:", error);
+                      }
+
+                      // Fallback: Use legacy copy method
+                      try {
+                        const textArea = document.createElement("textarea");
+                        textArea.value = shareText;
+                        textArea.style.position = "fixed";
+                        textArea.style.left = "-999999px";
+                        textArea.style.top = "-999999px";
+                        document.body.appendChild(textArea);
+                        textArea.focus();
+                        textArea.select();
+
+                        const successful = document.execCommand("copy");
+                        document.body.removeChild(textArea);
+
+                        if (successful) {
+                          return;
                         }
+                      } catch (error) {
+                        console.log("Legacy copy failed:", error);
+                      }
+
+                      // Final fallback: Open in new window with shareable content
+                      const newWindow = window.open(
+                        "",
+                        "_blank",
+                        "width=500,height=400",
+                      );
+                      if (newWindow) {
+                        newWindow.document.write(`
+                          <html>
+                            <head><title>Share Location</title></head>
+                            <body style="font-family: Arial, sans-serif; padding: 20px;">
+                              <h3>Share this location:</h3>
+                              <div style="background: #f5f5f5; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                                <strong>${contactName || "Address"}:</strong><br>
+                                ${fullAddress}
+                              </div>
+                              <div style="background: #e3f2fd; padding: 15px; border-radius: 8px; margin: 10px 0;">
+                                <strong>Map Link:</strong><br>
+                                <a href="${shareUrl}" target="_blank">${shareUrl}</a>
+                              </div>
+                              <p style="color: #666;">Select and copy the text above to share this location.</p>
+                            </body>
+                          </html>
+                        `);
+                        newWindow.document.close();
                       }
                     }}
                   >
