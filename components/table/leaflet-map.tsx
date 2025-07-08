@@ -54,68 +54,156 @@ const LeafletMap: React.FC<LeafletMapProps> = ({
             "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
         });
 
-        // Create custom icons
+        // Create enhanced custom icons with better styling
         const CustomIcon = L.icon({
           iconUrl:
             "data:image/svg+xml;base64," +
             btoa(`
-            <svg width="25" height="41" viewBox="0 0 25 41" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12.5 0C5.6 0 0 5.6 0 12.5C0 21.9 12.5 41 12.5 41S25 21.9 25 12.5C25 5.6 19.4 0 12.5 0Z" fill="#006FEE"/>
-              <circle cx="12.5" cy="12.5" r="6" fill="white"/>
-              <circle cx="12.5" cy="12.5" r="3" fill="#006FEE"/>
+            <svg width="32" height="45" viewBox="0 0 32 45" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.3"/>
+                </filter>
+                <linearGradient id="gradientBlue" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" style="stop-color:#0070F3;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#006FEE;stop-opacity:1" />
+                </linearGradient>
+              </defs>
+              <path d="M16 0C7.2 0 0 7.2 0 16C0 28 16 45 16 45S32 28 32 16C32 7.2 24.8 0 16 0Z" fill="url(#gradientBlue)" filter="url(#shadow)"/>
+              <circle cx="16" cy="16" r="8" fill="white" opacity="0.9"/>
+              <circle cx="16" cy="16" r="5" fill="#006FEE"/>
+              <circle cx="16" cy="16" r="2" fill="white"/>
             </svg>
           `),
-          iconSize: [25, 41],
-          iconAnchor: [12, 41],
-          popupAnchor: [1, -34],
+          iconSize: [32, 45],
+          iconAnchor: [16, 45],
+          popupAnchor: [0, -45],
         });
 
         const FallbackIcon = L.icon({
           iconUrl:
             "data:image/svg+xml;base64," +
             btoa(`
-            <svg width="25" height="41" viewBox="0 0 25 41" xmlns="http://www.w3.org/2000/svg">
-              <path d="M12.5 0C5.6 0 0 5.6 0 12.5C0 21.9 12.5 41 12.5 41S25 21.9 25 12.5C25 5.6 19.4 0 12.5 0Z" fill="#F5A524"/>
-              <circle cx="12.5" cy="12.5" r="6" fill="white"/>
-              <circle cx="12.5" cy="12.5" r="3" fill="#F5A524"/>
+            <svg width="32" height="45" viewBox="0 0 32 45" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feDropShadow dx="2" dy="2" stdDeviation="3" flood-color="#000000" flood-opacity="0.3"/>
+                </filter>
+                <linearGradient id="gradientOrange" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" style="stop-color:#FF8C00;stop-opacity:1" />
+                  <stop offset="100%" style="stop-color:#F5A524;stop-opacity:1" />
+                </linearGradient>
+              </defs>
+              <path d="M16 0C7.2 0 0 7.2 0 16C0 28 16 45 16 45S32 28 32 16C32 7.2 24.8 0 16 0Z" fill="url(#gradientOrange)" filter="url(#shadow)"/>
+              <circle cx="16" cy="16" r="8" fill="white" opacity="0.9"/>
+              <circle cx="16" cy="16" r="5" fill="#F5A524"/>
+              <circle cx="16" cy="16" r="2" fill="white"/>
             </svg>
           `),
-          iconSize: [25, 41],
-          iconAnchor: [12, 41],
-          popupAnchor: [1, -34],
+          iconSize: [32, 45],
+          iconAnchor: [16, 45],
+          popupAnchor: [0, -45],
         });
 
-        // Initialize map
-        const map = L.map(mapRef.current).setView(
-          [coordinates.lat, coordinates.lng],
-          zoom,
-        );
+        // Initialize map with enhanced styling
+        const map = L.map(mapRef.current, {
+          zoomControl: false,
+          attributionControl: false,
+        }).setView([coordinates.lat, coordinates.lng], zoom);
 
-        // Add tile layer
+        // Add custom zoom control
+        L.control
+          .zoom({
+            position: "topright",
+          })
+          .addTo(map);
+
+        // Add custom attribution
+        L.control
+          .attribution({
+            position: "bottomright",
+            prefix: false,
+          })
+          .addTo(map);
+
+        // Add tile layer with better styling
         L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
           attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+            '© <a href="https://openstreetmap.org">OpenStreetMap</a>',
+          maxZoom: 19,
+          className: "map-tiles",
         }).addTo(map);
 
-        // Add marker
+        // Add marker with animation
         const marker = L.marker([coordinates.lat, coordinates.lng], {
           icon: isPrecise ? CustomIcon : FallbackIcon,
+          riseOnHover: true,
         }).addTo(map);
 
-        // Add popup
+        // Enhanced popup with better styling
         const popupContent = `
-          <div style="font-size: 14px;">
-            <div style="font-weight: 600; margin-bottom: 4px;">${contactName || "Location"}</div>
-            <div style="color: #666; margin-bottom: 4px;">${address}</div>
-            ${
-              !isPrecise
-                ? '<div style="color: #f59e0b; font-size: 12px;">📍 Approximate location</div>'
-                : '<div style="color: #10b981; font-size: 12px;">📍 Precise location</div>'
-            }
+          <div style="
+            font-family: system-ui, -apple-system, sans-serif;
+            padding: 8px;
+            max-width: 250px;
+          ">
+            <div style="
+              display: flex;
+              align-items: center;
+              gap: 8px;
+              margin-bottom: 8px;
+              padding-bottom: 6px;
+              border-bottom: 1px solid #e5e7eb;
+            ">
+              <div style="
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: ${isPrecise ? "#10b981" : "#f59e0b"};
+              "></div>
+              <div style="
+                font-weight: 600;
+                font-size: 14px;
+                color: #1f2937;
+              ">${contactName || "Location"}</div>
+            </div>
+            <div style="
+              color: #6b7280;
+              font-size: 12px;
+              line-height: 1.4;
+              margin-bottom: 6px;
+            ">${address}</div>
+            <div style="
+              display: flex;
+              align-items: center;
+              gap: 4px;
+              font-size: 11px;
+              color: ${isPrecise ? "#10b981" : "#f59e0b"};
+              font-weight: 500;
+            ">
+              <span>${isPrecise ? "🎯" : "📍"}</span>
+              ${isPrecise ? "Exact location" : "Approximate area"}
+            </div>
           </div>
         `;
 
-        marker.bindPopup(popupContent);
+        marker.bindPopup(popupContent, {
+          closeButton: true,
+          autoClose: false,
+          className: "custom-popup",
+        });
+
+        // Add a subtle circle to show the area
+        if (!isPrecise) {
+          L.circle([coordinates.lat, coordinates.lng], {
+            color: "#f59e0b",
+            fillColor: "#fbbf24",
+            fillOpacity: 0.1,
+            radius: 500,
+            weight: 2,
+            dashArray: "5, 5",
+          }).addTo(map);
+        }
 
         mapInstance.current = map;
         setIsLoaded(true);
