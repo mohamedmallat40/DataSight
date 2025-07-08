@@ -124,10 +124,15 @@ export default function IndexPage(
         {/* Features Grid */}
         <section id="features" className="scroll-mt-16">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-4">Powerful Features</h2>
-            <p className="text-lg text-default-600 max-w-2xl mx-auto">
-              Discover the comprehensive tools that make All Care Medical Group
-              the leading healthcare management platform.
+            <h2 className="text-4xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                Revolutionary Technology
+              </span>
+            </h2>
+            <p className="text-lg text-default-600 max-w-3xl mx-auto">
+              Experience the next generation of contact management with
+              cutting-edge OCR technology and AI-powered automation that
+              transforms how you handle business information.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8 mb-16">
