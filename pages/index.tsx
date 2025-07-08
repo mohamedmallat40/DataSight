@@ -303,27 +303,58 @@ export default function IndexPage(
         </section>
 
         {/* CTA Section */}
-        <Card className="bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/20">
-          <CardBody className="text-center p-12">
+        <Card className="bg-gradient-to-r from-primary/10 to-secondary/10 border-primary/20 overflow-hidden">
+          <CardBody className="text-center p-12 relative">
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-primary to-secondary"></div>
+            <div className="mb-6">
+              <Icon
+                icon="lucide:zap"
+                className="w-16 h-16 text-primary mx-auto mb-4"
+              />
+            </div>
             <h2 className="text-3xl font-bold mb-4">
-              Ready to Transform Your Practice?
+              Ready to Transform Your Business?
             </h2>
-            <p className="text-lg text-default-600 mb-6 max-w-2xl mx-auto">
-              Join thousands of healthcare professionals who trust All Care
-              Medical Group for their practice management needs.
+            <p className="text-lg text-default-600 mb-8 max-w-3xl mx-auto">
+              Experience the power of AI-driven contact management. Upload your
+              first business card and see the magic happen in seconds. No credit
+              card required for your free trial.
             </p>
-            <Button
-              size="lg"
-              color="primary"
-              className="font-semibold"
-              onPress={() => {
-                const event = new CustomEvent("openRegister");
-                window.dispatchEvent(event);
-              }}
-              endContent={<Icon icon="lucide:arrow-right" width={20} />}
-            >
-              Start Your Free Trial
-            </Button>
+            <div className="flex gap-4 justify-center">
+              <Button
+                size="lg"
+                className="bg-gradient-to-r from-primary to-secondary text-white font-semibold shadow-lg hover:shadow-xl transition-all"
+                onPress={() => {
+                  const event = new CustomEvent("openRegister");
+                  window.dispatchEvent(event);
+                }}
+                startContent={<Icon icon="lucide:rocket" width={20} />}
+              >
+                Start Free Trial
+              </Button>
+              <Button
+                size="lg"
+                variant="bordered"
+                className="border-primary/20 text-primary hover:bg-primary/5 font-semibold"
+                startContent={<Icon icon="lucide:phone" width={20} />}
+              >
+                Schedule Demo
+              </Button>
+            </div>
+            <div className="mt-6 flex items-center justify-center gap-6 text-sm text-default-500">
+              <div className="flex items-center gap-2">
+                <Icon icon="lucide:check" className="text-success" width={16} />
+                <span>Free 14-day trial</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Icon icon="lucide:check" className="text-success" width={16} />
+                <span>No credit card required</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <Icon icon="lucide:check" className="text-success" width={16} />
+                <span>Cancel anytime</span>
+              </div>
+            </div>
           </CardBody>
         </Card>
       </div>
