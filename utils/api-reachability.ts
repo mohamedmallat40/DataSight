@@ -102,8 +102,9 @@ export async function checkMultipleWebsites(
 ): Promise<{ url: string; isReachable: boolean }[]> {
   const results = await Promise.allSettled(
     urls.map(async (url) => {
-      const isReachable = await isWebsiteReachable(url);
-      return { url, isReachable };
+      const normalizedUrl = normalizeUrl(url);
+      const isReachable = await isWebsiteReachable(normalizedUrl);
+      return { url: normalizedUrl, isReachable };
     }),
   );
 
