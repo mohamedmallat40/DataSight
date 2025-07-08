@@ -25,6 +25,10 @@ const config = {
             "100%": { opacity: 1, transform: "translateY(0)" },
           },
         },
+        backgroundImage: {
+          "hero-section-title":
+            "linear-gradient(91deg, #FFF 32.88%, rgba(255, 255, 255, 0.40) 99.12%)",
+        },
       },
     },
   },
