@@ -1,7 +1,9 @@
 import { Link } from "@heroui/link";
 import { motion } from "framer-motion";
+import { useState } from "react";
 
 import { Head } from "./head";
+import { Navbar } from "@/components/navbar";
 
 interface DefaultLayoutProps {
   children: React.ReactNode;
