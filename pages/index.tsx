@@ -31,7 +31,7 @@ export default function IndexPage(
 
   return (
     <DefaultLayout>
-      <Network />
+      <Component />
     </DefaultLayout>
   );
 }
