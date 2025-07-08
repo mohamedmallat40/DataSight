@@ -180,7 +180,7 @@ export default function IndexPage(
               {/* Dashboard container */}
               <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden border border-gray-200">
                 <img
-                  src="https://cdn.builder.io/api/v1/image/assets%2F14c1ca08871e4f80a1054797b1e2a6eb%2F6d2b85599d164d2f869d61202dfe3b26?format=webp&width=800"
+                  src="https://cdn.builder.io/api/v1/image/assets%2F14c1ca08871e4f80a1054797b1e2a6eb%2Fb54cdc1d8bcd40b4856c5f81f77ed242?format=webp&width=800"
                   alt="Company Management Dashboard"
                   className="w-full h-auto"
                 />
