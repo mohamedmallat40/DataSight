@@ -284,6 +284,15 @@ export default function ReachabilityTestPage(): JSX.Element {
                     GET /is-website-reachable?url=https://perla-ssssit.com
                   </code>
                 </div>
+                <div>
+                  <strong>Preview Endpoint:</strong>
+                  <code className="block bg-gray-100 p-2 rounded mt-1">
+                    GET /preview-website?url=https://perla-it.com
+                  </code>
+                  <p className="text-xs text-gray-500 mt-1">
+                    Returns image blob for website preview
+                  </p>
+                </div>
                 <div className="text-gray-600">
                   <p>
                     • Both endpoints are now integrated into the existing
