@@ -61,23 +61,29 @@ export default function IndexPage(
   // Landing page for unauthenticated users
   return (
     <LandingLayout>
-      <div className="relative flex min-h-[100vh] w-full flex-col overflow-hidden bg-background">
-        <main className="container mx-auto mt-[40px] flex max-w-[1024px] flex-col items-start px-8">
-          <section className="z-20 flex flex-col items-start justify-center gap-[18px] sm:gap-6 pb-[400px]">
-            <Button
-              className="h-9 overflow-hidden border-1 border-default-100 bg-default-50 px-[18px] py-2 text-small font-normal leading-5 text-default-500"
-              endContent={
-                <Icon
-                  className="flex-none outline-none [&>path]:stroke-[2]"
-                  icon="solar:arrow-right-linear"
-                  width={20}
-                />
-              }
-              radius="full"
-              variant="bordered"
+      <div className="relative flex min-h-[100vh] w-full flex-col overflow-hidden bg-gradient-to-br from-background via-background to-primary/[0.02]">
+        <main className="container mx-auto mt-[60px] flex max-w-[1100px] flex-col items-start px-8">
+          <section className="z-20 flex flex-col items-start justify-center gap-[24px] sm:gap-8 pb-[420px]">
+            <m.div
+              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 20 }}
+              transition={{ duration: 0.6, delay: 0.1 }}
             >
-              AI-Powered CMS Solution
-            </Button>
+              <Button
+                className="h-10 overflow-hidden border-1 border-primary/20 bg-primary/5 px-[20px] py-2 text-small font-medium leading-5 text-primary backdrop-blur-sm"
+                endContent={
+                  <Icon
+                    className="flex-none outline-none [&>path]:stroke-[2] text-primary/70"
+                    icon="solar:arrow-right-linear"
+                    width={18}
+                  />
+                }
+                radius="full"
+                variant="bordered"
+              >
+                ✨ AI-Powered CMS Solution
+              </Button>
+            </m.div>
             <LazyMotion features={domAnimation}>
               <m.div
                 animate="kick"
@@ -236,33 +242,37 @@ export default function IndexPage(
           <AnimatePresence mode="wait">
             <m.div
               key="hero-section-app-screenshot"
-              animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
-              className="absolute top-[320px] left-1/2 transform -translate-x-1/2 w-[90%] max-w-[900px] z-10"
-              initial={{ filter: "blur(16px)", opacity: 0, y: 100 }}
+              animate={{ filter: "blur(0px)", opacity: 1, y: 0, scale: 1 }}
+              className="absolute top-[340px] left-1/2 transform -translate-x-1/2 w-[92%] max-w-[950px] z-10"
+              initial={{ filter: "blur(12px)", opacity: 0, y: 80, scale: 0.95 }}
               transition={{
                 bounce: 0,
-                delay: 0.01 * 90,
-                duration: 0.8 + 0.1 * 12,
+                delay: 1.0,
+                duration: 0.8,
                 type: "spring",
+                stiffness: 80,
               }}
             >
-              <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-to-br from-primary/20 via-secondary/10 to-transparent rounded-3xl blur-xl" />
-                <div className="relative bg-background rounded-2xl border border-default-200 shadow-2xl overflow-hidden">
+              <div className="relative group">
+                <div className="absolute -inset-6 bg-gradient-to-br from-primary/15 via-secondary/8 to-primary/10 rounded-3xl blur-2xl opacity-60 group-hover:opacity-80 transition-opacity duration-500" />
+                <div className="relative bg-background/95 backdrop-blur-sm rounded-2xl border border-default-100 shadow-2xl hover:shadow-3xl overflow-hidden transition-all duration-500 group-hover:border-primary/20">
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/[0.08] via-transparent to-transparent pointer-events-none" />
                   <img
                     src="https://cdn.builder.io/api/v1/image/assets%2F14c1ca08871e4f80a1054797b1e2a6eb%2F3de12bbdf4ae42888e89ee06b42be323?format=webp&width=800"
                     alt="SmartCMS Contact Management Dashboard"
-                    className="w-full h-auto object-cover"
+                    className="w-full h-auto object-cover group-hover:scale-[1.02] transition-transform duration-700"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/20 via-transparent to-transparent pointer-events-none" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/10 via-transparent to-transparent pointer-events-none" />
                 </div>
               </div>
             </m.div>
           </AnimatePresence>
         </LazyMotion>
 
-        <div className="pointer-events-none absolute inset-0 top-[-25%] z-0 scale-150 select-none sm:scale-125">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
+        <div className="pointer-events-none absolute inset-0 top-[-30%] z-0 scale-150 select-none sm:scale-125">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/3 via-transparent to-secondary/3" />
+          <div className="absolute top-[20%] left-[10%] w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+          <div className="absolute bottom-[20%] right-[10%] w-80 h-80 bg-secondary/5 rounded-full blur-3xl" />
         </div>
       </div>
 
