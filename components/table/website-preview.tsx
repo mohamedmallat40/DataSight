@@ -54,13 +54,8 @@ export const WebsitePreview: React.FC<WebsitePreviewProps> = ({
     } catch (error: any) {
       console.warn("Website preview failed:", error?.message || error);
 
-      // For now, don't show error state for API failures since the endpoint might not be ready
-      // Just silently fail and don't show the preview
-      setHasError(false);
-      setIsVisible(false);
-
-      // Optional: Show a subtle indicator that preview is not available
-      // setHasError(true);
+      // Show a placeholder instead of hiding completely
+      setHasError(true);
     } finally {
       setIsLoading(false);
     }
