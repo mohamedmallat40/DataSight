@@ -124,7 +124,7 @@ export const WebsitePreview: React.FC<WebsitePreviewProps> = ({
     >
       {children}
 
-      {/* Preview Tooltip */}
+      {/* Preview Popover */}
       {hasValidUrl && isVisible && (
         <div
           className="absolute z-50 mt-2 transition-all duration-300 ease-out"
@@ -136,54 +136,85 @@ export const WebsitePreview: React.FC<WebsitePreviewProps> = ({
             opacity: isVisible ? 1 : 0,
           }}
         >
-          <Card className="w-80 shadow-lg border border-gray-200 bg-white">
-            <CardBody className="p-3">
+          <Card className="w-80 shadow-xl border border-default-200 bg-background backdrop-blur-md">
+            <CardBody className="p-4">
               {/* Header */}
               <div className="flex items-center gap-2 mb-3">
-                <Icon
-                  icon="solar:global-outline"
-                  className="w-4 h-4 text-gray-500"
-                />
-                <span className="text-sm font-medium text-gray-700 truncate">
-                  {normalizeUrl(cleanUrl)}
-                </span>
+                <div className="p-1.5 bg-primary-50 rounded-md">
+                  <Icon
+                    icon="solar:global-outline"
+                    className="w-4 h-4 text-primary-500"
+                  />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <span className="text-sm font-semibold text-foreground block truncate">
+                    Website Preview
+                  </span>
+                  <span className="text-xs text-default-500 block truncate">
+                    {normalizeUrl(cleanUrl)}
+                  </span>
+                </div>
               </div>
 
               {/* Preview Content */}
               <div className="relative">
                 {isLoading && (
-                  <div className="flex items-center justify-center h-40 bg-gray-50 rounded-lg">
-                    <div className="flex flex-col items-center gap-2">
-                      <Spinner size="sm" color="primary" />
-                      <span className="text-xs text-gray-500">
-                        Generating preview...
-                      </span>
+                  <div className="flex items-center justify-center h-44 bg-default-50 rounded-lg border border-default-200">
+                    <div className="flex flex-col items-center gap-3">
+                      <div className="relative">
+                        <Spinner size="md" color="primary" />
+                        <div className="absolute inset-0 animate-ping">
+                          <Spinner
+                            size="md"
+                            color="primary"
+                            className="opacity-20"
+                          />
+                        </div>
+                      </div>
+                      <div className="flex flex-col items-center gap-1">
+                        <span className="text-sm font-medium text-default-700">
+                          Generating preview
+                        </span>
+                        <span className="text-xs text-default-500">
+                          This may take a few seconds...
+                        </span>
+                      </div>
                     </div>
                   </div>
                 )}
 
                 {hasError && !isLoading && (
-                  <div className="flex items-center justify-center h-40 bg-gray-50 rounded-lg">
-                    <div className="flex flex-col items-center gap-2 text-gray-400">
-                      <Icon
-                        icon="solar:close-circle-outline"
-                        className="w-8 h-8"
-                      />
-                      <span className="text-xs">Preview unavailable</span>
+                  <div className="flex items-center justify-center h-44 bg-default-50 rounded-lg border border-default-200">
+                    <div className="flex flex-col items-center gap-3 text-default-400">
+                      <div className="p-3 bg-danger-50 rounded-full">
+                        <Icon
+                          icon="solar:close-circle-outline"
+                          className="w-6 h-6 text-danger-400"
+                        />
+                      </div>
+                      <div className="flex flex-col items-center gap-1">
+                        <span className="text-sm font-medium">
+                          Preview unavailable
+                        </span>
+                        <span className="text-xs">
+                          Unable to generate website preview
+                        </span>
+                      </div>
                     </div>
                   </div>
                 )}
 
                 {previewImage && !isLoading && !hasError && (
-                  <div className="rounded-lg overflow-hidden">
+                  <div className="rounded-lg overflow-hidden border border-default-200 shadow-sm">
                     <Image
                       src={previewImage}
                       alt={`Preview of ${cleanUrl}`}
-                      className="w-full h-40 object-cover"
+                      className="w-full h-44 object-cover hover:scale-105 transition-transform duration-300"
                       classNames={{
-                        wrapper: "w-full",
-                        img: "w-full h-40 object-cover",
+                        wrapper: "w-full bg-default-50",
+                        img: "w-full h-44 object-cover",
                       }}
+                      loading="lazy"
                     />
                   </div>
                 )}
@@ -191,8 +222,11 @@ export const WebsitePreview: React.FC<WebsitePreviewProps> = ({
 
               {/* Footer */}
               {previewImage && !isLoading && (
-                <div className="mt-2 text-xs text-gray-500 text-center">
-                  Hover to preview • Click to visit
+                <div className="mt-3 pt-3 border-t border-default-200">
+                  <div className="flex items-center justify-center gap-2 text-xs text-default-500">
+                    <Icon icon="solar:cursor-outline" className="w-3 h-3" />
+                    <span>Hover to preview • Click link to visit</span>
+                  </div>
                 </div>
               )}
             </CardBody>
