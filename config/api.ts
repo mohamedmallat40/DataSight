@@ -50,4 +50,20 @@ export const extractBusinessCardData = async (front: File, back?: File) => {
   return response.data;
 };
 
+// Email validation endpoint
+export const checkEmailAlive = async (email: string) => {
+  const response = await apiClient.get(
+    `/is-email-alive?email=${encodeURIComponent(email)}`,
+  );
+  return response.data;
+};
+
+// Website reachability endpoint
+export const checkWebsiteReachable = async (url: string) => {
+  const response = await apiClient.get(
+    `/is-website-reachable?url=${encodeURIComponent(url)}`,
+  );
+  return response.data;
+};
+
 export default apiClient;
