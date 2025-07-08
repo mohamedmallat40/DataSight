@@ -25,6 +25,7 @@ interface IndexPageProps {
 export default function IndexPage(
   props: InferGetStaticPropsType<typeof getStaticProps>,
 ): JSX.Element {
+  console.log("IndexPage rendering...");
   const router = useRouter();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
