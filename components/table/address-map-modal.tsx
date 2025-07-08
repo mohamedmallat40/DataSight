@@ -63,12 +63,14 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
 
   // Open in Google Maps
   const openInGoogleMaps = () => {
+    const encodedAddress = encodeURIComponent(fullAddress);
     const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
     window.open(googleMapsUrl, "_blank", "noopener,noreferrer");
   };
 
   // Open in Apple Maps
   const openInAppleMaps = () => {
+    const encodedAddress = encodeURIComponent(fullAddress);
     const appleMapsUrl = `https://maps.apple.com/?q=${encodedAddress}`;
     window.open(appleMapsUrl, "_blank", "noopener,noreferrer");
   };
