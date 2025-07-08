@@ -39,13 +39,23 @@ export function isValidEmail(email: string): boolean {
 }
 
 /**
+ * Normalize URL to ensure it has proper protocol format
+ */
+export function normalizeUrl(url: string): string {
+  const trimmed = url.trim();
+  if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
+    return trimmed;
+  }
+  return `https://${trimmed}`;
+}
+
+/**
  * Check if a URL is valid format
  */
 export function isValidUrl(url: string): boolean {
   try {
-    // Add protocol if missing
-    const urlWithProtocol = url.startsWith("http") ? url : `https://${url}`;
-    new URL(urlWithProtocol);
+    const normalizedUrl = normalizeUrl(url);
+    new URL(normalizedUrl);
     return true;
   } catch {
     return false;
