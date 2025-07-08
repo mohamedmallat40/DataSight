@@ -6,7 +6,7 @@ import { Button } from "@heroui/button";
 import { Card, CardBody } from "@heroui/card";
 import { Icon } from "@iconify/react";
 
-import DefaultLayout from "@/layouts/default";
+import LandingLayout from "@/layouts/landing";
 
 /**
  * Props for the IndexPage component
