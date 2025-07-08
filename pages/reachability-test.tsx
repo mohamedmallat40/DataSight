@@ -20,6 +20,7 @@ import {
   getReachabilityColor,
 } from "@/utils/reachability";
 import type { ReachabilityResult } from "@/utils/reachability";
+import { WebsitePreview } from "@/components/table/website-preview";
 
 export default function ReachabilityTestPage(): JSX.Element {
   const [emailInput, setEmailInput] = useState("lokaa@gmail.com");
