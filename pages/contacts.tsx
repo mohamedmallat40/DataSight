@@ -1931,6 +1931,18 @@ export default function ContactsPage(): JSX.Element {
             fetchUsers();
           }}
         />
+
+        <AddressMapModal
+          isOpen={isMapModalOpen}
+          onOpenChange={onMapModalOpenChange}
+          address={userForMap?.address || ""}
+          street={userForMap?.street || undefined}
+          city={userForMap?.city || ""}
+          state={userForMap?.state || undefined}
+          postal_code={userForMap?.postal_code || undefined}
+          country={userForMap?.country || ""}
+          contactName={userForMap?.full_name}
+        />
       </div>
     </DefaultLayout>
   );
