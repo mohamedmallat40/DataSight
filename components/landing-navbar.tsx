@@ -140,7 +140,7 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
         <NavbarMenuToggle className="text-default-400 md:hidden" />
 
         <NavbarMenu
-          className="top-[calc(var(--navbar-height)_-_1px)] max-h-fit bg-default-200/50 pb-6 pt-6 shadow-medium backdrop-blur-md backdrop-saturate-150 dark:bg-default-100/50"
+          className="top-[calc(var(--navbar-height)_-_1px)] max-h-fit bg-gradient-to-b from-primary/5 to-secondary/5 pb-6 pt-6 shadow-medium backdrop-blur-md backdrop-saturate-150 border-primary/10"
           motionProps={{
             initial: { opacity: 0, y: -20 },
             animate: { opacity: 1, y: 0 },
@@ -154,8 +154,8 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
           <NavbarMenuItem>
             <Button
               fullWidth
-              as={Link}
-              variant="faded"
+              className="text-primary border-primary/20 bg-primary/5"
+              variant="bordered"
               onPress={() => handleAuthAction("login")}
             >
               Sign In
@@ -164,7 +164,7 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
           <NavbarMenuItem className="mb-4">
             <Button
               fullWidth
-              className="bg-foreground text-background"
+              className="bg-gradient-to-r from-primary to-secondary text-white font-medium shadow-lg"
               onPress={() => handleAuthAction("register")}
             >
               Get Started
@@ -173,14 +173,14 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
           {menuItems.map((item, index) => (
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link
-                className="mb-2 w-full text-default-500"
+                className="mb-2 w-full text-default-600 hover:text-primary transition-colors font-medium"
                 href={`#${item.toLowerCase().replace(" ", "-")}`}
                 size="md"
               >
                 {item}
               </Link>
               {index < menuItems.length - 1 && (
-                <Divider className="opacity-50" />
+                <Divider className="opacity-30 bg-primary/20" />
               )}
             </NavbarMenuItem>
           ))}
