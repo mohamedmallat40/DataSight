@@ -15,22 +15,8 @@ import { Icon } from "@iconify/react";
 import dynamic from "next/dynamic";
 import { smartGeocode, type Coordinates } from "@/utils/geocoding";
 
-// Dynamically import Leaflet components to avoid SSR issues
-const MapContainer = dynamic(
-  () => import("react-leaflet").then((mod) => mod.MapContainer),
-  { ssr: false },
-);
-const TileLayer = dynamic(
-  () => import("react-leaflet").then((mod) => mod.TileLayer),
-  { ssr: false },
-);
-const Marker = dynamic(
-  () => import("react-leaflet").then((mod) => mod.Marker),
-  { ssr: false },
-);
-const Popup = dynamic(() => import("react-leaflet").then((mod) => mod.Popup), {
-  ssr: false,
-});
+// Dynamically import our custom map component to avoid SSR issues
+const LeafletMap = dynamic(() => import("./leaflet-map"), { ssr: false });
 
 interface AddressMapModalProps {
   isOpen: boolean;
@@ -61,11 +47,6 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
   const [geocodeSource, setGeocodeSource] = useState<"api" | "fallback" | null>(
     null,
   );
-  const [customIcons, setCustomIcons] = useState<{
-    CustomIcon: any;
-    FallbackIcon: any;
-  } | null>(null);
-  const mapRef = useRef<any>(null);
 
   // Combine all address components into a full address
   const fullAddress = [address || street, city, state, postal_code, country]
@@ -99,28 +80,8 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
       setCoordinates(null);
       setGeocodeSource(null);
 
-      const geocodeAndLoadIcons = async () => {
+      const geocodeAddress = async () => {
         try {
-          // Load Leaflet CSS and icons dynamically (client-side only)
-          if (typeof window !== "undefined") {
-            // Load Leaflet CSS
-            const link = document.createElement("link");
-            link.rel = "stylesheet";
-            link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
-            link.integrity =
-              "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=";
-            link.crossOrigin = "";
-            if (!document.querySelector('link[href*="leaflet.css"]')) {
-              document.head.appendChild(link);
-            }
-
-            const { CustomIcon, FallbackIcon, initLeaflet } = await import(
-              "@/utils/leaflet-config"
-            );
-            initLeaflet();
-            setCustomIcons({ CustomIcon, FallbackIcon });
-          }
-
           const result = await smartGeocode(fullAddress, city, country);
           if (result) {
             setCoordinates(result.coordinates);
@@ -141,7 +102,7 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
       };
 
       // Add a small delay to show loading state
-      const timer = setTimeout(geocodeAndLoadIcons, 500);
+      const timer = setTimeout(geocodeAddress, 500);
       return () => clearTimeout(timer);
     }
   }, [isOpen, fullAddress, city, country]);
@@ -270,49 +231,14 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
 
                       {!isLoadingMap && !mapError && coordinates && (
                         <div className="w-full h-full relative">
-                          <MapContainer
-                            ref={mapRef}
-                            center={[coordinates.lat, coordinates.lng]}
+                          <LeafletMap
+                            coordinates={coordinates}
                             zoom={geocodeSource === "api" ? 16 : 12}
-                            className="w-full h-full rounded-lg"
-                            style={{ minHeight: "320px" }}
-                          >
-                            <TileLayer
-                              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            />
-                            <Marker
-                              position={[coordinates.lat, coordinates.lng]}
-                              icon={
-                                customIcons && geocodeSource === "api"
-                                  ? customIcons.CustomIcon
-                                  : customIcons
-                                    ? customIcons.FallbackIcon
-                                    : undefined
-                              }
-                            >
-                              <Popup>
-                                <div className="text-sm">
-                                  <div className="font-semibold mb-1">
-                                    {contactName}
-                                  </div>
-                                  <div className="text-gray-600">
-                                    {fullAddress}
-                                  </div>
-                                  {geocodeSource === "fallback" && (
-                                    <div className="text-xs text-orange-500 mt-1">
-                                      📍 Approximate location
-                                    </div>
-                                  )}
-                                  {geocodeSource === "api" && (
-                                    <div className="text-xs text-green-600 mt-1">
-                                      📍 Precise location
-                                    </div>
-                                  )}
-                                </div>
-                              </Popup>
-                            </Marker>
-                          </MapContainer>
+                            height="320px"
+                            contactName={contactName}
+                            address={fullAddress}
+                            isPrecise={geocodeSource === "api"}
+                          />
 
                           {geocodeSource === "fallback" && (
                             <div className="absolute top-2 right-2 z-[1000]">
