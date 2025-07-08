@@ -9,6 +9,7 @@ import { Divider } from "@heroui/divider";
 import { Icon } from "@iconify/react";
 
 import LandingLayout from "@/layouts/landing";
+import PricingSection from "@/components/pricing/pricing-section";
 
 /**
  * Props for the IndexPage component
@@ -421,6 +422,11 @@ export default function IndexPage(
               </p>
             </div>
           </div>
+        </section>
+
+        {/* Pricing Section */}
+        <section id="pricing" className="py-20">
+          <PricingSection />
         </section>
 
         {/* Testimonials Section */}
