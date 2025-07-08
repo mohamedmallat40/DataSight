@@ -389,22 +389,22 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                         )}
 
                         {mapError && (
-                          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-red-50 to-orange-50">
+                          <div className="absolute inset-0 flex items-center justify-center bg-default-100">
                             <div className="text-center p-8">
-                              <div className="w-16 h-16 bg-gradient-to-br from-red-400 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                              <div className="w-16 h-16 bg-default-50 rounded-full flex items-center justify-center mx-auto mb-4 border-2 border-red-200">
                                 <Icon
-                                  icon="solar:map-point-remove-bold"
-                                  className="w-8 h-8 text-white"
+                                  icon="solar:map-point-remove-outline"
+                                  className="w-8 h-8 text-red-600"
                                 />
                               </div>
-                              <h4 className="font-medium text-red-800 mb-2 flex items-center gap-2 justify-center">
+                              <h4 className="font-medium text-foreground mb-2 flex items-center gap-2 justify-center">
                                 <Icon
-                                  icon="solar:danger-triangle-bold"
+                                  icon="solar:danger-triangle-outline"
                                   className="w-4 h-4 text-red-600"
                                 />
                                 Unable to load map
                               </h4>
-                              <p className="text-sm text-red-600 mb-4">
+                              <p className="text-sm text-default-500 mb-4">
                                 Please try opening in external map app
                               </p>
                               <Button
@@ -413,7 +413,7 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                                 size="sm"
                                 startContent={
                                   <Icon
-                                    icon="solar:refresh-bold"
+                                    icon="solar:refresh-outline"
                                     className="w-4 h-4"
                                   />
                                 }
