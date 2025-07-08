@@ -139,11 +139,9 @@ export const exampleUsage = {
   // Test the example website from the user
   async testWebsite() {
     try {
-      const isReachable = await isWebsiteReachable("https://perla-ssssit.com");
-      console.log(
-        "Website https://perla-ssssit.com is reachable:",
-        isReachable,
-      );
+      const url = "https://perla-ssssit.com";
+      const isReachable = await isWebsiteReachable(url);
+      console.log("Website", url, "is reachable:", isReachable);
       return isReachable;
     } catch (error) {
       console.error("Test website failed:", error);
