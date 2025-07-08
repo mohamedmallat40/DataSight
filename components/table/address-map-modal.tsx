@@ -344,14 +344,30 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                     <CardBody className="p-0 h-full">
                       <div className="relative w-full h-full bg-default-50 rounded-lg overflow-hidden min-h-[500px]">
                         {isLoadingMap && (
-                          <div className="absolute inset-0 flex items-center justify-center bg-default-50 z-10">
-                            <div className="flex flex-col items-center gap-3">
-                              <Spinner size="lg" />
+                          <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-50 z-10">
+                            <div className="flex flex-col items-center gap-4">
+                              <div className="relative">
+                                <Spinner size="lg" color="primary" />
+                                <div className="absolute -top-2 -right-2">
+                                  <div className="w-6 h-6 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center animate-pulse">
+                                    <Icon
+                                      icon="solar:map-bold"
+                                      className="w-3 h-3 text-white"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
                               <div className="text-center">
-                                <p className="text-sm font-medium text-foreground">
-                                  Loading map...
-                                </p>
-                                <p className="text-xs text-default-500">
+                                <div className="flex items-center gap-2 justify-center mb-1">
+                                  <Icon
+                                    icon="solar:radar-bold"
+                                    className="w-4 h-4 text-blue-600 animate-ping"
+                                  />
+                                  <p className="text-sm font-medium text-blue-800">
+                                    Loading map...
+                                  </p>
+                                </div>
+                                <p className="text-xs text-blue-600">
                                   Locating address
                                 </p>
                               </div>
