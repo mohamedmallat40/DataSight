@@ -1268,24 +1268,25 @@ export default function ContactsPage(): JSX.Element {
     <DefaultLayout>
       <div className="h-full w-full p-6">
         {topBar}
-        <Table
-          isHeaderSticky
-          aria-label="Enhanced table with improved contact display and filters"
-          bottomContent={bottomContent}
-          bottomContentPlacement="outside"
-          classNames={{
-            td: "before:bg-transparent py-3",
-            wrapper: "min-h-[400px]",
-            table: "min-w-[1000px]",
-          }}
-          selectedKeys={filterSelectedKeys}
-          selectionMode="multiple"
-          sortDescriptor={sortDescriptor}
-          topContent={topContent}
-          topContentPlacement="outside"
-          onSelectionChange={onSelectionChange}
-          onSortChange={setSortDescriptor}
-        >
+        <div suppressHydrationWarning>
+          <Table
+            isHeaderSticky
+            aria-label="Enhanced table with improved contact display and filters"
+            bottomContent={bottomContent}
+            bottomContentPlacement="outside"
+            classNames={{
+              td: "before:bg-transparent py-3",
+              wrapper: "min-h-[400px]",
+              table: "min-w-[1000px]",
+            }}
+            selectedKeys={filterSelectedKeys}
+            selectionMode="multiple"
+            sortDescriptor={sortDescriptor}
+            topContent={topContent}
+            topContentPlacement="outside"
+            onSelectionChange={onSelectionChange}
+            onSortChange={setSortDescriptor}
+          >
           <TableHeader columns={headerColumns}>
             {(column) => (
               <TableColumn
