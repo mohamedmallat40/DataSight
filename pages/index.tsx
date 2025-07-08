@@ -61,9 +61,9 @@ export default function IndexPage(
   // Landing page for unauthenticated users
   return (
     <LandingLayout>
-      <div className="relative flex min-h-[80vh] w-full flex-col overflow-hidden bg-background">
+      <div className="relative flex min-h-[100vh] w-full flex-col overflow-hidden bg-background">
         <main className="container mx-auto mt-[40px] flex max-w-[1024px] flex-col items-start px-8">
-          <section className="z-20 flex flex-col items-start justify-center gap-[18px] sm:gap-6">
+          <section className="z-20 flex flex-col items-start justify-center gap-[18px] sm:gap-6 pb-[400px]">
             <Button
               className="h-9 overflow-hidden border-1 border-default-100 bg-default-50 px-[18px] py-2 text-small font-normal leading-5 text-default-500"
               endContent={
@@ -237,24 +237,24 @@ export default function IndexPage(
             <m.div
               key="hero-section-app-screenshot"
               animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
-              className="absolute top-[40%] w-full"
-              initial={{ filter: "blur(16px)", opacity: 0, y: 300 }}
+              className="absolute top-[320px] left-1/2 transform -translate-x-1/2 w-[90%] max-w-[900px] z-10"
+              initial={{ filter: "blur(16px)", opacity: 0, y: 100 }}
               transition={{
                 bounce: 0,
-                delay: 0.01 * 10,
-                duration: 0.8 + 0.1 * 8,
+                delay: 0.01 * 90,
+                duration: 0.8 + 0.1 * 12,
                 type: "spring",
               }}
             >
-              <div className="relative h-[500px] w-full overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-secondary/10 to-transparent rounded-t-3xl" />
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-[90%] h-[80%] bg-background rounded-t-2xl border border-default-200 shadow-2xl overflow-hidden">
+              <div className="relative">
+                <div className="absolute -inset-4 bg-gradient-to-br from-primary/20 via-secondary/10 to-transparent rounded-3xl blur-xl" />
+                <div className="relative bg-background rounded-2xl border border-default-200 shadow-2xl overflow-hidden">
                   <img
                     src="https://cdn.builder.io/api/v1/image/assets%2F14c1ca08871e4f80a1054797b1e2a6eb%2F3de12bbdf4ae42888e89ee06b42be323?format=webp&width=800"
                     alt="SmartCMS Contact Management Dashboard"
-                    className="w-full h-full object-cover object-top"
+                    className="w-full h-auto object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-background/30 via-transparent to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/20 via-transparent to-transparent pointer-events-none" />
                 </div>
               </div>
             </m.div>
