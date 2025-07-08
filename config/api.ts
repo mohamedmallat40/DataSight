@@ -28,7 +28,16 @@ apiClient.interceptors.response.use(
   },
   (error) => {
     // Handle common errors here
-    console.error("API Error:", error.response?.data || error.message);
+    let errorMessage = error.message;
+
+    // Better handling for blob responses
+    if (error.response?.data instanceof Blob) {
+      errorMessage = `${error.response.status} ${error.response.statusText}`;
+    } else if (error.response?.data) {
+      errorMessage = error.response.data;
+    }
+
+    console.error("API Error:", errorMessage);
 
     return Promise.reject(error);
   },
@@ -48,6 +57,57 @@ export const extractBusinessCardData = async (front: File, back?: File) => {
   });
 
   return response.data;
+};
+
+// Email validation endpoint
+export const checkEmailAlive = async (email: string) => {
+  const response = await apiClient.get(
+    `/is-email-alive?email=${encodeURIComponent(email)}`,
+  );
+  return response.data;
+};
+
+// Website reachability endpoint
+export const checkWebsiteReachable = async (url: string) => {
+  const response = await apiClient.get(
+    `/is-website-reachable?url=${encodeURIComponent(url)}`,
+  );
+  return response.data;
+};
+
+// Website preview endpoint
+export const getWebsitePreview = async (url: string) => {
+  try {
+    const response = await apiClient.get(
+      `/preview-website?url=${encodeURIComponent(url)}`,
+      {
+        responseType: "blob",
+        timeout: 30000, // 30 second timeout for preview generation
+      },
+    );
+
+    // Validate that we got a valid image blob
+    if (
+      response.data &&
+      response.data.type &&
+      response.data.type.startsWith("image/")
+    ) {
+      return response.data;
+    } else {
+      throw new Error("Invalid image response received");
+    }
+  } catch (error: any) {
+    // Add more specific error information
+    if (error.response?.status === 500) {
+      throw new Error("Preview generation failed on server");
+    } else if (error.response?.status === 404) {
+      throw new Error("Preview endpoint not available");
+    } else if (error.code === "ECONNABORTED") {
+      throw new Error("Preview generation timed out");
+    } else {
+      throw new Error(`Preview failed: ${error.message}`);
+    }
+  }
 };
 
 export default apiClient;

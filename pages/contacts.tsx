@@ -58,6 +58,9 @@ import { HighlightedText, containsSearchTerm } from "../utils/search-highlight";
 import CountryFilter from "../components/CountryFilter";
 import UserDetailsDrawer from "../components/user-details-drawer";
 import { ReachabilityChip } from "../components/table/reachability-chip";
+import { WebsitePreview } from "../components/table/website-preview";
+import { MapButton } from "../components/table/map-button";
+import { AddressMapModal } from "../components/table/address-map-modal";
 import { GenderIndicator } from "../components/table/gender-indicator";
 import EditUserModal from "../components/table/edit-user-modal";
 
@@ -151,6 +154,14 @@ export default function ContactsPage(): JSX.Element {
     onOpenChange: onEditModalOpenChange,
   } = useDisclosure();
   const [userToEdit, setUserToEdit] = useState<Users | null>(null);
+
+  // Map modal state
+  const {
+    isOpen: isMapModalOpen,
+    onOpen: onMapModalOpen,
+    onOpenChange: onMapModalOpenChange,
+  } = useDisclosure();
+  const [userForMap, setUserForMap] = useState<Users | null>(null);
 
   // AI Enrichment state
   const {
@@ -453,6 +464,11 @@ export default function ContactsPage(): JSX.Element {
     onDeleteModalOpen();
   });
 
+  const handleViewOnMap = useMemoizedCallback((user: Users): void => {
+    setUserForMap(user);
+    onMapModalOpen();
+  });
+
   const confirmDeleteUser = useMemoizedCallback(async (): Promise<void> => {
     if (!userToDelete) return;
 
@@ -666,20 +682,22 @@ export default function ContactsPage(): JSX.Element {
               </p>
               {user.website && (
                 <div className="flex items-center gap-1 flex-wrap">
-                  <a
-                    className="text-tiny text-primary hover:text-primary-600 transition-colors truncate"
-                    href={
-                      user.website.startsWith("http")
-                        ? user.website
-                        : `https://${user.website}`
-                    }
-                    rel="noopener noreferrer"
-                    target="_blank"
-                    title={user.website}
-                    onClick={(e: React.MouseEvent) => e.stopPropagation()}
-                  >
-                    {user.website}
-                  </a>
+                  <WebsitePreview url={user.website}>
+                    <a
+                      className="text-tiny text-primary hover:text-primary-600 transition-colors truncate"
+                      href={
+                        user.website.startsWith("http")
+                          ? user.website
+                          : `https://${user.website}`
+                      }
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      title={user.website}
+                      onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                    >
+                      {user.website}
+                    </a>
+                  </WebsitePreview>
                   <ReachabilityChip
                     type="website"
                     value={user.website}
@@ -716,12 +734,24 @@ export default function ContactsPage(): JSX.Element {
                   showFallback={false}
                   size="sm"
                 />
-                <p
-                  className="text-small font-medium text-default-700 truncate"
-                  title={user.country || "No country"}
-                >
-                  {user.country || "N/A"}
-                </p>
+                <div className="flex-1 min-w-0">
+                  <p
+                    className="text-small font-medium text-default-700 truncate"
+                    title={user.country || "No country"}
+                  >
+                    {user.country || "N/A"}
+                  </p>
+                </div>
+                <MapButton
+                  address={user.address}
+                  street={user.street}
+                  city={user.city}
+                  state={user.state}
+                  postal_code={user.postal_code}
+                  country={user.country}
+                  contactName={user.full_name}
+                  onPress={() => handleViewOnMap(user)}
+                />
               </div>
               {user.city && (
                 <p
@@ -1900,6 +1930,18 @@ export default function ContactsPage(): JSX.Element {
             // Refresh the user list after successful edit
             fetchUsers();
           }}
+        />
+
+        <AddressMapModal
+          isOpen={isMapModalOpen}
+          onOpenChange={onMapModalOpenChange}
+          address={userForMap?.address || ""}
+          street={userForMap?.street || undefined}
+          city={userForMap?.city || ""}
+          state={userForMap?.state || undefined}
+          postal_code={userForMap?.postal_code || undefined}
+          country={userForMap?.country || ""}
+          contactName={userForMap?.full_name}
         />
       </div>
     </DefaultLayout>
