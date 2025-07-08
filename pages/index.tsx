@@ -246,25 +246,32 @@ export default function IndexPage(
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div>
               <h2 className="text-4xl font-bold mb-6">
-                About All Care Medical
+                <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                  Next-Gen Technology
+                </span>
               </h2>
               <p className="text-lg text-default-600 mb-6">
-                We're dedicated to revolutionizing healthcare management through
-                innovative technology and AI-powered solutions. Our platform
-                serves thousands of healthcare professionals worldwide.
+                Built with cutting-edge OCR and AI technology, our CMS solution
+                transforms how businesses handle contact data. From business
+                cards to complex documents, extract and organize information
+                with unprecedented accuracy and speed.
               </p>
               <div className="grid grid-cols-2 gap-4">
-                <div className="text-center">
-                  <p className="text-3xl font-bold text-primary">10k+</p>
-                  <p className="text-sm text-default-500">
-                    Healthcare Professionals
-                  </p>
+                <div className="text-center p-4 bg-primary/5 rounded-xl">
+                  <p className="text-3xl font-bold text-primary">99.9%</p>
+                  <p className="text-sm text-default-500">OCR Accuracy</p>
                 </div>
-                <div className="text-center">
-                  <p className="text-3xl font-bold text-secondary">500+</p>
-                  <p className="text-sm text-default-500">
-                    Medical Institutions
-                  </p>
+                <div className="text-center p-4 bg-secondary/5 rounded-xl">
+                  <p className="text-3xl font-bold text-secondary">90%</p>
+                  <p className="text-sm text-default-500">Time Reduction</p>
+                </div>
+                <div className="text-center p-4 bg-success/5 rounded-xl">
+                  <p className="text-3xl font-bold text-success">50+</p>
+                  <p className="text-sm text-default-500">Languages</p>
+                </div>
+                <div className="text-center p-4 bg-warning/5 rounded-xl">
+                  <p className="text-3xl font-bold text-warning">24/7</p>
+                  <p className="text-sm text-default-500">AI Processing</p>
                 </div>
               </div>
             </div>
