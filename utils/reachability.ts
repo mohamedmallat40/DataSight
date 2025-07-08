@@ -12,14 +12,11 @@ export interface ReachabilityResult {
 
 // API response types
 export interface EmailReachabilityResponse {
-  isAlive: boolean;
-  message?: string;
+  reachable: boolean;
 }
 
 export interface WebsiteReachabilityResponse {
-  isReachable: boolean;
-  statusCode?: number;
-  message?: string;
+  reachable: boolean;
 }
 
 // Cache for storing reachability results
