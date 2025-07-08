@@ -58,6 +58,7 @@ import { HighlightedText, containsSearchTerm } from "../utils/search-highlight";
 import CountryFilter from "../components/CountryFilter";
 import UserDetailsDrawer from "../components/user-details-drawer";
 import { ReachabilityChip } from "../components/table/reachability-chip";
+import { WebsitePreview } from "../components/table/website-preview";
 import { GenderIndicator } from "../components/table/gender-indicator";
 import EditUserModal from "../components/table/edit-user-modal";
 
@@ -666,20 +667,22 @@ export default function ContactsPage(): JSX.Element {
               </p>
               {user.website && (
                 <div className="flex items-center gap-1 flex-wrap">
-                  <a
-                    className="text-tiny text-primary hover:text-primary-600 transition-colors truncate"
-                    href={
-                      user.website.startsWith("http")
-                        ? user.website
-                        : `https://${user.website}`
-                    }
-                    rel="noopener noreferrer"
-                    target="_blank"
-                    title={user.website}
-                    onClick={(e: React.MouseEvent) => e.stopPropagation()}
-                  >
-                    {user.website}
-                  </a>
+                  <WebsitePreview url={user.website}>
+                    <a
+                      className="text-tiny text-primary hover:text-primary-600 transition-colors truncate"
+                      href={
+                        user.website.startsWith("http")
+                          ? user.website
+                          : `https://${user.website}`
+                      }
+                      rel="noopener noreferrer"
+                      target="_blank"
+                      title={user.website}
+                      onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                    >
+                      {user.website}
+                    </a>
+                  </WebsitePreview>
                   <ReachabilityChip
                     type="website"
                     value={user.website}
