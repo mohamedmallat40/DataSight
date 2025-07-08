@@ -101,8 +101,19 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
 
       const geocodeAndLoadIcons = async () => {
         try {
-          // Load icons dynamically (client-side only)
+          // Load Leaflet CSS and icons dynamically (client-side only)
           if (typeof window !== "undefined") {
+            // Load Leaflet CSS
+            const link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
+            link.integrity =
+              "sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=";
+            link.crossOrigin = "";
+            if (!document.querySelector('link[href*="leaflet.css"]')) {
+              document.head.appendChild(link);
+            }
+
             const { CustomIcon, FallbackIcon, initLeaflet } = await import(
               "@/utils/leaflet-config"
             );
