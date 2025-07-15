@@ -52,6 +52,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
   const { locale } = useLocale();
   const isRTL = locale === "ar";
   const { t } = useTranslations();
+  const { isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
     setMounted(true);
@@ -212,7 +213,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
               key="logout"
               color="danger"
               startContent={<Icon icon="solar:logout-2-linear" />}
-              onPress={handleLogout}
+              onPress={logout}
             >
               Log Out
             </DropdownItem>
