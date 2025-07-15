@@ -403,7 +403,7 @@ export default function StatisticsPage() {
                       </Chip>
                     </div>
                   </div>
-                  <ClientProgress
+                  <SimpleProgress
                     value={role.percentage}
                     color="primary"
                     className="w-full"
