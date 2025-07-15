@@ -353,6 +353,44 @@ export const ProfessionalWorldMap = ({
         </Card>
       </div>
 
+      {/* Zoom Controls */}
+      <div className="absolute top-4 left-4 space-y-2">
+        <div className="flex flex-col gap-2">
+          <Button
+            isIconOnly
+            size="sm"
+            variant="flat"
+            color="primary"
+            onPress={handleZoomIn}
+            disabled={zoom >= 4}
+            className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm"
+          >
+            <Icon icon="solar:add-linear" width={16} />
+          </Button>
+          <Button
+            isIconOnly
+            size="sm"
+            variant="flat"
+            color="primary"
+            onPress={handleZoomOut}
+            disabled={zoom <= 0.5}
+            className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm"
+          >
+            <Icon icon="solar:minus-linear" width={16} />
+          </Button>
+          <Button
+            isIconOnly
+            size="sm"
+            variant="flat"
+            color="secondary"
+            onPress={handleResetZoom}
+            className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm"
+          >
+            <Icon icon="solar:refresh-linear" width={16} />
+          </Button>
+        </div>
+      </div>
+
       {/* Stats */}
       <div className="absolute top-4 right-4 space-y-2">
         <Chip color="primary" variant="flat" size="sm">
@@ -360,6 +398,9 @@ export const ProfessionalWorldMap = ({
         </Chip>
         <Chip color="success" variant="flat" size="sm">
           👥 {countryData.reduce((sum, c) => sum + c.users, 0)} Total Users
+        </Chip>
+        <Chip color="warning" variant="flat" size="sm">
+          🔍 Zoom: {Math.round(zoom * 100)}%
         </Chip>
       </div>
     </div>
