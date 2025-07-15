@@ -1,5 +1,6 @@
 import { Link } from "@heroui/link";
 import { motion } from "framer-motion";
+import { Icon } from "@iconify/react";
 import { useState } from "react";
 
 import { Head } from "./head";
