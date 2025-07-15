@@ -7,12 +7,61 @@ import { Button } from "@heroui/button";
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
 import { Avatar, AvatarGroup } from "@heroui/avatar";
+import dynamic from "next/dynamic";
 
 import DefaultLayout from "@/layouts/default";
 import { SimpleProgress } from "@/components/ui/simple-progress";
-import { getCountryStats, mockUsers } from "@/data/users-by-country";
+import {
+  getCountryStats,
+  mockUsers,
+  getUsersByCountry,
+} from "@/data/users-by-country";
+
+// Dynamically import the world map to avoid SSR issues
+const WorldMapSVG = dynamic(
+  () =>
+    import("@/components/maps/world-map-svg").then((mod) => ({
+      default: mod.WorldMapSVG,
+    })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-[500px] bg-content1 rounded-lg flex items-center justify-center">
+        <div className="text-center">
+          <Icon
+            icon="solar:map-linear"
+            className="text-primary mx-auto mb-2"
+            width={48}
+          />
+          <p className="text-default-500">Loading world map...</p>
+        </div>
+      </div>
+    ),
+  },
+);
+
+const CountryStatsComponent = dynamic(
+  () =>
+    import("@/components/maps/country-stats").then((mod) => ({
+      default: mod.CountryStatsComponent,
+    })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-[300px] bg-content1 rounded-lg flex items-center justify-center">
+        <Icon
+          icon="solar:chart-square-linear"
+          className="text-primary mx-auto mb-2"
+          width={48}
+        />
+        <p className="text-default-500">Loading statistics...</p>
+      </div>
+    ),
+  },
+);
 
 export default function StatisticsPage() {
+  const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
   const [selectedTimeframe, setSelectedTimeframe] = useState<
     "week" | "month" | "year"
   >("month");
@@ -58,17 +107,46 @@ export default function StatisticsPage() {
         >
           <div className="flex items-center justify-center gap-2 mb-4">
             <Icon
-              icon="solar:chart-square-linear"
+              icon="solar:global-linear"
               className="text-primary"
               width={32}
             />
             <h1 className="text-3xl font-bold text-foreground">
-              Statistics Dashboard
+              Global Statistics Dashboard
             </h1>
           </div>
           <p className="text-lg text-default-600 max-w-2xl mx-auto">
-            Comprehensive analytics and insights about our global user base
+            Comprehensive analytics and insights about our worldwide user base
+            with interactive visualizations
           </p>
+
+          {/* Summary Stats */}
+          <div className="flex justify-center gap-6 mt-6">
+            <Card className="bg-gradient-to-r from-primary/10 to-secondary/10">
+              <CardBody className="text-center py-4 px-6">
+                <h3 className="text-2xl font-bold text-primary">
+                  {totalUsers}
+                </h3>
+                <p className="text-sm text-default-600">Total Users</p>
+              </CardBody>
+            </Card>
+            <Card className="bg-gradient-to-r from-success/10 to-warning/10">
+              <CardBody className="text-center py-4 px-6">
+                <h3 className="text-2xl font-bold text-success">
+                  {totalCountries}
+                </h3>
+                <p className="text-sm text-default-600">Countries</p>
+              </CardBody>
+            </Card>
+            <Card className="bg-gradient-to-r from-secondary/10 to-primary/10">
+              <CardBody className="text-center py-4 px-6">
+                <h3 className="text-2xl font-bold text-secondary">
+                  {Math.round((totalUsers / totalCountries) * 10) / 10}
+                </h3>
+                <p className="text-sm text-default-600">Avg. Users/Country</p>
+              </CardBody>
+            </Card>
+          </div>
         </motion.div>
 
         {/* Key Metrics Cards */}
@@ -192,11 +270,49 @@ export default function StatisticsPage() {
           ))}
         </motion.div>
 
-        {/* Map Placeholder */}
+        {/* Interactive Instructions */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.3 }}
+        >
+          <Card className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/20 dark:to-purple-950/20 border-1 border-primary/20">
+            <CardBody className="p-4">
+              <div className="flex items-center gap-3">
+                <Icon
+                  icon="solar:info-circle-linear"
+                  className="text-primary flex-shrink-0"
+                  width={24}
+                />
+                <div className="text-sm">
+                  <p className="font-medium text-foreground mb-1">
+                    Interactive Features:
+                  </p>
+                  <ul className="text-default-600 space-y-1">
+                    <li>
+                      • <strong>Hover over countries</strong> to see user count
+                      and detailed user list (up to 10 users)
+                    </li>
+                    <li>
+                      • <strong>Color intensity</strong> indicates user
+                      concentration across countries
+                    </li>
+                    <li>
+                      • <strong>Markers show exact numbers</strong> and hover
+                      for user details
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </CardBody>
+          </Card>
+        </motion.div>
+
+        {/* World Map */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
+          transition={{ delay: 0.4 }}
         >
           <Card className="shadow-lg">
             <CardHeader className="pb-2">
@@ -209,41 +325,24 @@ export default function StatisticsPage() {
                 <h2 className="text-xl font-semibold text-foreground">
                   Global User Distribution
                 </h2>
+                {hoveredCountry && (
+                  <Chip
+                    color="primary"
+                    variant="flat"
+                    size="sm"
+                    className="ml-auto"
+                  >
+                    Viewing: {hoveredCountry}
+                  </Chip>
+                )}
               </div>
             </CardHeader>
             <CardBody className="p-6">
-              <div className="w-full h-[500px] bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg flex items-center justify-center">
-                <div className="text-center">
-                  <Icon
-                    icon="solar:map-linear"
-                    className="text-primary mx-auto mb-4"
-                    width={64}
-                  />
-                  <h3 className="text-xl font-semibold text-foreground mb-2">
-                    Interactive World Map
-                  </h3>
-                  <p className="text-default-600 mb-4">
-                    Visualize user distribution across {totalCountries}{" "}
-                    countries
-                  </p>
-                  <div className="grid grid-cols-2 gap-4 max-w-sm mx-auto">
-                    <div className="text-center">
-                      <p className="text-2xl font-bold text-primary">
-                        {countryStats[0]?.userCount}
-                      </p>
-                      <p className="text-sm text-default-500">
-                        {countryStats[0]?.country}
-                      </p>
-                    </div>
-                    <div className="text-center">
-                      <p className="text-2xl font-bold text-secondary">
-                        {totalUsers}
-                      </p>
-                      <p className="text-sm text-default-500">Total Users</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <WorldMapSVG
+                countryStats={countryStats}
+                onCountryHover={setHoveredCountry}
+                hoveredCountry={hoveredCountry}
+              />
             </CardBody>
           </Card>
         </motion.div>
@@ -252,55 +351,17 @@ export default function StatisticsPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
+          transition={{ delay: 0.5 }}
           className="grid lg:grid-cols-2 gap-8"
         >
           {/* Country Statistics */}
           <Card className="shadow-lg">
-            <CardHeader className="pb-3">
-              <div className="flex items-center gap-2">
-                <Icon
-                  icon="solar:ranking-linear"
-                  className="text-primary"
-                  width={24}
-                />
-                <h3 className="text-xl font-semibold text-foreground">
-                  Top Countries
-                </h3>
-              </div>
-            </CardHeader>
-            <CardBody className="space-y-4">
-              {countryStats.slice(0, 5).map((country, index) => (
-                <motion.div
-                  key={country.country}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.5 + index * 0.1 }}
-                  className="flex items-center gap-4"
-                >
-                  <div className="flex items-center gap-3 flex-1">
-                    <span className="text-2xl">{country.flag}</span>
-                    <div>
-                      <p className="font-medium text-foreground">
-                        {country.country}
-                      </p>
-                      <p className="text-sm text-default-500">
-                        {country.userCount} users
-                      </p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <Chip
-                      size="sm"
-                      variant="flat"
-                      color="primary"
-                      className="text-xs"
-                    >
-                      #{index + 1}
-                    </Chip>
-                  </div>
-                </motion.div>
-              ))}
+            <CardBody className="p-6">
+              <CountryStatsComponent
+                countryStats={countryStats}
+                hoveredCountry={hoveredCountry}
+                onCountryHover={setHoveredCountry}
+              />
             </CardBody>
           </Card>
 
@@ -408,6 +469,20 @@ export default function StatisticsPage() {
                 {countryStats[0]?.country} with {countryStats[0]?.userCount}{" "}
                 users
               </p>
+              <div className="flex justify-center mt-3">
+                <AvatarGroup max={4} size="sm">
+                  {getUsersByCountry(countryStats[0]?.country || "")
+                    .slice(0, 4)
+                    .map((user) => (
+                      <Avatar
+                        key={user.id}
+                        src={user.avatar}
+                        alt={user.name}
+                        size="sm"
+                      />
+                    ))}
+                </AvatarGroup>
+              </div>
             </CardBody>
           </Card>
 
