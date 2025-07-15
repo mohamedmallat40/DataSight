@@ -65,12 +65,13 @@ export function LoginModal({
       onOpenChange={handleClose}
       placement="center"
       backdrop="blur"
+      size="lg"
       classNames={{
         base: "bg-background",
         backdrop: "bg-black/50 backdrop-blur-sm",
       }}
     >
-      <ModalContent className="w-full max-w-sm">
+      <ModalContent className="w-full max-w-md">
         <ModalHeader className="flex flex-col items-center pb-6 pt-8">
           <div className="rounded-lg bg-gradient-to-r from-primary to-secondary p-3 mb-4">
             <Icon
@@ -184,17 +185,24 @@ export function LoginModal({
               Continue with Google
             </Button>
             <Button
+              startContent={<Icon icon="skill-icons:linkedin" width={20} />}
+              variant="bordered"
+              fullWidth
+            >
+              Continue with LinkedIn
+            </Button>
+            <Button
               startContent={
                 <Icon
-                  className="text-default-500"
-                  icon="fe:github"
+                  className="text-foreground"
+                  icon="simple-icons:x"
                   width={20}
                 />
               }
               variant="bordered"
               fullWidth
             >
-              Continue with Github
+              Continue with X
             </Button>
           </div>
         </ModalBody>
