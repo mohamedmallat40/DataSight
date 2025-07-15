@@ -135,13 +135,6 @@ export function RegisterModal({
     >
       <ModalContent className="w-full max-w-md">
         <ModalHeader className="flex flex-col items-center pb-6 pt-8">
-          <div className="rounded-lg bg-gradient-to-r from-primary to-secondary p-3 mb-4">
-            <Icon
-              icon="solar:document-text-linear"
-              className="text-white"
-              width={32}
-            />
-          </div>
           <p className="text-xl font-medium text-foreground">Create Account</p>
           <p className="text-small text-default-500">Join ALL CARE MEDICAL</p>
         </ModalHeader>
