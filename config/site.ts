@@ -1,15 +1,15 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "ALL CARE MEDICAL - OCR Contact Management System",
+  name: "PERLA CI - Code Innovation Solutions",
   description:
-    "Transform your business cards and documents into actionable data instantly with our AI-powered OCR contact management system. Advanced scanning, smart organization, and seamless workflow automation.",
+    "Expert software development and innovative technology solutions for modern businesses. Transform your ideas into powerful digital solutions with our cutting-edge development services.",
   keywords:
-    "OCR, contact management, business cards, document scanning, AI automation, CRM, healthcare management, digital transformation, document processing, contact organization",
-  url: "https://allcaremedical.com",
+    "software development, web development, mobile apps, custom software, digital transformation, technology solutions, code innovation, programming services, software consulting",
+  url: "https://perla-code.com",
   ogImage: "/og-image.jpg",
-  company: "ALL CARE MEDICAL",
-  slogan: "OCR Contact Management",
+  company: "PERLA CI",
+  slogan: "Code Innovation Solutions",
   navItems: [
     {
       label: "Home",
