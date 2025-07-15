@@ -338,7 +338,7 @@ export default function StatisticsPage() {
               </div>
             </CardHeader>
             <CardBody className="p-6">
-              <WorldMapSVG
+              <CustomWorldMap
                 countryStats={countryStats}
                 onCountryHover={setHoveredCountry}
                 hoveredCountry={hoveredCountry}
