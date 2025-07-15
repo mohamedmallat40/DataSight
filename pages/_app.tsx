@@ -8,6 +8,7 @@ import { fontSans, fontMono } from "@/config/fonts";
 import { AuthProvider as AuthModalProvider } from "@/components/auth/auth-provider";
 import { AuthProvider } from "@/contexts/auth-context";
 import "@/styles/globals.css";
+import "leaflet/dist/leaflet.css";
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
