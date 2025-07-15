@@ -61,7 +61,7 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
             />
           </div>
           <span className="ml-2 text-medium font-semibold text-foreground">
-            Convents
+            ALL CARE MEDICAL
           </span>
         </NavbarBrand>
 
