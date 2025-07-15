@@ -188,7 +188,7 @@ export default function StatisticsPage() {
               </div>
             </CardHeader>
             <CardBody className="p-6">
-              <SVGWorldMap
+              <ProfessionalWorldMap
                 countryData={mockCountryData}
                 onCountryHover={setHoveredCountry}
                 hoveredCountry={hoveredCountry}
