@@ -78,7 +78,7 @@ export const ProfessionalWorldMap = ({
   });
 
   const [mapError, setMapError] = useState(false);
-  const [zoom, setZoom] = useState(1);
+  const [zoom, setZoom] = useState(2.25);
   const [center, setCenter] = useState<[number, number]>([0, 20]);
 
   // Get color intensity based on user count
