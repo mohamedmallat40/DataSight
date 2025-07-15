@@ -6,7 +6,7 @@ import { Chip } from "@heroui/chip";
 import { Button } from "@heroui/button";
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
-import { Progress } from "@heroui/progress";
+// Removed Progress import - using custom CSS progress bar
 
 import DefaultLayout from "@/layouts/default";
 
