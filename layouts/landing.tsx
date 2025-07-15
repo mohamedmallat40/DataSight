@@ -150,16 +150,28 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
           {/* Bottom Bar */}
           <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
-              © 2024 Convents. All rights reserved.
+              © 2024 Perla Code Innovators. All rights reserved.
             </p>
             <div className="flex items-center gap-4 text-sm text-gray-400">
-              <a href="#" className="hover:text-white transition-colors">
+              <a
+                href="#"
+                className="hover:text-white transition-colors flex items-center gap-1"
+              >
+                <Icon icon="solar:shield-check-linear" width={14} />
                 Privacy
               </a>
-              <a href="#" className="hover:text-white transition-colors">
+              <a
+                href="#"
+                className="hover:text-white transition-colors flex items-center gap-1"
+              >
+                <Icon icon="solar:document-text-linear" width={14} />
                 Terms
               </a>
-              <a href="#" className="hover:text-white transition-colors">
+              <a
+                href="#"
+                className="hover:text-white transition-colors flex items-center gap-1"
+              >
+                <Icon icon="solar:settings-linear" width={14} />
                 Cookies
               </a>
             </div>
