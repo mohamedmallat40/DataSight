@@ -1,62 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import { Card, CardBody, Avatar, Chip } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
 
 import { CountryStats, User, getUsersByCountry } from "@/data/users-by-country";
-
-// Fix for default markers in react-leaflet
-if (typeof window !== "undefined") {
-  delete (L.Icon.Default.prototype as any)._getIconUrl;
-  L.Icon.Default.mergeOptions({
-    iconRetinaUrl:
-      "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-    iconUrl:
-      "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-    shadowUrl:
-      "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-  });
-}
 
 interface ClientMapProps {
   countryStats: CountryStats[];
   onCountryHover: (country: string | null) => void;
   hoveredCountry: string | null;
 }
-
-// Custom marker icon
-const createCustomIcon = (userCount: number) => {
-  if (typeof window === "undefined") return null;
-
-  const size = Math.min(Math.max(userCount * 8, 20), 50);
-  return L.divIcon({
-    className: "custom-marker",
-    html: `
-      <div style="
-        background: linear-gradient(135deg, #006FEE, #7828C8);
-        border: 3px solid white;
-        border-radius: 50%;
-        width: ${size}px;
-        height: ${size}px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: bold;
-        font-size: ${Math.max(size / 3, 10)}px;
-        box-shadow: 0 4px 12px rgba(0, 111, 238, 0.3);
-        cursor: pointer;
-        transition: all 0.3s ease;
-      ">${userCount}</div>
-    `,
-    iconSize: [size, size],
-    iconAnchor: [size / 2, size / 2],
-  });
-};
 
 // User card component for hover
 const UserCard = ({ user }: { user: User }) => (
@@ -116,15 +70,118 @@ const AnimatedUserCards = ({ users }: { users: User[] }) => {
   );
 };
 
-export const ClientMap = ({
+// Create custom marker icon
+const createCustomIcon = (userCount: number) => {
+  if (typeof window === "undefined") return null;
+
+  try {
+    const L = require("leaflet");
+    const size = Math.min(Math.max(userCount * 8, 20), 50);
+    return L.divIcon({
+      className: "custom-marker",
+      html: `
+        <div style="
+          background: linear-gradient(135deg, #006FEE, #7828C8);
+          border: 3px solid white;
+          border-radius: 50%;
+          width: ${size}px;
+          height: ${size}px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-weight: bold;
+          font-size: ${Math.max(size / 3, 10)}px;
+          box-shadow: 0 4px 12px rgba(0, 111, 238, 0.3);
+          cursor: pointer;
+          transition: all 0.3s ease;
+        ">${userCount}</div>
+      `,
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size / 2],
+    });
+  } catch (error) {
+    console.error("Error creating custom icon:", error);
+    return null;
+  }
+};
+
+// Map component with proper error handling
+const LeafletMapComponent = ({
   countryStats,
   onCountryHover,
-  hoveredCountry,
-}: ClientMapProps) => {
-  const hoveredUsers = hoveredCountry ? getUsersByCountry(hoveredCountry) : [];
+}: {
+  countryStats: CountryStats[];
+  onCountryHover: (country: string | null) => void;
+}) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [hasError, setHasError] = useState(false);
 
-  return (
-    <div className="relative">
+  useEffect(() => {
+    const loadLeaflet = async () => {
+      try {
+        // Import leaflet CSS
+        await import("leaflet/dist/leaflet.css");
+
+        // Import leaflet and react-leaflet
+        const L = await import("leaflet");
+
+        // Fix for default markers in react-leaflet
+        delete (L.Icon.Default.prototype as any)._getIconUrl;
+        L.Icon.Default.mergeOptions({
+          iconRetinaUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
+          iconUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+          shadowUrl:
+            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+        });
+
+        setIsLoaded(true);
+      } catch (error) {
+        console.error("Error loading Leaflet:", error);
+        setHasError(true);
+      }
+    };
+
+    loadLeaflet();
+  }, []);
+
+  if (hasError) {
+    return (
+      <div className="w-full h-[500px] bg-content1 rounded-lg flex items-center justify-center">
+        <div className="text-center">
+          <Icon
+            icon="solar:danger-triangle-linear"
+            className="text-danger mx-auto mb-2"
+            width={48}
+          />
+          <p className="text-danger">Failed to load map</p>
+          <p className="text-sm text-default-500">Please refresh the page</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!isLoaded) {
+    return (
+      <div className="w-full h-[500px] bg-content1 rounded-lg flex items-center justify-center">
+        <div className="text-center">
+          <Icon
+            icon="solar:map-linear"
+            className="text-primary mx-auto mb-2"
+            width={48}
+          />
+          <p className="text-default-500">Loading map...</p>
+        </div>
+      </div>
+    );
+  }
+
+  try {
+    const { MapContainer, TileLayer, Marker, Popup } = require("react-leaflet");
+
+    return (
       <MapContainer
         center={[20, 0]}
         zoom={2}
@@ -168,7 +225,38 @@ export const ClientMap = ({
           );
         })}
       </MapContainer>
+    );
+  } catch (error) {
+    console.error("Error rendering map:", error);
+    return (
+      <div className="w-full h-[500px] bg-content1 rounded-lg flex items-center justify-center">
+        <div className="text-center">
+          <Icon
+            icon="solar:danger-triangle-linear"
+            className="text-danger mx-auto mb-2"
+            width={48}
+          />
+          <p className="text-danger">Map rendering error</p>
+          <p className="text-sm text-default-500">Please try again later</p>
+        </div>
+      </div>
+    );
+  }
+};
 
+export const ClientMap = ({
+  countryStats,
+  onCountryHover,
+  hoveredCountry,
+}: ClientMapProps) => {
+  const hoveredUsers = hoveredCountry ? getUsersByCountry(hoveredCountry) : [];
+
+  return (
+    <div className="relative">
+      <LeafletMapComponent
+        countryStats={countryStats}
+        onCountryHover={onCountryHover}
+      />
       {/* Animated user cards on hover */}
       <AnimatedUserCards users={hoveredUsers} />
     </div>
