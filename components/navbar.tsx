@@ -117,32 +117,6 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
 
   const actionButtons = (
     <div className="flex items-center gap-2">
-      {!isAuthenticated && (
-        /* Unauthenticated User Actions */
-        <>
-          <Button
-            size="sm"
-            variant="ghost"
-            onPress={() => {
-              const event = new CustomEvent("openLogin");
-              window.dispatchEvent(event);
-            }}
-          >
-            Sign In
-          </Button>
-          <Button
-            size="sm"
-            color="primary"
-            onPress={() => {
-              const event = new CustomEvent("openRegister");
-              window.dispatchEvent(event);
-            }}
-          >
-            Sign Up
-          </Button>
-        </>
-      )}
-
       {/* CTA Button */}
       <Button
         isExternal
