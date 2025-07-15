@@ -18,10 +18,10 @@ import {
 } from "@/data/users-by-country";
 
 // Dynamically import the world map to avoid SSR issues
-const WorldMapSVG = dynamic(
+const CustomWorldMap = dynamic(
   () =>
-    import("@/components/maps/world-map-svg").then((mod) => ({
-      default: mod.WorldMapSVG,
+    import("@/components/maps/custom-world-map").then((mod) => ({
+      default: mod.CustomWorldMap,
     })),
   {
     ssr: false,
