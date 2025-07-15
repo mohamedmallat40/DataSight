@@ -172,7 +172,7 @@ export const ProfessionalWorldMap = ({
   // Show fallback if map fails to load
   if (mapError) {
     return (
-      <div className="relative w-full h-[500px] bg-gradient-to-br from-blue-50 to-slate-100 dark:from-blue-950/20 dark:to-slate-900/20 rounded-lg overflow-hidden flex items-center justify-center">
+      <div className="relative w-full h-[600px] bg-gradient-to-br from-blue-50 to-slate-100 dark:from-blue-950/20 dark:to-slate-900/20 rounded-lg overflow-hidden flex items-center justify-center">
         <div className="text-center space-y-4">
           <div className="grid grid-cols-3 gap-4 max-w-md">
             {countryData.slice(0, 9).map((country, index) => (
