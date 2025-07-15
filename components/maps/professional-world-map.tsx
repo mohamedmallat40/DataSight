@@ -239,17 +239,17 @@ export const ProfessionalWorldMap = ({
                     key={geo.rsmKey}
                     geography={geo}
                     fill={getCountryColor(geo.id)}
-                    stroke="#FFFFFF"
-                    strokeWidth={0.5}
+                    stroke={country ? "#1e293b" : "#e2e8f0"}
+                    strokeWidth={country ? (isHovered ? 2 : 1) : 0.3}
                     style={{
                       default: {
                         outline: "none",
                       },
                       hover: {
-                        fill: country ? "#1d4ed8" : "#e5e7eb",
+                        fill: country ? "#075985" : "#f1f5f9",
                         outline: "none",
-                        strokeWidth: isHovered ? 1.5 : 0.5,
                         cursor: country ? "pointer" : "default",
+                        filter: country ? "brightness(0.9)" : "none",
                       },
                       pressed: {
                         outline: "none",
