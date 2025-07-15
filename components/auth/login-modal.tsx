@@ -164,7 +164,7 @@ export function LoginModal({
               color="primary"
               type="submit"
               isLoading={isLoading}
-              isDisabled={!email || !password}
+              isDisabled={!email || !password || isLoading}
             >
               {isLoading ? "Signing in..." : "Sign In"}
             </Button>
