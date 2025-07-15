@@ -26,8 +26,8 @@ export function LoginModal({
   onOpenChange,
   onSwitchToRegister,
 }: LoginModalProps) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("demo@sultan.sa");
+  const [password, setPassword] = useState("demo@sultan.sa");
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
@@ -52,8 +52,8 @@ export function LoginModal({
   };
 
   const handleClose = () => {
-    setEmail("");
-    setPassword("");
+    setEmail("demo@sultan.sa");
+    setPassword("demo@sultan.sa");
     setRememberMe(false);
     setError("");
     onOpenChange(false);
