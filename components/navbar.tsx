@@ -138,18 +138,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
 
   const actionButtons = (
     <div className="flex items-center gap-2">
-      {isAuthenticated ? (
-        /* Authenticated User Actions */
-        <Button
-          size="sm"
-          variant="ghost"
-          color="danger"
-          onPress={handleLogout}
-          startContent={<Icon icon="lucide:log-out" width={16} />}
-        >
-          Logout
-        </Button>
-      ) : (
+      {!isAuthenticated && (
         /* Unauthenticated User Actions */
         <>
           <Button
@@ -174,6 +163,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
           </Button>
         </>
       )}
+
       {/* CTA Button */}
       <Button
         isExternal
@@ -191,46 +181,43 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
 
       {/* Language & Theme Controls */}
       <div className="flex items-center gap-1">
-        <LanguageSwitcher onChange={handleLocaleChange} />
+        <LanguageSwitcher onChange={handleLocaleChange} showFlag={true} />
         <ThemeSwitch />
       </div>
 
-      {/* Profile/User Menu for larger screens */}
-      <Dropdown className="hidden lg:block" placement="bottom-end">
-        <DropdownTrigger>
-          <Avatar
-            as="button"
-            className="transition-transform"
-            size="sm"
-            src="https://ui-avatars.com/api/?name=User&background=random"
-          />
-        </DropdownTrigger>
-        <DropdownMenu aria-label="Profile Actions" variant="flat">
-          <DropdownItem key="profile" className="h-14 gap-2">
-            <p className="font-semibold">Signed in as</p>
-            <p className="font-semibold">demo@example.com</p>
-          </DropdownItem>
-          <DropdownItem
-            key="settings"
-            startContent={<Icon icon="solar:settings-linear" />}
-          >
-            Settings
-          </DropdownItem>
-          <DropdownItem
-            key="help"
-            startContent={<Icon icon="solar:help-circle-linear" />}
-          >
-            Help & Support
-          </DropdownItem>
-          <DropdownItem
-            key="logout"
-            color="danger"
-            startContent={<Icon icon="solar:logout-2-linear" />}
-          >
-            Log Out
-          </DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
+      {/* Profile/User Menu for authenticated users */}
+      {isAuthenticated && (
+        <Dropdown className="hidden lg:block" placement="bottom-end">
+          <DropdownTrigger>
+            <Avatar
+              as="button"
+              className="transition-transform"
+              size="sm"
+              src="https://ui-avatars.com/api/?name=User&background=random"
+            />
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Profile Actions" variant="flat">
+            <DropdownItem key="profile" className="h-14 gap-2">
+              <p className="font-semibold">Signed in as</p>
+              <p className="font-semibold">demo@sultan.sa</p>
+            </DropdownItem>
+            <DropdownItem
+              key="settings"
+              startContent={<Icon icon="solar:settings-linear" />}
+            >
+              Settings
+            </DropdownItem>
+            <DropdownItem
+              key="logout"
+              color="danger"
+              startContent={<Icon icon="solar:logout-2-linear" />}
+              onPress={handleLogout}
+            >
+              Log Out
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      )}
     </div>
   );
 
