@@ -207,93 +207,96 @@ export const ProfessionalWorldMap = ({
       <ComposableMap
         projectionConfig={{
           scale: 147,
-          center: center
+          center: center,
         }}
         style={{
           width: "100%",
-          height: "100%"
+          height: "100%",
         }}
       >
         <ZoomableGroup zoom={zoom} center={center}>
-        <Geographies geography={geoUrl} onError={() => setMapError(true)}>
-          {({ geographies }) => {
-            if (mapError) {
-              return null;
-            }
+          <Geographies geography={geoUrl} onError={() => setMapError(true)}>
+            {({ geographies }) => {
+              if (mapError) {
+                return null;
+              }
 
-            return geographies.map((geo) => {
-              const countryCode = Object.keys(countryCodeMap).find(
-                (code) => countryCodeMap[code] === geo.id,
-              );
-              const country = countryCode
-                ? countryData.find((c) => c.code === countryCode)
-                : null;
-              const isHovered = hoveredCountry === country?.country;
+              return geographies.map((geo) => {
+                const countryCode = Object.keys(countryCodeMap).find(
+                  (code) => countryCodeMap[code] === geo.id,
+                );
+                const country = countryCode
+                  ? countryData.find((c) => c.code === countryCode)
+                  : null;
+                const isHovered = hoveredCountry === country?.country;
 
-              return (
-                <Geography
-                  key={geo.rsmKey}
-                  geography={geo}
-                  fill={getCountryColor(geo.id)}
-                  stroke="#FFFFFF"
-                  strokeWidth={0.5}
-                  style={{
-                    default: {
-                      outline: "none",
-                    },
-                    hover: {
-                      fill: country ? "#1d4ed8" : "#e5e7eb",
-                      outline: "none",
-                      strokeWidth: isHovered ? 1.5 : 0.5,
-                      cursor: country ? "pointer" : "default",
-                    },
-                    pressed: {
-                      outline: "none",
-                    },
-                  }}
-                  onClick={() => handleCountryClick(geo)}
-                  onMouseEnter={(event) => handleCountryMouseEnter(geo, event)}
-                  onMouseLeave={handleCountryMouseLeave}
-                />
-              );
-            });
-          }}
-        </Geographies>
+                return (
+                  <Geography
+                    key={geo.rsmKey}
+                    geography={geo}
+                    fill={getCountryColor(geo.id)}
+                    stroke="#FFFFFF"
+                    strokeWidth={0.5}
+                    style={{
+                      default: {
+                        outline: "none",
+                      },
+                      hover: {
+                        fill: country ? "#1d4ed8" : "#e5e7eb",
+                        outline: "none",
+                        strokeWidth: isHovered ? 1.5 : 0.5,
+                        cursor: country ? "pointer" : "default",
+                      },
+                      pressed: {
+                        outline: "none",
+                      },
+                    }}
+                    onClick={() => handleCountryClick(geo)}
+                    onMouseEnter={(event) =>
+                      handleCountryMouseEnter(geo, event)
+                    }
+                    onMouseLeave={handleCountryMouseLeave}
+                  />
+                );
+              });
+            }}
+          </Geographies>
 
-        {/* Country markers with user counts */}
-        {countryData.map((country) => {
-          const coordinates = countryCoordinates[country.code];
-          if (!coordinates) return null;
+          {/* Country markers with user counts */}
+          {countryData.map((country) => {
+            const coordinates = countryCoordinates[country.code];
+            if (!coordinates) return null;
 
-          const markerSize = 4 + (country.users / maxUsers) * 8; // Size based on user count
+            const markerSize = 4 + (country.users / maxUsers) * 8; // Size based on user count
 
-          return (
-            <Marker key={country.code} coordinates={coordinates}>
-              <motion.g
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: Math.random() * 0.5 }}
-              >
-                <circle
-                  r={markerSize}
-                  fill="#1d4ed8"
-                  stroke="#ffffff"
-                  strokeWidth={2}
-                  className="drop-shadow-sm"
-                />
-                <text
-                  textAnchor="middle"
-                  y={4}
-                  fontSize="10"
-                  fill="white"
-                  fontWeight="bold"
+            return (
+              <Marker key={country.code} coordinates={coordinates}>
+                <motion.g
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ delay: Math.random() * 0.5 }}
                 >
-                  {country.users}
-                </text>
-              </motion.g>
-            </Marker>
-          );
-        })}
+                  <circle
+                    r={markerSize}
+                    fill="#1d4ed8"
+                    stroke="#ffffff"
+                    strokeWidth={2}
+                    className="drop-shadow-sm"
+                  />
+                  <text
+                    textAnchor="middle"
+                    y={4}
+                    fontSize="10"
+                    fill="white"
+                    fontWeight="bold"
+                  >
+                    {country.users}
+                  </text>
+                </motion.g>
+              </Marker>
+            );
+          })}
+        </ZoomableGroup>
       </ComposableMap>
 
       {/* Tooltip */}
