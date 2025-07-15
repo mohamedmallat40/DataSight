@@ -273,12 +273,14 @@ export default function StatisticsPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <Progress
-                      value={(country.users / maxUsers) * 100}
-                      color="primary"
-                      size="sm"
-                      className="w-20"
-                    />
+                    <div className="w-20 h-2 bg-default-200 rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-primary rounded-full transition-all duration-300"
+                        style={{
+                          width: `${(country.users / maxUsers) * 100}%`,
+                        }}
+                      />
+                    </div>
                     <Chip color="primary" variant="flat" size="sm">
                       {country.users}
                     </Chip>
