@@ -6,59 +6,28 @@ import { Chip } from "@heroui/chip";
 import { Button } from "@heroui/button";
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
-import { Avatar, AvatarGroup } from "@heroui/avatar";
-import dynamic from "next/dynamic";
+import { Progress } from "@heroui/progress";
 
 import DefaultLayout from "@/layouts/default";
-import { SimpleProgress } from "@/components/ui/simple-progress";
-import {
-  getCountryStats,
-  mockUsers,
-  getUsersByCountry,
-} from "@/data/users-by-country";
 
-// Dynamically import the world map to avoid SSR issues
-const CustomWorldMap = dynamic(
-  () =>
-    import("@/components/maps/custom-world-map").then((mod) => ({
-      default: mod.CustomWorldMap,
-    })),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="w-full h-[500px] bg-content1 rounded-lg flex items-center justify-center">
-        <div className="text-center">
-          <Icon
-            icon="solar:map-linear"
-            className="text-primary mx-auto mb-2"
-            width={48}
-          />
-          <p className="text-default-500">Loading world map...</p>
-        </div>
-      </div>
-    ),
-  },
-);
+// Mock data for demonstration
+const mockCountryData = [
+  { country: "Saudi Arabia", code: "SA", users: 45, flag: "🇸🇦" },
+  { country: "United States", code: "US", users: 38, flag: "🇺🇸" },
+  { country: "United Kingdom", code: "GB", users: 25, flag: "🇬🇧" },
+  { country: "Germany", code: "DE", users: 22, flag: "🇩🇪" },
+  { country: "France", code: "FR", users: 18, flag: "🇫🇷" },
+  { country: "Japan", code: "JP", users: 15, flag: "🇯🇵" },
+  { country: "Canada", code: "CA", users: 12, flag: "🇨🇦" },
+  { country: "Australia", code: "AU", users: 10, flag: "🇦🇺" },
+];
 
-const CountryStatsComponent = dynamic(
-  () =>
-    import("@/components/maps/country-stats").then((mod) => ({
-      default: mod.CountryStatsComponent,
-    })),
-  {
-    ssr: false,
-    loading: () => (
-      <div className="w-full h-[300px] bg-content1 rounded-lg flex items-center justify-center">
-        <Icon
-          icon="solar:chart-square-linear"
-          className="text-primary mx-auto mb-2"
-          width={48}
-        />
-        <p className="text-default-500">Loading statistics...</p>
-      </div>
-    ),
-  },
-);
+const mockRoleData = [
+  { role: "Doctor", count: 85, color: "primary" },
+  { role: "Nurse", count: 62, color: "success" },
+  { role: "Administrator", count: 28, color: "warning" },
+  { role: "Technician", count: 15, color: "secondary" },
+];
 
 export default function StatisticsPage() {
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
