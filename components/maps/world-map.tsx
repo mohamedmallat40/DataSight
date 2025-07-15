@@ -1,11 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
 import { Card, CardBody, Avatar, Chip } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import L from "leaflet";
-import "leaflet/dist/leaflet.css";
+import dynamic from "next/dynamic";
 
 import { CountryStats, User, getUsersByCountry } from "@/data/users-by-country";
 
