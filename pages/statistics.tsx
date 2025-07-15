@@ -21,6 +21,10 @@ const mockCountryData = [
   { country: "Japan", code: "JP", users: 15, flag: "🇯🇵" },
   { country: "Canada", code: "CA", users: 12, flag: "🇨🇦" },
   { country: "Australia", code: "AU", users: 10, flag: "🇦🇺" },
+  { country: "Brazil", code: "BR", users: 8, flag: "🇧🇷" },
+  { country: "India", code: "IN", users: 6, flag: "🇮🇳" },
+  { country: "China", code: "CN", users: 5, flag: "🇨🇳" },
+  { country: "Russia", code: "RU", users: 4, flag: "🇷🇺" },
 ];
 
 const mockRoleData = [
