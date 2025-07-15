@@ -25,8 +25,7 @@ interface ProfessionalWorldMapProps {
 }
 
 // World map topology URL (Natural Earth data)
-const geoUrl =
-  "https://cdn.jsdelivr.net/npm/world-atlas@1.0.1/countries-110m.json";
+const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
 // Country code mappings (ISO Alpha-2 to ISO Numeric used by the topology)
 const countryCodeMap: Record<string, string> = {
