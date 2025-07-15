@@ -7,50 +7,11 @@ import dynamic from "next/dynamic";
 
 import { CountryStats, User, getUsersByCountry } from "@/data/users-by-country";
 
-// Fix for default markers in react-leaflet
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-  iconUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-});
-
 interface WorldMapProps {
   countryStats: CountryStats[];
   onCountryHover: (country: string | null) => void;
   hoveredCountry: string | null;
 }
-
-// Custom marker icon
-const createCustomIcon = (userCount: number) => {
-  const size = Math.min(Math.max(userCount * 8, 20), 50);
-  return L.divIcon({
-    className: "custom-marker",
-    html: `
-      <div style="
-        background: linear-gradient(135deg, #006FEE, #7828C8);
-        border: 3px solid white;
-        border-radius: 50%;
-        width: ${size}px;
-        height: ${size}px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: white;
-        font-weight: bold;
-        font-size: ${Math.max(size / 3, 10)}px;
-        box-shadow: 0 4px 12px rgba(0, 111, 238, 0.3);
-        cursor: pointer;
-        transition: all 0.3s ease;
-      ">${userCount}</div>
-    `,
-    iconSize: [size, size],
-    iconAnchor: [size / 2, size / 2],
-  });
-};
 
 // User card component for hover
 const UserCard = ({ user }: { user: User }) => (
