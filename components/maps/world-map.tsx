@@ -71,33 +71,77 @@ const AnimatedUserCards = ({ users }: { users: User[] }) => {
   );
 };
 
-export const WorldMap = ({
+// Create the actual map component that uses Leaflet
+const LeafletMap = ({
   countryStats,
   onCountryHover,
   hoveredCountry,
 }: WorldMapProps) => {
-  const [isClient, setIsClient] = useState(false);
+  const [hoveredUsers, setHoveredUsers] = useState<User[]>([]);
 
   useEffect(() => {
-    setIsClient(true);
+    // Dynamically import Leaflet and react-leaflet
+    const loadMap = async () => {
+      const { MapContainer, TileLayer, Marker, Popup } = await import(
+        "react-leaflet"
+      );
+      const L = await import("leaflet");
+
+      // Fix for default markers in react-leaflet
+      delete (L.Icon.Default.prototype as any)._getIconUrl;
+      L.Icon.Default.mergeOptions({
+        iconRetinaUrl:
+          "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
+        iconUrl:
+          "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
+        shadowUrl:
+          "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
+      });
+    };
+
+    loadMap();
   }, []);
 
-  if (!isClient) {
-    return (
-      <div className="w-full h-[500px] bg-content1 rounded-lg flex items-center justify-center">
-        <div className="text-center">
-          <Icon
-            icon="solar:map-linear"
-            className="text-primary mx-auto mb-2"
-            width={48}
-          />
-          <p className="text-default-500">Loading world map...</p>
-        </div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (hoveredCountry) {
+      setHoveredUsers(getUsersByCountry(hoveredCountry));
+    } else {
+      setHoveredUsers([]);
+    }
+  }, [hoveredCountry]);
 
-  const hoveredUsers = hoveredCountry ? getUsersByCountry(hoveredCountry) : [];
+  const createCustomIcon = (userCount: number) => {
+    if (typeof window === "undefined") return null;
+
+    const L = require("leaflet");
+    const size = Math.min(Math.max(userCount * 8, 20), 50);
+    return L.divIcon({
+      className: "custom-marker",
+      html: `
+        <div style="
+          background: linear-gradient(135deg, #006FEE, #7828C8);
+          border: 3px solid white;
+          border-radius: 50%;
+          width: ${size}px;
+          height: ${size}px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-weight: bold;
+          font-size: ${Math.max(size / 3, 10)}px;
+          box-shadow: 0 4px 12px rgba(0, 111, 238, 0.3);
+          cursor: pointer;
+          transition: all 0.3s ease;
+        ">${userCount}</div>
+      `,
+      iconSize: [size, size],
+      iconAnchor: [size / 2, size / 2],
+    });
+  };
+
+  // Dynamically import and render the map
+  const { MapContainer, TileLayer, Marker, Popup } = require("react-leaflet");
 
   return (
     <div className="relative">
@@ -144,4 +188,25 @@ export const WorldMap = ({
       <AnimatedUserCards users={hoveredUsers} />
     </div>
   );
+};
+
+// Dynamically import the LeafletMap component with no SSR
+const DynamicLeafletMap = dynamic(() => Promise.resolve(LeafletMap), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-[500px] bg-content1 rounded-lg flex items-center justify-center">
+      <div className="text-center">
+        <Icon
+          icon="solar:map-linear"
+          className="text-primary mx-auto mb-2"
+          width={48}
+        />
+        <p className="text-default-500">Loading world map...</p>
+      </div>
+    </div>
+  ),
+});
+
+export const WorldMap = (props: WorldMapProps) => {
+  return <DynamicLeafletMap {...props} />;
 };
