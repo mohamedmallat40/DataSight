@@ -65,7 +65,7 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
               ALL CARE MEDICAL
             </span>
             <span className="text-tiny text-default-500 hidden sm:block">
-              Healthcare Management
+              OCR Contact Management
             </span>
           </div>
         </NavbarBrand>
