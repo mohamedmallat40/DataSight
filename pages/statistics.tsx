@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 // Removed Progress import - using custom CSS progress bar
 
 import DefaultLayout from "@/layouts/default";
-import { SVGWorldMap } from "@/components/maps/svg-world-map";
+import { ProfessionalWorldMap } from "@/components/maps/professional-world-map";
 
 // Mock data for demonstration
 const mockCountryData = [
