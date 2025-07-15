@@ -30,40 +30,17 @@ const mockRoleData = [
 ];
 
 export default function StatisticsPage() {
-  const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
   const [selectedTimeframe, setSelectedTimeframe] = useState<
     "week" | "month" | "year"
   >("month");
+  const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
 
-  const countryStats = getCountryStats();
-  const totalUsers = mockUsers.length;
-  const totalCountries = countryStats.length;
-
-  // Calculate role distribution
-  const roleStats = mockUsers.reduce(
-    (acc, user) => {
-      acc[user.role] = (acc[user.role] || 0) + 1;
-      return acc;
-    },
-    {} as Record<string, number>,
+  const totalUsers = mockCountryData.reduce(
+    (sum, country) => sum + country.users,
+    0,
   );
-
-  const roleStatsArray = Object.entries(roleStats)
-    .map(([role, count]) => ({
-      role,
-      count,
-      percentage: (count / totalUsers) * 100,
-    }))
-    .sort((a, b) => b.count - a.count);
-
-  // Calculate growth metrics (simulated)
-  const growthData = {
-    week: { new: 3, percentage: 18.7 },
-    month: { new: Math.round(totalUsers * 0.15), percentage: 12.5 },
-    year: { new: Math.round(totalUsers * 0.75), percentage: 45.2 },
-  };
-
-  const currentGrowth = growthData[selectedTimeframe];
+  const totalCountries = mockCountryData.length;
+  const maxUsers = Math.max(...mockCountryData.map((c) => c.users));
 
   return (
     <DefaultLayout>
