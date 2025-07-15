@@ -6,10 +6,13 @@ import {
   Geographies,
   Geography,
   Marker,
+  ZoomableGroup,
 } from "react-simple-maps";
 import { motion } from "framer-motion";
 import { Card, CardBody } from "@heroui/card";
 import { Chip } from "@heroui/chip";
+import { Button } from "@heroui/button";
+import { Icon } from "@iconify/react";
 
 interface CountryData {
   country: string;
