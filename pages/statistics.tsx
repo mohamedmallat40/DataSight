@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
@@ -6,15 +8,55 @@ import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
 import { Progress } from "@heroui/progress";
 import { Avatar, AvatarGroup } from "@heroui/avatar";
+import dynamic from "next/dynamic";
 
 import DefaultLayout from "@/layouts/default";
-import { WorldMap } from "@/components/maps/world-map";
-import { CountryStatsComponent } from "@/components/maps/country-stats";
 import {
   getCountryStats,
   mockUsers,
   getUsersByCountry,
 } from "@/data/users-by-country";
+
+// Dynamically import components that might have SSR issues
+const WorldMap = dynamic(
+  () =>
+    import("@/components/maps/world-map").then((mod) => ({
+      default: mod.WorldMap,
+    })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-[500px] bg-content1 rounded-lg flex items-center justify-center">
+        <Icon
+          icon="solar:map-linear"
+          className="text-primary mx-auto mb-2"
+          width={48}
+        />
+        <p className="text-default-500">Loading world map...</p>
+      </div>
+    ),
+  },
+);
+
+const CountryStatsComponent = dynamic(
+  () =>
+    import("@/components/maps/country-stats").then((mod) => ({
+      default: mod.CountryStatsComponent,
+    })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-[300px] bg-content1 rounded-lg flex items-center justify-center">
+        <Icon
+          icon="solar:chart-square-linear"
+          className="text-primary mx-auto mb-2"
+          width={48}
+        />
+        <p className="text-default-500">Loading statistics...</p>
+      </div>
+    ),
+  },
+);
 
 export default function StatisticsPage() {
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
