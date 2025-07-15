@@ -151,53 +151,51 @@ export const WorldMapSVG = ({
             scale: 147,
           }}
           style={{ width: "100%", height: "100%" }}
-          onError={() => setMapError(true)}
-          onLoad={() => setMapLoading(false)}
         >
           <Geographies geography={geoUrl}>
-            {({ geographies }) =>
-              geographies.map((geo) => {
-                const country = getCountryByCode(geo.id);
-                const isHovered = country?.country === hoveredCountry;
+            {({ geographies }) => (
+              <>
+                {geographies.map((geo) => {
+                  const country = getCountryByCode(geo.id);
 
-                return (
-                  <Geography
-                    key={geo.rsmKey}
-                    geography={geo}
-                    fill={getCountryColor(geo.id)}
-                    stroke="#FFFFFF"
-                    strokeWidth={0.5}
-                    style={{
-                      default: {
-                        outline: "none",
-                        transition: "all 0.2s ease",
-                      },
-                      hover: {
-                        fill: country ? "#0052CC" : "#f1f5f9",
-                        stroke: "#FFFFFF",
-                        strokeWidth: 1,
-                        outline: "none",
-                        cursor: country ? "pointer" : "default",
-                      },
-                      pressed: {
-                        outline: "none",
-                      },
-                    }}
-                    onMouseEnter={() => {
-                      if (country) {
-                        onCountryHover(country.country);
-                      }
-                    }}
-                    onMouseLeave={() => {
-                      onCountryHover(null);
-                    }}
-                  />
-                );
-              })
-            }
+                  return (
+                    <Geography
+                      key={geo.rsmKey}
+                      geography={geo}
+                      fill={getCountryColor(geo.id)}
+                      stroke="#FFFFFF"
+                      strokeWidth={0.5}
+                      style={{
+                        default: {
+                          outline: "none",
+                          transition: "all 0.2s ease",
+                        },
+                        hover: {
+                          fill: country ? "#0052CC" : "#f1f5f9",
+                          stroke: "#FFFFFF",
+                          strokeWidth: 1,
+                          outline: "none",
+                          cursor: country ? "pointer" : "default",
+                        },
+                        pressed: {
+                          outline: "none",
+                        },
+                      }}
+                      onMouseEnter={() => {
+                        if (country) {
+                          onCountryHover(country.country);
+                        }
+                      }}
+                      onMouseLeave={() => {
+                        onCountryHover(null);
+                      }}
+                    />
+                  );
+                })}
+              </>
+            )}
           </Geographies>
 
-          {/* Add markers for countries with users */}
           {countryStats.map((country) => (
             <Marker
               key={country.country}
