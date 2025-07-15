@@ -8,6 +8,9 @@ import {
   Button,
   Input,
   Link,
+  Checkbox,
+  Divider,
+  Form,
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 
@@ -26,8 +29,10 @@ export function LoginModal({
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
-  const handleLogin = async () => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     if (!email || !password) return;
 
     setIsLoading(true);
@@ -60,6 +65,7 @@ export function LoginModal({
     setEmail("");
     setPassword("");
     setIsLoading(false);
+    setRememberMe(false);
     onOpenChange(false);
   };
 
@@ -69,84 +75,130 @@ export function LoginModal({
       onOpenChange={handleClose}
       placement="center"
       backdrop="blur"
+      classNames={{
+        base: "bg-background",
+        backdrop: "bg-black/50 backdrop-blur-sm",
+      }}
     >
-      <ModalContent>
-        <ModalHeader className="flex flex-col gap-1">
-          <h2 className="text-2xl font-bold">Welcome Back</h2>
-          <p className="text-sm text-default-500">Sign in to your account</p>
+      <ModalContent className="w-full max-w-sm">
+        <ModalHeader className="flex flex-col items-center pb-6 pt-8">
+          <div className="rounded-lg bg-gradient-to-r from-primary to-secondary p-3 mb-4">
+            <Icon
+              icon="solar:document-text-linear"
+              className="text-white"
+              width={32}
+            />
+          </div>
+          <p className="text-xl font-medium text-foreground">Welcome Back</p>
+          <p className="text-small text-default-500">
+            Log in to your account to continue
+          </p>
         </ModalHeader>
-        <ModalBody>
-          <div className="flex flex-col gap-4">
+
+        <ModalBody className="px-6">
+          <Form
+            className="flex flex-col gap-4"
+            validationBehavior="native"
+            onSubmit={handleSubmit}
+          >
             <Input
+              isRequired
               autoFocus
-              label="Email"
+              label="Email Address"
+              name="email"
               placeholder="Enter your email"
+              type="email"
               variant="bordered"
               value={email}
               onValueChange={setEmail}
-              startContent={
-                <Icon
-                  icon="lucide:mail"
-                  className="text-default-400"
-                  width={18}
-                />
-              }
             />
             <Input
+              isRequired
               label="Password"
+              name="password"
               placeholder="Enter your password"
+              type={showPassword ? "text" : "password"}
               variant="bordered"
               value={password}
               onValueChange={setPassword}
-              type={showPassword ? "text" : "password"}
-              startContent={
-                <Icon
-                  icon="lucide:lock"
-                  className="text-default-400"
-                  width={18}
-                />
-              }
               endContent={
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="focus:outline-none"
                 >
-                  <Icon
-                    icon={showPassword ? "lucide:eye-off" : "lucide:eye"}
-                    className="text-default-400 hover:text-default-600"
-                    width={18}
-                  />
+                  {showPassword ? (
+                    <Icon
+                      className="pointer-events-none text-2xl text-default-400"
+                      icon="solar:eye-closed-linear"
+                    />
+                  ) : (
+                    <Icon
+                      className="pointer-events-none text-2xl text-default-400"
+                      icon="solar:eye-bold"
+                    />
+                  )}
                 </button>
               }
             />
-            <div className="flex justify-between items-center">
-              <Link
+            <div className="flex w-full items-center justify-between px-1 py-2">
+              <Checkbox
+                name="remember"
                 size="sm"
-                className="cursor-pointer"
-                onClick={() => {
-                  // Handle forgot password
-                  alert("Forgot password functionality would go here");
-                }}
+                isSelected={rememberMe}
+                onValueChange={setRememberMe}
               >
+                Remember me
+              </Checkbox>
+              <Link className="text-default-500" href="#" size="sm">
                 Forgot password?
               </Link>
             </div>
+            <Button
+              className="w-full"
+              color="primary"
+              type="submit"
+              isLoading={isLoading}
+              isDisabled={!email || !password}
+            >
+              {isLoading ? "Signing in..." : "Sign In"}
+            </Button>
+          </Form>
+
+          <div className="flex items-center gap-4 py-4">
+            <Divider className="flex-1" />
+            <p className="shrink-0 text-tiny text-default-500">OR</p>
+            <Divider className="flex-1" />
+          </div>
+
+          <div className="flex flex-col gap-2">
+            <Button
+              startContent={<Icon icon="flat-color-icons:google" width={20} />}
+              variant="bordered"
+              fullWidth
+            >
+              Continue with Google
+            </Button>
+            <Button
+              startContent={
+                <Icon
+                  className="text-default-500"
+                  icon="fe:github"
+                  width={20}
+                />
+              }
+              variant="bordered"
+              fullWidth
+            >
+              Continue with Github
+            </Button>
           </div>
         </ModalBody>
-        <ModalFooter className="flex flex-col gap-3">
-          <Button
-            color="primary"
-            isLoading={isLoading}
-            onPress={handleLogin}
-            className="w-full"
-            isDisabled={!email || !password}
-          >
-            {isLoading ? "Signing in..." : "Sign In"}
-          </Button>
-          <div className="text-center text-sm">
-            Don't have an account?{" "}
+
+        <ModalFooter className="justify-center pb-6">
+          <p className="text-center text-small">
+            Need to create an account?{" "}
             <Link
+              href="#"
               size="sm"
               className="cursor-pointer"
               onClick={() => {
@@ -154,9 +206,9 @@ export function LoginModal({
                 onSwitchToRegister();
               }}
             >
-              Sign up
+              Sign Up
             </Link>
-          </div>
+          </p>
         </ModalFooter>
       </ModalContent>
     </Modal>
