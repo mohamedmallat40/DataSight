@@ -396,19 +396,45 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
             </Button>
 
             {/* User Profile Section */}
-            <div className="flex items-center gap-3 p-4 bg-default-50 rounded-lg">
-              <Avatar
-                size="sm"
-                src="https://ui-avatars.com/api/?name=User&background=random"
-              />
-              <div className="flex-1">
-                <p className="text-small font-medium">Demo User</p>
-                <p className="text-tiny text-default-500">demo@example.com</p>
+            {isAuthenticated && (
+              <div className="flex items-center gap-3 p-4 bg-default-50 rounded-lg">
+                <Avatar
+                  size="sm"
+                  src="https://ui-avatars.com/api/?name=User&background=random"
+                />
+                <div className="flex-1">
+                  <p className="text-small font-medium">Demo User</p>
+                  <p className="text-tiny text-default-500">demo@sultan.sa</p>
+                </div>
+                <Dropdown placement="top-end">
+                  <DropdownTrigger>
+                    <Button isIconOnly size="sm" variant="light">
+                      <Icon
+                        height={18}
+                        icon="solar:menu-dots-linear"
+                        width={18}
+                      />
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Profile Actions" variant="flat">
+                    <DropdownItem
+                      key="settings"
+                      startContent={<Icon icon="solar:settings-linear" />}
+                    >
+                      Settings
+                    </DropdownItem>
+                    <DropdownItem
+                      key="logout"
+                      color="danger"
+                      startContent={<Icon icon="solar:logout-2-linear" />}
+                      onPress={logout}
+                    >
+                      Log Out
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
               </div>
-              <Button isIconOnly size="sm" variant="light">
-                <Icon height={18} icon="solar:settings-linear" width={18} />
-              </Button>
-            </div>
+            )}
           </div>
         </NavbarMenu>
       </HeroUINavbar>
