@@ -74,6 +74,8 @@ export const ProfessionalWorldMap = ({
     country: null,
   });
 
+  const [mapError, setMapError] = useState(false);
+
   // Get color intensity based on user count
   const getCountryColor = (geoId: string) => {
     const countryCode = Object.keys(countryCodeMap).find(
