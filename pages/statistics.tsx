@@ -62,9 +62,9 @@ export default function StatisticsPage() {
             </h1>
           </div>
           <p className="text-lg text-default-600 max-w-2xl mx-auto">
-            Comprehensive analytics and insights about our worldwide user base
-            with interactive visualizations
+            Comprehensive analytics and insights about our worldwide healthcare network
           </p>
+        </motion.div>
 
           {/* Summary Stats */}
           <div className="flex justify-center gap-6 mt-6">
