@@ -193,14 +193,14 @@ export default function IndexPage(
                   <span className="text-foreground">
                     Effortlessly manage and optimize{" "}
                   </span>
-                  <span className="text-default-400">
+                  <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                     your company operations
                   </span>
                   <span className="text-foreground">
                     {" "}
                     with our all-in-one platform.{" "}
                   </span>
-                  <span className="text-default-400">
+                  <span className="text-default-500">
                     Simplify workflows, improve efficiency, and focus on what
                     truly matters
                   </span>

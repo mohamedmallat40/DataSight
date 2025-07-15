@@ -76,11 +76,11 @@ export default function PricingSection() {
         <Tab key={FrequencyEnum.Quarterly} title="Pay Quarterly" />
       </Tabs>
       <Spacer y={12} />
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl">
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 w-full max-w-6xl">
         {tiers.map((tier) => (
           <Card
             key={tier.key}
-            className={cn("relative", {
+            className={cn("relative h-full", {
               "border-2 border-primary shadow-xl shadow-primary/20":
                 tier.mostPopular,
               "border-1 border-divider": !tier.mostPopular,
@@ -89,8 +89,8 @@ export default function PricingSection() {
             {tier.mostPopular ? (
               <Chip
                 classNames={{
-                  base: "absolute -top-3 left-1/2 -translate-x-1/2",
-                  content: "font-medium",
+                  base: "absolute -top-3 left-1/2 -translate-x-1/2 z-10",
+                  content: "font-medium px-4 py-1",
                 }}
                 color="primary"
                 variant="solid"
@@ -98,16 +98,18 @@ export default function PricingSection() {
                 Most Popular
               </Chip>
             ) : null}
-            <CardHeader className="flex flex-col items-start gap-2 pb-6">
+            <CardHeader className="flex flex-col items-start gap-3 pb-6 pt-8 px-6">
               <h2 className="text-xl font-semibold text-foreground">
                 {tier.title}
               </h2>
-              <p className="text-medium text-default-500">{tier.description}</p>
+              <p className="text-medium text-default-500 leading-relaxed">
+                {tier.description}
+              </p>
             </CardHeader>
             <Divider />
-            <CardBody className="gap-8">
-              <p className="flex items-baseline gap-1 pt-2">
-                <span className="inline bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-4xl font-bold leading-7 tracking-tight text-transparent">
+            <CardBody className="gap-8 px-6 py-8 flex-1">
+              <div className="flex items-baseline gap-2">
+                <span className="inline bg-gradient-to-br from-foreground to-foreground/70 bg-clip-text text-4xl font-bold leading-none tracking-tight text-transparent">
                   {typeof tier.price === "string"
                     ? tier.price
                     : tier.price[selectedFrequency.key]}
@@ -117,21 +119,23 @@ export default function PricingSection() {
                     /{selectedFrequency.priceSuffix}
                   </span>
                 ) : null}
-              </p>
-              <ul className="flex flex-col gap-3">
+              </div>
+              <ul className="flex flex-col gap-4">
                 {tier.features?.map((feature) => (
-                  <li key={feature} className="flex items-center gap-3">
+                  <li key={feature} className="flex items-start gap-3">
                     <Icon
-                      className="text-success flex-shrink-0"
+                      className="text-success flex-shrink-0 mt-0.5"
                       icon="solar:check-circle-linear"
                       width={20}
                     />
-                    <p className="text-default-600 text-sm">{feature}</p>
+                    <p className="text-default-600 text-sm leading-relaxed">
+                      {feature}
+                    </p>
                   </li>
                 ))}
               </ul>
             </CardBody>
-            <CardFooter>
+            <CardFooter className="px-6 pb-8">
               <Button
                 fullWidth
                 as={Link}
@@ -139,7 +143,7 @@ export default function PricingSection() {
                 href={tier.href}
                 variant={tier.buttonVariant}
                 radius="full"
-                className="font-medium"
+                className="font-medium h-12"
               >
                 {tier.buttonText}
               </Button>
