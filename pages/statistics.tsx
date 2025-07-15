@@ -440,16 +440,14 @@ export default function StatisticsPage() {
                 {mockRoleData[0]?.role} ({mockRoleData[0]?.count} users)
               </p>
               <div className="flex justify-center mt-3">
-                <Progress
-                  value={
-                    (mockRoleData[0]?.count /
-                      mockRoleData.reduce((sum, r) => sum + r.count, 0)) *
-                    100
-                  }
-                  color="secondary"
-                  className="w-20"
-                  size="sm"
-                />
+                <div className="w-20 h-2 bg-default-200 rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-secondary rounded-full transition-all duration-300"
+                    style={{
+                      width: `${(mockRoleData[0]?.count / mockRoleData.reduce((sum, r) => sum + r.count, 0)) * 100}%`,
+                    }}
+                  />
+                </div>
               </div>
             </CardBody>
           </Card>
