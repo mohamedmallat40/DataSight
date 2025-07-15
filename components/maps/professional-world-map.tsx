@@ -151,6 +151,24 @@ export const ProfessionalWorldMap = ({
 
   const maxUsers = Math.max(...countryData.map((c) => c.users));
 
+  // Zoom control functions
+  const handleZoomIn = () => {
+    if (zoom < 4) {
+      setZoom(zoom * 1.5);
+    }
+  };
+
+  const handleZoomOut = () => {
+    if (zoom > 0.5) {
+      setZoom(zoom / 1.5);
+    }
+  };
+
+  const handleResetZoom = () => {
+    setZoom(1);
+    setCenter([0, 20]);
+  };
+
   // Show fallback if map fails to load
   if (mapError) {
     return (
