@@ -339,7 +339,7 @@ export default function StatisticsPage() {
                     </div>
                     <div className="flex items-center gap-3">
                       <AvatarGroup max={3} size="sm">
-                        {getUsersByCountry("")
+                        {mockUsers
                           .filter((u) => u.role === role.role)
                           .slice(0, 3)
                           .map((user) => (
