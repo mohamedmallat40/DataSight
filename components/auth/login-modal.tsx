@@ -13,6 +13,7 @@ import {
   Form,
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
+import { useAuth } from "@/contexts/auth-context";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -27,45 +28,34 @@ export function LoginModal({
 }: LoginModalProps) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState("");
+
+  const { login, isLoading } = useAuth();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (!email || !password) return;
 
-    setIsLoading(true);
-    try {
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+    setError("");
 
-      // For demo purposes, store a fake token
-      localStorage.setItem("auth_token", "demo-token-" + Date.now());
-      localStorage.setItem(
-        "user_session",
-        JSON.stringify({
-          email,
-          name: "Demo User",
-          loginTime: new Date().toISOString(),
-        }),
-      );
+    const result = await login(email, password);
 
-      // Close modal and trigger auth state update
+    if (result.success) {
+      // Close modal on successful login
       onOpenChange(false);
-      window.location.reload(); // Simple way to update auth state
-    } catch (error) {
-      console.error("Login failed:", error);
-    } finally {
-      setIsLoading(false);
+    } else {
+      // Show error message
+      setError(result.error || "Login failed");
     }
   };
 
   const handleClose = () => {
     setEmail("");
     setPassword("");
-    setIsLoading(false);
     setRememberMe(false);
+    setError("");
     onOpenChange(false);
   };
 
@@ -96,11 +86,24 @@ export function LoginModal({
         </ModalHeader>
 
         <ModalBody className="px-6">
+          {/* Demo credentials hint */}
+          <div className="bg-primary/10 border border-primary/20 rounded-lg p-3 mb-4">
+            <p className="text-xs text-primary font-medium mb-1">Demo Login:</p>
+            <p className="text-xs text-default-600">Email: demo@sultan.sa</p>
+            <p className="text-xs text-default-600">Password: demo@sultan.sa</p>
+          </div>
+
           <Form
             className="flex flex-col gap-4"
             validationBehavior="native"
             onSubmit={handleSubmit}
           >
+            {error && (
+              <div className="bg-danger/10 border border-danger/20 rounded-lg p-3">
+                <p className="text-sm text-danger">{error}</p>
+              </div>
+            )}
+
             <Input
               isRequired
               autoFocus
@@ -111,6 +114,7 @@ export function LoginModal({
               variant="bordered"
               value={email}
               onValueChange={setEmail}
+              isInvalid={!!error}
             />
             <Input
               isRequired
@@ -121,6 +125,7 @@ export function LoginModal({
               variant="bordered"
               value={password}
               onValueChange={setPassword}
+              isInvalid={!!error}
               endContent={
                 <button
                   type="button"

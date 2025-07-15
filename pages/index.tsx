@@ -1,6 +1,6 @@
 import type { GetStaticProps, InferGetStaticPropsType } from "next";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import { Button } from "@heroui/button";
 import { Card, CardBody } from "@heroui/card";
@@ -10,6 +10,7 @@ import { Icon } from "@iconify/react";
 
 import LandingLayout from "@/layouts/landing";
 import PricingSection from "@/components/pricing/pricing-section";
+import { useAuth } from "@/contexts/auth-context";
 
 /**
  * Props for the IndexPage component
@@ -28,27 +29,29 @@ export default function IndexPage(
   props: InferGetStaticPropsType<typeof getStaticProps>,
 ): JSX.Element {
   const router = useRouter();
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const { isAuthenticated, isLoading } = useAuth();
 
-  // Check authentication status
+  // Redirect authenticated users to contacts page
   useEffect(() => {
-    const checkAuth = () => {
-      try {
-        const token = localStorage.getItem("auth_token");
-        const isAuth = !!token;
-        setIsAuthenticated(isAuth);
+    if (!isLoading && isAuthenticated) {
+      router.replace("/contacts");
+    }
+  }, [isAuthenticated, isLoading, router]);
 
-        if (isAuth) {
-          router.replace("/contacts");
-          return;
-        }
-      } catch (error) {
-        console.log("Auth check error:", error);
-      }
-    };
-
-    checkAuth();
-  }, [router]);
+  // Show loading while checking authentication
+  if (isLoading) {
+    return (
+      <LandingLayout>
+        <div className="flex items-center justify-center min-h-96">
+          <div className="text-center">
+            <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+            <h1 className="text-2xl font-bold">Loading...</h1>
+            <p className="text-default-500">Checking authentication...</p>
+          </div>
+        </div>
+      </LandingLayout>
+    );
+  }
 
   return (
     <LandingLayout>
