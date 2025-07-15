@@ -105,9 +105,15 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
     >
       <Logo />
       <div className="flex flex-col">
-        <span className="font-bold text-inherit text-sm sm:text-base leading-tight">
-          ALL CARE MEDICAL
-        </span>
+        <div className="flex items-center gap-2">
+          <Icon
+            icon="solar:code-circle-linear"
+            className="w-5 h-5 text-primary"
+          />
+          <span className="font-bold text-inherit text-sm sm:text-base leading-tight">
+            PERLA CI
+          </span>
+        </div>
         <span className="text-tiny text-default-500 hidden sm:block">
           Healthcare Management
         </span>
