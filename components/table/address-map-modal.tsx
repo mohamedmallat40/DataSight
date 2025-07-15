@@ -315,7 +315,11 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                             }
                             onPress={openInGoogleMaps}
                           >
-                            Open in Maps
+                            {coordinates && geocodeSource === "api"
+                              ? "Open in Maps (Precise)"
+                              : coordinates
+                                ? "Open in Maps (Approximate)"
+                                : "Open in Maps"}
                           </Button>
                         </div>
                       </div>
