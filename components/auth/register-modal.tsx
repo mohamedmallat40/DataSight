@@ -136,7 +136,7 @@ export function RegisterModal({
       <ModalContent className="w-full max-w-md">
         <ModalHeader className="flex flex-col items-center pb-6 pt-8">
           <p className="text-xl font-medium text-foreground">Create Account</p>
-          <p className="text-small text-default-500">Join ALL CARE MEDICAL</p>
+          <p className="text-small text-default-500">Join PERLA CI</p>
         </ModalHeader>
 
         <ModalBody className="px-6">
