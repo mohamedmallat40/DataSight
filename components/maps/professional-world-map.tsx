@@ -203,17 +203,18 @@ export const ProfessionalWorldMap = ({
   }
 
   return (
-    <div className="relative w-full h-[500px] bg-gradient-to-br from-blue-50 to-slate-100 dark:from-blue-950/20 dark:to-slate-900/20 rounded-lg overflow-hidden">
+    <div className="relative w-full h-[600px] bg-gradient-to-br from-blue-50 to-slate-100 dark:from-blue-950/20 dark:to-slate-900/20 rounded-lg overflow-hidden">
       <ComposableMap
         projectionConfig={{
           scale: 147,
-          center: [0, 20],
+          center: center
         }}
         style={{
           width: "100%",
-          height: "100%",
+          height: "100%"
         }}
       >
+        <ZoomableGroup zoom={zoom} center={center}>
         <Geographies geography={geoUrl} onError={() => setMapError(true)}>
           {({ geographies }) => {
             if (mapError) {
