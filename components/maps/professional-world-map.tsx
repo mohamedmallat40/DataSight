@@ -78,6 +78,8 @@ export const ProfessionalWorldMap = ({
   });
 
   const [mapError, setMapError] = useState(false);
+  const [zoom, setZoom] = useState(1);
+  const [center, setCenter] = useState<[number, number]>([0, 20]);
 
   // Get color intensity based on user count
   const getCountryColor = (geoId: string) => {
