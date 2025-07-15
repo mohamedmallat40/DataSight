@@ -1,9 +1,9 @@
 // Application Constants
 export const APP_CONFIG = {
-  name: "ALL CARE MEDICAL",
-  description: "OCR Contact Management System",
+  name: "PERLA CI",
+  description: "Code Innovation Solutions",
   version: "1.0.0",
-  author: "Perla IT",
+  author: "Perla Code Innovators",
 } as const;
 
 // API Configuration
