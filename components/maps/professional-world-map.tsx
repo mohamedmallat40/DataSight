@@ -271,30 +271,72 @@ export const ProfessionalWorldMap = ({
             const coordinates = countryCoordinates[country.code];
             if (!coordinates) return null;
 
-            const markerSize = 4 + (country.users / maxUsers) * 8; // Size based on user count
+            const maxUsers = Math.max(...countryData.map((c) => c.users));
+            const intensity = country.users / maxUsers;
+
+            // Larger, more visible markers
+            const baseSize = 12;
+            const markerSize = baseSize + intensity * 16; // Size 12-28 based on user count
+            const fontSize = Math.max(10, 8 + intensity * 6); // Font size 8-14
+
+            // Dynamic colors based on intensity
+            const markerColor =
+              intensity > 0.7
+                ? "#dc2626" // Red for high
+                : intensity > 0.4
+                  ? "#ea580c" // Orange for medium
+                  : "#2563eb"; // Blue for low
 
             return (
               <Marker key={country.code} coordinates={coordinates}>
                 <motion.g
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: Math.random() * 0.5 }}
+                  initial={{ scale: 0, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ delay: Math.random() * 0.8, duration: 0.6 }}
+                  whileHover={{ scale: 1.2 }}
+                  className="cursor-pointer"
                 >
+                  {/* Outer glow ring */}
+                  <circle
+                    r={markerSize + 3}
+                    fill={markerColor}
+                    opacity="0.3"
+                    className="animate-pulse"
+                  />
+                  {/* Main marker circle */}
                   <circle
                     r={markerSize}
-                    fill="#1d4ed8"
+                    fill={markerColor}
                     stroke="#ffffff"
-                    strokeWidth={2}
-                    className="drop-shadow-sm"
+                    strokeWidth={3}
+                    className="drop-shadow-lg"
                   />
+                  {/* Inner white circle for better number contrast */}
+                  <circle
+                    r={markerSize - 2}
+                    fill="rgba(255, 255, 255, 0.9)"
+                    stroke="none"
+                  />
+                  {/* User count text */}
                   <text
                     textAnchor="middle"
-                    y={4}
-                    fontSize="10"
-                    fill="white"
+                    y={fontSize * 0.35}
+                    fontSize={fontSize}
+                    fill={markerColor}
                     fontWeight="bold"
+                    className="select-none"
+                    style={{ textShadow: "0 0 3px rgba(255,255,255,0.8)" }}
                   >
                     {country.users}
+                  </text>
+                  {/* Country flag below marker */}
+                  <text
+                    textAnchor="middle"
+                    y={markerSize + 18}
+                    fontSize="14"
+                    className="select-none"
+                  >
+                    {country.flag}
                   </text>
                 </motion.g>
               </Marker>
