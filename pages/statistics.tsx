@@ -6,7 +6,7 @@ import { Chip } from "@heroui/chip";
 import { Button } from "@heroui/button";
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
-import { ClientProgress } from "@/components/ui/client-progress";
+import { SimpleProgress } from "@/components/ui/simple-progress";
 import { Avatar, AvatarGroup } from "@heroui/avatar";
 import dynamic from "next/dynamic";
 
