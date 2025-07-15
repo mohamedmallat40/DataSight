@@ -61,6 +61,14 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
     navigator.clipboard.writeText(fullAddress);
   };
 
+  // Copy coordinates to clipboard
+  const copyCoordinates = () => {
+    if (coordinates) {
+      const coordsText = `${coordinates.lat}, ${coordinates.lng}`;
+      navigator.clipboard.writeText(coordsText);
+    }
+  };
+
   // Open in Google Maps
   const openInGoogleMaps = () => {
     let googleMapsUrl: string;
