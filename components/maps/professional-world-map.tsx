@@ -146,6 +146,39 @@ export const ProfessionalWorldMap = ({
 
   const maxUsers = Math.max(...countryData.map((c) => c.users));
 
+  // Show fallback if map fails to load
+  if (mapError) {
+    return (
+      <div className="relative w-full h-[500px] bg-gradient-to-br from-blue-50 to-slate-100 dark:from-blue-950/20 dark:to-slate-900/20 rounded-lg overflow-hidden flex items-center justify-center">
+        <div className="text-center space-y-4">
+          <div className="grid grid-cols-3 gap-4 max-w-md">
+            {countryData.slice(0, 9).map((country, index) => (
+              <motion.div
+                key={country.code}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white/90 dark:bg-slate-800/90 p-3 rounded-lg text-center cursor-pointer hover:scale-105 transition-transform"
+                onClick={() => onCountryHover?.(country.country)}
+              >
+                <div className="text-2xl mb-1">{country.flag}</div>
+                <div className="text-xs font-medium text-foreground">
+                  {country.country.split(" ")[0]}
+                </div>
+                <div className="text-xs text-primary font-bold">
+                  {country.users}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+          <p className="text-sm text-default-500">
+            Interactive country grid view
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="relative w-full h-[500px] bg-gradient-to-br from-blue-50 to-slate-100 dark:from-blue-950/20 dark:to-slate-900/20 rounded-lg overflow-hidden">
       <ComposableMap
