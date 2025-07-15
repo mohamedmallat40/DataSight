@@ -352,11 +352,20 @@ export default function StatisticsPage() {
                         </Chip>
                       </div>
                     </div>
-                    <Progress
-                      value={percentage}
-                      color={role.color as any}
-                      size="sm"
-                    />
+                    <div className="w-full h-2 bg-default-200 rounded-full overflow-hidden">
+                      <div
+                        className={`h-full rounded-full transition-all duration-300 ${
+                          role.color === "primary"
+                            ? "bg-primary"
+                            : role.color === "success"
+                              ? "bg-success"
+                              : role.color === "warning"
+                                ? "bg-warning"
+                                : "bg-secondary"
+                        }`}
+                        style={{ width: `${percentage}%` }}
+                      />
+                    </div>
                   </motion.div>
                 );
               })}
