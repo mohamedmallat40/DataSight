@@ -165,7 +165,7 @@ export const ProfessionalWorldMap = ({
   };
 
   const handleResetZoom = () => {
-    setZoom(1);
+    setZoom(2.25);
     setCenter([0, 20]);
   };
 
