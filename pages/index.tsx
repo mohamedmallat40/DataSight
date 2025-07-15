@@ -178,8 +178,12 @@ export default function IndexPage(
               <CardBody className="p-0">
                 <img
                   src="https://cdn.builder.io/api/v1/image/assets%2F14c1ca08871e4f80a1054797b1e2a6eb%2Fb54cdc1d8bcd40b4856c5f81f77ed242?format=webp&width=800"
-                  alt="Company Management Dashboard"
+                  alt="ALL CARE MEDICAL OCR Contact Management Dashboard - showing contact list with business card data, employee management, and workflow automation features"
                   className="w-full h-auto rounded-lg"
+                  loading="lazy"
+                  width="800"
+                  height="600"
+                  itemProp="screenshot"
                 />
               </CardBody>
             </Card>
@@ -187,12 +191,18 @@ export default function IndexPage(
         </section>
 
         {/* Features Section */}
-        <section className="py-20 bg-content1">
+        <section
+          className="py-20 bg-content1"
+          aria-labelledby="features-heading"
+        >
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid lg:grid-cols-2 gap-16 items-start">
               {/* Left Side - Main Text */}
               <div>
-                <h2 className="text-4xl lg:text-5xl font-bold leading-tight mb-8">
+                <h2
+                  id="features-heading"
+                  className="text-4xl lg:text-5xl font-bold leading-tight mb-8"
+                >
                   <span className="text-foreground">
                     Effortlessly manage and optimize{" "}
                   </span>
