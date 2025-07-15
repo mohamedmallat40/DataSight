@@ -31,46 +31,47 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
             {/* Company Info */}
             <div>
               <div className="flex items-center mb-4">
-                <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-2 rounded-full mr-3">
-                  <svg
-                    fill="none"
-                    height="24"
-                    viewBox="0 0 32 32"
-                    width="24"
+                <div className="bg-gradient-to-r from-orange-500 to-red-500 p-2 rounded-full mr-3">
+                  <Icon
+                    icon="solar:code-circle-linear"
+                    width={24}
                     className="text-white"
-                  >
-                    <path
-                      clipRule="evenodd"
-                      d="M17.6482 10.1305L15.8785 7.02583L7.02979 22.5499H10.5278L17.6482 10.1305ZM19.8798 14.0457L18.11 17.1983L19.394 19.4511H16.8453L15.1056 22.5499H24.7272L19.8798 14.0457Z"
-                      fill="currentColor"
-                      fillRule="evenodd"
-                    />
-                  </svg>
+                  />
                 </div>
-                <span className="font-bold text-lg">Convents</span>
+                <span className="font-bold text-lg">Perla Code Innovators</span>
               </div>
               <p className="text-gray-400 text-sm mb-4">
-                Streamline your business operations with our intelligent
-                management platform.
+                Expert software development and innovative technology solutions
+                for modern businesses.
               </p>
+              <div className="flex items-center gap-2 text-gray-300 text-sm mb-4">
+                <Icon icon="solar:phone-linear" width={16} />
+                <span>+216 58891477</span>
+              </div>
               <div className="flex gap-3">
                 <a
                   href="#"
-                  className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
+                  className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-orange-600 transition-colors"
                 >
-                  <Icon icon="solar:facebook-bold" width={16} />
+                  <Icon icon="solar:facebook-linear" width={16} />
                 </a>
                 <a
                   href="#"
-                  className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
+                  className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-orange-600 transition-colors"
                 >
-                  <Icon icon="solar:twitter-bold" width={16} />
+                  <Icon icon="solar:twitter-linear" width={16} />
                 </a>
                 <a
                   href="#"
-                  className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors"
+                  className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-orange-600 transition-colors"
                 >
-                  <Icon icon="solar:linkedin-bold" width={16} />
+                  <Icon icon="solar:linkedin-linear" width={16} />
+                </a>
+                <a
+                  href="#"
+                  className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-orange-600 transition-colors"
+                >
+                  <Icon icon="solar:github-linear" width={16} />
                 </a>
               </div>
             </div>
