@@ -61,9 +61,15 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
             />
           </div>
           <div className="ml-2 flex flex-col">
-            <span className="font-semibold text-foreground text-sm sm:text-base leading-tight">
-              ALL CARE MEDICAL
-            </span>
+            <div className="flex items-center gap-2">
+              <Icon
+                icon="solar:code-circle-linear"
+                className="w-5 h-5 text-primary"
+              />
+              <span className="font-semibold text-foreground text-sm sm:text-base leading-tight">
+                PERLA CI
+              </span>
+            </div>
             <span className="text-tiny text-default-500 hidden sm:block">
               OCR Contact Management
             </span>
