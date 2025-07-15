@@ -87,30 +87,34 @@ export const ProfessionalWorldMap = ({
       (code) => countryCodeMap[code] === geoId,
     );
 
-    if (!countryCode) return "#e5e7eb";
+    if (!countryCode) return "#f1f5f9"; // Light gray for countries without data
 
     const country = countryData.find((c) => c.code === countryCode);
-    if (!country) return "#e5e7eb";
+    if (!country) return "#f1f5f9";
 
     const maxUsers = Math.max(...countryData.map((c) => c.users));
     const intensity = country.users / maxUsers;
 
-    // Blue gradient based on user density
-    const blues = [
-      "#dbeafe", // Very light blue
-      "#bfdbfe", // Light blue
-      "#93c5fd", // Medium light blue
-      "#60a5fa", // Medium blue
-      "#3b82f6", // Blue
-      "#2563eb", // Dark blue
-      "#1d4ed8", // Very dark blue
+    // Enhanced color gradient with better contrast
+    const colors = [
+      "#e0f2fe", // Very light blue
+      "#bae6fd", // Light blue
+      "#7dd3fc", // Medium light blue
+      "#38bdf8", // Medium blue
+      "#0ea5e9", // Blue
+      "#0284c7", // Dark blue
+      "#0369a1", // Very dark blue
+      "#075985", // Darkest blue
     ];
 
+    // Use more dynamic color mapping with minimum intensity
+    const minIntensity = 0.2; // Ensure minimum visibility
+    const adjustedIntensity = minIntensity + intensity * (1 - minIntensity);
     const colorIndex = Math.min(
-      Math.floor(intensity * blues.length),
-      blues.length - 1,
+      Math.floor(adjustedIntensity * colors.length),
+      colors.length - 1,
     );
-    return blues[colorIndex];
+    return colors[colorIndex];
   };
 
   const handleCountryClick = (geo: any) => {
