@@ -1,12 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-  Marker,
-} from "react-simple-maps";
+import { ComposableMap, Geographies, Geography, Marker } from "react-simple-maps";
 import { motion } from "framer-motion";
 import { Card, CardBody } from "@heroui/card";
 import { Chip } from "@heroui/chip";
@@ -29,40 +24,40 @@ const geoUrl = "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json";
 
 // Country code mappings (ISO Alpha-2 to ISO Numeric used by the topology)
 const countryCodeMap: Record<string, string> = {
-  US: "840", // United States
-  SA: "682", // Saudi Arabia
-  GB: "826", // United Kingdom
-  DE: "276", // Germany
-  FR: "250", // France
-  JP: "392", // Japan
-  CA: "124", // Canada
-  AU: "036", // Australia
-  BR: "076", // Brazil
-  IN: "356", // India
-  CN: "156", // China
-  RU: "643", // Russia
+  "US": "840", // United States
+  "SA": "682", // Saudi Arabia
+  "GB": "826", // United Kingdom
+  "DE": "276", // Germany
+  "FR": "250", // France
+  "JP": "392", // Japan
+  "CA": "124", // Canada
+  "AU": "036", // Australia
+  "BR": "076", // Brazil
+  "IN": "356", // India
+  "CN": "156", // China
+  "RU": "643", // Russia
 };
 
 // Coordinates for country markers (approximate centers)
 const countryCoordinates: Record<string, [number, number]> = {
-  US: [-95.7, 37.1],
-  SA: [45.0, 24.0],
-  GB: [-2.0, 54.0],
-  DE: [10.0, 51.0],
-  FR: [2.0, 46.0],
-  JP: [138.0, 36.0],
-  CA: [-106.0, 56.0],
-  AU: [133.0, -27.0],
-  BR: [-55.0, -10.0],
-  IN: [78.0, 20.0],
-  CN: [104.0, 35.0],
-  RU: [105.0, 61.0],
+  "US": [-95.7, 37.1],
+  "SA": [45.0, 24.0],
+  "GB": [-2.0, 54.0],
+  "DE": [10.0, 51.0],
+  "FR": [2.0, 46.0],
+  "JP": [138.0, 36.0],
+  "CA": [-106.0, 56.0],
+  "AU": [133.0, -27.0],
+  "BR": [-55.0, -10.0],
+  "IN": [78.0, 20.0],
+  "CN": [104.0, 35.0],
+  "RU": [105.0, 61.0],
 };
 
 export const ProfessionalWorldMap = ({
   countryData,
   onCountryHover,
-  hoveredCountry,
+  hoveredCountry
 }: ProfessionalWorldMapProps) => {
   const [tooltip, setTooltip] = useState<{
     x: number;
@@ -71,7 +66,7 @@ export const ProfessionalWorldMap = ({
   }>({
     x: 0,
     y: 0,
-    country: null,
+    country: null
   });
 
   const [mapError, setMapError] = useState(false);
@@ -79,15 +74,15 @@ export const ProfessionalWorldMap = ({
   // Get color intensity based on user count
   const getCountryColor = (geoId: string) => {
     const countryCode = Object.keys(countryCodeMap).find(
-      (code) => countryCodeMap[code] === geoId,
+      code => countryCodeMap[code] === geoId
     );
 
     if (!countryCode) return "#e5e7eb";
 
-    const country = countryData.find((c) => c.code === countryCode);
+    const country = countryData.find(c => c.code === countryCode);
     if (!country) return "#e5e7eb";
 
-    const maxUsers = Math.max(...countryData.map((c) => c.users));
+    const maxUsers = Math.max(...countryData.map(c => c.users));
     const intensity = country.users / maxUsers;
 
     // Blue gradient based on user density
@@ -101,20 +96,17 @@ export const ProfessionalWorldMap = ({
       "#1d4ed8", // Very dark blue
     ];
 
-    const colorIndex = Math.min(
-      Math.floor(intensity * blues.length),
-      blues.length - 1,
-    );
+    const colorIndex = Math.min(Math.floor(intensity * blues.length), blues.length - 1);
     return blues[colorIndex];
   };
 
   const handleCountryClick = (geo: any) => {
     const countryCode = Object.keys(countryCodeMap).find(
-      (code) => countryCodeMap[code] === geo.id,
+      code => countryCodeMap[code] === geo.id
     );
 
     if (countryCode) {
-      const country = countryData.find((c) => c.code === countryCode);
+      const country = countryData.find(c => c.code === countryCode);
       if (country) {
         onCountryHover?.(country.country);
       }
@@ -123,16 +115,16 @@ export const ProfessionalWorldMap = ({
 
   const handleCountryMouseEnter = (geo: any, event: React.MouseEvent) => {
     const countryCode = Object.keys(countryCodeMap).find(
-      (code) => countryCodeMap[code] === geo.id,
+      code => countryCodeMap[code] === geo.id
     );
 
     if (countryCode) {
-      const country = countryData.find((c) => c.code === countryCode);
+      const country = countryData.find(c => c.code === countryCode);
       if (country) {
         setTooltip({
           x: event.clientX,
           y: event.clientY,
-          country,
+          country
         });
         onCountryHover?.(country.country);
       }
@@ -144,29 +136,34 @@ export const ProfessionalWorldMap = ({
     onCountryHover?.(null);
   };
 
-  const maxUsers = Math.max(...countryData.map((c) => c.users));
+  const maxUsers = Math.max(...countryData.map(c => c.users));
 
   return (
     <div className="relative w-full h-[500px] bg-gradient-to-br from-blue-50 to-slate-100 dark:from-blue-950/20 dark:to-slate-900/20 rounded-lg overflow-hidden">
       <ComposableMap
         projectionConfig={{
           scale: 147,
-          center: [0, 20],
+          center: [0, 20]
         }}
         style={{
           width: "100%",
-          height: "100%",
+          height: "100%"
         }}
       >
-        <Geographies geography={geoUrl}>
-          {({ geographies }) =>
-            geographies.map((geo) => {
+        <Geographies
+          geography={geoUrl}
+          onError={() => setMapError(true)}
+        >
+          {({ geographies }) => {
+            if (mapError) {
+              return null;
+            }
+
+            return geographies.map((geo) => {
               const countryCode = Object.keys(countryCodeMap).find(
-                (code) => countryCodeMap[code] === geo.id,
+                code => countryCodeMap[code] === geo.id
               );
-              const country = countryCode
-                ? countryData.find((c) => c.code === countryCode)
-                : null;
+              const country = countryCode ? countryData.find(c => c.code === countryCode) : null;
               const isHovered = hoveredCountry === country?.country;
 
               return (
@@ -268,9 +265,7 @@ export const ProfessionalWorldMap = ({
       <div className="absolute bottom-4 left-4">
         <Card className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm">
           <CardBody className="p-3">
-            <p className="text-xs font-semibold text-foreground mb-2">
-              User Distribution
-            </p>
+            <p className="text-xs font-semibold text-foreground mb-2">User Distribution</p>
             <div className="flex items-center gap-2 text-xs">
               <div className="flex items-center gap-1">
                 <div className="w-3 h-3 bg-blue-200 rounded"></div>
