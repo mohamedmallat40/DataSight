@@ -366,6 +366,19 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                               {coordinates.lng.toFixed(4)}
                             </span>
                           </div>
+                          {/* Copy coordinates button */}
+                          <Button
+                            size="sm"
+                            variant="flat"
+                            color="secondary"
+                            className="w-full"
+                            startContent={
+                              <Icon icon="solar:copy-linear" width={14} />
+                            }
+                            onPress={copyCoordinates}
+                          >
+                            Copy Coordinates
+                          </Button>
                         </div>
                       </CardBody>
                     </Card>
