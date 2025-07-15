@@ -184,48 +184,11 @@ export default function StatisticsPage() {
               </div>
             </CardHeader>
             <CardBody className="p-6">
-              <div className="w-full h-[400px] bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg border-2 border-dashed border-primary/20 relative overflow-hidden">
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center space-y-4">
-                    <Icon
-                      icon="solar:global-linear"
-                      className="text-primary/40 mx-auto"
-                      width={80}
-                    />
-                    <div>
-                      <h3 className="text-lg font-semibold text-foreground mb-2">
-                        Interactive Map
-                      </h3>
-                      <p className="text-default-500 max-w-md">
-                        World map with geographic data visualization showing
-                        user distribution across countries.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Regional indicators */}
-                <div className="absolute top-4 left-4">
-                  <Chip color="primary" variant="flat" size="sm">
-                    Middle East: 45 users
-                  </Chip>
-                </div>
-                <div className="absolute top-4 right-4">
-                  <Chip color="success" variant="flat" size="sm">
-                    North America: 50 users
-                  </Chip>
-                </div>
-                <div className="absolute bottom-4 left-4">
-                  <Chip color="warning" variant="flat" size="sm">
-                    Europe: 65 users
-                  </Chip>
-                </div>
-                <div className="absolute bottom-4 right-4">
-                  <Chip color="secondary" variant="flat" size="sm">
-                    Asia-Pacific: 25 users
-                  </Chip>
-                </div>
-              </div>
+              <SVGWorldMap
+                countryData={mockCountryData}
+                onCountryHover={setHoveredCountry}
+                hoveredCountry={hoveredCountry}
+              />
             </CardBody>
           </Card>
         </motion.div>
