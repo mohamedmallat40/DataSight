@@ -60,9 +60,14 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
               width={20}
             />
           </div>
-          <span className="ml-2 text-medium font-semibold text-foreground">
-            ALL CARE MEDICAL
-          </span>
+          <div className="ml-2 flex flex-col">
+            <span className="font-semibold text-foreground text-sm sm:text-base leading-tight">
+              ALL CARE MEDICAL
+            </span>
+            <span className="text-tiny text-default-500 hidden sm:block">
+              Healthcare Management
+            </span>
+          </div>
         </NavbarBrand>
 
         {/* Center Content - Navigation */}
