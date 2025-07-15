@@ -494,7 +494,7 @@ export default function StatisticsPage() {
                 {roleStatsArray[0]?.role} ({roleStatsArray[0]?.count} users)
               </p>
               <div className="flex justify-center mt-3">
-                <Progress
+                <ClientProgress
                   value={roleStatsArray[0]?.percentage || 0}
                   color="secondary"
                   className="w-20"
