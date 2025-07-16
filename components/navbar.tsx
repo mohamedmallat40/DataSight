@@ -17,20 +17,21 @@ import {
 } from "@heroui/dropdown";
 import { Avatar } from "@heroui/avatar";
 import { Divider } from "@heroui/divider";
+import { Icon } from "@iconify/react";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 import clsx from "clsx";
 import { useLocale } from "@react-aria/i18n";
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Icon } from "@iconify/react";
 
 import { LanguageSwitcher } from "./LanguageSwitcher";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import { HeartFilledIcon, Logo } from "@/components/icons";
+import { HeartFilledIcon } from "@/components/icons";
 import { useTranslations } from "@/hooks/use-translation";
+import { useAuth } from "@/contexts/auth-context";
 
 interface NavbarProps {
   setLocale: (locale: string) => void;
@@ -51,9 +52,11 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
   const { locale } = useLocale();
   const isRTL = locale === "ar";
   const { t } = useTranslations();
+  const { isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
-    setMounted(true);
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleLocaleChange = (newLocale: string) => {
@@ -84,17 +87,12 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
     {
       label: "Contacts",
       href: "/contacts",
-      icon: "solar:users-group-two-rounded-linear",
+      icon: "solar:users-group-rounded-linear",
     },
     {
       label: "Statistics",
       href: "/statistics",
-      icon: "lucide:line-chart",
-    },
-    {
-      label: "Reachability Test",
-      href: "/reachability-test",
-      icon: "solar:global-outline",
+      icon: "solar:chart-square-linear",
     },
   ];
 
@@ -106,14 +104,16 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
       )}
       href="/"
     >
-      <Logo />
-      <div className="flex flex-col">
-        <span className="font-bold text-inherit text-sm sm:text-base leading-tight">
-          ALL CARE MEDICAL
-        </span>
-        <span className="text-tiny text-default-500 hidden sm:block">
-          Healthcare Management
-        </span>
+      <div className="flex items-center gap-2">
+        <span className="text-3xl">🔥</span>
+        <div className="flex flex-col">
+          <span className="font-bold text-inherit text-sm sm:text-base leading-tight">
+            PERLA CI
+          </span>
+          <span className="text-tiny text-default-500 hidden sm:block">
+            Code Innovation Solutions
+          </span>
+        </div>
       </div>
     </NextLink>
   );
@@ -137,61 +137,52 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
 
       {/* Language & Theme Controls */}
       <div className="flex items-center gap-1">
-        <LanguageSwitcher onChange={handleLocaleChange} />
+        <LanguageSwitcher
+          onChange={handleLocaleChange}
+          showFlag={true}
+          variant="compact"
+          size="sm"
+        />
         <ThemeSwitch />
       </div>
 
-      {/* Profile/User Menu for larger screens */}
-      <Dropdown className="hidden lg:block" placement="bottom-end">
-        <DropdownTrigger>
-          <Avatar
-            as="button"
-            className="transition-transform"
-            size="sm"
-            src="https://ui-avatars.com/api/?name=User&background=random"
-          />
-        </DropdownTrigger>
-        <DropdownMenu aria-label="Profile Actions" variant="flat">
-          <DropdownItem key="profile" className="h-14 gap-2">
-            <p className="font-semibold">Signed in as</p>
-            <p className="font-semibold">demo@example.com</p>
-          </DropdownItem>
-          <DropdownItem
-            key="settings"
-            startContent={<Icon icon="solar:settings-linear" />}
-          >
-            Settings
-          </DropdownItem>
-          <DropdownItem
-            key="help"
-            startContent={<Icon icon="solar:help-circle-linear" />}
-          >
-            Help & Support
-          </DropdownItem>
-          <DropdownItem
-            key="logout"
-            color="danger"
-            startContent={<Icon icon="solar:logout-2-linear" />}
-          >
-            Log Out
-          </DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
+      {/* Profile/User Menu for authenticated users */}
+      {isAuthenticated && (
+        <Dropdown className="hidden lg:block" placement="bottom-end">
+          <DropdownTrigger>
+            <Avatar
+              as="button"
+              className="transition-transform"
+              size="sm"
+              src="https://ui-avatars.com/api/?name=User&background=random"
+            />
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Profile Actions" variant="flat">
+            <DropdownItem key="profile" className="h-14 gap-2">
+              <p className="font-semibold">Signed in as</p>
+              <p className="font-semibold">demo@sultan.sa</p>
+            </DropdownItem>
+            <DropdownItem
+              key="settings"
+              startContent={<Icon icon="solar:settings-linear" />}
+            >
+              Settings
+            </DropdownItem>
+            <DropdownItem
+              key="logout"
+              color="danger"
+              startContent={<Icon icon="solar:logout-2-linear" />}
+              onPress={logout}
+            >
+              Log Out
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      )}
     </div>
   );
 
-  if (!mounted) {
-    return (
-      <HeroUINavbar className="px-2.5" maxWidth="full" position="sticky">
-        <NavbarContent justify="start">
-          <NavbarBrand>{companyLogo}</NavbarBrand>
-        </NavbarContent>
-        <NavbarContent justify="end">
-          <div className="w-20 h-8 bg-default-100 rounded animate-pulse" />
-        </NavbarContent>
-      </HeroUINavbar>
-    );
-  }
+  // Remove mounting check that was causing language switcher to not render
 
   return (
     <>
@@ -353,19 +344,45 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
             </Button>
 
             {/* User Profile Section */}
-            <div className="flex items-center gap-3 p-4 bg-default-50 rounded-lg">
-              <Avatar
-                size="sm"
-                src="https://ui-avatars.com/api/?name=User&background=random"
-              />
-              <div className="flex-1">
-                <p className="text-small font-medium">Demo User</p>
-                <p className="text-tiny text-default-500">demo@example.com</p>
+            {isAuthenticated && (
+              <div className="flex items-center gap-3 p-4 bg-default-50 rounded-lg">
+                <Avatar
+                  size="sm"
+                  src="https://ui-avatars.com/api/?name=User&background=random"
+                />
+                <div className="flex-1">
+                  <p className="text-small font-medium">Demo User</p>
+                  <p className="text-tiny text-default-500">demo@sultan.sa</p>
+                </div>
+                <Dropdown placement="top-end">
+                  <DropdownTrigger>
+                    <Button isIconOnly size="sm" variant="light">
+                      <Icon
+                        height={18}
+                        icon="solar:menu-dots-linear"
+                        width={18}
+                      />
+                    </Button>
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="Profile Actions" variant="flat">
+                    <DropdownItem
+                      key="settings"
+                      startContent={<Icon icon="solar:settings-linear" />}
+                    >
+                      Settings
+                    </DropdownItem>
+                    <DropdownItem
+                      key="logout"
+                      color="danger"
+                      startContent={<Icon icon="solar:logout-2-linear" />}
+                      onPress={logout}
+                    >
+                      Log Out
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
               </div>
-              <Button isIconOnly size="sm" variant="light">
-                <Icon height={18} icon="solar:settings-linear" width={18} />
-              </Button>
-            </div>
+            )}
           </div>
         </NavbarMenu>
       </HeroUINavbar>

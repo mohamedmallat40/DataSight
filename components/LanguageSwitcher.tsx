@@ -144,17 +144,18 @@ export const LanguageSwitcher = ({
       <DropdownTrigger>
         <Button
           aria-label="Select language"
-          className="min-w-unit-10 h-unit-10 p-2 text-default-600 hover:text-foreground transition-colors"
+          className="min-w-[60px] h-unit-10 px-2 text-default-600 hover:text-foreground transition-colors"
           size={size}
           variant="light"
         >
           {variant === "compact" ? (
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
               {showFlag && (
                 <span
                   aria-label={`${currentLanguage.name} flag`}
-                  className="text-sm"
+                  className="text-base leading-none inline-block"
                   role="img"
+                  style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}
                 >
                   {currentLanguage.flag}
                 </span>

@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://allcaremedical.com/sitemap.xml
+
+# Block access to auth and private areas
+Disallow: /api/
+Disallow: /admin/
+Disallow: /auth/
+Disallow: /contacts/
+Disallow: /table/
+Disallow: /statistics/

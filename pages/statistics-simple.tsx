@@ -6,46 +6,46 @@ import { Chip } from "@heroui/chip";
 import { Button } from "@heroui/button";
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
-// Removed Progress import - using custom CSS progress bar
+import { Avatar, AvatarGroup } from "@heroui/avatar";
 
 import DefaultLayout from "@/layouts/default";
-import { ProfessionalWorldMap } from "@/components/maps/professional-world-map";
-
-// Mock data for demonstration
-const mockCountryData = [
-  { country: "Saudi Arabia", code: "SA", users: 45, flag: "🇸🇦" },
-  { country: "United States", code: "US", users: 38, flag: "🇺🇸" },
-  { country: "United Kingdom", code: "GB", users: 25, flag: "🇬🇧" },
-  { country: "Germany", code: "DE", users: 22, flag: "🇩🇪" },
-  { country: "France", code: "FR", users: 18, flag: "🇫🇷" },
-  { country: "Japan", code: "JP", users: 15, flag: "🇯🇵" },
-  { country: "Canada", code: "CA", users: 12, flag: "🇨🇦" },
-  { country: "Australia", code: "AU", users: 10, flag: "🇦🇺" },
-  { country: "Brazil", code: "BR", users: 8, flag: "🇧🇷" },
-  { country: "India", code: "IN", users: 6, flag: "🇮🇳" },
-  { country: "China", code: "CN", users: 5, flag: "🇨🇳" },
-  { country: "Russia", code: "RU", users: 4, flag: "🇷🇺" },
-];
-
-const mockRoleData = [
-  { role: "Doctor", count: 85, color: "primary" },
-  { role: "Nurse", count: 62, color: "success" },
-  { role: "Administrator", count: 28, color: "warning" },
-  { role: "Technician", count: 15, color: "secondary" },
-];
+import { SimpleProgress } from "@/components/ui/simple-progress";
+import { getCountryStats, mockUsers } from "@/data/users-by-country";
 
 export default function StatisticsPage() {
   const [selectedTimeframe, setSelectedTimeframe] = useState<
     "week" | "month" | "year"
   >("month");
-  const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
 
-  const totalUsers = mockCountryData.reduce(
-    (sum, country) => sum + country.users,
-    0,
+  const countryStats = getCountryStats();
+  const totalUsers = mockUsers.length;
+  const totalCountries = countryStats.length;
+
+  // Calculate role distribution
+  const roleStats = mockUsers.reduce(
+    (acc, user) => {
+      acc[user.role] = (acc[user.role] || 0) + 1;
+      return acc;
+    },
+    {} as Record<string, number>,
   );
-  const totalCountries = mockCountryData.length;
-  const maxUsers = Math.max(...mockCountryData.map((c) => c.users));
+
+  const roleStatsArray = Object.entries(roleStats)
+    .map(([role, count]) => ({
+      role,
+      count,
+      percentage: (count / totalUsers) * 100,
+    }))
+    .sort((a, b) => b.count - a.count);
+
+  // Calculate growth metrics (simulated)
+  const growthData = {
+    week: { new: 3, percentage: 18.7 },
+    month: { new: Math.round(totalUsers * 0.15), percentage: 12.5 },
+    year: { new: Math.round(totalUsers * 0.75), percentage: 45.2 },
+  };
+
+  const currentGrowth = growthData[selectedTimeframe];
 
   return (
     <DefaultLayout>
@@ -58,17 +58,16 @@ export default function StatisticsPage() {
         >
           <div className="flex items-center justify-center gap-2 mb-4">
             <Icon
-              icon="solar:global-linear"
+              icon="solar:chart-square-linear"
               className="text-primary"
               width={32}
             />
             <h1 className="text-3xl font-bold text-foreground">
-              Global Statistics Dashboard
+              Statistics Dashboard
             </h1>
           </div>
           <p className="text-lg text-default-600 max-w-2xl mx-auto">
-            Comprehensive analytics and insights about our worldwide healthcare
-            network
+            Comprehensive analytics and insights about our global user base
           </p>
         </motion.div>
 
@@ -96,7 +95,9 @@ export default function StatisticsPage() {
                   className="text-success"
                   width={16}
                 />
-                <span className="text-xs text-success">+12.5%</span>
+                <span className="text-xs text-success">
+                  +{currentGrowth.percentage}%
+                </span>
               </div>
             </CardBody>
           </Card>
@@ -118,7 +119,7 @@ export default function StatisticsPage() {
                   className="text-success"
                   width={16}
                 />
-                <span className="text-xs text-success">+2 new</span>
+                <span className="text-xs text-success">+2 this month</span>
               </div>
             </CardBody>
           </Card>
@@ -131,9 +132,11 @@ export default function StatisticsPage() {
                 width={32}
               />
               <h3 className="text-3xl font-bold text-secondary mb-1">
-                +{Math.round(totalUsers * 0.15)}
+                +{currentGrowth.new}
               </h3>
-              <p className="text-sm text-default-600">New This Month</p>
+              <p className="text-sm text-default-600">
+                New This {selectedTimeframe}
+              </p>
               <div className="flex items-center justify-center gap-1 mt-2">
                 <Icon
                   icon="solar:arrow-up-linear"
@@ -168,11 +171,32 @@ export default function StatisticsPage() {
           </Card>
         </motion.div>
 
-        {/* Interactive Map Placeholder */}
+        {/* Timeframe Selector */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="flex justify-center gap-2"
+        >
+          {(["week", "month", "year"] as const).map((timeframe) => (
+            <Button
+              key={timeframe}
+              size="sm"
+              variant={selectedTimeframe === timeframe ? "solid" : "flat"}
+              color="primary"
+              onPress={() => setSelectedTimeframe(timeframe)}
+              className="capitalize"
+            >
+              {timeframe}
+            </Button>
+          ))}
+        </motion.div>
+
+        {/* Map Placeholder */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.4 }}
+          transition={{ delay: 0.3 }}
         >
           <Card className="shadow-lg">
             <CardHeader className="pb-2">
@@ -188,11 +212,38 @@ export default function StatisticsPage() {
               </div>
             </CardHeader>
             <CardBody className="p-6">
-              <ProfessionalWorldMap
-                countryData={mockCountryData}
-                onCountryHover={setHoveredCountry}
-                hoveredCountry={hoveredCountry}
-              />
+              <div className="w-full h-[500px] bg-gradient-to-br from-primary/5 to-secondary/5 rounded-lg flex items-center justify-center">
+                <div className="text-center">
+                  <Icon
+                    icon="solar:map-linear"
+                    className="text-primary mx-auto mb-4"
+                    width={64}
+                  />
+                  <h3 className="text-xl font-semibold text-foreground mb-2">
+                    Interactive World Map
+                  </h3>
+                  <p className="text-default-600 mb-4">
+                    Visualize user distribution across {totalCountries}{" "}
+                    countries
+                  </p>
+                  <div className="grid grid-cols-2 gap-4 max-w-sm mx-auto">
+                    <div className="text-center">
+                      <p className="text-2xl font-bold text-primary">
+                        {countryStats[0]?.userCount}
+                      </p>
+                      <p className="text-sm text-default-500">
+                        {countryStats[0]?.country}
+                      </p>
+                    </div>
+                    <div className="text-center">
+                      <p className="text-2xl font-bold text-secondary">
+                        {totalUsers}
+                      </p>
+                      <p className="text-sm text-default-500">Total Users</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </CardBody>
           </Card>
         </motion.div>
@@ -201,7 +252,7 @@ export default function StatisticsPage() {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
+          transition={{ delay: 0.4 }}
           className="grid lg:grid-cols-2 gap-8"
         >
           {/* Country Statistics */}
@@ -209,48 +260,43 @@ export default function StatisticsPage() {
             <CardHeader className="pb-3">
               <div className="flex items-center gap-2">
                 <Icon
-                  icon="solar:chart-square-linear"
+                  icon="solar:ranking-linear"
                   className="text-primary"
                   width={24}
                 />
                 <h3 className="text-xl font-semibold text-foreground">
-                  Top Countries by Users
+                  Top Countries
                 </h3>
               </div>
             </CardHeader>
             <CardBody className="space-y-4">
-              {mockCountryData.map((country, index) => (
+              {countryStats.slice(0, 5).map((country, index) => (
                 <motion.div
-                  key={country.code}
+                  key={country.country}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.6 + index * 0.1 }}
-                  className="flex items-center justify-between p-3 rounded-lg hover:bg-default-50 transition-colors cursor-pointer"
-                  onMouseEnter={() => setHoveredCountry(country.country)}
-                  onMouseLeave={() => setHoveredCountry(null)}
+                  transition={{ delay: 0.5 + index * 0.1 }}
+                  className="flex items-center gap-4"
                 >
-                  <div className="flex items-center gap-3">
+                  <div className="flex items-center gap-3 flex-1">
                     <span className="text-2xl">{country.flag}</span>
                     <div>
                       <p className="font-medium text-foreground">
                         {country.country}
                       </p>
                       <p className="text-sm text-default-500">
-                        {country.users} users
+                        {country.userCount} users
                       </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <div className="w-20 h-2 bg-default-200 rounded-full overflow-hidden">
-                      <div
-                        className="h-full bg-primary rounded-full transition-all duration-300"
-                        style={{
-                          width: `${(country.users / maxUsers) * 100}%`,
-                        }}
-                      />
-                    </div>
-                    <Chip color="primary" variant="flat" size="sm">
-                      {country.users}
+                  <div className="text-right">
+                    <Chip
+                      size="sm"
+                      variant="flat"
+                      color="primary"
+                      className="text-xs"
+                    >
+                      #{index + 1}
                     </Chip>
                   </div>
                 </motion.div>
@@ -273,70 +319,70 @@ export default function StatisticsPage() {
               </div>
             </CardHeader>
             <CardBody className="space-y-4">
-              {mockRoleData.map((role, index) => {
-                const totalRoleUsers = mockRoleData.reduce(
-                  (sum, r) => sum + r.count,
-                  0,
-                );
-                const percentage = (role.count / totalRoleUsers) * 100;
-
-                return (
-                  <motion.div
-                    key={role.role}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.6 + index * 0.1 }}
-                    className="space-y-2"
-                  >
-                    <div className="flex justify-between items-center">
-                      <div className="flex items-center gap-3">
-                        <Icon
-                          icon={
-                            role.role === "Doctor"
-                              ? "solar:user-speak-linear"
-                              : role.role === "Nurse"
-                                ? "solar:user-heart-linear"
-                                : role.role === "Administrator"
-                                  ? "solar:shield-user-linear"
-                                  : "solar:settings-linear"
-                          }
-                          className={`text-${role.color}`}
-                          width={20}
-                        />
-                        <span className="font-medium text-foreground">
-                          {role.role}
-                        </span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm text-default-500">
-                          {role.count} users
-                        </span>
-                        <Chip
-                          color={role.color as any}
-                          variant="flat"
-                          size="sm"
-                        >
-                          {Math.round(percentage)}%
-                        </Chip>
-                      </div>
-                    </div>
-                    <div className="w-full h-2 bg-default-200 rounded-full overflow-hidden">
-                      <div
-                        className={`h-full rounded-full transition-all duration-300 ${
-                          role.color === "primary"
-                            ? "bg-primary"
-                            : role.color === "success"
-                              ? "bg-success"
-                              : role.color === "warning"
-                                ? "bg-warning"
-                                : "bg-secondary"
-                        }`}
-                        style={{ width: `${percentage}%` }}
+              {roleStatsArray.map((role, index) => (
+                <motion.div
+                  key={role.role}
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.6 + index * 0.1 }}
+                  className="space-y-2"
+                >
+                  <div className="flex justify-between items-center">
+                    <div className="flex items-center gap-3">
+                      <Icon
+                        icon={
+                          role.role === "Doctor"
+                            ? "solar:user-speak-linear"
+                            : role.role === "Nurse"
+                              ? "solar:user-heart-linear"
+                              : role.role === "Administrator"
+                                ? "solar:user-linear"
+                                : role.role === "Manager"
+                                  ? "solar:user-bold-linear"
+                                  : "solar:user-check-linear"
+                        }
+                        className="text-primary"
+                        width={20}
                       />
+                      <span className="font-medium text-foreground">
+                        {role.role}
+                      </span>
                     </div>
-                  </motion.div>
-                );
-              })}
+                    <div className="flex items-center gap-3">
+                      <AvatarGroup max={3} size="sm">
+                        {mockUsers
+                          .filter((u) => u.role === role.role)
+                          .slice(0, 3)
+                          .map((user) => (
+                            <Avatar
+                              key={user.id}
+                              src={user.avatar}
+                              alt={user.name}
+                              size="sm"
+                            />
+                          ))}
+                      </AvatarGroup>
+                      <Chip
+                        size="sm"
+                        variant="flat"
+                        color="primary"
+                        className="text-xs"
+                      >
+                        {role.count}
+                      </Chip>
+                    </div>
+                  </div>
+                  <SimpleProgress
+                    value={role.percentage}
+                    color="primary"
+                    className="w-full"
+                    size="sm"
+                  />
+                  <p className="text-xs text-default-500">
+                    {role.percentage.toFixed(1)}% of total users
+                  </p>
+                </motion.div>
+              ))}
             </CardBody>
           </Card>
         </motion.div>
@@ -351,24 +397,17 @@ export default function StatisticsPage() {
           <Card className="bg-gradient-to-br from-primary/5 to-transparent">
             <CardBody className="text-center p-6">
               <Icon
-                icon="solar:heart-pulse-linear"
+                icon="solar:users-group-rounded-linear"
                 className="text-primary mx-auto mb-3"
                 width={32}
               />
               <h3 className="font-semibold text-foreground mb-2">
-                Active Users
+                Most Active Region
               </h3>
               <p className="text-default-600">
-                {Math.round(totalUsers * 0.85)} users active this week
+                {countryStats[0]?.country} with {countryStats[0]?.userCount}{" "}
+                users
               </p>
-              <div className="flex items-center justify-center gap-1 mt-2">
-                <Icon
-                  icon="solar:arrow-up-linear"
-                  className="text-success"
-                  width={16}
-                />
-                <span className="text-sm text-success">85% activity rate</span>
-              </div>
             </CardBody>
           </Card>
 
@@ -383,7 +422,7 @@ export default function StatisticsPage() {
                 Growth Trend
               </h3>
               <p className="text-default-600">
-                +{Math.round(totalUsers * 0.15)} new users this month
+                +{currentGrowth.new} new users this {selectedTimeframe}
               </p>
               <div className="flex items-center justify-center gap-1 mt-2">
                 <Icon
@@ -391,7 +430,9 @@ export default function StatisticsPage() {
                   className="text-success"
                   width={16}
                 />
-                <span className="text-sm text-success">+12.5%</span>
+                <span className="text-sm text-success">
+                  +{currentGrowth.percentage}%
+                </span>
               </div>
             </CardBody>
           </Card>
@@ -405,17 +446,15 @@ export default function StatisticsPage() {
               />
               <h3 className="font-semibold text-foreground mb-2">Top Role</h3>
               <p className="text-default-600">
-                {mockRoleData[0]?.role} ({mockRoleData[0]?.count} users)
+                {roleStatsArray[0]?.role} ({roleStatsArray[0]?.count} users)
               </p>
               <div className="flex justify-center mt-3">
-                <div className="w-20 h-2 bg-default-200 rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-secondary rounded-full transition-all duration-300"
-                    style={{
-                      width: `${(mockRoleData[0]?.count / mockRoleData.reduce((sum, r) => sum + r.count, 0)) * 100}%`,
-                    }}
-                  />
-                </div>
+                <SimpleProgress
+                  value={roleStatsArray[0]?.percentage || 0}
+                  color="secondary"
+                  className="w-20"
+                  size="sm"
+                />
               </div>
             </CardBody>
           </Card>

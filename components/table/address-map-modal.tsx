@@ -61,17 +61,51 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
     navigator.clipboard.writeText(fullAddress);
   };
 
+  // Copy coordinates to clipboard
+  const copyCoordinates = () => {
+    if (coordinates) {
+      const coordsText = `${coordinates.lat}, ${coordinates.lng}`;
+      navigator.clipboard.writeText(coordsText);
+    }
+  };
+
   // Open in Google Maps
   const openInGoogleMaps = () => {
-    const encodedAddress = encodeURIComponent(fullAddress);
-    const googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
+    let googleMapsUrl: string;
+
+    if (coordinates && geocodeSource === "api") {
+      // Use precise coordinates when available from geocoding API
+      googleMapsUrl = `https://www.google.com/maps?q=${coordinates.lat},${coordinates.lng}&z=16`;
+    } else if (coordinates) {
+      // Use coordinates with address for better context
+      const encodedAddress = encodeURIComponent(fullAddress);
+      googleMapsUrl = `https://www.google.com/maps?q=${coordinates.lat},${coordinates.lng}+(${encodedAddress})&z=14`;
+    } else {
+      // Fallback to address search
+      const encodedAddress = encodeURIComponent(fullAddress);
+      googleMapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodedAddress}`;
+    }
+
     window.open(googleMapsUrl, "_blank", "noopener,noreferrer");
   };
 
   // Open in Apple Maps
   const openInAppleMaps = () => {
-    const encodedAddress = encodeURIComponent(fullAddress);
-    const appleMapsUrl = `https://maps.apple.com/?q=${encodedAddress}`;
+    let appleMapsUrl: string;
+
+    if (coordinates && geocodeSource === "api") {
+      // Use precise coordinates when available from geocoding API
+      appleMapsUrl = `https://maps.apple.com/?ll=${coordinates.lat},${coordinates.lng}&z=16`;
+    } else if (coordinates) {
+      // Use coordinates with address for better context
+      const encodedAddress = encodeURIComponent(fullAddress);
+      appleMapsUrl = `https://maps.apple.com/?ll=${coordinates.lat},${coordinates.lng}&q=${encodedAddress}`;
+    } else {
+      // Fallback to address search
+      const encodedAddress = encodeURIComponent(fullAddress);
+      appleMapsUrl = `https://maps.apple.com/?q=${encodedAddress}`;
+    }
+
     window.open(appleMapsUrl, "_blank", "noopener,noreferrer");
   };
 
@@ -281,7 +315,11 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                             }
                             onPress={openInGoogleMaps}
                           >
-                            Open in Maps
+                            {coordinates && geocodeSource === "api"
+                              ? "Open in Maps (Precise)"
+                              : coordinates
+                                ? "Open in Maps (Approximate)"
+                                : "Open in Maps"}
                           </Button>
                         </div>
                       </div>
@@ -332,6 +370,19 @@ export const AddressMapModal: React.FC<AddressMapModalProps> = ({
                               {coordinates.lng.toFixed(4)}
                             </span>
                           </div>
+                          {/* Copy coordinates button */}
+                          <Button
+                            size="sm"
+                            variant="flat"
+                            color="secondary"
+                            className="w-full"
+                            startContent={
+                              <Icon icon="solar:copy-linear" width={14} />
+                            }
+                            onPress={copyCoordinates}
+                          >
+                            Copy Coordinates
+                          </Button>
                         </div>
                       </CardBody>
                     </Card>
