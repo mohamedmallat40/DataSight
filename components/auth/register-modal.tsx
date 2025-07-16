@@ -133,7 +133,7 @@ export function RegisterModal({
         backdrop: "bg-black/50 backdrop-blur-sm",
       }}
     >
-      <ModalContent className="w-full max-w-md">
+      <ModalContent className="w-full max-w-lg">
         <ModalHeader className="flex flex-col items-center pb-6 pt-8">
           <p className="text-xl font-medium text-foreground">Create Account</p>
           <p className="text-small text-default-500">Join PERLA CI</p>
