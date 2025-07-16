@@ -397,9 +397,9 @@ export const ProfessionalWorldMap = ({
             top: tooltip.y - 10,
           }}
         >
-          <Card className="shadow-lg border-1 border-primary/20 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm">
+          <Card className="shadow-lg border-1 border-primary/20 bg-white/95 dark:bg-slate-800/95 backdrop-blur-sm max-w-xs">
             <CardBody className="p-3">
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 mb-2">
                 <span className="text-lg">{tooltip.country.flag}</span>
                 <div>
                   <p className="font-semibold text-foreground text-sm">
@@ -410,6 +410,35 @@ export const ProfessionalWorldMap = ({
                   </p>
                 </div>
               </div>
+
+              {/* Display sample users if available */}
+              {countryUsers[tooltip.country.code] && (
+                <div className="border-t border-default-200 pt-2">
+                  <p className="text-xs font-medium text-default-700 mb-1">
+                    Sample Users:
+                  </p>
+                  <div className="space-y-1">
+                    {countryUsers[tooltip.country.code]
+                      .slice(0, 3)
+                      .map((user, index) => (
+                        <div
+                          key={index}
+                          className="flex justify-between text-xs"
+                        >
+                          <span className="font-medium text-foreground">
+                            {user.name}
+                          </span>
+                          <span className="text-default-500">{user.role}</span>
+                        </div>
+                      ))}
+                    {countryUsers[tooltip.country.code].length > 3 && (
+                      <p className="text-xs text-default-400 italic">
+                        +{countryUsers[tooltip.country.code].length - 3} more...
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
             </CardBody>
           </Card>
         </motion.div>
