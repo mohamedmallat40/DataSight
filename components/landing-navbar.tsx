@@ -54,10 +54,7 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
         {/* Left Content - Brand */}
         <NavbarBrand>
           <div className="flex items-center gap-2">
-            <Icon
-              icon="solar:code-circle-linear"
-              className="w-6 h-6 text-primary"
-            />
+            <span className="text-2xl">🔥</span>
             <div className="flex flex-col">
               <span className="font-semibold text-foreground text-sm sm:text-base leading-tight">
                 PERLA CI
