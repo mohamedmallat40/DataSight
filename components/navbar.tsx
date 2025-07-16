@@ -104,10 +104,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
       href="/"
     >
       <div className="flex items-center gap-2">
-        <Icon
-          icon="solar:code-circle-linear"
-          className="w-6 h-6 text-primary"
-        />
+        <span className="text-2xl">🔥</span>
         <div className="flex flex-col">
           <span className="font-bold text-inherit text-sm sm:text-base leading-tight">
             PERLA CI
