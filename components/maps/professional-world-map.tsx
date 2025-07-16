@@ -358,16 +358,24 @@ export const ProfessionalWorldMap = ({
             </p>
             <div className="flex items-center gap-2 text-xs">
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 bg-blue-200 rounded"></div>
+                <div className="w-3 h-3 bg-blue-100 rounded"></div>
+                <span className="text-default-600">Very Low</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 bg-blue-300 rounded"></div>
                 <span className="text-default-600">Low</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 bg-blue-400 rounded"></div>
-                <span className="text-default-600">Med</span>
+                <div className="w-3 h-3 bg-blue-500 rounded"></div>
+                <span className="text-default-600">Medium</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 bg-blue-600 rounded"></div>
+                <div className="w-3 h-3 bg-blue-700 rounded"></div>
                 <span className="text-default-600">High</span>
+              </div>
+              <div className="flex items-center gap-1">
+                <div className="w-3 h-3 bg-blue-900 rounded"></div>
+                <span className="text-default-600">Very High</span>
               </div>
             </div>
           </CardBody>
