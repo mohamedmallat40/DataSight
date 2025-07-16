@@ -53,26 +53,19 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
       >
         {/* Left Content - Brand */}
         <NavbarBrand>
-          <div className="rounded-lg bg-gradient-to-r from-primary to-secondary p-2">
+          <div className="flex items-center gap-2">
             <Icon
-              icon="solar:document-text-linear"
-              className="text-white"
-              width={20}
+              icon="solar:code-circle-linear"
+              className="w-6 h-6 text-primary"
             />
-          </div>
-          <div className="ml-2 flex flex-col">
-            <div className="flex items-center gap-2">
-              <Icon
-                icon="solar:code-circle-linear"
-                className="w-5 h-5 text-primary"
-              />
+            <div className="flex flex-col">
               <span className="font-semibold text-foreground text-sm sm:text-base leading-tight">
                 PERLA CI
               </span>
+              <span className="text-tiny text-default-500 hidden sm:block">
+                Code Innovation Solutions
+              </span>
             </div>
-            <span className="text-tiny text-default-500 hidden sm:block">
-              OCR Contact Management
-            </span>
           </div>
         </NavbarBrand>
 
