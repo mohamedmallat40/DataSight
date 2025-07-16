@@ -39,7 +39,7 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
               href="https://www.perla-code.com"
               title="Perla Code Innovators"
             >
-              <span className="text-xl">🔥</span>
+              <span className="text-2xl">🔥</span>
               <span className="text-primary font-semibold">
                 Perla Code Innovators
               </span>

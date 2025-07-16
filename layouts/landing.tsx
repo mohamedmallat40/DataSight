@@ -31,9 +31,7 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
             {/* Company Info */}
             <div>
               <div className="flex items-center mb-4">
-                <div className="bg-gradient-to-r from-orange-500 to-red-500 p-2 rounded-full mr-3 flex items-center justify-center">
-                  <span className="text-2xl">🔥</span>
-                </div>
+                <span className="text-3xl mr-3">🔥</span>
                 <span className="font-bold text-lg">Perla Code Innovators</span>
               </div>
               <p className="text-gray-400 text-sm mb-4">
