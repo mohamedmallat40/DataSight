@@ -182,18 +182,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
     </div>
   );
 
-  if (!mounted) {
-    return (
-      <HeroUINavbar className="px-2.5" maxWidth="full" position="sticky">
-        <NavbarContent justify="start">
-          <NavbarBrand>{companyLogo}</NavbarBrand>
-        </NavbarContent>
-        <NavbarContent justify="end">
-          <div className="w-20 h-8 bg-default-100 rounded animate-pulse" />
-        </NavbarContent>
-      </HeroUINavbar>
-    );
-  }
+  // Remove mounting check that was causing language switcher to not render
 
   return (
     <>
