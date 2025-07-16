@@ -38,9 +38,29 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
                 Expert software development and innovative technology solutions
                 for modern businesses.
               </p>
-              <div className="flex items-center gap-2 text-gray-300 text-sm mb-4">
-                <Icon icon="solar:phone-linear" width={16} />
-                <span>+216 58891477</span>
+              <div className="space-y-2 text-gray-300 text-sm mb-4">
+                <div className="flex items-center gap-2">
+                  <Icon icon="solar:location-linear" width={16} />
+                  <span>AV Hedi Khfacha 2023. Ariana, Tunis, Tunisia</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Icon icon="solar:letter-linear" width={16} />
+                  <a
+                    href="mailto:mo.mallat@perla-it.com"
+                    className="hover:text-orange-400 transition-colors"
+                  >
+                    mo.mallat@perla-it.com
+                  </a>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Icon icon="solar:calendar-linear" width={16} />
+                  <a
+                    href="https://calendly.com/perla-ci"
+                    className="hover:text-orange-400 transition-colors"
+                  >
+                    Schedule Meeting
+                  </a>
+                </div>
               </div>
               <div className="flex gap-3">
                 <a
