@@ -45,22 +45,6 @@ const countryCodeMap: Record<string, string> = {
   RU: "643", // Russia
 };
 
-// Coordinates for country markers (approximate centers)
-const countryCoordinates: Record<string, [number, number]> = {
-  US: [-95.7, 37.1],
-  SA: [45.0, 24.0],
-  GB: [-2.0, 54.0],
-  DE: [10.0, 51.0],
-  FR: [2.0, 46.0],
-  JP: [138.0, 36.0],
-  CA: [-106.0, 56.0],
-  AU: [133.0, -27.0],
-  BR: [-55.0, -10.0],
-  IN: [78.0, 20.0],
-  CN: [104.0, 35.0],
-  RU: [105.0, 61.0],
-};
-
 // Mock user data for each country to display on hover
 const countryUsers: Record<
   string,
