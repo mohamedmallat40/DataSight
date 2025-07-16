@@ -144,7 +144,7 @@ export const LanguageSwitcher = ({
       <DropdownTrigger>
         <Button
           aria-label="Select language"
-          className="min-w-unit-10 h-unit-10 p-2 text-default-600 hover:text-foreground transition-colors"
+          className="min-w-unit-12 h-unit-10 px-2 text-default-600 hover:text-foreground transition-colors"
           size={size}
           variant="light"
         >
