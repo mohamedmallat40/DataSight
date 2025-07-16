@@ -62,6 +62,47 @@ const countryCoordinates: Record<string, [number, number]> = {
   RU: [105.0, 61.0],
 };
 
+// Mock user data for each country to display on hover
+const countryUsers: Record<
+  string,
+  Array<{ name: string; role: string; department: string }>
+> = {
+  US: [
+    { name: "John Smith", role: "Doctor", department: "Cardiology" },
+    { name: "Sarah Johnson", role: "Nurse", department: "Emergency" },
+    { name: "Mike Wilson", role: "Administrator", department: "Operations" },
+  ],
+  SA: [
+    { name: "Ahmed Al-Rashid", role: "Doctor", department: "Orthopedics" },
+    { name: "Fatima Al-Zahra", role: "Nurse", department: "Pediatrics" },
+    { name: "Omar Hassan", role: "Administrator", department: "Finance" },
+  ],
+  GB: [
+    { name: "James Brown", role: "Doctor", department: "Neurology" },
+    { name: "Emma Davis", role: "Nurse", department: "Surgery" },
+  ],
+  DE: [
+    { name: "Hans Mueller", role: "Doctor", department: "Radiology" },
+    { name: "Anna Schmidt", role: "Technician", department: "Lab" },
+  ],
+  FR: [
+    { name: "Pierre Dubois", role: "Doctor", department: "Oncology" },
+    { name: "Marie Martin", role: "Nurse", department: "ICU" },
+  ],
+  JP: [
+    { name: "Hiroshi Tanaka", role: "Doctor", department: "Gastroenterology" },
+    { name: "Yuki Sato", role: "Administrator", department: "IT" },
+  ],
+  CA: [
+    { name: "Robert Taylor", role: "Doctor", department: "Family Medicine" },
+    { name: "Jennifer Lee", role: "Nurse", department: "Maternity" },
+  ],
+  AU: [
+    { name: "David Wilson", role: "Doctor", department: "Dermatology" },
+    { name: "Lisa Thompson", role: "Technician", department: "Pharmacy" },
+  ],
+};
+
 export const ProfessionalWorldMap = ({
   countryData,
   onCountryHover,
