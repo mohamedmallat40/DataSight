@@ -120,7 +120,7 @@ export const ProfessionalWorldMap = ({
 
   const [mapError, setMapError] = useState(false);
   const [zoom, setZoom] = useState(2.25);
-  const [center, setCenter] = useState<[number, number]>([0, 20]);
+  const [center, setCenter] = useState<[number, number]>([15, 45]);
 
   // Get color intensity based on user count
   const getCountryColor = (geoId: string) => {
@@ -211,7 +211,7 @@ export const ProfessionalWorldMap = ({
 
   const handleResetZoom = () => {
     setZoom(2.25);
-    setCenter([0, 20]);
+    setCenter([15, 45]);
   };
 
   // Show fallback if map fails to load
@@ -251,8 +251,9 @@ export const ProfessionalWorldMap = ({
     <div className="relative w-full h-[600px] bg-gradient-to-br from-blue-50 to-slate-100 dark:from-blue-950/20 dark:to-slate-900/20 rounded-lg overflow-hidden">
       <ComposableMap
         projectionConfig={{
-          scale: 147,
+          scale: 160,
           center: center,
+          rotation: [-10, 0, 0],
         }}
         style={{
           width: "100%",
