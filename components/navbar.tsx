@@ -55,7 +55,8 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
   const { isAuthenticated, logout } = useAuth();
 
   useEffect(() => {
-    setMounted(true);
+    const timer = setTimeout(() => setMounted(true), 0);
+    return () => clearTimeout(timer);
   }, []);
 
   const handleLocaleChange = (newLocale: string) => {
