@@ -86,12 +86,12 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
     {
       label: "Contacts",
       href: "/contacts",
-      icon: "solar:users-group-two-rounded-linear",
+      icon: "solar:users-group-rounded-linear",
     },
     {
       label: "Statistics",
       href: "/statistics",
-      icon: "lucide:line-chart",
+      icon: "solar:chart-square-linear",
     },
   ];
 
