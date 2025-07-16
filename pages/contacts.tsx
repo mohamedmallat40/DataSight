@@ -1224,8 +1224,9 @@ export default function ContactsPage(): JSX.Element {
           </Chip>
         </div>
         <Button
-          color="primary"
+          className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 border-0"
           endContent={<Icon icon="solar:add-circle-bold" width={20} />}
+          size="md"
           onPress={onOpen}
         >
           Add Contact

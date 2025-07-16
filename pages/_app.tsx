@@ -14,7 +14,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return (
     <HeroUIProvider navigate={router.push}>
-      <NextThemesProvider>
+      <NextThemesProvider defaultTheme="light">
         <AuthProvider>
           <main
             className={`${fontSans.variable} ${fontMono.variable} font-sans`}
