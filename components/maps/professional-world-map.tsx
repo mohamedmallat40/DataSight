@@ -274,10 +274,10 @@ export const ProfessionalWorldMap = ({
             const maxUsers = Math.max(...countryData.map((c) => c.users));
             const intensity = country.users / maxUsers;
 
-            // Larger, more visible markers
-            const baseSize = 12;
-            const markerSize = baseSize + intensity * 16; // Size 12-28 based on user count
-            const fontSize = Math.max(10, 8 + intensity * 6); // Font size 8-14
+            // More proportional markers
+            const baseSize = 6;
+            const markerSize = baseSize + intensity * 8; // Size 6-14 based on user count
+            const fontSize = Math.max(8, 6 + intensity * 4); // Font size 6-10
 
             // Dynamic colors based on intensity
             const markerColor =
