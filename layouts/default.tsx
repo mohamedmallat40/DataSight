@@ -93,7 +93,7 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
               </Link>
               <Link
                 className="text-default-500 hover:text-foreground transition-colors flex items-center gap-1"
-                href="mailto:contact@perla-code.com"
+                href="mailto:mo.mallat@perla-it.com"
               >
                 <Icon icon="solar:letter-linear" className="w-3 h-3" />
                 Contact
