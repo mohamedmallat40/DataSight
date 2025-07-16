@@ -149,11 +149,11 @@ export const LanguageSwitcher = ({
           variant="light"
         >
           {variant === "compact" ? (
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-1.5">
               {showFlag && (
                 <span
                   aria-label={`${currentLanguage.name} flag`}
-                  className="text-base"
+                  className="text-base leading-none"
                   role="img"
                 >
                   {currentLanguage.flag}
