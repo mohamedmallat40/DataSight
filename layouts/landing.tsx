@@ -164,7 +164,7 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
           {/* Bottom Bar */}
           <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col sm:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm">
-              © 2024 Perla Code Innovators. All rights reserved.
+              © 2024 PERLA Code Innovators. All rights reserved.
             </p>
             <div className="flex items-center gap-4 text-sm text-gray-400">
               <a
