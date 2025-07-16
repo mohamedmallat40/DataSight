@@ -29,7 +29,7 @@ import { LanguageSwitcher } from "./LanguageSwitcher";
 
 import { siteConfig } from "@/config/site";
 import { ThemeSwitch } from "@/components/theme-switch";
-import { HeartFilledIcon, Logo } from "@/components/icons";
+import { HeartFilledIcon } from "@/components/icons";
 import { useTranslations } from "@/hooks/use-translation";
 import { useAuth } from "@/contexts/auth-context";
 
