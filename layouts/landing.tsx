@@ -147,16 +147,29 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
             {/* Contact */}
             <div>
               <h4 className="font-semibold mb-4">Contact</h4>
-              <ul className="space-y-2 text-sm text-gray-400">
-                <li>support@convents.com</li>
-                <li>+1 (555) 123-4567</li>
-                <li>
-                  123 Business Street
-                  <br />
-                  Suite 100
-                  <br />
-                  City, State 12345
-                </li>
+              <div className="space-y-3 text-sm text-gray-400">
+                <div className="flex items-center gap-2">
+                  <Icon icon="solar:letter-linear" width={16} />
+                  <a href="mailto:mo.mallat@perla-it.com" className="hover:text-orange-400 transition-colors">
+                    mo.mallat@perla-it.com
+                  </a>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Icon icon="solar:calendar-linear" width={16} />
+                  <a href="https://calendly.com/perla-ci" className="hover:text-orange-400 transition-colors">
+                    Schedule Meeting
+                  </a>
+                </div>
+                <div className="flex items-start gap-2">
+                  <Icon icon="solar:location-linear" width={16} className="mt-0.5" />
+                  <div>
+                    AV Hedi Khfacha 2023
+                    <br />
+                    Ariana, Tunis
+                    <br />
+                    Tunisia
+                  </div>
+                </div>
               </ul>
             </div>
           </div>
