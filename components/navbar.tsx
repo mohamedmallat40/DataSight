@@ -136,7 +136,12 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
 
       {/* Language & Theme Controls */}
       <div className="flex items-center gap-1">
-        <LanguageSwitcher onChange={handleLocaleChange} showFlag={true} />
+        <LanguageSwitcher
+          onChange={handleLocaleChange}
+          showFlag={true}
+          variant="compact"
+          size="sm"
+        />
         <ThemeSwitch />
       </div>
 
