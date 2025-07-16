@@ -153,8 +153,9 @@ export const LanguageSwitcher = ({
               {showFlag && (
                 <span
                   aria-label={`${currentLanguage.name} flag`}
-                  className="text-base leading-none"
+                  className="text-base leading-none inline-block"
                   role="img"
+                  style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}
                 >
                   {currentLanguage.flag}
                 </span>
