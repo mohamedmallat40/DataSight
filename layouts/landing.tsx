@@ -150,18 +150,28 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
               <div className="space-y-3 text-sm text-gray-400">
                 <div className="flex items-center gap-2">
                   <Icon icon="solar:letter-linear" width={16} />
-                  <a href="mailto:mo.mallat@perla-it.com" className="hover:text-orange-400 transition-colors">
+                  <a
+                    href="mailto:mo.mallat@perla-it.com"
+                    className="hover:text-orange-400 transition-colors"
+                  >
                     mo.mallat@perla-it.com
                   </a>
                 </div>
                 <div className="flex items-center gap-2">
                   <Icon icon="solar:calendar-linear" width={16} />
-                  <a href="https://calendly.com/perla-ci" className="hover:text-orange-400 transition-colors">
+                  <a
+                    href="https://calendly.com/perla-ci"
+                    className="hover:text-orange-400 transition-colors"
+                  >
                     Schedule Meeting
                   </a>
                 </div>
                 <div className="flex items-start gap-2">
-                  <Icon icon="solar:location-linear" width={16} className="mt-0.5" />
+                  <Icon
+                    icon="solar:location-linear"
+                    width={16}
+                    className="mt-0.5"
+                  />
                   <div>
                     AV Hedi Khfacha 2023
                     <br />
@@ -170,7 +180,7 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
                     Tunisia
                   </div>
                 </div>
-              </ul>
+              </div>
             </div>
           </div>
 
