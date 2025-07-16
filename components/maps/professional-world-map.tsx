@@ -87,10 +87,10 @@ export const ProfessionalWorldMap = ({
       (code) => countryCodeMap[code] === geoId,
     );
 
-    if (!countryCode) return "#f1f5f9"; // Light gray for countries without data
+    if (!countryCode) return "#e2e8f0"; // Light gray for countries without data
 
     const country = countryData.find((c) => c.code === countryCode);
-    if (!country) return "#f1f5f9";
+    if (!country) return "#e2e8f0";
 
     const maxUsers = Math.max(...countryData.map((c) => c.users));
     const intensity = country.users / maxUsers;
