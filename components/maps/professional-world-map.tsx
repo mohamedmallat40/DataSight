@@ -177,8 +177,6 @@ export const ProfessionalWorldMap = ({
     onCountryHover?.(null);
   };
 
-  const maxUsers = Math.max(...countryData.map((c) => c.users));
-
   // Zoom control functions
   const handleZoomIn = () => {
     if (zoom < 4) {
