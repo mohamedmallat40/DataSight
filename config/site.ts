@@ -33,8 +33,9 @@ export const siteConfig = {
     },
   ],
   links: {
-    linkedin: "https://www.linkedin.com/company/allcaremedical",
-    contact: "mailto:info@allcaremedical.com",
-    support: "mailto:support@allcaremedical.com",
+    linkedin: "https://www.linkedin.com/company/perla-code-innovators",
+    contact: "mailto:contact@perla-code.com",
+    support: "mailto:support@perla-code.com",
+    sponsor: "https://perla-code.com/contact",
   },
 } as const;
