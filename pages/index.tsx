@@ -178,7 +178,7 @@ export default function IndexPage(
               <CardBody className="p-0">
                 <img
                   src="https://cdn.builder.io/api/v1/image/assets%2F14c1ca08871e4f80a1054797b1e2a6eb%2Fb54cdc1d8bcd40b4856c5f81f77ed242?format=webp&width=800"
-                  alt="ALL CARE MEDICAL OCR Contact Management Dashboard - showing contact list with business card data, employee management, and workflow automation features"
+                  alt="PERLA CI Code Innovation Solutions Dashboard - showing contact list with business card data, employee management, and workflow automation features"
                   className="w-full h-auto rounded-lg"
                   loading="lazy"
                   width="800"
