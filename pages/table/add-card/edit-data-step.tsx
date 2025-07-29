@@ -11,6 +11,7 @@ import {
   Chip,
   Select,
   SelectItem,
+  ButtonGroup,
   // addToast should come from your toast context/provider or custom hook
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
@@ -46,11 +47,23 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const [pools, setPools] = useState<Pool[]>([]);
+  const [tagInput, setTagInput] = useState("");
+  const [tags, setTags] = useState<string[]>([]);
   // Example toast hook
 
   useEffect(() => {
     fetchPools();
   }, []);
+
+  useEffect(() => {
+    // Set first pool as default if no pool is selected and pools are available
+    if (pools.length > 0 && !businessCardData.pool_id) {
+      setBusinessCardData({
+        ...businessCardData,
+        pool_id: pools[0].id.toString(),
+      });
+    }
+  }, [pools, businessCardData.pool_id]);
 
   const fetchPools = useCallback(async (): Promise<void> => {
     try {
@@ -144,6 +157,21 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
     });
   };
 
+  // Handle tag input
+  const handleTagInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && tagInput.trim() !== '') {
+      e.preventDefault();
+      if (!tags.includes(tagInput.trim())) {
+        setTags([...tags, tagInput.trim()]);
+      }
+      setTagInput('');
+    }
+  };
+
+  const removeTag = (tagToRemove: string) => {
+    setTags(tags.filter(tag => tag !== tagToRemove));
+  };
+
   // Submit updated business card data
   const handleSubmit = async () => {
     // Validate required fields
@@ -161,7 +189,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
     try {
       const response = await apiClient.post(
         "/update-card-info",
-        businessCardData,
+        { ...businessCardData, tags },
       );
 
       if (response.status === 201) {
@@ -227,12 +255,12 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             uploadedImage ? "md:col-span-8" : "md:col-span-12",
           )}
         >
-          <div className="grid grid-cols-12 gap-4">
+          <div className="grid grid-cols-12 gap-6">
             <Input
               className="col-span-12 md:col-span-6"
               label="Full Name"
               labelPlacement="outside"
-              placeholder="Full Name"
+              placeholder="Enter full name"
               startContent={
                 <Icon className="text-default-400" icon="lucide:user" />
               }
@@ -244,7 +272,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               className="col-span-12 md:col-span-6"
               label="Job Title"
               labelPlacement="outside"
-              placeholder="Job Title"
+              placeholder="Enter job title"
               startContent={
                 <Icon className="text-default-400" icon="lucide:briefcase" />
               }
@@ -256,7 +284,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               className="col-span-12"
               label="Company Name"
               labelPlacement="outside"
-              placeholder="Company Name"
+              placeholder="Enter company name"
               startContent={
                 <Icon className="text-default-400" icon="lucide:building" />
               }
@@ -272,10 +300,10 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                   Email Addresses
                 </label>
                 <Button
-                  color="secondary"
+                  color="primary"
                   size="sm"
                   startContent={<Icon icon="lucide:plus" width={16} />}
-                  variant="light"
+                  variant="bordered"
                   onPress={() => addArrayItem("email")}
                 >
                   Add Email
@@ -289,7 +317,8 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                 >
                   <Input
                     className="flex-1"
-                    placeholder="Email Address"
+                    placeholder="Enter email address"
+                    type="email"
                     startContent={
                       <Icon className="text-default-400" icon="lucide:mail" />
                     }
@@ -318,10 +347,10 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                   Phone Numbers
                 </label>
                 <Button
-                  color="secondary"
+                  color="primary"
                   size="sm"
                   startContent={<Icon icon="lucide:plus" width={16} />}
-                  variant="light"
+                  variant="bordered"
                   onPress={() => addArrayItem("phone_number")}
                 >
                   Add Phone
@@ -335,7 +364,8 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                 >
                   <Input
                     className="flex-1"
-                    placeholder="Phone Number"
+                    placeholder="Enter phone number"
+                    type="tel"
                     startContent={
                       <Icon className="text-default-400" icon="lucide:phone" />
                     }
@@ -366,7 +396,8 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               className="col-span-12 md:col-span-6"
               label="Website"
               labelPlacement="outside"
-              placeholder="Website"
+              placeholder="Enter website URL"
+              type="url"
               startContent={
                 <Icon className="text-default-400" icon="lucide:globe" />
               }
@@ -378,7 +409,8 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               className="col-span-12 md:col-span-6"
               label="LinkedIn"
               labelPlacement="outside"
-              placeholder="LinkedIn Profile"
+              placeholder="Enter LinkedIn profile"
+              type="url"
               startContent={
                 <Icon className="text-default-400" icon="lucide:linkedin" />
               }
@@ -390,7 +422,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               className="col-span-12"
               label="Address"
               labelPlacement="outside"
-              placeholder="Address"
+              placeholder="Enter full address"
               startContent={
                 <Icon className="text-default-400" icon="lucide:map-pin" />
               }
@@ -402,7 +434,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               className="col-span-12 md:col-span-6"
               label="City"
               labelPlacement="outside"
-              placeholder="City"
+              placeholder="Enter city"
               startContent={
                 <Icon className="text-default-400" icon="lucide:building-2" />
               }
@@ -414,7 +446,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               className="col-span-12 md:col-span-6"
               label="Country"
               labelPlacement="outside"
-              placeholder="Country"
+              placeholder="Enter country"
               startContent={
                 <Icon className="text-default-400" icon="lucide:flag" />
               }
@@ -454,237 +486,94 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               ))}
             </Select>
 
-            <div className="col-span-12">
-              <div className="flex flex-col gap-4">
-                <div className="flex items-center justify-center">
-                  <div className="flex items-center gap-3">
+            {/* Gender Selection - Compact */}
+            <div className="col-span-12 md:col-span-6">
+              <label className="text-small font-medium text-default-700 mb-2 block">
+                Gender
+              </label>
+              <ButtonGroup variant="bordered" className="w-full">
+                <Button
+                  className={cn(
+                    "flex-1",
+                    businessCardData.gender === true
+                      ? "bg-primary/10 border-primary text-primary"
+                      : "hover:bg-default-100"
+                  )}
+                  startContent={
                     <Icon
-                      className="text-default-400"
-                      icon="solar:user-id-linear"
-                      width={20}
+                      icon="solar:men-bold"
+                      width={18}
+                      className={businessCardData.gender === true ? "text-primary" : "text-default-500"}
                     />
-                    <label className="text-base font-semibold text-default-700">
-                      Gender Identification
-                    </label>
-                    {businessCardData.gender !== null && (
-                      <Chip
-                        className="ml-2"
-                        color={
-                          businessCardData.gender === true
-                            ? "primary"
-                            : "secondary"
-                        }
-                        size="md"
-                        startContent={
-                          <Icon
-                            icon={
-                              businessCardData.gender === true
-                                ? "solar:men-linear"
-                                : "solar:women-linear"
-                            }
-                            width={14}
-                          />
-                        }
-                        variant="shadow"
-                      >
-                        {businessCardData.gender === true ? "Male" : "Female"}
-                      </Chip>
-                    )}
-                  </div>
-                </div>
-
-                <div className="flex items-center justify-center gap-8 px-4">
-                  {/* Male Option - Left Side */}
-                  <div className="flex-1 max-w-xs">
-                    <Card
-                      isHoverable
-                      isPressable
-                      className={cn(
-                        "border-2 transition-all duration-300 cursor-pointer transform hover:scale-105",
-                        businessCardData.gender === true
-                          ? "border-blue-500 bg-gradient-to-br from-blue-50 to-blue-100 dark:from-blue-900/30 dark:to-blue-800/20 shadow-lg shadow-blue-200/50"
-                          : "border-default-200 hover:border-blue-300 hover:bg-blue-50/30",
-                      )}
-                      onPress={() => handleGenderChange("male")}
-                    >
-                      <CardBody className="p-6">
-                        <div className="flex flex-col items-center gap-4 text-center">
-                          {/* Creative Male Icon */}
-                          <div className="relative">
-                            <div
-                              className={cn(
-                                "p-4 rounded-full transition-all duration-300",
-                                businessCardData.gender === true
-                                  ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg shadow-blue-300/40"
-                                  : "bg-gradient-to-r from-blue-100 to-blue-200 text-blue-600 dark:from-blue-900/40 dark:to-blue-800/30",
-                              )}
-                            >
-                              <Icon
-                                height={32}
-                                icon="solar:men-bold"
-                                width={32}
-                              />
-                            </div>
-                            {businessCardData.gender === true && (
-                              <div className="absolute -top-1 -right-1 bg-green-500 text-white rounded-full p-1">
-                                <Icon
-                                  icon="solar:check-circle-bold"
-                                  width={16}
-                                />
-                              </div>
-                            )}
-                          </div>
-
-                          <div className="space-y-2">
-                            <h4
-                              className={cn(
-                                "font-bold text-lg",
-                                businessCardData.gender === true
-                                  ? "text-blue-700 dark:text-blue-300"
-                                  : "text-default-700",
-                              )}
-                            >
-                              Male
-                            </h4>
-                            <div className="flex items-center justify-center gap-2">
-                              <Icon
-                                className="text-blue-500"
-                                icon="solar:user-bold"
-                                width={14}
-                              />
-                              <p className="text-sm text-default-600">
-                                Masculine
-                              </p>
-                            </div>
-                          </div>
-
-                          {businessCardData.gender === true && (
-                            <div className="flex items-center gap-1 text-xs text-blue-600 font-medium">
-                              <Icon icon="solar:star-bold" width={12} />
-                              Selected
-                            </div>
-                          )}
-                        </div>
-                      </CardBody>
-                    </Card>
-                  </div>
-
-                  {/* VS Separator */}
-                  <div className="flex flex-col items-center gap-2">
-                    <div className="w-px h-16 bg-gradient-to-b from-transparent via-default-300 to-transparent" />
-                    <div className="bg-default-100 rounded-full p-2">
-                      <Icon
-                        className="text-default-400"
-                        icon="solar:layers-minimalistic-linear"
-                        width={16}
-                      />
-                    </div>
-                    <div className="w-px h-16 bg-gradient-to-b from-transparent via-default-300 to-transparent" />
-                  </div>
-
-                  {/* Female Option - Right Side */}
-                  <div className="flex-1 max-w-xs">
-                    <Card
-                      isHoverable
-                      isPressable
-                      className={cn(
-                        "border-2 transition-all duration-300 cursor-pointer transform hover:scale-105",
-                        businessCardData.gender === false
-                          ? "border-pink-500 bg-gradient-to-br from-pink-50 to-rose-100 dark:from-pink-900/30 dark:to-rose-800/20 shadow-lg shadow-pink-200/50"
-                          : "border-default-200 hover:border-pink-300 hover:bg-pink-50/30",
-                      )}
-                      onPress={() => handleGenderChange("female")}
-                    >
-                      <CardBody className="p-6">
-                        <div className="flex flex-col items-center gap-4 text-center">
-                          {/* Creative Female Icon */}
-                          <div className="relative">
-                            <div
-                              className={cn(
-                                "p-4 rounded-full transition-all duration-300",
-                                businessCardData.gender === false
-                                  ? "bg-gradient-to-r from-pink-500 to-rose-500 text-white shadow-lg shadow-pink-300/40"
-                                  : "bg-gradient-to-r from-pink-100 to-rose-200 text-pink-600 dark:from-pink-900/40 dark:to-rose-800/30",
-                              )}
-                            >
-                              <Icon
-                                height={32}
-                                icon="solar:women-bold"
-                                width={32}
-                              />
-                            </div>
-                            {businessCardData.gender === false && (
-                              <div className="absolute -top-1 -right-1 bg-green-500 text-white rounded-full p-1">
-                                <Icon
-                                  icon="solar:check-circle-bold"
-                                  width={16}
-                                />
-                              </div>
-                            )}
-                          </div>
-
-                          <div className="space-y-2">
-                            <h4
-                              className={cn(
-                                "font-bold text-lg",
-                                businessCardData.gender === false
-                                  ? "text-pink-700 dark:text-pink-300"
-                                  : "text-default-700",
-                              )}
-                            >
-                              Female
-                            </h4>
-                            <div className="flex items-center justify-center gap-2">
-                              <Icon
-                                className="text-pink-500"
-                                icon="solar:user-bold"
-                                width={14}
-                              />
-                              <p className="text-sm text-default-600">
-                                Feminine
-                              </p>
-                            </div>
-                          </div>
-
-                          {businessCardData.gender === false && (
-                            <div className="flex items-center gap-1 text-xs text-pink-600 font-medium">
-                              <Icon icon="solar:star-bold" width={12} />
-                              Selected
-                            </div>
-                          )}
-                        </div>
-                      </CardBody>
-                    </Card>
-                  </div>
-                </div>
-
-                {/* Clear Selection Option */}
+                  }
+                  onPress={() => handleGenderChange("male")}
+                >
+                  {businessCardData.gender === true && (
+                    <Icon icon="lucide:check" width={16} className="ml-1" />
+                  )}
+                </Button>
+                <Button
+                  className={cn(
+                    "flex-1",
+                    businessCardData.gender === false
+                      ? "bg-secondary/10 border-secondary text-secondary"
+                      : "hover:bg-default-100"
+                  )}
+                  startContent={
+                    <Icon
+                      icon="solar:women-bold"
+                      width={18}
+                      className={businessCardData.gender === false ? "text-secondary" : "text-default-500"}
+                    />
+                  }
+                  onPress={() => handleGenderChange("female")}
+                >
+                  {businessCardData.gender === false && (
+                    <Icon icon="lucide:check" width={16} className="ml-1" />
+                  )}
+                </Button>
                 {businessCardData.gender !== null && (
-                  <div className="flex justify-center">
-                    <Button
-                      className="hover:bg-default-100"
-                      color="default"
-                      size="sm"
-                      startContent={
-                        <Icon icon="solar:restart-linear" width={16} />
-                      }
-                      variant="bordered"
-                      onPress={() => handleGenderChange("unknown")}
-                    >
-                      Reset Selection
-                    </Button>
-                  </div>
+                  <Button
+                    className="px-3"
+                    variant="light"
+                    isIconOnly
+                    onPress={() => handleGenderChange("unknown")}
+                  >
+                    <Icon icon="lucide:x" width={16} className="text-default-400" />
+                  </Button>
                 )}
+              </ButtonGroup>
+            </div>
 
-                {/* Additional Context */}
-                <div className="flex items-center justify-center gap-2 text-xs text-default-500 bg-default-50 rounded-lg p-3">
-                  <Icon icon="solar:info-circle-linear" width={16} />
-                  <span>
-                    This helps us provide personalized communication and better
-                    analytics insights
-                  </span>
+            {/* Tags Input */}
+            <div className="col-span-12 md:col-span-6">
+              <label className="text-small font-medium text-default-700 mb-2 block">
+                Tags
+              </label>
+              <Input
+                placeholder="Type a tag and press Enter"
+                startContent={
+                  <Icon className="text-default-400" icon="lucide:tag" />
+                }
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                onKeyDown={handleTagInputKeyDown}
+              />
+              {tags.length > 0 && (
+                <div className="flex flex-wrap gap-2 mt-3">
+                  {tags.map((tag, index) => (
+                    <Chip
+                      key={index}
+                      color="primary"
+                      variant="flat"
+                      onClose={() => removeTag(tag)}
+                      size="sm"
+                    >
+                      {tag}
+                    </Chip>
+                  ))}
                 </div>
-              </div>
+              )}
             </div>
             <Textarea
               className="col-span-12"
@@ -693,21 +582,20 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               maxRows={6}
               minRows={3}
               placeholder="Add any additional notes or comments about this contact..."
-              startContent={
-                <Icon className="text-default-400" icon="lucide:sticky-note" />
-              }
               value={businessCardData.notes}
               onChange={(e) => handleInputChange("notes", e.target.value)}
             />
           </div>
         </div>
       </div>
-      <div className="flex justify-end mt-4">
+      <div className="flex justify-end mt-8">
         <Button
           color="primary"
+          size="lg"
           isDisabled={!businessCardData.pool_id || loading}
           isLoading={loading}
-          startContent={<Icon icon="lucide:save" />}
+          startContent={<Icon icon="lucide:save" width={20} />}
+          className="px-8"
           onPress={handleSubmit}
         >
           Save & Continue
