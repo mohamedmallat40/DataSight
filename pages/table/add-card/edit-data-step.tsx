@@ -578,7 +578,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             <Textarea
               className="col-span-12"
               label="Notes"
-              labelPlacement="outside"
+              labelPlacement="inside"
               maxRows={6}
               minRows={3}
               placeholder="Add any additional notes or comments about this contact..."
