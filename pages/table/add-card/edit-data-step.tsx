@@ -395,7 +395,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             <Input
               className="col-span-12 md:col-span-6"
               label="Website"
-              labelPlacement="outside"
+              labelPlacement="inside"
               placeholder="Enter website URL"
               type="url"
               startContent={
@@ -408,7 +408,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             <Input
               className="col-span-12 md:col-span-6"
               label="LinkedIn"
-              labelPlacement="outside"
+              labelPlacement="inside"
               placeholder="Enter LinkedIn profile"
               type="url"
               startContent={
@@ -421,7 +421,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             <Input
               className="col-span-12"
               label="Address"
-              labelPlacement="outside"
+              labelPlacement="inside"
               placeholder="Enter full address"
               startContent={
                 <Icon className="text-default-400" icon="lucide:map-pin" />
@@ -433,7 +433,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             <Input
               className="col-span-12 md:col-span-6"
               label="City"
-              labelPlacement="outside"
+              labelPlacement="inside"
               placeholder="Enter city"
               startContent={
                 <Icon className="text-default-400" icon="lucide:building-2" />
@@ -445,7 +445,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             <Input
               className="col-span-12 md:col-span-6"
               label="Country"
-              labelPlacement="outside"
+              labelPlacement="inside"
               placeholder="Enter country"
               startContent={
                 <Icon className="text-default-400" icon="lucide:flag" />
