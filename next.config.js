@@ -10,6 +10,10 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  experimental: {
+    esmExternals: 'loose'
+  },
+  transpilePackages: ['react-leaflet'],
 };
 
 module.exports = nextConfig;
