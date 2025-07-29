@@ -240,7 +240,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             <Textarea
               className="w-full"
               label="Raw Text"
-              labelPlacement="inside"
+              labelPlacement="outside-top"
               minRows={5}
               placeholder="Raw text from business card"
               value={businessCardData.raw_text}
@@ -395,7 +395,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             <Input
               className="col-span-12 md:col-span-6"
               label="Website"
-              labelPlacement="inside"
+              labelPlacement="outside-top"
               placeholder="Enter website URL"
               type="url"
               startContent={
@@ -408,7 +408,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             <Input
               className="col-span-12 md:col-span-6"
               label="LinkedIn"
-              labelPlacement="inside"
+              labelPlacement="outside-top"
               placeholder="Enter LinkedIn profile"
               type="url"
               startContent={
@@ -421,7 +421,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             <Input
               className="col-span-12"
               label="Address"
-              labelPlacement="inside"
+              labelPlacement="outside-top"
               placeholder="Enter full address"
               startContent={
                 <Icon className="text-default-400" icon="lucide:map-pin" />
@@ -433,7 +433,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             <Input
               className="col-span-12 md:col-span-6"
               label="City"
-              labelPlacement="inside"
+              labelPlacement="outside-top"
               placeholder="Enter city"
               startContent={
                 <Icon className="text-default-400" icon="lucide:building-2" />
@@ -445,7 +445,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             <Input
               className="col-span-12 md:col-span-6"
               label="Country"
-              labelPlacement="inside"
+              labelPlacement="outside-top"
               placeholder="Enter country"
               startContent={
                 <Icon className="text-default-400" icon="lucide:flag" />
@@ -462,7 +462,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               }
               isInvalid={!businessCardData.pool_id}
               label="Pool"
-              labelPlacement="inside"
+              labelPlacement="outside-top"
               placeholder="Select a pool"
               selectedKeys={
                 businessCardData.pool_id ? [businessCardData.pool_id] : []
@@ -578,7 +578,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             <Textarea
               className="col-span-12"
               label="Notes"
-              labelPlacement="inside"
+              labelPlacement="outside-top"
               maxRows={6}
               minRows={3}
               placeholder="Add any additional notes or comments about this contact..."
