@@ -462,7 +462,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               }
               isInvalid={!businessCardData.pool_id}
               label="Pool"
-              labelPlacement="outside"
+              labelPlacement="inside"
               placeholder="Select a pool"
               selectedKeys={
                 businessCardData.pool_id ? [businessCardData.pool_id] : []
