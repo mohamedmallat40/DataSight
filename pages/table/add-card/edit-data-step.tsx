@@ -259,7 +259,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             <Input
               className="col-span-12 md:col-span-6"
               label="Full Name"
-              labelPlacement="outside"
+              labelPlacement="inside"
               placeholder="Enter full name"
               startContent={
                 <Icon className="text-default-400" icon="lucide:user" />
@@ -271,7 +271,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             <Input
               className="col-span-12 md:col-span-6"
               label="Job Title"
-              labelPlacement="outside"
+              labelPlacement="inside"
               placeholder="Enter job title"
               startContent={
                 <Icon className="text-default-400" icon="lucide:briefcase" />
@@ -283,7 +283,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             <Input
               className="col-span-12"
               label="Company Name"
-              labelPlacement="outside"
+              labelPlacement="inside"
               placeholder="Enter company name"
               startContent={
                 <Icon className="text-default-400" icon="lucide:building" />
