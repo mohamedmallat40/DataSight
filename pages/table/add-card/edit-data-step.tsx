@@ -240,7 +240,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             <Textarea
               className="w-full"
               label="Raw Text"
-              labelPlacement="outside"
+              labelPlacement="inside"
               minRows={5}
               placeholder="Raw text from business card"
               value={businessCardData.raw_text}
