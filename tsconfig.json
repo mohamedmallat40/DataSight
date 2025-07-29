@@ -13,8 +13,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "incremental": true,
-    "jsx": "preserve", // or "react-jsx" for React 17+
-    "jsxImportSource": "react", // optional, for new JSX transform
+    "jsx": "preserve", 
+    "jsxImportSource": "react", 
     "paths": {
       "@/*": ["./*"]
     }

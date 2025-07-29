@@ -57,13 +57,13 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
 
   useEffect(() => {
     // Set first pool as default if no pool is selected and pools are available
-    if (pools.length > 0 && !businessCardData.pool_id) {
+    if (pools.length > 0 && !businessCardData?.pool_id) {
       setBusinessCardData({
         ...businessCardData,
         pool_id: pools[0].id.toString(),
       });
     }
-  }, [pools, businessCardData.pool_id]);
+  }, [pools, businessCardData?.pool_id]);
 
   const fetchPools = useCallback(async (): Promise<void> => {
     try {
@@ -175,7 +175,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
   // Submit updated business card data
   const handleSubmit = async () => {
     // Validate required fields
-    if (!businessCardData.pool_id) {
+    if (!businessCardData?.pool_id) {
       addToast({
         title: "Validation Error",
         description: "Please select a pool before saving",
@@ -243,7 +243,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               labelPlacement="outside-top"
               minRows={5}
               placeholder="Raw text from business card"
-              value={businessCardData.raw_text}
+              value={businessCardData?.raw_text || ""}
               onChange={(e) => handleInputChange("raw_text", e.target.value)}
             />
           </Card>
@@ -264,7 +264,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               startContent={
                 <Icon className="text-default-400" icon="lucide:user" />
               }
-              value={businessCardData.full_name}
+              value={businessCardData?.full_name || ""}
               onChange={(e) => handleInputChange("full_name", e.target.value)}
             />
 
@@ -276,7 +276,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               startContent={
                 <Icon className="text-default-400" icon="lucide:briefcase" />
               }
-              value={businessCardData.job_title}
+              value={businessCardData?.job_title || ""}
               onChange={(e) => handleInputChange("job_title", e.target.value)}
             />
 
@@ -288,7 +288,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               startContent={
                 <Icon className="text-default-400" icon="lucide:building" />
               }
-              value={businessCardData.company_name}
+              value={businessCardData?.company_name || ""}
               onChange={(e) =>
                 handleInputChange("company_name", e.target.value)
               }
@@ -310,7 +310,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                 </Button>
               </div>
 
-              {businessCardData.email.map((email, index) => (
+              {businessCardData?.email?.map((email, index) => (
                 <div
                   key={`email-${index}`}
                   className="flex items-center gap-2 mb-2"
@@ -327,7 +327,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                       handleArrayInputChange("email", index, e.target.value)
                     }
                   />
-                  {businessCardData.email.length > 1 && (
+                  {(businessCardData?.email?.length || 0) > 1 && (
                     <Button
                       isIconOnly
                       color="danger"
@@ -357,7 +357,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                 </Button>
               </div>
 
-              {businessCardData.phone_number.map((phone, index) => (
+              {businessCardData?.phone_number?.map((phone, index) => (
                 <div
                   key={`phone-${index}`}
                   className="flex items-center gap-2 mb-2"
@@ -378,7 +378,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                       )
                     }
                   />
-                  {businessCardData.phone_number.length > 1 && (
+                  {(businessCardData?.phone_number?.length || 0) > 1 && (
                     <Button
                       isIconOnly
                       color="danger"
@@ -401,7 +401,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               startContent={
                 <Icon className="text-default-400" icon="lucide:globe" />
               }
-              value={businessCardData.website}
+              value={businessCardData?.website || ""}
               onChange={(e) => handleInputChange("website", e.target.value)}
             />
 
@@ -414,7 +414,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               startContent={
                 <Icon className="text-default-400" icon="lucide:linkedin" />
               }
-              value={businessCardData.linkedin}
+              value={businessCardData?.linkedin || ""}
               onChange={(e) => handleInputChange("linkedin", e.target.value)}
             />
 
@@ -426,7 +426,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               startContent={
                 <Icon className="text-default-400" icon="lucide:map-pin" />
               }
-              value={businessCardData.address}
+              value={businessCardData?.address || ""}
               onChange={(e) => handleInputChange("address", e.target.value)}
             />
 
@@ -438,7 +438,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               startContent={
                 <Icon className="text-default-400" icon="lucide:building-2" />
               }
-              value={businessCardData.city}
+              value={businessCardData?.city || ""}
               onChange={(e) => handleInputChange("city", e.target.value)}
             />
 
@@ -450,7 +450,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               startContent={
                 <Icon className="text-default-400" icon="lucide:flag" />
               }
-              value={businessCardData.country}
+              value={businessCardData?.country || ""}
               onChange={(e) => handleInputChange("country", e.target.value)}
             />
 
@@ -458,14 +458,14 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               isRequired
               className="col-span-12"
               errorMessage={
-                !businessCardData.pool_id ? "Please select a pool" : ""
+                !businessCardData?.pool_id ? "Please select a pool" : ""
               }
-              isInvalid={!businessCardData.pool_id}
+              isInvalid={!businessCardData?.pool_id}
               label="Pool"
               labelPlacement="outside-top"
               placeholder="Select a pool"
               selectedKeys={
-                businessCardData.pool_id ? [businessCardData.pool_id] : []
+                businessCardData?.pool_id ? [businessCardData.pool_id] : []
               }
               startContent={
                 <Icon className="text-default-400" icon="lucide:layers" />
@@ -495,7 +495,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                 <Button
                   className={cn(
                     "flex-1",
-                    businessCardData.gender === true
+                    businessCardData?.gender === true
                       ? "bg-primary/10 border-primary text-primary"
                       : "hover:bg-default-100"
                   )}
@@ -503,19 +503,19 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                     <Icon
                       icon="solar:men-bold"
                       width={18}
-                      className={businessCardData.gender === true ? "text-primary" : "text-default-500"}
+                      className={businessCardData?.gender === true ? "text-primary" : "text-default-500"}
                     />
                   }
                   onPress={() => handleGenderChange("male")}
                 >
-                  {businessCardData.gender === true && (
+                  {businessCardData?.gender === true && (
                     <Icon icon="lucide:check" width={16} className="ml-1" />
                   )}
                 </Button>
                 <Button
                   className={cn(
                     "flex-1",
-                    businessCardData.gender === false
+                    businessCardData?.gender === false
                       ? "bg-secondary/10 border-secondary text-secondary"
                       : "hover:bg-default-100"
                   )}
@@ -523,16 +523,16 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                     <Icon
                       icon="solar:women-bold"
                       width={18}
-                      className={businessCardData.gender === false ? "text-secondary" : "text-default-500"}
+                      className={businessCardData?.gender === false ? "text-secondary" : "text-default-500"}
                     />
                   }
                   onPress={() => handleGenderChange("female")}
                 >
-                  {businessCardData.gender === false && (
+                  {businessCardData?.gender === false && (
                     <Icon icon="lucide:check" width={16} className="ml-1" />
                   )}
                 </Button>
-                {businessCardData.gender !== null && (
+                {businessCardData?.gender !== null && (
                   <Button
                     className="px-3"
                     variant="light"
@@ -582,7 +582,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               maxRows={6}
               minRows={3}
               placeholder="Add any additional notes or comments about this contact..."
-              value={businessCardData.notes}
+              value={businessCardData?.notes || ""}
               onChange={(e) => handleInputChange("notes", e.target.value)}
             />
           </div>
@@ -592,7 +592,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
         <Button
           color="primary"
           size="lg"
-          isDisabled={!businessCardData.pool_id || loading}
+          isDisabled={!businessCardData?.pool_id || loading}
           isLoading={loading}
           startContent={<Icon icon="lucide:save" width={20} />}
           className="px-8"

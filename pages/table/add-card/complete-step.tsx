@@ -22,7 +22,7 @@ const CompleteStep: React.FC<CompleteStepProps> = ({
     const link = document.createElement("a");
 
     link.href = url;
-    link.download = `contact-${businessCardData.full_name.replace(/\s+/g, "-").toLowerCase()}.json`;
+    link.download = `contact-${businessCardData.full_name?.replace(/\s+/g, "-").toLowerCase() || "unknown"}.json`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -53,10 +53,10 @@ const CompleteStep: React.FC<CompleteStepProps> = ({
             <div className={uploadedImage ? "md:w-2/3" : "w-full"}>
               <div className="flex flex-col gap-1">
                 <h2 className="text-2xl font-bold">
-                  {businessCardData.full_name}
+                  {businessCardData?.full_name || "Unknown"}
                 </h2>
-                <p className="text-default-500">{businessCardData.job_title}</p>
-                <p className="font-medium">{businessCardData.company_name}</p>
+                <p className="text-default-500">{businessCardData?.job_title || ""}</p>
+                <p className="font-medium">{businessCardData?.company_name || ""}</p>
               </div>
 
               <Divider className="my-4" />
@@ -65,7 +65,7 @@ const CompleteStep: React.FC<CompleteStepProps> = ({
                 <div className="space-y-3">
                   <h3 className="text-medium font-semibold">Contact Details</h3>
 
-                  {businessCardData.email.map((email, index) => (
+                  {businessCardData?.email?.map((email, index) => (
                     <div
                       key={`email-${index}`}
                       className="flex items-center gap-2"
@@ -75,7 +75,7 @@ const CompleteStep: React.FC<CompleteStepProps> = ({
                     </div>
                   ))}
 
-                  {businessCardData.phone_number.map((phone, index) => (
+                  {businessCardData?.phone_number?.map((phone, index) => (
                     <div
                       key={`phone-${index}`}
                       className="flex items-center gap-2"
@@ -90,43 +90,43 @@ const CompleteStep: React.FC<CompleteStepProps> = ({
                       Online Presence
                     </h3>
 
-                    {businessCardData.website && (
+                    {businessCardData?.website && (
                       <div className="flex items-center gap-2">
                         <Icon
                           className="text-default-400"
                           icon="lucide:globe"
                         />
-                        <span>{businessCardData.website}</span>
+                        <span>{businessCardData?.website}</span>
                       </div>
                     )}
 
-                    {businessCardData.linkedin && (
+                    {businessCardData?.linkedin && (
                       <div className="flex items-center gap-2">
                         <Icon
                           className="text-default-400"
                           icon="lucide:linkedin"
                         />
-                        <span>{businessCardData.linkedin}</span>
+                        <span>{businessCardData?.linkedin}</span>
                       </div>
                     )}
 
                     <h3 className="text-medium font-semibold mt-4">Location</h3>
 
-                    {businessCardData.address && (
+                    {businessCardData?.address && (
                       <div className="flex items-center gap-2">
                         <Icon
                           className="text-default-400"
                           icon="lucide:map-pin"
                         />
-                        <span>{businessCardData.address}</span>
+                        <span>{businessCardData?.address}</span>
                       </div>
                     )}
 
-                    {(businessCardData.city || businessCardData.country) && (
+                    {(businessCardData?.city || businessCardData?.country) && (
                       <div className="flex items-center gap-2">
                         <Icon className="text-default-400" icon="lucide:map" />
                         <span>
-                          {[businessCardData.city, businessCardData.country]
+                          {[businessCardData?.city, businessCardData?.country]
                             .filter(Boolean)
                             .join(", ")}
                         </span>
