@@ -184,14 +184,14 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
 
   return (
     <>
-      <div className="text-3xl font-bold leading-9 text-default-foreground">
+      <div className="text-3xl font-bold leading-9 text-default-foreground mb-2">
         Upload Document
       </div>
-      <div className="py-4 text-base leading-5 text-default-500">
+      <div className="text-base leading-5 text-default-500 mb-6">
         Upload the front and back sides of your document
       </div>
 
-      <div className="flex flex-col gap-6 py-8">
+      <div className="flex flex-col gap-6">
         <input
           ref={frontInputRef}
           accept="image/jpeg,image/jpg,image/png"
@@ -212,8 +212,8 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Front Side Upload */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between mb-2">
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between mb-1">
               <h3 className="text-medium font-semibold">Front Side</h3>
               <div className="flex items-center">
                 <span className="text-tiny text-success-500 mr-2">
@@ -278,8 +278,8 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
           </div>
 
           {/* Back Side Upload */}
-          <div className="flex flex-col gap-2">
-            <div className="flex items-center justify-between mb-2">
+          <div className="flex flex-col gap-3">
+            <div className="flex items-center justify-between mb-1">
               <h3 className="text-medium font-semibold">Back Side</h3>
               <div className="flex items-center">
                 <span className="text-tiny text-default-500 mr-2">
@@ -344,19 +344,21 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
           </div>
         </div>
 
-        <div className="flex flex-col gap-2 mt-4">
+        <div className="flex flex-col gap-3 mt-6">
           <Button
-            className="mx-auto"
+            className="mx-auto w-fit px-8 font-semibold bg-gradient-to-r from-primary to-primary-600 text-white"
             color="primary"
+            size="lg"
             isDisabled={!frontImage || isLoading}
             isLoading={isLoading}
-            startContent={!isLoading && <Icon icon="lucide:scan-text" />}
+            startContent={!isLoading && <Icon icon="solar:scanner-linear" width={20} />}
+            endContent={!isLoading && <Icon icon="solar:magic-stick-3-linear" width={18} />}
             onPress={handleUpload}
           >
             {isLoading ? "Processing..." : "Extract Information"}
           </Button>
 
-          <p className="text-center text-tiny text-default-400">
+          <p className="text-center text-small text-default-500">
             {frontImage ? "Front side uploaded" : "Front side required"} •
             {backImage ? " Back side uploaded" : " Back side optional"}
           </p>

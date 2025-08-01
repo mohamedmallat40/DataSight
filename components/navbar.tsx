@@ -99,19 +99,21 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
   const companyLogo = (
     <NextLink
       className={clsx(
-        "flex items-center gap-2 transition-all duration-200 hover:opacity-80",
+        "flex items-center gap-2.5 transition-all duration-200 hover:opacity-90",
         isRTL ? "flex-row-reverse" : "",
       )}
       href="/"
     >
-      <div className="flex items-center gap-2">
-        <span className="text-3xl">🔥</span>
+      <div className="flex items-center gap-2.5">
+        <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+          <span className="text-xl">📊</span>
+        </div>
         <div className="flex flex-col">
-          <span className="font-bold text-inherit text-sm sm:text-base leading-tight">
-            PERLA CI
+          <span className="font-semibold text-foreground text-sm sm:text-base leading-tight">
+            DataSight
           </span>
           <span className="text-tiny text-default-500 hidden sm:block">
-            Code Innovation Solutions
+            Contact Intelligence
           </span>
         </div>
       </div>
@@ -124,10 +126,8 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
       <Button
         isExternal
         as={Link}
-        className="hidden md:flex bg-gradient-to-r from-primary to-secondary text-white font-medium"
-        endContent={
-          <HeartFilledIcon className="text-white" height={16} width={16} />
-        }
+        className="hidden md:flex bg-primary hover:bg-primary-600 text-white font-medium shadow-sm hover:shadow-md transition-all duration-200"
+        startContent={<Icon icon="solar:rocket-linear" width={16} />}
         href={siteConfig.links.sponsor}
         size="sm"
         variant="solid"
@@ -189,7 +189,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
     <>
       <HeroUINavbar
         className={clsx(
-          "px-2.5 backdrop-blur-md bg-background/80 border-b border-default-200/50",
+          "px-4 backdrop-blur-lg bg-background/85 border-b border-default-200/70 supports-[backdrop-filter]:bg-background/60",
           isRTL ? "rtl" : "",
         )}
         isMenuOpen={isMenuOpen}
@@ -213,15 +213,15 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
           <NavbarBrand>{companyLogo}</NavbarBrand>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex gap-6 ml-8">
+          <div className="hidden lg:flex gap-1 ml-8">
             {navigationItems.map((item) => (
               <NavbarItem key={item.href}>
                 <Link
                   className={clsx(
-                    "flex items-center gap-2 transition-all duration-200 font-medium px-3 py-2 rounded-lg",
+                    "flex items-center gap-2 transition-all duration-200 font-medium px-4 py-2.5 rounded-xl relative",
                     router.asPath === item.href
-                      ? "text-primary bg-primary/10 font-semibold"
-                      : "text-foreground hover:text-primary hover:bg-primary/5",
+                      ? "text-primary bg-primary/8 font-semibold shadow-sm ring-1 ring-primary/20"
+                      : "text-default-700 hover:text-primary hover:bg-default-100/60",
                   )}
                   href={item.href}
                   onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -232,7 +232,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
                   {item.icon && (
                     <Icon
                       className={
-                        router.asPath === item.href ? "text-primary" : ""
+                        router.asPath === item.href ? "text-primary" : "text-default-500"
                       }
                       height={18}
                       icon={item.icon}
@@ -241,7 +241,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
                   )}
                   {item.label}
                   {item.badge && (
-                    <span className="bg-primary text-white text-tiny px-1.5 py-0.5 rounded-full">
+                    <span className="bg-primary text-white text-tiny px-1.5 py-0.5 rounded-full ml-1">
                       {item.badge}
                     </span>
                   )}

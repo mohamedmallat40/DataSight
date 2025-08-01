@@ -16,10 +16,10 @@ import {
   Chip,
   Pagination,
   useDisclosure,
-  ModalContent,
   Modal,
-  ModalBody,
+  ModalContent,
   ModalHeader,
+  ModalBody,
   ModalFooter,
   Input,
   Dropdown,
@@ -64,7 +64,7 @@ import { AddressMapModal } from "../components/table/address-map-modal";
 import { GenderIndicator } from "../components/table/gender-indicator";
 import EditUserModal from "../components/table/edit-user-modal";
 
-import MultiStepWizard from "./table/add-card/multi-step-wizard";
+import UnifiedContactModal from "@/components/contacts/unified-contact-modal";
 
 import apiClient from "@/config/api";
 import DefaultLayout from "@/layouts/default";
@@ -808,51 +808,63 @@ export default function ContactsPage(): JSX.Element {
           );
         case "actions":
           return (
-            <div className="flex gap-2 justify-end">
-              <button
-                aria-label={`View details for ${user.full_name || "user"}`}
-                className="text-default-400 cursor-pointer hover:text-primary transition-colors p-1 rounded-small"
-                type="button"
-                onClick={(e: React.MouseEvent) => {
-                  e.stopPropagation();
+            <div className="flex gap-1 justify-end items-center">
+              <Button
+                isIconOnly
+                size="sm"
+                variant="light"
+                className="text-default-400 hover:text-primary hover:bg-primary/10 transition-all duration-200 min-w-8 h-8 rounded-lg"
+                onPress={(e: any) => {
+                  e?.stopPropagation?.();
                   handleViewUser(user);
                 }}
+                aria-label={`View details for ${user.full_name || "user"}`}
+                title={`View details for ${user.full_name || "user"}`}
               >
-                <EyeFilledIcon />
-              </button>
-              <button
-                aria-label={`AI enrichment for ${user.full_name || "user"}`}
-                className="text-default-400 cursor-pointer hover:text-secondary transition-colors p-1 rounded-small"
-                type="button"
-                onClick={(e: React.MouseEvent) => {
-                  e.stopPropagation();
+                <Icon icon="solar:eye-linear" className="w-4 h-4" />
+              </Button>
+              <Button
+                isIconOnly
+                size="sm"
+                variant="light"
+                className="text-default-400 hover:text-secondary hover:bg-secondary/10 transition-all duration-200 min-w-8 h-8 rounded-lg"
+                onPress={(e: any) => {
+                  e?.stopPropagation?.();
                   handleAIEnrichment(user);
                 }}
+                aria-label={`AI enrichment for ${user.full_name || "user"}`}
+                title={`AI enrichment for ${user.full_name || "user"}`}
               >
-                <Icon className="w-4 h-4" icon="solar:magic-stick-3-bold" />
-              </button>
-              <button
-                aria-label={`Edit ${user.full_name || "user"}`}
-                className="text-default-400 cursor-pointer hover:text-warning transition-colors p-1 rounded-small"
-                type="button"
-                onClick={(e: React.MouseEvent) => {
-                  e.stopPropagation();
+                <Icon icon="solar:magic-stick-3-linear" className="w-4 h-4" />
+              </Button>
+              <Button
+                isIconOnly
+                size="sm"
+                variant="light"
+                className="text-default-400 hover:text-warning hover:bg-warning/10 transition-all duration-200 min-w-8 h-8 rounded-lg"
+                onPress={(e: any) => {
+                  e?.stopPropagation?.();
                   handleEditUser(user);
                 }}
+                aria-label={`Edit ${user.full_name || "user"}`}
+                title={`Edit ${user.full_name || "user"}`}
               >
-                <EditLinearIcon />
-              </button>
-              <button
-                aria-label={`Delete ${user.full_name || "user"}`}
-                className="text-default-400 cursor-pointer hover:text-danger transition-colors p-1 rounded-small"
-                type="button"
-                onClick={(e: React.MouseEvent) => {
-                  e.stopPropagation();
+                <Icon icon="solar:pen-linear" className="w-4 h-4" />
+              </Button>
+              <Button
+                isIconOnly
+                size="sm"
+                variant="light"
+                className="text-default-400 hover:text-danger hover:bg-danger/10 transition-all duration-200 min-w-8 h-8 rounded-lg"
+                onPress={(e: any) => {
+                  e?.stopPropagation?.();
                   handleDeleteUser(user);
                 }}
+                aria-label={`Delete ${user.full_name || "user"}`}
+                title={`Delete ${user.full_name || "user"}`}
               >
-                <DeleteFilledIcon />
-              </button>
+                <Icon icon="solar:trash-bin-minimalistic-linear" className="w-4 h-4" />
+              </Button>
             </div>
           );
         default:
@@ -1167,25 +1179,165 @@ export default function ContactsPage(): JSX.Element {
             <Dropdown>
               <DropdownTrigger>
                 <Button
-                  className="bg-default-100 text-default-800"
+                  className="bg-default-100 text-default-800 hover:bg-default-200 transition-all duration-200"
                   endContent={
                     <Icon
                       className="text-default-400"
                       icon="solar:alt-arrow-down-linear"
+                      width={14}
                     />
                   }
                   size="sm"
+                  startContent={
+                    <Icon
+                      className="text-default-600"
+                      icon="solar:widget-5-linear"
+                      width={16}
+                    />
+                  }
                   variant="flat"
                 >
-                  Selected Actions
+                  Actions
                 </Button>
               </DropdownTrigger>
-              <DropdownMenu aria-label="Selected Actions">
-                <DropdownItem key="export">Export contacts</DropdownItem>
-                <DropdownItem key="send-email">Send email</DropdownItem>
-                <DropdownItem key="bulk-edit">Bulk edit</DropdownItem>
-                <DropdownItem key="delete" className="text-danger">
-                  Delete contacts
+              <DropdownMenu 
+                aria-label="Selected Actions"
+                className="min-w-[200px]"
+                itemClasses={{
+                  base: "gap-3 data-[hover=true]:bg-default-100 rounded-lg",
+                }}
+              >
+                <DropdownItem 
+                  key="export-csv"
+                  startContent={
+                    <Icon icon="solar:file-text-linear" className="text-success-600" width={18} />
+                  }
+                  description="Export as CSV file"
+                  className="text-foreground"
+                >
+                  Export to CSV
+                </DropdownItem>
+                <DropdownItem 
+                  key="export-excel"
+                  startContent={
+                    <Icon icon="solar:file-smile-linear" className="text-success-600" width={18} />
+                  }
+                  description="Export as Excel file"
+                  className="text-foreground"
+                >
+                  Export to Excel
+                </DropdownItem>
+                <DropdownItem 
+                  key="export-vcf"
+                  startContent={
+                    <Icon icon="solar:user-id-linear" className="text-success-600" width={18} />
+                  }
+                  description="Export as vCard format"
+                  className="text-foreground"
+                >
+                  Export to vCard
+                </DropdownItem>
+                <DropdownItem 
+                  key="export-pdf"
+                  startContent={
+                    <Icon icon="solar:document-linear" className="text-success-600" width={18} />
+                  }
+                  description="Export as PDF report"
+                  className="text-foreground"
+                >
+                  Export to PDF
+                </DropdownItem>
+                <DropdownItem 
+                  key="divider-1"
+                  className="opacity-0 pointer-events-none h-px"
+                />
+                <DropdownItem 
+                  key="send-email"
+                  startContent={
+                    <Icon icon="solar:letter-linear" className="text-primary-600" width={18} />
+                  }
+                  description="Send bulk email campaign"
+                  className="text-foreground"
+                >
+                  Send Email Campaign
+                </DropdownItem>
+                <DropdownItem 
+                  key="send-sms"
+                  startContent={
+                    <Icon icon="solar:chat-round-linear" className="text-primary-600" width={18} />
+                  }
+                  description="Send bulk SMS messages"
+                  className="text-foreground"
+                >
+                  Send SMS Campaign
+                </DropdownItem>
+                <DropdownItem 
+                  key="whatsapp-broadcast"
+                  startContent={
+                    <Icon icon="ic:baseline-whatsapp" className="text-success-600" width={18} />
+                  }
+                  description="Send WhatsApp broadcast"
+                  className="text-foreground"
+                >
+                  WhatsApp Broadcast
+                </DropdownItem>
+                <DropdownItem 
+                  key="divider-2"
+                  className="opacity-0 pointer-events-none h-px"
+                />
+                <DropdownItem 
+                  key="bulk-edit"
+                  startContent={
+                    <Icon icon="solar:pen-new-square-linear" className="text-warning-600" width={18} />
+                  }
+                  description="Edit multiple contacts"
+                  className="text-foreground"
+                >
+                  Bulk Edit
+                </DropdownItem>
+                <DropdownItem 
+                  key="bulk-tag"
+                  startContent={
+                    <Icon icon="solar:tag-linear" className="text-warning-600" width={18} />
+                  }
+                  description="Add tags to selected contacts"
+                  className="text-foreground"
+                >
+                  Add Tags
+                </DropdownItem>
+                <DropdownItem 
+                  key="move-pool"
+                  startContent={
+                    <Icon icon="solar:move-to-folder-linear" className="text-secondary-600" width={18} />
+                  }
+                  description="Move to different pool"
+                  className="text-foreground"
+                >
+                  Move to Pool
+                </DropdownItem>
+                <DropdownItem 
+                  key="divider-3"
+                  className="opacity-0 pointer-events-none h-px"
+                />
+                <DropdownItem 
+                  key="archive"
+                  startContent={
+                    <Icon icon="solar:archive-linear" className="text-default-500" width={18} />
+                  }
+                  description="Archive selected contacts"
+                  className="text-foreground"
+                >
+                  Archive Contacts
+                </DropdownItem>
+                <DropdownItem 
+                  key="delete"
+                  startContent={
+                    <Icon icon="solar:trash-bin-minimalistic-linear" className="text-danger-600" width={18} />
+                  }
+                  description="Permanently delete contacts"
+                  className="text-danger"
+                >
+                  Delete Contacts
                 </DropdownItem>
               </DropdownMenu>
             </Dropdown>
@@ -1224,8 +1376,9 @@ export default function ContactsPage(): JSX.Element {
           </Chip>
         </div>
         <Button
-          className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200 border-0"
-          endContent={<Icon icon="solar:add-circle-bold" width={20} />}
+          className="bg-gradient-to-r from-primary to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-semibold shadow-md hover:shadow-lg transition-all duration-200 border-0"
+          startContent={<Icon icon="solar:user-plus-bold" width={18} />}
+          endContent={<Icon icon="solar:arrow-right-linear" width={16} />}
           size="md"
           onPress={onOpen}
         >
@@ -1295,7 +1448,7 @@ export default function ContactsPage(): JSX.Element {
                   align={column.uid === "actions" ? "end" : "start"}
                   className={cn([
                     column.uid === "actions"
-                      ? "flex items-center justify-end px-[20px] w-[120px] max-w-[120px]"
+                      ? "text-right w-[120px] max-w-[120px]"
                       : "",
                     column.uid === "full_name" ? "min-w-[250px]" : "",
                     column.uid === "notes" ? "min-w-[180px] max-w-[180px]" : "",
@@ -1334,18 +1487,11 @@ export default function ContactsPage(): JSX.Element {
           </Table>
         </div>
 
-        <Modal
-          shouldBlockScroll
-          className="rounded-[16px]"
+        <UnifiedContactModal
           isOpen={isOpen}
           onOpenChange={onOpenChange}
-        >
-          <ModalContent className="max-w-[1200px] rounded-[16px] p-0">
-            <ModalBody className="p-0">
-              <MultiStepWizard onClose={onOpenChange} onSuccess={fetchUsers} />
-            </ModalBody>
-          </ModalContent>
-        </Modal>
+          onSuccess={fetchUsers}
+        />
 
         {/* Delete Confirmation Modal */}
         <Modal

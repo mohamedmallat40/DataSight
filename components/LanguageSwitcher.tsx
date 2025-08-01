@@ -15,6 +15,7 @@ interface Language {
   name: string;
   nativeName: string;
   flag: string;
+  flagIcon: string;
   rtl?: boolean;
 }
 
@@ -32,12 +33,14 @@ const languages: Language[] = [
     name: "English",
     nativeName: "English",
     flag: "🇺🇸",
+    flagIcon: "circle-flags:us",
   },
   {
     code: "ar",
     name: "Arabic",
     nativeName: "العربية",
     flag: "🇸🇦",
+    flagIcon: "circle-flags:sa",
     rtl: true,
   },
   {
@@ -45,18 +48,21 @@ const languages: Language[] = [
     name: "French",
     nativeName: "Français",
     flag: "🇫🇷",
+    flagIcon: "circle-flags:fr",
   },
   {
     code: "es",
     name: "Spanish",
     nativeName: "Español",
     flag: "🇪🇸",
+    flagIcon: "circle-flags:es",
   },
   {
     code: "de",
     name: "German",
     nativeName: "Deutsch",
     flag: "🇩🇪",
+    flagIcon: "circle-flags:de",
   },
 ];
 
@@ -107,13 +113,13 @@ export const LanguageSwitcher = ({
     return (
       <div className="flex items-center gap-2 w-full">
         {showFlag && (
-          <span
-            aria-label={`${language.name} flag`}
-            className="text-lg"
-            role="img"
-          >
-            {language.flag}
-          </span>
+          <Icon
+            icon={language.flagIcon}
+            width={18}
+            height={18}
+            className="rounded-full"
+            style={{ minWidth: "18px" }}
+          />
         )}
         <div className="flex flex-col">
           <span
@@ -151,14 +157,13 @@ export const LanguageSwitcher = ({
           {variant === "compact" ? (
             <div className="flex items-center gap-1.5">
               {showFlag && (
-                <span
-                  aria-label={`${currentLanguage.name} flag`}
-                  className="text-base leading-none inline-block"
-                  role="img"
-                  style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}
-                >
-                  {currentLanguage.flag}
-                </span>
+                <Icon
+                  icon={currentLanguage.flagIcon}
+                  width={16}
+                  height={16}
+                  className="rounded-full"
+                  style={{ minWidth: "16px" }}
+                />
               )}
               <span className="text-tiny font-medium uppercase tracking-wide">
                 {currentLanguage.code}

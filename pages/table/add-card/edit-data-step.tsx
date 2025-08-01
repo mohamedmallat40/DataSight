@@ -220,14 +220,14 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
 
   return (
     <>
-      <div className="text-3xl font-bold leading-9 text-default-foreground">
+      <div className="text-3xl font-bold leading-9 text-default-foreground mb-2">
         Edit Business Card Data
       </div>
-      <div className="py-4 text-base leading-5 text-default-500">
+      <div className="text-base leading-5 text-default-500 mb-6">
         Review and edit the extracted information from the business card
       </div>
 
-      <div className="grid flex-auto gap-6 py-8">
+      <div className="grid flex-auto gap-6">
         {/* Uncomment if you want to show image and raw text */}
         {uploadedImage && (
           <Card className="col-span-12 md:col-span-4 p-4">
@@ -255,7 +255,7 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             uploadedImage ? "md:col-span-8" : "md:col-span-12",
           )}
         >
-          <div className="grid grid-cols-12 gap-6 [&_.heroui-input-label]:text-left [&_.heroui-select-label]:text-left [&_.heroui-textarea-label]:text-left">
+          <div className="grid grid-cols-12 gap-4 [&_.heroui-input-label]:text-left [&_.heroui-select-label]:text-left [&_.heroui-textarea-label]:text-left">
             <Input
               className="col-span-12 md:col-span-6"
               label="Full Name"
@@ -295,26 +295,28 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
             />
 
             <div className="col-span-12">
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center justify-between mb-3">
                 <label className="text-small font-medium text-default-700">
                   Email Addresses
                 </label>
                 <Button
                   color="primary"
                   size="sm"
-                  startContent={<Icon icon="lucide:plus" width={16} />}
-                  variant="bordered"
+                  startContent={<Icon icon="solar:add-circle-linear" width={18} />}
+                  variant="light"
+                  className="hover:bg-primary/10 font-medium"
                   onPress={() => addArrayItem("email")}
                 >
                   Add Email
                 </Button>
               </div>
 
-              {businessCardData?.email?.map((email, index) => (
-                <div
-                  key={`email-${index}`}
-                  className="flex items-center gap-2 mb-2"
-                >
+              <div className="space-y-3">
+                {businessCardData?.email?.map((email, index) => (
+                  <div
+                    key={`email-${index}`}
+                    className="flex items-center gap-2"
+                  >
                   <Input
                     className="flex-1"
                     placeholder="Enter email address"
@@ -337,31 +339,34 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                       <Icon icon="lucide:trash-2" width={18} />
                     </Button>
                   )}
-                </div>
-              ))}
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className="col-span-12">
-              <div className="flex items-center justify-between mb-2">
+              <div className="flex items-center justify-between mb-3">
                 <label className="text-small font-medium text-default-700">
                   Phone Numbers
                 </label>
                 <Button
                   color="primary"
                   size="sm"
-                  startContent={<Icon icon="lucide:plus" width={16} />}
-                  variant="bordered"
+                  startContent={<Icon icon="solar:add-circle-linear" width={18} />}
+                  variant="light"
+                  className="hover:bg-primary/10 font-medium"
                   onPress={() => addArrayItem("phone_number")}
                 >
                   Add Phone
                 </Button>
               </div>
 
-              {businessCardData?.phone_number?.map((phone, index) => (
-                <div
-                  key={`phone-${index}`}
-                  className="flex items-center gap-2 mb-2"
-                >
+              <div className="space-y-3">
+                {businessCardData?.phone_number?.map((phone, index) => (
+                  <div
+                    key={`phone-${index}`}
+                    className="flex items-center gap-2"
+                  >
                   <Input
                     className="flex-1"
                     placeholder="Enter phone number"
@@ -388,8 +393,9 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                       <Icon icon="lucide:trash-2" width={18} />
                     </Button>
                   )}
-                </div>
-              ))}
+                  </div>
+                ))}
+              </div>
             </div>
 
             <Input
@@ -588,14 +594,15 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
           </div>
         </div>
       </div>
-      <div className="flex justify-end mt-8">
+      <div className="flex justify-end mt-6 pt-4 border-t border-default-200">
         <Button
           color="primary"
           size="lg"
           isDisabled={!businessCardData?.pool_id || loading}
           isLoading={loading}
-          startContent={<Icon icon="lucide:save" width={20} />}
-          className="px-8"
+          startContent={<Icon icon="solar:diskette-bold" width={20} />}
+          endContent={<Icon icon="solar:arrow-right-linear" width={18} />}
+          className="px-8 font-semibold bg-gradient-to-r from-primary to-primary-600 text-white"
           onPress={handleSubmit}
         >
           Save & Continue

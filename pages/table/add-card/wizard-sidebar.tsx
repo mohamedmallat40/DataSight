@@ -49,25 +49,7 @@ const WizardSidebar = React.forwardRef<HTMLDivElement, WizardSidebarProps>(
         className={cn("flex h-[calc(100vh_-_150px)] w-full gap-x-2", className)}
         {...props}
       >
-        <div className="flex hidden h-full w-[344px] flex-shrink-0 flex-col items-start gap-y-8 rounded-large bg-gradient-to-b from-default-100 via-danger-100 to-secondary-100 px-8 py-6 shadow-small lg:flex">
-          <Button
-            className="bg-default-50 text-small font-medium text-default-500 shadow-lg"
-            isDisabled={currentPage === 0}
-            radius="full"
-            variant="flat"
-            onPress={onBack}
-          >
-            <Icon icon="lucide:arrow-left" width={18} />
-            Back
-          </Button>
-          <div>
-            <div className="text-xl font-medium leading-7 text-default-foreground">
-              Business Card Scanner
-            </div>
-            <div className="mt-1 text-base font-medium leading-6 text-default-500">
-              Extract and enrich contact information from business cards
-            </div>
-          </div>
+        <div className="flex hidden h-full w-[344px] flex-shrink-0 flex-col items-center justify-center gap-y-12 rounded-large bg-gradient-to-b from-default-100 via-danger-100 to-secondary-100 px-8 py-8 shadow-small lg:flex">
           {/* Desktop Steps */}
           <VerticalSteps
             className={stepperClasses}
@@ -120,9 +102,9 @@ const WizardSidebar = React.forwardRef<HTMLDivElement, WizardSidebarProps>(
               />
             </div>
           </div>
-          <div className="flex-1 w-full p-4 sm:max-w-md md:max-w-lg overflow-y-auto">
-            <div className="min-h-full flex flex-col">
-              <div className="flex-1">{children}</div>
+          <div className="flex-1 w-full p-6 sm:max-w-md md:max-w-lg lg:max-w-2xl overflow-y-auto">
+            <div className="min-h-full flex flex-col justify-center">
+              <div className="flex-shrink-0 py-8">{children}</div>
               <StepNavigation
                 backButtonProps={{ isDisabled: currentPage === 0 }}
                 className="lg:hidden mt-4 flex-shrink-0"
