@@ -158,15 +158,16 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
             />
           </DropdownTrigger>
           <DropdownMenu aria-label="Profile Actions" variant="flat">
-            <DropdownItem key="profile" className="h-14 gap-2">
+            <DropdownItem key="user-info" className="h-14 gap-2">
               <p className="font-semibold">Signed in as</p>
               <p className="font-semibold">demo@sultan.sa</p>
             </DropdownItem>
             <DropdownItem
-              key="settings"
-              startContent={<Icon icon="solar:settings-linear" />}
+              key="profile"
+              startContent={<Icon icon="solar:user-id-linear" />}
+              onPress={() => router.push('/profile')}
             >
-              Settings
+              Profile Settings
             </DropdownItem>
             <DropdownItem
               key="logout"
@@ -366,10 +367,11 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
                   </DropdownTrigger>
                   <DropdownMenu aria-label="Profile Actions" variant="flat">
                     <DropdownItem
-                      key="settings"
-                      startContent={<Icon icon="solar:settings-linear" />}
+                      key="profile"
+                      startContent={<Icon icon="solar:user-id-linear" />}
+                      onPress={() => router.push('/profile')}
                     >
-                      Settings
+                      Profile Settings
                     </DropdownItem>
                     <DropdownItem
                       key="logout"
