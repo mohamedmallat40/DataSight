@@ -91,6 +91,11 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
       icon: "solar:users-group-rounded-linear",
     },
     {
+      label: "AI Chat",
+      href: "/ai-chat",
+      icon: "solar:chat-round-dots-linear",
+    },
+    {
       label: "Statistics",
       href: "/statistics",
       icon: "solar:chart-square-linear",
