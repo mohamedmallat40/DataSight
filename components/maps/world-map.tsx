@@ -20,8 +20,8 @@ const ClientMap = dynamic(
       <div className="w-full h-[500px] bg-content1 rounded-lg flex items-center justify-center">
         <div className="text-center">
           <Icon
-            icon="solar:map-linear"
             className="text-primary mx-auto mb-2"
+            icon="solar:map-linear"
             width={48}
           />
           <p className="text-default-500">Loading world map...</p>

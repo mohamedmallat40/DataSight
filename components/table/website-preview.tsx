@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Card, CardBody, Spinner, Image } from "@heroui/react";
 import { Icon } from "@iconify/react";
+
 import { getWebsitePreview } from "@/config/api";
 import { normalizeUrl } from "@/utils/reachability";
 
@@ -50,6 +51,7 @@ export const WebsitePreview: React.FC<WebsitePreviewProps> = ({
 
       // Create object URL from blob
       const imageUrl = URL.createObjectURL(blob);
+
       setPreviewImage(imageUrl);
     } catch (error: any) {
       console.warn("Website preview failed:", error?.message || error);
@@ -111,6 +113,7 @@ export const WebsitePreview: React.FC<WebsitePreviewProps> = ({
     }
 
     const position: { [key: string]: string } = { top, left };
+
     if (right !== undefined) position.right = right;
     if (bottom !== undefined) position.bottom = bottom;
 
@@ -151,8 +154,8 @@ export const WebsitePreview: React.FC<WebsitePreviewProps> = ({
               <div className="flex items-center gap-2 mb-3">
                 <div className="p-1.5 bg-primary-50 rounded-md">
                   <Icon
-                    icon="solar:global-outline"
                     className="w-4 h-4 text-primary-500"
+                    icon="solar:global-outline"
                   />
                 </div>
                 <div className="flex-1 min-w-0">
@@ -171,12 +174,12 @@ export const WebsitePreview: React.FC<WebsitePreviewProps> = ({
                   <div className="flex items-center justify-center h-44 bg-default-50 rounded-lg border border-default-200">
                     <div className="flex flex-col items-center gap-3">
                       <div className="relative">
-                        <Spinner size="md" color="primary" />
+                        <Spinner color="primary" size="md" />
                         <div className="absolute inset-0 animate-ping">
                           <Spinner
-                            size="md"
-                            color="primary"
                             className="opacity-20"
+                            color="primary"
+                            size="md"
                           />
                         </div>
                       </div>
@@ -197,8 +200,8 @@ export const WebsitePreview: React.FC<WebsitePreviewProps> = ({
                     <div className="flex flex-col items-center gap-3 text-default-500">
                       <div className="p-3 bg-warning-50 rounded-full border border-warning-200">
                         <Icon
-                          icon="solar:info-circle-outline"
                           className="w-6 h-6 text-warning-600"
+                          icon="solar:info-circle-outline"
                         />
                       </div>
                       <div className="flex flex-col items-center gap-1 text-center">
@@ -218,7 +221,6 @@ export const WebsitePreview: React.FC<WebsitePreviewProps> = ({
                 {previewImage && !isLoading && !hasError && (
                   <div className="rounded-lg overflow-hidden border border-default-200 shadow-sm">
                     <Image
-                      src={previewImage}
                       alt={`Preview of ${cleanUrl}`}
                       className="w-full h-44 object-cover hover:scale-105 transition-transform duration-300"
                       classNames={{
@@ -226,6 +228,7 @@ export const WebsitePreview: React.FC<WebsitePreviewProps> = ({
                         img: "w-full h-44 object-cover",
                       }}
                       loading="lazy"
+                      src={previewImage}
                     />
                   </div>
                 )}
@@ -235,7 +238,7 @@ export const WebsitePreview: React.FC<WebsitePreviewProps> = ({
               {previewImage && !isLoading && (
                 <div className="mt-3 pt-3 border-t border-default-200">
                   <div className="flex items-center justify-center gap-2 text-xs text-default-500">
-                    <Icon icon="solar:cursor-outline" className="w-3 h-3" />
+                    <Icon className="w-3 h-3" icon="solar:cursor-outline" />
                     <span>Hover to preview • Click link to visit</span>
                   </div>
                 </div>

@@ -16,6 +16,6 @@ export const ClientProgress = ({
   className,
 }: ClientProgressProps) => {
   return (
-    <Progress value={value} color={color} size={size} className={className} />
+    <Progress className={className} color={color} size={size} value={value} />
   );
 };

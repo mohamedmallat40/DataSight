@@ -19,21 +19,21 @@ interface UserListProps {
 
 export const UserList = ({ users, country }: UserListProps) => (
   <motion.div
-    initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: -10 }}
     className="fixed top-20 right-4 z-[1000] pointer-events-none"
+    exit={{ opacity: 0, y: -10 }}
+    initial={{ opacity: 0, y: 10 }}
   >
     <Card className="w-80 shadow-lg border-1 border-primary/20 bg-content1/95 backdrop-blur-sm">
       <CardBody className="p-4">
         <div className="flex items-center gap-2 mb-3">
           <Icon
-            icon="solar:users-group-rounded-linear"
             className="text-primary"
+            icon="solar:users-group-rounded-linear"
             width={20}
           />
           <h4 className="font-semibold text-foreground">{country}</h4>
-          <Chip size="sm" color="primary" variant="flat">
+          <Chip color="primary" size="sm" variant="flat">
             {users.length} users
           </Chip>
         </div>
@@ -43,7 +43,7 @@ export const UserList = ({ users, country }: UserListProps) => (
               key={user.id}
               className="flex items-center gap-3 p-2 rounded-md bg-default-50"
             >
-              <Avatar src={user.avatar} alt={user.name} size="sm" />
+              <Avatar alt={user.name} size="sm" src={user.avatar} />
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-sm text-foreground truncate">
                   {user.name}
@@ -54,10 +54,10 @@ export const UserList = ({ users, country }: UserListProps) => (
               </div>
               {user.role && (
                 <Chip
+                  className="text-xs"
+                  color="secondary"
                   size="sm"
                   variant="flat"
-                  color="secondary"
-                  className="text-xs"
                 >
                   {user.role}
                 </Chip>

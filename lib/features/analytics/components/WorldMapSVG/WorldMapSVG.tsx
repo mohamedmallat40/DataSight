@@ -1,11 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {
-  ComposableMap,
-  Geographies,
-  Geography,
-} from "react-simple-maps";
+import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { Icon } from "@iconify/react";
 
 // World map data URL - using a simple world topology
@@ -50,6 +46,7 @@ export const WorldMapSVG = ({
     const country = countryStats.find(
       (c) => countryCodeMap[c.countryCode] === countryCode,
     );
+
     if (!country) return "#f1f5f9"; // Default light gray
 
     const maxUsers = Math.max(...countryStats.map((c) => c.userCount));
@@ -60,6 +57,7 @@ export const WorldMapSVG = ({
     if (intensity > 0.6) return "#338EF7"; // Medium primary
     if (intensity > 0.4) return "#66A3FF"; // Light primary
     if (intensity > 0.2) return "#99B8FF"; // Very light primary
+
     return "#CCE0FF"; // Lightest primary
   };
 
@@ -74,8 +72,8 @@ export const WorldMapSVG = ({
       <div className="w-full h-[500px] bg-content1 rounded-lg flex items-center justify-center">
         <div className="text-center">
           <Icon
-            icon="solar:danger-triangle-linear"
             className="text-danger mx-auto mb-2"
+            icon="solar:danger-triangle-linear"
             width={48}
           />
           <p className="text-danger">Failed to load map</p>
@@ -105,8 +103,8 @@ export const WorldMapSVG = ({
                   return (
                     <Geography
                       key={geo.rsmKey}
-                      geography={geo}
                       fill={getCountryColor(geo.id)}
+                      geography={geo}
                       stroke="#FFFFFF"
                       strokeWidth={0.5}
                       style={{
@@ -146,8 +144,8 @@ export const WorldMapSVG = ({
         <div className="absolute inset-0 bg-content1 rounded-lg flex items-center justify-center">
           <div className="text-center">
             <Icon
-              icon="solar:loading-linear"
               className="text-primary mx-auto mb-2 animate-spin"
+              icon="solar:loading-linear"
               width={48}
             />
             <p className="text-default-500">Loading world map...</p>

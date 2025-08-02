@@ -55,6 +55,7 @@ export function formatPercentage(value: number, decimals = 1): string {
 
 export function formatFileSize(bytes: number): string {
   const sizes = ["B", "KB", "MB", "GB"];
+
   if (bytes === 0) return "0 B";
 
   const i = Math.floor(Math.log(bytes) / Math.log(1024));
@@ -93,6 +94,7 @@ export function getInitials(firstName: string, lastName: string): string {
 // Text utilities
 export function truncateText(text: string, maxLength: number): string {
   if (text.length <= maxLength) return text;
+
   return `${text.slice(0, maxLength)}...`;
 }
 

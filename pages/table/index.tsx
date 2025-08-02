@@ -14,7 +14,6 @@ import {
   TableCell,
   Button,
   Chip,
-  User,
   Avatar,
   Pagination,
   useDisclosure,
@@ -361,9 +360,9 @@ export default function Component(): JSX.Element {
             <div className="flex items-center gap-3">
               <Avatar
                 isBordered
+                showFallback
                 className="w-10 h-10"
                 radius="lg"
-                showFallback
                 src={
                   user.front_image_link ||
                   user.card_image_url ||
@@ -495,32 +494,38 @@ export default function Component(): JSX.Element {
           );
         case "actions":
           return (
-            <div className="flex gap-2 justify-end">
-              <button
+            <div className="flex gap-1 justify-end">
+              <Button
+                isIconOnly
                 aria-label={`View details for ${user.full_name || "user"}`}
-                className="text-default-400 cursor-pointer hover:text-primary transition-colors p-1 rounded-small"
-                type="button"
-                onClick={(e: React.MouseEvent) => {
-                  e.stopPropagation();
+                className="text-default-400 hover:text-primary transition-colors min-w-8 h-8"
+                size="sm"
+                variant="light"
+                onPress={(e: any) => {
+                  e?.stopPropagation?.();
                   handleViewUser(user);
                 }}
               >
                 <EyeFilledIcon />
-              </button>
-              <button
+              </Button>
+              <Button
+                isIconOnly
                 aria-label={`Edit ${user.full_name || "user"}`}
-                className="text-default-400 cursor-pointer hover:text-warning transition-colors p-1 rounded-small"
-                type="button"
+                className="text-default-400 hover:text-warning transition-colors min-w-8 h-8"
+                size="sm"
+                variant="light"
               >
                 <EditLinearIcon />
-              </button>
-              <button
+              </Button>
+              <Button
+                isIconOnly
                 aria-label={`Delete ${user.full_name || "user"}`}
-                className="text-default-400 cursor-pointer hover:text-danger transition-colors p-1 rounded-small"
-                type="button"
+                className="text-default-400 hover:text-danger transition-colors min-w-8 h-8"
+                size="sm"
+                variant="light"
               >
                 <DeleteFilledIcon />
-              </button>
+              </Button>
             </div>
           );
         default:

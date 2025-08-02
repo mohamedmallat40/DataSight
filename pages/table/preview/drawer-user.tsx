@@ -11,6 +11,7 @@ import {
   Avatar,
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
+
 import { ReachabilityChip } from "../../../components/table/reachability-chip";
 
 export default function DrawerCustomStyles() {
@@ -152,11 +153,11 @@ export default function DrawerCustomStyles() {
                               {userData.website}
                             </Link>
                             <ReachabilityChip
+                              className="text-tiny"
+                              size="sm"
                               type="website"
                               value={userData.website}
-                              size="sm"
                               variant="subtle"
-                              className="text-tiny"
                             />
                           </div>
                           <p className="text-small text-default-500">Website</p>
@@ -172,13 +173,14 @@ export default function DrawerCustomStyles() {
                                 const cleanPhone =
                                   userData.phone_number[0].replace(
                                     /[^\d+]/g,
-                                    ""
+                                    "",
                                   );
                                 const whatsappUrl = `https://wa.me/${cleanPhone}`;
+
                                 window.open(
                                   whatsappUrl,
                                   "_blank",
-                                  "noopener,noreferrer"
+                                  "noopener,noreferrer",
                                 );
                               }}
                             >
@@ -196,7 +198,7 @@ export default function DrawerCustomStyles() {
                               variant="light"
                               onPress={() => {
                                 navigator.clipboard.writeText(
-                                  userData.phone_number[0]
+                                  userData.phone_number[0],
                                 );
                               }}
                             >

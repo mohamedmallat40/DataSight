@@ -64,16 +64,19 @@ export function RegisterModal({
 
     if (!firstName || !lastName || !email || !password || !organization) {
       setError("Please fill in all required fields");
+
       return;
     }
 
     if (password !== confirmPassword) {
       setError("Passwords don't match");
+
       return;
     }
 
     if (password.length < 6) {
       setError("Password must be at least 6 characters");
+
       return;
     }
 
@@ -122,16 +125,16 @@ export function RegisterModal({
 
   return (
     <Modal
-      isOpen={isOpen}
-      onOpenChange={handleClose}
-      placement="center"
       backdrop="blur"
-      size="lg"
-      scrollBehavior="inside"
       classNames={{
         base: "bg-background",
         backdrop: "bg-black/50 backdrop-blur-sm",
       }}
+      isOpen={isOpen}
+      placement="center"
+      scrollBehavior="inside"
+      size="lg"
+      onOpenChange={handleClose}
     >
       <ModalContent className="w-full max-w-lg">
         <ModalHeader className="flex flex-col items-center pb-6 pt-8">
@@ -153,59 +156,60 @@ export function RegisterModal({
 
             <div className="grid grid-cols-2 gap-3">
               <Input
-                isRequired
                 autoFocus
+                isRequired
+                isInvalid={!!error}
                 label="First Name"
                 name="firstName"
                 placeholder="Enter first name"
-                variant="bordered"
                 value={formData.firstName}
+                variant="bordered"
                 onValueChange={(value) => updateFormData("firstName", value)}
-                isInvalid={!!error}
               />
               <Input
                 isRequired
+                isInvalid={!!error}
                 label="Last Name"
                 name="lastName"
                 placeholder="Enter last name"
-                variant="bordered"
                 value={formData.lastName}
+                variant="bordered"
                 onValueChange={(value) => updateFormData("lastName", value)}
-                isInvalid={!!error}
               />
             </div>
 
             <Input
               isRequired
+              isInvalid={!!error}
               label="Email Address"
               name="email"
               placeholder="Enter your email"
               type="email"
-              variant="bordered"
               value={formData.email}
+              variant="bordered"
               onValueChange={(value) => updateFormData("email", value)}
-              isInvalid={!!error}
             />
 
             <Input
               isRequired
+              isInvalid={!!error}
               label="Organization"
               name="organization"
               placeholder="Enter your organization"
-              variant="bordered"
               value={formData.organization}
+              variant="bordered"
               onValueChange={(value) => updateFormData("organization", value)}
-              isInvalid={!!error}
             />
 
             <Select
               label="Role (Optional)"
               name="role"
               placeholder="Select your role"
-              variant="bordered"
               selectedKeys={formData.role ? [formData.role] : []}
+              variant="bordered"
               onSelectionChange={(keys) => {
                 const value = Array.from(keys)[0] as string;
+
                 updateFormData("role", value || "");
               }}
             >
@@ -218,71 +222,81 @@ export function RegisterModal({
 
             <Input
               isRequired
+              endContent={
+                <Button
+                  isIconOnly
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="text-default-400 hover:text-foreground transition-colors min-w-6 h-6"
+                  size="sm"
+                  type="button"
+                  variant="light"
+                  onPress={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? (
+                    <Icon
+                      className="pointer-events-none text-xl text-default-400"
+                      icon="solar:eye-closed-linear"
+                    />
+                  ) : (
+                    <Icon
+                      className="pointer-events-none text-xl text-default-400"
+                      icon="solar:eye-bold"
+                    />
+                  )}
+                </Button>
+              }
+              isInvalid={!!error}
               label="Password"
               name="password"
               placeholder="Create password (min 6 characters)"
               type={showPassword ? "text" : "password"}
-              variant="bordered"
               value={formData.password}
+              variant="bordered"
               onValueChange={(value) => updateFormData("password", value)}
-              isInvalid={!!error}
-              endContent={
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? (
-                    <Icon
-                      className="pointer-events-none text-2xl text-default-400"
-                      icon="solar:eye-closed-linear"
-                    />
-                  ) : (
-                    <Icon
-                      className="pointer-events-none text-2xl text-default-400"
-                      icon="solar:eye-bold"
-                    />
-                  )}
-                </button>
-              }
             />
 
             <Input
               isRequired
-              label="Confirm Password"
-              name="confirmPassword"
-              placeholder="Confirm your password"
-              type={showConfirmPassword ? "text" : "password"}
-              variant="bordered"
-              value={formData.confirmPassword}
-              onValueChange={(value) =>
-                updateFormData("confirmPassword", value)
-              }
-              isInvalid={!!error}
               endContent={
-                <button
+                <Button
+                  isIconOnly
+                  aria-label={
+                    showConfirmPassword ? "Hide password" : "Show password"
+                  }
+                  className="text-default-400 hover:text-foreground transition-colors min-w-6 h-6"
+                  size="sm"
                   type="button"
-                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  variant="light"
+                  onPress={() => setShowConfirmPassword(!showConfirmPassword)}
                 >
                   {showConfirmPassword ? (
                     <Icon
-                      className="pointer-events-none text-2xl text-default-400"
+                      className="pointer-events-none text-xl text-default-400"
                       icon="solar:eye-closed-linear"
                     />
                   ) : (
                     <Icon
-                      className="pointer-events-none text-2xl text-default-400"
+                      className="pointer-events-none text-xl text-default-400"
                       icon="solar:eye-bold"
                     />
                   )}
-                </button>
+                </Button>
+              }
+              isInvalid={!!error}
+              label="Confirm Password"
+              name="confirmPassword"
+              placeholder="Confirm your password"
+              type={showConfirmPassword ? "text" : "password"}
+              value={formData.confirmPassword}
+              variant="bordered"
+              onValueChange={(value) =>
+                updateFormData("confirmPassword", value)
               }
             />
 
             <Button
               className="w-full"
               color="primary"
-              type="submit"
-              isLoading={isLoading}
               isDisabled={
                 !formData.firstName ||
                 !formData.lastName ||
@@ -290,6 +304,8 @@ export function RegisterModal({
                 !formData.password ||
                 !formData.organization
               }
+              isLoading={isLoading}
+              type="submit"
             >
               {isLoading ? "Creating Account..." : "Create Account"}
             </Button>
@@ -303,20 +319,21 @@ export function RegisterModal({
 
           <div className="flex flex-col gap-2">
             <Button
+              fullWidth
               startContent={<Icon icon="flat-color-icons:google" width={20} />}
               variant="bordered"
-              fullWidth
             >
               Continue with Google
             </Button>
             <Button
+              fullWidth
               startContent={<Icon icon="skill-icons:linkedin" width={20} />}
               variant="bordered"
-              fullWidth
             >
               Continue with LinkedIn
             </Button>
             <Button
+              fullWidth
               startContent={
                 <Icon
                   className="text-foreground"
@@ -325,7 +342,6 @@ export function RegisterModal({
                 />
               }
               variant="bordered"
-              fullWidth
             >
               Continue with X
             </Button>
@@ -336,9 +352,9 @@ export function RegisterModal({
           <p className="text-center text-small">
             Already have an account?{" "}
             <Link
+              className="cursor-pointer"
               href="#"
               size="sm"
-              className="cursor-pointer"
               onClick={() => {
                 handleClose();
                 onSwitchToLogin();

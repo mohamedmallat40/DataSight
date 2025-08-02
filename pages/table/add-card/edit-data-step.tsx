@@ -5,7 +5,6 @@ import {
   Button,
   Image,
   Card,
-  CardBody,
   Divider,
   addToast,
   Chip,
@@ -159,17 +158,17 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
 
   // Handle tag input
   const handleTagInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && tagInput.trim() !== '') {
+    if (e.key === "Enter" && tagInput.trim() !== "") {
       e.preventDefault();
       if (!tags.includes(tagInput.trim())) {
         setTags([...tags, tagInput.trim()]);
       }
-      setTagInput('');
+      setTagInput("");
     }
   };
 
   const removeTag = (tagToRemove: string) => {
-    setTags(tags.filter(tag => tag !== tagToRemove));
+    setTags(tags.filter((tag) => tag !== tagToRemove));
   };
 
   // Submit updated business card data
@@ -187,10 +186,10 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
 
     setLoading(true);
     try {
-      const response = await apiClient.post(
-        "/update-card-info",
-        { ...businessCardData, tags },
-      );
+      const response = await apiClient.post("/update-card-info", {
+        ...businessCardData,
+        tags,
+      });
 
       if (response.status === 201) {
         addToast({
@@ -300,11 +299,13 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                   Email Addresses
                 </label>
                 <Button
+                  className="hover:bg-primary/10 font-medium"
                   color="primary"
                   size="sm"
-                  startContent={<Icon icon="solar:add-circle-linear" width={18} />}
+                  startContent={
+                    <Icon icon="solar:add-circle-linear" width={18} />
+                  }
                   variant="light"
-                  className="hover:bg-primary/10 font-medium"
                   onPress={() => addArrayItem("email")}
                 >
                   Add Email
@@ -317,28 +318,28 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                     key={`email-${index}`}
                     className="flex items-center gap-2"
                   >
-                  <Input
-                    className="flex-1"
-                    placeholder="Enter email address"
-                    type="email"
-                    startContent={
-                      <Icon className="text-default-400" icon="lucide:mail" />
-                    }
-                    value={email}
-                    onChange={(e) =>
-                      handleArrayInputChange("email", index, e.target.value)
-                    }
-                  />
-                  {(businessCardData?.email?.length || 0) > 1 && (
-                    <Button
-                      isIconOnly
-                      color="danger"
-                      variant="light"
-                      onPress={() => removeArrayItem("email", index)}
-                    >
-                      <Icon icon="lucide:trash-2" width={18} />
-                    </Button>
-                  )}
+                    <Input
+                      className="flex-1"
+                      placeholder="Enter email address"
+                      startContent={
+                        <Icon className="text-default-400" icon="lucide:mail" />
+                      }
+                      type="email"
+                      value={email}
+                      onChange={(e) =>
+                        handleArrayInputChange("email", index, e.target.value)
+                      }
+                    />
+                    {(businessCardData?.email?.length || 0) > 1 && (
+                      <Button
+                        isIconOnly
+                        color="danger"
+                        variant="light"
+                        onPress={() => removeArrayItem("email", index)}
+                      >
+                        <Icon icon="lucide:trash-2" width={18} />
+                      </Button>
+                    )}
                   </div>
                 ))}
               </div>
@@ -350,11 +351,13 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                   Phone Numbers
                 </label>
                 <Button
+                  className="hover:bg-primary/10 font-medium"
                   color="primary"
                   size="sm"
-                  startContent={<Icon icon="solar:add-circle-linear" width={18} />}
+                  startContent={
+                    <Icon icon="solar:add-circle-linear" width={18} />
+                  }
                   variant="light"
-                  className="hover:bg-primary/10 font-medium"
                   onPress={() => addArrayItem("phone_number")}
                 >
                   Add Phone
@@ -367,32 +370,35 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                     key={`phone-${index}`}
                     className="flex items-center gap-2"
                   >
-                  <Input
-                    className="flex-1"
-                    placeholder="Enter phone number"
-                    type="tel"
-                    startContent={
-                      <Icon className="text-default-400" icon="lucide:phone" />
-                    }
-                    value={phone}
-                    onChange={(e) =>
-                      handleArrayInputChange(
-                        "phone_number",
-                        index,
-                        e.target.value,
-                      )
-                    }
-                  />
-                  {(businessCardData?.phone_number?.length || 0) > 1 && (
-                    <Button
-                      isIconOnly
-                      color="danger"
-                      variant="light"
-                      onPress={() => removeArrayItem("phone_number", index)}
-                    >
-                      <Icon icon="lucide:trash-2" width={18} />
-                    </Button>
-                  )}
+                    <Input
+                      className="flex-1"
+                      placeholder="Enter phone number"
+                      startContent={
+                        <Icon
+                          className="text-default-400"
+                          icon="lucide:phone"
+                        />
+                      }
+                      type="tel"
+                      value={phone}
+                      onChange={(e) =>
+                        handleArrayInputChange(
+                          "phone_number",
+                          index,
+                          e.target.value,
+                        )
+                      }
+                    />
+                    {(businessCardData?.phone_number?.length || 0) > 1 && (
+                      <Button
+                        isIconOnly
+                        color="danger"
+                        variant="light"
+                        onPress={() => removeArrayItem("phone_number", index)}
+                      >
+                        <Icon icon="lucide:trash-2" width={18} />
+                      </Button>
+                    )}
                   </div>
                 ))}
               </div>
@@ -403,10 +409,10 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               label="Website"
               labelPlacement="outside-top"
               placeholder="Enter website URL"
-              type="url"
               startContent={
                 <Icon className="text-default-400" icon="lucide:globe" />
               }
+              type="url"
               value={businessCardData?.website || ""}
               onChange={(e) => handleInputChange("website", e.target.value)}
             />
@@ -416,10 +422,10 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               label="LinkedIn"
               labelPlacement="outside-top"
               placeholder="Enter LinkedIn profile"
-              type="url"
               startContent={
                 <Icon className="text-default-400" icon="lucide:linkedin" />
               }
+              type="url"
               value={businessCardData?.linkedin || ""}
               onChange={(e) => handleInputChange("linkedin", e.target.value)}
             />
@@ -497,25 +503,29 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
               <label className="text-small font-medium text-default-700 mb-2 block">
                 Gender
               </label>
-              <ButtonGroup variant="bordered" className="w-full">
+              <ButtonGroup className="w-full" variant="bordered">
                 <Button
                   className={cn(
                     "flex-1",
                     businessCardData?.gender === true
                       ? "bg-primary/10 border-primary text-primary"
-                      : "hover:bg-default-100"
+                      : "hover:bg-default-100",
                   )}
                   startContent={
                     <Icon
+                      className={
+                        businessCardData?.gender === true
+                          ? "text-primary"
+                          : "text-default-500"
+                      }
                       icon="solar:men-bold"
                       width={18}
-                      className={businessCardData?.gender === true ? "text-primary" : "text-default-500"}
                     />
                   }
                   onPress={() => handleGenderChange("male")}
                 >
                   {businessCardData?.gender === true && (
-                    <Icon icon="lucide:check" width={16} className="ml-1" />
+                    <Icon className="ml-1" icon="lucide:check" width={16} />
                   )}
                 </Button>
                 <Button
@@ -523,29 +533,37 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                     "flex-1",
                     businessCardData?.gender === false
                       ? "bg-secondary/10 border-secondary text-secondary"
-                      : "hover:bg-default-100"
+                      : "hover:bg-default-100",
                   )}
                   startContent={
                     <Icon
+                      className={
+                        businessCardData?.gender === false
+                          ? "text-secondary"
+                          : "text-default-500"
+                      }
                       icon="solar:women-bold"
                       width={18}
-                      className={businessCardData?.gender === false ? "text-secondary" : "text-default-500"}
                     />
                   }
                   onPress={() => handleGenderChange("female")}
                 >
                   {businessCardData?.gender === false && (
-                    <Icon icon="lucide:check" width={16} className="ml-1" />
+                    <Icon className="ml-1" icon="lucide:check" width={16} />
                   )}
                 </Button>
                 {businessCardData?.gender !== null && (
                   <Button
+                    isIconOnly
                     className="px-3"
                     variant="light"
-                    isIconOnly
                     onPress={() => handleGenderChange("unknown")}
                   >
-                    <Icon icon="lucide:x" width={16} className="text-default-400" />
+                    <Icon
+                      className="text-default-400"
+                      icon="lucide:x"
+                      width={16}
+                    />
                   </Button>
                 )}
               </ButtonGroup>
@@ -571,9 +589,9 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
                     <Chip
                       key={index}
                       color="primary"
+                      size="sm"
                       variant="flat"
                       onClose={() => removeTag(tag)}
-                      size="sm"
                     >
                       {tag}
                     </Chip>
@@ -596,13 +614,13 @@ const EditDataStep: React.FC<EditDataStepProps> = ({
       </div>
       <div className="flex justify-end mt-6 pt-4 border-t border-default-200">
         <Button
+          className="px-8 font-semibold bg-gradient-to-r from-primary to-primary-600 text-white"
           color="primary"
-          size="lg"
+          endContent={<Icon icon="solar:arrow-right-linear" width={18} />}
           isDisabled={!businessCardData?.pool_id || loading}
           isLoading={loading}
+          size="lg"
           startContent={<Icon icon="solar:diskette-bold" width={20} />}
-          endContent={<Icon icon="solar:arrow-right-linear" width={18} />}
-          className="px-8 font-semibold bg-gradient-to-r from-primary to-primary-600 text-white"
           onPress={handleSubmit}
         >
           Save & Continue

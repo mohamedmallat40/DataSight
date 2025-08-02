@@ -33,13 +33,9 @@ const subscriptionPlans = [
       "Up to 100 contacts",
       "Basic analytics",
       "Email support",
-      "Standard templates"
+      "Standard templates",
     ],
-    limitations: [
-      "Limited exports",
-      "No API access",
-      "Basic reporting"
-    ]
+    limitations: ["Limited exports", "No API access", "Basic reporting"],
   },
   {
     id: "pro",
@@ -53,9 +49,9 @@ const subscriptionPlans = [
       "Custom templates",
       "API access",
       "Advanced reporting",
-      "Team collaboration"
+      "Team collaboration",
     ],
-    popular: true
+    popular: true,
   },
   {
     id: "enterprise",
@@ -69,9 +65,9 @@ const subscriptionPlans = [
       "Custom integrations",
       "Advanced security",
       "Custom training",
-      "Dedicated account manager"
-    ]
-  }
+      "Dedicated account manager",
+    ],
+  },
 ];
 
 const currentSubscription = {
@@ -82,8 +78,8 @@ const currentSubscription = {
     contacts: 2450,
     limit: 10000,
     apiCalls: 15240,
-    apiLimit: 50000
-  }
+    apiLimit: 50000,
+  },
 };
 
 export default function SubscriptionSettings(props: CardProps) {
@@ -98,23 +94,29 @@ export default function SubscriptionSettings(props: CardProps) {
 
   const confirmPlanChange = async () => {
     setIsLoading(true);
-    
+
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
     console.log("Changing to plan:", selectedPlan);
     setIsLoading(false);
     onOpenChange();
   };
 
-  const currentPlan = subscriptionPlans.find(plan => plan.id === currentSubscription.plan);
+  const currentPlan = subscriptionPlans.find(
+    (plan) => plan.id === currentSubscription.plan,
+  );
 
   return (
     <>
       <Card className="max-w-4xl w-full" {...props}>
         <CardHeader className="flex flex-col items-start px-6 pb-0 pt-6">
           <div className="flex items-center gap-3 mb-2">
-            <Icon icon="solar:crown-linear" className="text-primary" width={24} />
+            <Icon
+              className="text-primary"
+              icon="solar:crown-linear"
+              width={24}
+            />
             <p className="text-xl font-semibold">Subscription Management</p>
           </div>
           <p className="text-small text-default-500">
@@ -129,11 +131,17 @@ export default function SubscriptionSettings(props: CardProps) {
             <CellWrapper className="bg-gradient-to-r from-primary/10 to-secondary/10 border-1 border-primary/20">
               <div className="flex items-center gap-4">
                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-                  <Icon icon="solar:crown-bold" className="text-primary" width={24} />
+                  <Icon
+                    className="text-primary"
+                    icon="solar:crown-bold"
+                    width={24}
+                  />
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
-                    <h4 className="font-semibold text-foreground">{currentPlan?.name}</h4>
+                    <h4 className="font-semibold text-foreground">
+                      {currentPlan?.name}
+                    </h4>
                     {currentPlan?.popular && (
                       <Chip color="primary" size="sm" variant="flat">
                         Popular
@@ -146,18 +154,22 @@ export default function SubscriptionSettings(props: CardProps) {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <Chip 
-                  color={currentSubscription.status === "active" ? "success" : "warning"} 
-                  variant="flat" 
+                <Chip
+                  color={
+                    currentSubscription.status === "active"
+                      ? "success"
+                      : "warning"
+                  }
                   size="sm"
+                  variant="flat"
                 >
                   {currentSubscription.status}
                 </Chip>
                 <Button
                   color="primary"
-                  variant="bordered"
                   size="sm"
                   startContent={<Icon icon="solar:card-linear" />}
+                  variant="bordered"
                 >
                   Manage Billing
                 </Button>
@@ -173,16 +185,27 @@ export default function SubscriptionSettings(props: CardProps) {
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-small font-medium">Contacts</span>
                   <span className="text-small text-default-500">
-                    {currentSubscription.usage.contacts.toLocaleString()} / {currentSubscription.usage.limit.toLocaleString()}
+                    {currentSubscription.usage.contacts.toLocaleString()} /{" "}
+                    {currentSubscription.usage.limit.toLocaleString()}
                   </span>
                 </div>
-                <Progress 
-                  value={(currentSubscription.usage.contacts / currentSubscription.usage.limit) * 100}
-                  color="primary"
+                <Progress
                   className="mb-2"
+                  color="primary"
+                  value={
+                    (currentSubscription.usage.contacts /
+                      currentSubscription.usage.limit) *
+                    100
+                  }
                 />
                 <p className="text-tiny text-default-400">
-                  {Math.round(((currentSubscription.usage.limit - currentSubscription.usage.contacts) / currentSubscription.usage.limit) * 100)}% remaining
+                  {Math.round(
+                    ((currentSubscription.usage.limit -
+                      currentSubscription.usage.contacts) /
+                      currentSubscription.usage.limit) *
+                      100,
+                  )}
+                  % remaining
                 </p>
               </Card>
 
@@ -190,16 +213,27 @@ export default function SubscriptionSettings(props: CardProps) {
                 <div className="flex justify-between items-center mb-2">
                   <span className="text-small font-medium">API Calls</span>
                   <span className="text-small text-default-500">
-                    {currentSubscription.usage.apiCalls.toLocaleString()} / {currentSubscription.usage.apiLimit.toLocaleString()}
+                    {currentSubscription.usage.apiCalls.toLocaleString()} /{" "}
+                    {currentSubscription.usage.apiLimit.toLocaleString()}
                   </span>
                 </div>
-                <Progress 
-                  value={(currentSubscription.usage.apiCalls / currentSubscription.usage.apiLimit) * 100}
-                  color="secondary"
+                <Progress
                   className="mb-2"
+                  color="secondary"
+                  value={
+                    (currentSubscription.usage.apiCalls /
+                      currentSubscription.usage.apiLimit) *
+                    100
+                  }
                 />
                 <p className="text-tiny text-default-400">
-                  {Math.round(((currentSubscription.usage.apiLimit - currentSubscription.usage.apiCalls) / currentSubscription.usage.apiLimit) * 100)}% remaining
+                  {Math.round(
+                    ((currentSubscription.usage.apiLimit -
+                      currentSubscription.usage.apiCalls) /
+                      currentSubscription.usage.apiLimit) *
+                      100,
+                  )}
+                  % remaining
                 </p>
               </Card>
             </div>
@@ -212,33 +246,54 @@ export default function SubscriptionSettings(props: CardProps) {
             <h3 className="text-lg font-semibold mb-4">Available Plans</h3>
             <div className="grid gap-4 md:grid-cols-3">
               {subscriptionPlans.map((plan) => (
-                <Card 
-                  key={plan.id} 
-                  className={`p-4 ${plan.id === currentSubscription.plan ? 'border-2 border-primary' : ''} ${plan.popular ? 'border-2 border-secondary' : ''}`}
+                <Card
+                  key={plan.id}
+                  className={`p-4 ${plan.id === currentSubscription.plan ? "border-2 border-primary" : ""} ${plan.popular ? "border-2 border-secondary" : ""}`}
                 >
                   <div className="text-center mb-4">
                     {plan.popular && (
-                      <Chip color="secondary" variant="flat" size="sm" className="mb-2">
+                      <Chip
+                        className="mb-2"
+                        color="secondary"
+                        size="sm"
+                        variant="flat"
+                      >
                         Most Popular
                       </Chip>
                     )}
                     <h4 className="font-semibold text-lg">{plan.name}</h4>
                     <div className="flex items-baseline justify-center gap-1 mt-2">
                       <span className="text-2xl font-bold">{plan.price}</span>
-                      <span className="text-small text-default-500">/{plan.period}</span>
+                      <span className="text-small text-default-500">
+                        /{plan.period}
+                      </span>
                     </div>
                   </div>
-                  
+
                   <ul className="space-y-2 mb-6">
                     {plan.features.map((feature, index) => (
-                      <li key={index} className="flex items-center gap-2 text-small">
-                        <Icon icon="solar:check-circle-linear" className="text-success" width={16} />
+                      <li
+                        key={index}
+                        className="flex items-center gap-2 text-small"
+                      >
+                        <Icon
+                          className="text-success"
+                          icon="solar:check-circle-linear"
+                          width={16}
+                        />
                         {feature}
                       </li>
                     ))}
                     {plan.limitations?.map((limitation, index) => (
-                      <li key={index} className="flex items-center gap-2 text-small text-default-400">
-                        <Icon icon="solar:close-circle-linear" className="text-default-400" width={16} />
+                      <li
+                        key={index}
+                        className="flex items-center gap-2 text-small text-default-400"
+                      >
+                        <Icon
+                          className="text-default-400"
+                          icon="solar:close-circle-linear"
+                          width={16}
+                        />
                         {limitation}
                       </li>
                     ))}
@@ -246,12 +301,22 @@ export default function SubscriptionSettings(props: CardProps) {
 
                   <Button
                     fullWidth
-                    color={plan.id === currentSubscription.plan ? "default" : "primary"}
-                    variant={plan.id === currentSubscription.plan ? "bordered" : "solid"}
+                    color={
+                      plan.id === currentSubscription.plan
+                        ? "default"
+                        : "primary"
+                    }
                     disabled={plan.id === currentSubscription.plan}
+                    variant={
+                      plan.id === currentSubscription.plan
+                        ? "bordered"
+                        : "solid"
+                    }
                     onPress={() => handlePlanChange(plan.id)}
                   >
-                    {plan.id === currentSubscription.plan ? "Current Plan" : `Upgrade to ${plan.name}`}
+                    {plan.id === currentSubscription.plan
+                      ? "Current Plan"
+                      : `Upgrade to ${plan.name}`}
                   </Button>
                 </Card>
               ))}
@@ -266,10 +331,12 @@ export default function SubscriptionSettings(props: CardProps) {
                 <div>
                   <p className="font-medium">Next Billing Date</p>
                   <p className="text-small text-default-500">
-                    {new Date(currentSubscription.nextBilling).toLocaleDateString()}
+                    {new Date(
+                      currentSubscription.nextBilling,
+                    ).toLocaleDateString()}
                   </p>
                 </div>
-                <Chip color="success" variant="flat" size="sm">
+                <Chip color="success" size="sm" variant="flat">
                   Auto-renewal enabled
                 </Chip>
               </CellWrapper>
@@ -282,9 +349,9 @@ export default function SubscriptionSettings(props: CardProps) {
                   </p>
                 </div>
                 <Button
-                  variant="bordered"
                   size="sm"
                   startContent={<Icon icon="solar:pen-2-linear" />}
+                  variant="bordered"
                 >
                   Update
                 </Button>
@@ -298,9 +365,9 @@ export default function SubscriptionSettings(props: CardProps) {
                   </p>
                 </div>
                 <Button
-                  variant="bordered"
                   size="sm"
                   startContent={<Icon icon="solar:pen-2-linear" />}
+                  variant="bordered"
                 >
                   Edit
                 </Button>
@@ -317,17 +384,25 @@ export default function SubscriptionSettings(props: CardProps) {
             <>
               <ModalHeader className="flex flex-col gap-1">
                 <div className="flex items-center gap-2">
-                  <Icon icon="solar:crown-linear" className="text-primary" width={20} />
+                  <Icon
+                    className="text-primary"
+                    icon="solar:crown-linear"
+                    width={20}
+                  />
                   <span>Confirm Plan Change</span>
                 </div>
               </ModalHeader>
               <ModalBody>
                 <p>
                   Are you sure you want to change your subscription to the{" "}
-                  <strong>{subscriptionPlans.find(p => p.id === selectedPlan)?.name}</strong> plan?
+                  <strong>
+                    {subscriptionPlans.find((p) => p.id === selectedPlan)?.name}
+                  </strong>{" "}
+                  plan?
                 </p>
                 <p className="text-small text-default-500">
-                  The change will take effect immediately and you'll be billed pro-rata for the current billing period.
+                  The change will take effect immediately and you'll be billed
+                  pro-rata for the current billing period.
                 </p>
               </ModalBody>
               <ModalFooter>

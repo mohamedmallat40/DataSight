@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import { Button } from "@heroui/button";
 import { Card, CardBody } from "@heroui/card";
 import { Chip } from "@heroui/chip";
-import { Divider } from "@heroui/divider";
 import { Icon } from "@iconify/react";
 
 import LandingLayout from "@/layouts/landing";
@@ -44,7 +43,7 @@ export default function IndexPage(
       <LandingLayout>
         <div className="flex items-center justify-center min-h-96">
           <div className="text-center">
-            <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+            <div className="animate-spin w-8 h-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-4" />
             <h1 className="text-2xl font-bold">Loading...</h1>
             <p className="text-default-500">Checking authentication...</p>
           </div>
@@ -63,10 +62,10 @@ export default function IndexPage(
               {/* Feature Badge */}
               <div className="inline-flex items-center justify-center mb-8">
                 <Chip
+                  className="bg-primary/10 text-primary"
+                  color="primary"
                   startContent={<Icon icon="solar:star-linear" width={16} />}
                   variant="flat"
-                  color="primary"
-                  className="bg-primary/10 text-primary"
                 >
                   Best Contact Management Platform
                 </Chip>
@@ -92,25 +91,27 @@ export default function IndexPage(
               {/* Action Buttons */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-16">
                 <Button
-                  size="lg"
+                  className="min-w-[160px]"
                   color="primary"
                   radius="full"
-                  className="min-w-[160px]"
+                  size="lg"
                   onPress={() => {
                     const event = new CustomEvent("openRegister");
+
                     window.dispatchEvent(event);
                   }}
                 >
                   Get Started
                 </Button>
                 <Button
-                  size="lg"
-                  variant="light"
-                  radius="full"
-                  startContent={<Icon icon="solar:play-linear" width={20} />}
                   className="min-w-[140px]"
+                  radius="full"
+                  size="lg"
+                  startContent={<Icon icon="solar:play-linear" width={20} />}
+                  variant="light"
                   onPress={() => {
                     const event = new CustomEvent("openLogin");
+
                     window.dispatchEvent(event);
                   }}
                 >
@@ -123,8 +124,8 @@ export default function IndexPage(
                 <div className="flex flex-col items-center gap-3">
                   <div className="w-14 h-14 bg-primary/10 rounded-2xl flex items-center justify-center">
                     <Icon
-                      icon="solar:user-linear"
                       className="text-primary"
+                      icon="solar:user-linear"
                       width={28}
                     />
                   </div>
@@ -135,8 +136,8 @@ export default function IndexPage(
                 <div className="flex flex-col items-center gap-3">
                   <div className="w-14 h-14 bg-success/10 rounded-2xl flex items-center justify-center">
                     <Icon
-                      icon="solar:users-group-two-rounded-linear"
                       className="text-success"
+                      icon="solar:users-group-two-rounded-linear"
                       width={28}
                     />
                   </div>
@@ -147,8 +148,8 @@ export default function IndexPage(
                 <div className="flex flex-col items-center gap-3">
                   <div className="w-14 h-14 bg-secondary/10 rounded-2xl flex items-center justify-center">
                     <Icon
-                      icon="solar:chart-linear"
                       className="text-secondary"
+                      icon="solar:chart-linear"
                       width={28}
                     />
                   </div>
@@ -159,8 +160,8 @@ export default function IndexPage(
                 <div className="flex flex-col items-center gap-3">
                   <div className="w-14 h-14 bg-warning/10 rounded-2xl flex items-center justify-center">
                     <Icon
-                      icon="solar:calendar-linear"
                       className="text-warning"
+                      icon="solar:calendar-linear"
                       width={28}
                     />
                   </div>
@@ -177,13 +178,13 @@ export default function IndexPage(
             <Card className="bg-content1 shadow-2xl">
               <CardBody className="p-0">
                 <img
-                  src="https://cdn.builder.io/api/v1/image/assets%2F14c1ca08871e4f80a1054797b1e2a6eb%2Fb54cdc1d8bcd40b4856c5f81f77ed242?format=webp&width=800"
                   alt="PERLA CI Code Innovation Solutions Dashboard - showing contact list with business card data, employee management, and workflow automation features"
                   className="w-full h-auto rounded-lg"
-                  loading="lazy"
-                  width="800"
                   height="600"
                   itemProp="screenshot"
+                  loading="lazy"
+                  src="https://cdn.builder.io/api/v1/image/assets%2F14c1ca08871e4f80a1054797b1e2a6eb%2Fb54cdc1d8bcd40b4856c5f81f77ed242?format=webp&width=800"
+                  width="800"
                 />
               </CardBody>
             </Card>
@@ -192,16 +193,16 @@ export default function IndexPage(
 
         {/* Features Section */}
         <section
-          className="py-20 bg-content1"
           aria-labelledby="features-heading"
+          className="py-20 bg-content1"
         >
           <div className="max-w-7xl mx-auto px-6">
             <div className="grid lg:grid-cols-2 gap-16 items-start">
               {/* Left Side - Main Text */}
               <div>
                 <h2
-                  id="features-heading"
                   className="text-4xl lg:text-5xl font-bold leading-tight mb-8"
+                  id="features-heading"
                 >
                   <span className="text-foreground">
                     Effortlessly manage and optimize{" "}
@@ -226,8 +227,8 @@ export default function IndexPage(
                   <CardBody className="flex flex-row items-start gap-4 p-6">
                     <div className="w-12 h-12 bg-success/10 rounded-xl flex items-center justify-center flex-shrink-0">
                       <Icon
-                        icon="solar:check-circle-linear"
                         className="text-success"
+                        icon="solar:check-circle-linear"
                         width={24}
                       />
                     </div>
@@ -247,8 +248,8 @@ export default function IndexPage(
                   <CardBody className="flex flex-row items-start gap-4 p-6">
                     <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
                       <Icon
-                        icon="solar:layers-linear"
                         className="text-primary"
+                        icon="solar:layers-linear"
                         width={24}
                       />
                     </div>
@@ -268,8 +269,8 @@ export default function IndexPage(
                   <CardBody className="flex flex-row items-start gap-4 p-6">
                     <div className="w-12 h-12 bg-secondary/10 rounded-xl flex items-center justify-center flex-shrink-0">
                       <Icon
-                        icon="solar:settings-linear"
                         className="text-secondary"
+                        icon="solar:settings-linear"
                         width={24}
                       />
                     </div>
@@ -310,8 +311,8 @@ export default function IndexPage(
                   <div className="mb-6">
                     <div className="w-20 h-20 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                       <Icon
-                        icon="solar:users-group-rounded-linear"
                         className="text-primary"
+                        icon="solar:users-group-rounded-linear"
                         width={36}
                       />
                     </div>
@@ -324,7 +325,7 @@ export default function IndexPage(
                           178 Employee
                         </div>
                         <div className="flex items-center justify-center gap-2 mt-2">
-                          <div className="w-16 h-2 bg-primary rounded-full"></div>
+                          <div className="w-16 h-2 bg-primary rounded-full" />
                           <span className="text-xs text-default-400">85%</span>
                         </div>
                       </CardBody>
@@ -346,8 +347,8 @@ export default function IndexPage(
                   <div className="mb-6">
                     <div className="w-20 h-20 bg-success/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
                       <Icon
-                        icon="solar:dollar-linear"
                         className="text-success"
+                        icon="solar:dollar-linear"
                         width={36}
                       />
                     </div>
@@ -361,8 +362,8 @@ export default function IndexPage(
                         </div>
                         <div className="flex items-center justify-center gap-2 mt-2">
                           <Icon
-                            icon="solar:arrow-up-linear"
                             className="text-success"
+                            icon="solar:arrow-up-linear"
                             width={12}
                           />
                           <span className="text-xs text-success">+12%</span>
@@ -417,9 +418,9 @@ export default function IndexPage(
                   className={`w-16 h-16 ${integration.bg} rounded-2xl flex items-center justify-center`}
                 >
                   <Icon
+                    className={integration.color || ""}
                     icon={integration.icon}
                     width={32}
-                    className={integration.color || ""}
                   />
                 </div>
               ))}
@@ -438,7 +439,7 @@ export default function IndexPage(
         </section>
 
         {/* Pricing Section */}
-        <section id="pricing" className="py-20">
+        <section className="py-20" id="pricing">
           <PricingSection />
         </section>
 
@@ -459,7 +460,7 @@ export default function IndexPage(
               <Card className="bg-gradient-to-br from-content2 to-content1">
                 <CardBody className="p-8">
                   <div className="flex items-start gap-6">
-                    <div className="w-20 h-20 bg-gradient-to-br from-default-200 to-default-300 rounded-2xl flex-shrink-0"></div>
+                    <div className="w-20 h-20 bg-gradient-to-br from-default-200 to-default-300 rounded-2xl flex-shrink-0" />
                     <div className="text-left flex-1">
                       <blockquote className="text-lg text-foreground mb-6 italic leading-relaxed">
                         "This amazing platform helps us to manage our team,
@@ -492,12 +493,13 @@ export default function IndexPage(
               business and scale up your operation
             </p>
             <Button
-              size="lg"
+              className="px-8"
               color="primary"
               radius="full"
-              className="px-8"
+              size="lg"
               onPress={() => {
                 const event = new CustomEvent("openRegister");
+
                 window.dispatchEvent(event);
               }}
             >

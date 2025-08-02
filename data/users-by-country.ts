@@ -267,6 +267,7 @@ export const getCountryStats = (): CountryStats[] => {
 
   mockUsers.forEach((user) => {
     const existing = countryMap.get(user.country);
+
     if (existing) {
       existing.userCount++;
     } else {
@@ -303,5 +304,6 @@ const getCountryFlag = (countryCode: string): string => {
     BR: "🇧🇷",
     IN: "🇮🇳",
   };
+
   return flags[countryCode] || "🌍";
 };

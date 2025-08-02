@@ -40,9 +40,11 @@ export function isValidEmail(email: string): boolean {
  */
 export function normalizeUrl(url: string): string {
   const trimmed = url.trim();
+
   if (trimmed.startsWith("http://") || trimmed.startsWith("https://")) {
     return trimmed;
   }
+
   return `https://${trimmed}`;
 }
 
@@ -52,7 +54,9 @@ export function normalizeUrl(url: string): string {
 export function isValidUrl(url: string): boolean {
   try {
     const normalizedUrl = normalizeUrl(url);
+
     new URL(normalizedUrl);
+
     return true;
   } catch {
     return false;
@@ -64,9 +68,11 @@ export function isValidUrl(url: string): boolean {
  */
 function getCachedResult(key: string): ReachabilityResult | null {
   const cached = reachabilityCache.get(key);
+
   if (cached && Date.now() - cached.checkedAt.getTime() < CACHE_DURATION) {
     return cached;
   }
+
   return null;
 }
 
@@ -81,7 +87,9 @@ function setCachedResult(
     status,
     checkedAt: new Date(),
   };
+
   reachabilityCache.set(key, result);
+
   return result;
 }
 
@@ -95,6 +103,7 @@ export async function checkEmailReachability(
 
   // Check cache first
   const cached = getCachedResult(key);
+
   if (cached) {
     return Promise.resolve(cached);
   }
@@ -112,6 +121,7 @@ export async function checkEmailReachability(
     const status: ReachabilityStatus = response.alive
       ? "reachable"
       : "unreachable";
+
     return setCachedResult(key, status);
   } catch (error) {
     console.warn("Email API check failed, falling back to validation:", error);
@@ -172,6 +182,7 @@ export async function checkWebsiteReachability(
 
   // Check cache first
   const cached = getCachedResult(key);
+
   if (cached) {
     return Promise.resolve(cached);
   }
@@ -191,6 +202,7 @@ export async function checkWebsiteReachability(
     const status: ReachabilityStatus = response.reachable
       ? "reachable"
       : "unreachable";
+
     return setCachedResult(key, status);
   } catch (error) {
     console.warn(
@@ -205,6 +217,7 @@ export async function checkWebsiteReachability(
           const status: ReachabilityStatus = isOnline
             ? "reachable"
             : "unreachable";
+
           resolve(setCachedResult(key, status));
         })
         .catch(() => {
@@ -228,6 +241,7 @@ export async function checkWebsiteOnline(website: string): Promise<boolean> {
     // Method 1: Try to load the website in an image (works for many sites)
     try {
       const isReachableViaImage = await checkViaImage(urlWithProtocol);
+
       if (isReachableViaImage !== null) {
         return isReachableViaImage;
       }
@@ -238,6 +252,7 @@ export async function checkWebsiteOnline(website: string): Promise<boolean> {
     // Method 2: Try using fetch with no-cors mode (limited but sometimes works)
     try {
       const isReachableViaFetch = await checkViaFetch(urlWithProtocol);
+
       if (isReachableViaFetch !== null) {
         return isReachableViaFetch;
       }
@@ -249,6 +264,7 @@ export async function checkWebsiteOnline(website: string): Promise<boolean> {
     try {
       const isReachableViaConnection =
         await checkViaConnection(urlWithProtocol);
+
       if (isReachableViaConnection !== null) {
         return isReachableViaConnection;
       }
@@ -339,6 +355,7 @@ function checkViaConnection(url: string): Promise<boolean | null> {
     // Mainly here for completeness
     try {
       const link = document.createElement("link");
+
       link.rel = "prefetch";
       link.href = url;
 
@@ -435,6 +452,7 @@ export async function isWebsiteOnline(
 
   try {
     const result = await checkWebsiteOnline(website);
+
     return result;
   } catch {
     // Fallback to basic heuristic check

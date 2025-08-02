@@ -114,6 +114,7 @@ export const ProfessionalWorldMap = ({
     if (!countryCode) return "#e2e8f0"; // Light gray for countries without data
 
     const country = countryData.find((c) => c.code === countryCode);
+
     if (!country) return "#e2e8f0";
 
     const maxUsers = Math.max(...countryData.map((c) => c.users));
@@ -138,6 +139,7 @@ export const ProfessionalWorldMap = ({
       Math.floor(adjustedIntensity * colors.length),
       colors.length - 1,
     );
+
     return colors[colorIndex];
   };
 
@@ -148,6 +150,7 @@ export const ProfessionalWorldMap = ({
 
     if (countryCode) {
       const country = countryData.find((c) => c.code === countryCode);
+
       if (country) {
         onCountryHover?.(country.country);
       }
@@ -161,6 +164,7 @@ export const ProfessionalWorldMap = ({
 
     if (countryCode) {
       const country = countryData.find((c) => c.code === countryCode);
+
       if (country) {
         setTooltip({
           x: event.clientX,
@@ -204,10 +208,10 @@ export const ProfessionalWorldMap = ({
             {countryData.slice(0, 9).map((country, index) => (
               <motion.div
                 key={country.code}
-                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
                 className="bg-white/90 dark:bg-slate-800/90 p-3 rounded-lg text-center cursor-pointer hover:scale-105 transition-transform"
+                initial={{ opacity: 0, y: 20 }}
+                transition={{ delay: index * 0.1 }}
                 onClick={() => onCountryHover?.(country.country)}
               >
                 <div className="text-2xl mb-1">{country.flag}</div>
@@ -241,7 +245,7 @@ export const ProfessionalWorldMap = ({
           height: "100%",
         }}
       >
-        <ZoomableGroup zoom={zoom} center={center}>
+        <ZoomableGroup center={center} zoom={zoom}>
           <Geographies geography={geoUrl} onError={() => setMapError(true)}>
             {({ geographies }) => {
               if (mapError) {
@@ -260,8 +264,8 @@ export const ProfessionalWorldMap = ({
                 return (
                   <Geography
                     key={geo.rsmKey}
-                    geography={geo}
                     fill={getCountryColor(geo.id)}
+                    geography={geo}
                     stroke={country ? "#1e293b" : "#e2e8f0"}
                     strokeWidth={country ? (isHovered ? 2 : 1) : 0.3}
                     style={{
@@ -294,9 +298,9 @@ export const ProfessionalWorldMap = ({
       {/* Tooltip */}
       {tooltip.country && (
         <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           className="fixed pointer-events-none z-50"
+          initial={{ opacity: 0, scale: 0.8 }}
           style={{
             left: tooltip.x + 10,
             top: tooltip.y - 10,
@@ -358,23 +362,23 @@ export const ProfessionalWorldMap = ({
             </p>
             <div className="flex items-center gap-2 text-xs">
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 bg-blue-100 rounded"></div>
+                <div className="w-3 h-3 bg-blue-100 rounded" />
                 <span className="text-default-600">Very Low</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 bg-blue-300 rounded"></div>
+                <div className="w-3 h-3 bg-blue-300 rounded" />
                 <span className="text-default-600">Low</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 bg-blue-500 rounded"></div>
+                <div className="w-3 h-3 bg-blue-500 rounded" />
                 <span className="text-default-600">Medium</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 bg-blue-700 rounded"></div>
+                <div className="w-3 h-3 bg-blue-700 rounded" />
                 <span className="text-default-600">High</span>
               </div>
               <div className="flex items-center gap-1">
-                <div className="w-3 h-3 bg-blue-900 rounded"></div>
+                <div className="w-3 h-3 bg-blue-900 rounded" />
                 <span className="text-default-600">Very High</span>
               </div>
             </div>
@@ -387,33 +391,33 @@ export const ProfessionalWorldMap = ({
         <div className="flex flex-col gap-2">
           <Button
             isIconOnly
+            className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm"
+            color="primary"
+            disabled={zoom >= 4}
             size="sm"
             variant="flat"
-            color="primary"
             onPress={handleZoomIn}
-            disabled={zoom >= 4}
-            className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm"
           >
             <Icon icon="solar:add-linear" width={16} />
           </Button>
           <Button
             isIconOnly
+            className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm"
+            color="primary"
+            disabled={zoom <= 0.5}
             size="sm"
             variant="flat"
-            color="primary"
             onPress={handleZoomOut}
-            disabled={zoom <= 0.5}
-            className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm"
           >
             <Icon icon="solar:minus-linear" width={16} />
           </Button>
           <Button
             isIconOnly
+            className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm"
+            color="secondary"
             size="sm"
             variant="flat"
-            color="secondary"
             onPress={handleResetZoom}
-            className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-sm"
           >
             <Icon icon="solar:refresh-linear" width={16} />
           </Button>
@@ -422,13 +426,13 @@ export const ProfessionalWorldMap = ({
 
       {/* Stats */}
       <div className="absolute top-4 right-4 space-y-2">
-        <Chip color="primary" variant="flat" size="sm">
+        <Chip color="primary" size="sm" variant="flat">
           🌍 {countryData.length} Countries
         </Chip>
-        <Chip color="success" variant="flat" size="sm">
+        <Chip color="success" size="sm" variant="flat">
           👥 {countryData.reduce((sum, c) => sum + c.users, 0)} Total Users
         </Chip>
-        <Chip color="warning" variant="flat" size="sm">
+        <Chip color="warning" size="sm" variant="flat">
           🔍 Zoom: {Math.round(zoom * 100)}%
         </Chip>
       </div>

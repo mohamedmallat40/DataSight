@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { Card, CardBody, CardHeader } from "@heroui/card";
 import { Chip } from "@heroui/chip";
-import { Button } from "@heroui/button";
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
 // Removed Progress import - using custom CSS progress bar
@@ -52,14 +51,14 @@ export default function StatisticsPage() {
       <div className="max-w-7xl mx-auto p-6 space-y-8">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center space-y-4"
+          initial={{ opacity: 0, y: -20 }}
         >
           <div className="flex items-center justify-center gap-2 mb-4">
             <Icon
-              icon="solar:global-linear"
               className="text-primary"
+              icon="solar:global-linear"
               width={32}
             />
             <h1 className="text-3xl font-bold text-foreground">
@@ -74,16 +73,16 @@ export default function StatisticsPage() {
 
         {/* Key Metrics Cards */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
           className="grid grid-cols-1 md:grid-cols-4 gap-6"
+          initial={{ opacity: 0, y: 20 }}
+          transition={{ delay: 0.1 }}
         >
           <Card className="bg-gradient-to-r from-primary/10 to-secondary/10 border-1 border-primary/20">
             <CardBody className="text-center py-6">
               <Icon
-                icon="solar:users-group-rounded-linear"
                 className="text-primary mx-auto mb-3"
+                icon="solar:users-group-rounded-linear"
                 width={32}
               />
               <h3 className="text-3xl font-bold text-primary mb-1">
@@ -92,8 +91,8 @@ export default function StatisticsPage() {
               <p className="text-sm text-default-600">Total Users</p>
               <div className="flex items-center justify-center gap-1 mt-2">
                 <Icon
-                  icon="solar:arrow-up-linear"
                   className="text-success"
+                  icon="solar:arrow-up-linear"
                   width={16}
                 />
                 <span className="text-xs text-success">+12.5%</span>
@@ -104,8 +103,8 @@ export default function StatisticsPage() {
           <Card className="bg-gradient-to-r from-success/10 to-warning/10 border-1 border-success/20">
             <CardBody className="text-center py-6">
               <Icon
-                icon="solar:global-linear"
                 className="text-success mx-auto mb-3"
+                icon="solar:global-linear"
                 width={32}
               />
               <h3 className="text-3xl font-bold text-success mb-1">
@@ -114,8 +113,8 @@ export default function StatisticsPage() {
               <p className="text-sm text-default-600">Countries</p>
               <div className="flex items-center justify-center gap-1 mt-2">
                 <Icon
-                  icon="solar:arrow-up-linear"
                   className="text-success"
+                  icon="solar:arrow-up-linear"
                   width={16}
                 />
                 <span className="text-xs text-success">+2 new</span>
@@ -126,8 +125,8 @@ export default function StatisticsPage() {
           <Card className="bg-gradient-to-r from-secondary/10 to-primary/10 border-1 border-secondary/20">
             <CardBody className="text-center py-6">
               <Icon
-                icon="solar:user-plus-linear"
                 className="text-secondary mx-auto mb-3"
+                icon="solar:user-plus-linear"
                 width={32}
               />
               <h3 className="text-3xl font-bold text-secondary mb-1">
@@ -136,8 +135,8 @@ export default function StatisticsPage() {
               <p className="text-sm text-default-600">New This Month</p>
               <div className="flex items-center justify-center gap-1 mt-2">
                 <Icon
-                  icon="solar:arrow-up-linear"
                   className="text-success"
+                  icon="solar:arrow-up-linear"
                   width={16}
                 />
                 <span className="text-xs text-success">Growing</span>
@@ -148,8 +147,8 @@ export default function StatisticsPage() {
           <Card className="bg-gradient-to-r from-warning/10 to-danger/10 border-1 border-warning/20">
             <CardBody className="text-center py-6">
               <Icon
-                icon="solar:chart-2-linear"
                 className="text-warning mx-auto mb-3"
+                icon="solar:chart-2-linear"
                 width={32}
               />
               <h3 className="text-3xl font-bold text-warning mb-1">
@@ -158,8 +157,8 @@ export default function StatisticsPage() {
               <p className="text-sm text-default-600">Avg. Users/Country</p>
               <div className="flex items-center justify-center gap-1 mt-2">
                 <Icon
-                  icon="solar:arrow-up-linear"
                   className="text-success"
+                  icon="solar:arrow-up-linear"
                   width={16}
                 />
                 <span className="text-xs text-success">Optimized</span>
@@ -170,16 +169,16 @@ export default function StatisticsPage() {
 
         {/* Interactive Map Placeholder */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20 }}
           transition={{ delay: 0.4 }}
         >
           <Card className="shadow-lg">
             <CardHeader className="pb-2">
               <div className="flex items-center gap-2">
                 <Icon
-                  icon="solar:map-linear"
                   className="text-primary"
+                  icon="solar:map-linear"
                   width={24}
                 />
                 <h2 className="text-xl font-semibold text-foreground">
@@ -190,8 +189,8 @@ export default function StatisticsPage() {
             <CardBody className="p-6">
               <ProfessionalWorldMap
                 countryData={mockCountryData}
-                onCountryHover={setHoveredCountry}
                 hoveredCountry={hoveredCountry}
+                onCountryHover={setHoveredCountry}
               />
             </CardBody>
           </Card>
@@ -199,18 +198,18 @@ export default function StatisticsPage() {
 
         {/* Statistics Grid */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
           className="grid lg:grid-cols-2 gap-8"
+          initial={{ opacity: 0, y: 20 }}
+          transition={{ delay: 0.5 }}
         >
           {/* Country Statistics */}
           <Card className="shadow-lg">
             <CardHeader className="pb-3">
               <div className="flex items-center gap-2">
                 <Icon
-                  icon="solar:chart-square-linear"
                   className="text-primary"
+                  icon="solar:chart-square-linear"
                   width={24}
                 />
                 <h3 className="text-xl font-semibold text-foreground">
@@ -222,10 +221,10 @@ export default function StatisticsPage() {
               {mockCountryData.map((country, index) => (
                 <motion.div
                   key={country.code}
-                  initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.6 + index * 0.1 }}
                   className="flex items-center justify-between p-3 rounded-lg hover:bg-default-50 transition-colors cursor-pointer"
+                  initial={{ opacity: 0, x: -20 }}
+                  transition={{ delay: 0.6 + index * 0.1 }}
                   onMouseEnter={() => setHoveredCountry(country.country)}
                   onMouseLeave={() => setHoveredCountry(null)}
                 >
@@ -249,7 +248,7 @@ export default function StatisticsPage() {
                         }}
                       />
                     </div>
-                    <Chip color="primary" variant="flat" size="sm">
+                    <Chip color="primary" size="sm" variant="flat">
                       {country.users}
                     </Chip>
                   </div>
@@ -263,8 +262,8 @@ export default function StatisticsPage() {
             <CardHeader className="pb-3">
               <div className="flex items-center gap-2">
                 <Icon
-                  icon="solar:pie-chart-3-linear"
                   className="text-primary"
+                  icon="solar:pie-chart-3-linear"
                   width={24}
                 />
                 <h3 className="text-xl font-semibold text-foreground">
@@ -283,14 +282,15 @@ export default function StatisticsPage() {
                 return (
                   <motion.div
                     key={role.role}
-                    initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.6 + index * 0.1 }}
                     className="space-y-2"
+                    initial={{ opacity: 0, x: -20 }}
+                    transition={{ delay: 0.6 + index * 0.1 }}
                   >
                     <div className="flex justify-between items-center">
                       <div className="flex items-center gap-3">
                         <Icon
+                          className={`text-${role.color}`}
                           icon={
                             role.role === "Doctor"
                               ? "solar:user-speak-linear"
@@ -300,7 +300,6 @@ export default function StatisticsPage() {
                                   ? "solar:shield-user-linear"
                                   : "solar:settings-linear"
                           }
-                          className={`text-${role.color}`}
                           width={20}
                         />
                         <span className="font-medium text-foreground">
@@ -313,8 +312,8 @@ export default function StatisticsPage() {
                         </span>
                         <Chip
                           color={role.color as any}
-                          variant="flat"
                           size="sm"
+                          variant="flat"
                         >
                           {Math.round(percentage)}%
                         </Chip>
@@ -343,16 +342,16 @@ export default function StatisticsPage() {
 
         {/* Additional Insights */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
           className="grid md:grid-cols-3 gap-6"
+          initial={{ opacity: 0, y: 20 }}
+          transition={{ delay: 0.8 }}
         >
           <Card className="bg-gradient-to-br from-primary/5 to-transparent">
             <CardBody className="text-center p-6">
               <Icon
-                icon="solar:heart-pulse-linear"
                 className="text-primary mx-auto mb-3"
+                icon="solar:heart-pulse-linear"
                 width={32}
               />
               <h3 className="font-semibold text-foreground mb-2">
@@ -363,8 +362,8 @@ export default function StatisticsPage() {
               </p>
               <div className="flex items-center justify-center gap-1 mt-2">
                 <Icon
-                  icon="solar:arrow-up-linear"
                   className="text-success"
+                  icon="solar:arrow-up-linear"
                   width={16}
                 />
                 <span className="text-sm text-success">85% activity rate</span>
@@ -375,8 +374,8 @@ export default function StatisticsPage() {
           <Card className="bg-gradient-to-br from-success/5 to-transparent">
             <CardBody className="text-center p-6">
               <Icon
-                icon="solar:chart-square-linear"
                 className="text-success mx-auto mb-3"
+                icon="solar:chart-square-linear"
                 width={32}
               />
               <h3 className="font-semibold text-foreground mb-2">
@@ -387,8 +386,8 @@ export default function StatisticsPage() {
               </p>
               <div className="flex items-center justify-center gap-1 mt-2">
                 <Icon
-                  icon="solar:arrow-up-linear"
                   className="text-success"
+                  icon="solar:arrow-up-linear"
                   width={16}
                 />
                 <span className="text-sm text-success">+12.5%</span>
@@ -399,8 +398,8 @@ export default function StatisticsPage() {
           <Card className="bg-gradient-to-br from-secondary/5 to-transparent">
             <CardBody className="text-center p-6">
               <Icon
-                icon="solar:medal-star-linear"
                 className="text-secondary mx-auto mb-3"
+                icon="solar:medal-star-linear"
                 width={32}
               />
               <h3 className="font-semibold text-foreground mb-2">Top Role</h3>

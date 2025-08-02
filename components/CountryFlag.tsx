@@ -50,12 +50,12 @@ export const CountryFlag: React.FC<CountryFlagProps> = ({
   if (validCode) {
     return (
       <div
+        aria-label={`Flag of ${countryCode?.toUpperCase()}`}
         className={`${sizeClasses[size]} ${className} rounded-full overflow-hidden flex items-center justify-center bg-gray-100`}
         style={{
           flexShrink: 0,
           aspectRatio: "1 / 1",
         }}
-        aria-label={`Flag of ${countryCode?.toUpperCase()}`}
         title={`Flag of ${countryCode?.toUpperCase()}`}
       >
         <Icon

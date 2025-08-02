@@ -56,6 +56,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
 
   useEffect(() => {
     const timer = setTimeout(() => setMounted(true), 0);
+
     return () => clearTimeout(timer);
   }, []);
 
@@ -127,9 +128,9 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
         isExternal
         as={Link}
         className="hidden md:flex bg-primary hover:bg-primary-600 text-white font-medium shadow-sm hover:shadow-md transition-all duration-200"
-        startContent={<Icon icon="solar:rocket-linear" width={16} />}
         href={siteConfig.links.sponsor}
         size="sm"
+        startContent={<Icon icon="solar:rocket-linear" width={16} />}
         variant="solid"
       >
         {t("navbar_slogon") || "Get Started"}
@@ -138,10 +139,10 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
       {/* Language & Theme Controls */}
       <div className="flex items-center gap-1">
         <LanguageSwitcher
-          onChange={handleLocaleChange}
           showFlag={true}
-          variant="compact"
           size="sm"
+          variant="compact"
+          onChange={handleLocaleChange}
         />
         <ThemeSwitch />
       </div>
@@ -165,7 +166,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
             <DropdownItem
               key="profile"
               startContent={<Icon icon="solar:user-id-linear" />}
-              onPress={() => router.push('/profile')}
+              onPress={() => router.push("/profile")}
             >
               Profile Settings
             </DropdownItem>
@@ -232,7 +233,9 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
                   {item.icon && (
                     <Icon
                       className={
-                        router.asPath === item.href ? "text-primary" : "text-default-500"
+                        router.asPath === item.href
+                          ? "text-primary"
+                          : "text-default-500"
                       }
                       height={18}
                       icon={item.icon}
@@ -369,7 +372,7 @@ export const Navbar = ({ setLocale }: NavbarProps) => {
                     <DropdownItem
                       key="profile"
                       startContent={<Icon icon="solar:user-id-linear" />}
-                      onPress={() => router.push('/profile')}
+                      onPress={() => router.push("/profile")}
                     >
                       Profile Settings
                     </DropdownItem>

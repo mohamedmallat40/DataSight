@@ -20,8 +20,8 @@ const WorldMapSVG = dynamic(
       <div className="w-full h-[500px] bg-content1 rounded-lg flex items-center justify-center">
         <div className="text-center">
           <Icon
-            icon="solar:map-linear"
             className="text-primary mx-auto mb-2"
+            icon="solar:map-linear"
             width={48}
           />
           <p className="text-default-500">Loading world map...</p>
@@ -42,8 +42,8 @@ export function WorldMapContainer() {
         <CardBody className="h-[500px] flex items-center justify-center">
           <div className="text-center">
             <Icon
-              icon="solar:loading-linear"
               className="text-primary mx-auto mb-2 animate-spin"
+              icon="solar:loading-linear"
               width={48}
             />
             <p className="text-default-500">Loading analytics data...</p>
@@ -59,8 +59,8 @@ export function WorldMapContainer() {
         <CardBody className="h-[500px] flex items-center justify-center">
           <div className="text-center">
             <Icon
-              icon="solar:danger-triangle-linear"
               className="text-danger mx-auto mb-2"
+              icon="solar:danger-triangle-linear"
               width={48}
             />
             <p className="text-danger">Failed to load analytics data</p>
@@ -81,14 +81,14 @@ export function WorldMapContainer() {
         <CardBody className="p-0">
           <WorldMapSVG
             countryStats={analyticsData.countryStats}
-            onCountryHover={setHoveredCountry}
             hoveredCountry={hoveredCountry}
+            onCountryHover={setHoveredCountry}
           />
         </CardBody>
       </Card>
 
       {hoveredCountry && hoveredUsers.length > 0 && (
-        <UserList users={hoveredUsers} country={hoveredCountry} />
+        <UserList country={hoveredCountry} users={hoveredUsers} />
       )}
     </div>
   );

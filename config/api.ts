@@ -64,6 +64,7 @@ export const checkEmailAlive = async (email: string) => {
   const response = await apiClient.get(
     `/is-email-alive?email=${encodeURIComponent(email)}`,
   );
+
   return response.data;
 };
 
@@ -72,6 +73,7 @@ export const checkWebsiteReachable = async (url: string) => {
   const response = await apiClient.get(
     `/is-website-reachable?url=${encodeURIComponent(url)}`,
   );
+
   return response.data;
 };
 

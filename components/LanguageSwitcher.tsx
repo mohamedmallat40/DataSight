@@ -114,11 +114,11 @@ export const LanguageSwitcher = ({
       <div className="flex items-center gap-2 w-full">
         {showFlag && (
           <Icon
-            icon={language.flagIcon}
-            width={18}
-            height={18}
             className="rounded-full"
+            height={18}
+            icon={language.flagIcon}
             style={{ minWidth: "18px" }}
+            width={18}
           />
         )}
         <div className="flex flex-col">
@@ -158,11 +158,11 @@ export const LanguageSwitcher = ({
             <div className="flex items-center gap-1.5">
               {showFlag && (
                 <Icon
-                  icon={currentLanguage.flagIcon}
-                  width={16}
-                  height={16}
                   className="rounded-full"
+                  height={16}
+                  icon={currentLanguage.flagIcon}
                   style={{ minWidth: "16px" }}
+                  width={16}
                 />
               )}
               <span className="text-tiny font-medium uppercase tracking-wide">

@@ -111,8 +111,8 @@ export const GenderIndicator: React.FC<GenderIndicatorProps> = ({
       className={className}
       color={genderInfo.color as any}
       size={size}
-      variant="flat"
       startContent={<Icon className="w-3 h-3" icon={genderInfo.icon} />}
+      variant="flat"
     >
       <span className="text-xs font-medium">{genderInfo.label}</span>
     </Chip>

@@ -1,8 +1,9 @@
 import { Button } from "@heroui/button";
-import { Tooltip, Chip } from "@heroui/react";
+import { Tooltip } from "@heroui/react";
 import React, { memo, useState } from "react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
+
 import { ReachabilityChip } from "./reachability-chip";
 
 interface EmailListProps {
@@ -93,11 +94,11 @@ export const EmailList = memo(
                   {email}
                 </a>
                 <ReachabilityChip
+                  className="text-tiny"
+                  size="sm"
                   type="email"
                   value={email}
-                  size="sm"
                   variant="subtle"
-                  className="text-tiny"
                 />
               </div>
             </div>

@@ -23,8 +23,8 @@ export const CountryStatsComponent = ({
     <div className="space-y-4">
       <div className="flex items-center gap-2 mb-6">
         <Icon
-          icon="solar:chart-square-linear"
           className="text-primary"
+          icon="solar:chart-square-linear"
           width={24}
         />
         <h2 className="text-xl font-semibold text-foreground">
@@ -40,8 +40,8 @@ export const CountryStatsComponent = ({
           return (
             <motion.div
               key={country.country}
-              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 20 }}
               transition={{ delay: index * 0.1 }}
             >
               <Card
@@ -78,19 +78,19 @@ export const CountryStatsComponent = ({
                       {/* Progress Bar */}
                       <div className="flex-1 max-w-[200px]">
                         <Progress
-                          value={(country.userCount / maxUsers) * 100}
+                          className="w-full"
                           color="primary"
                           size="sm"
-                          className="w-full"
+                          value={(country.userCount / maxUsers) * 100}
                         />
                       </div>
 
                       {/* User Count */}
                       <Chip
-                        color="primary"
-                        variant="flat"
-                        size="sm"
                         className="font-semibold"
+                        color="primary"
+                        size="sm"
+                        variant="flat"
                       >
                         {country.userCount}
                       </Chip>
@@ -100,10 +100,10 @@ export const CountryStatsComponent = ({
                   {/* User Avatars Preview */}
                   {isHovered && users.length > 0 && (
                     <motion.div
-                      initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
                       className="mt-4 pt-4 border-t border-divider"
+                      exit={{ opacity: 0, height: 0 }}
+                      initial={{ opacity: 0, height: 0 }}
                     >
                       <div className="flex items-center gap-3 flex-wrap">
                         <span className="text-sm text-default-600 font-medium">
@@ -113,10 +113,10 @@ export const CountryStatsComponent = ({
                           {users.slice(0, 5).map((user, idx) => (
                             <Avatar
                               key={user.id}
-                              src={user.avatar}
                               alt={user.name}
-                              size="sm"
                               className="border-2 border-background z-10"
+                              size="sm"
+                              src={user.avatar}
                               style={{ zIndex: 10 - idx }}
                             />
                           ))}
@@ -134,9 +134,9 @@ export const CountryStatsComponent = ({
                             .map((role) => (
                               <Chip
                                 key={role}
+                                className="text-xs"
                                 size="sm"
                                 variant="dot"
-                                className="text-xs"
                               >
                                 {role}
                               </Chip>

@@ -13,6 +13,7 @@ import {
   Form,
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
+
 import { useAuth } from "@/contexts/auth-context";
 
 interface LoginModalProps {
@@ -61,15 +62,15 @@ export function LoginModal({
 
   return (
     <Modal
-      isOpen={isOpen}
-      onOpenChange={handleClose}
-      placement="center"
       backdrop="blur"
-      size="lg"
       classNames={{
         base: "bg-background",
         backdrop: "bg-black/50 backdrop-blur-sm",
       }}
+      isOpen={isOpen}
+      placement="center"
+      size="lg"
+      onOpenChange={handleClose}
     >
       <ModalContent className="w-full max-w-lg">
         <ModalHeader className="flex flex-col items-center pb-6 pt-8">
@@ -99,51 +100,56 @@ export function LoginModal({
             )}
 
             <Input
-              isRequired
               autoFocus
+              isRequired
+              isInvalid={!!error}
               label="Email Address"
               name="email"
               placeholder="Enter your email"
               type="email"
-              variant="bordered"
               value={email}
+              variant="bordered"
               onValueChange={setEmail}
-              isInvalid={!!error}
             />
             <Input
               isRequired
-              label="Password"
-              name="password"
-              placeholder="Enter your password"
-              type={showPassword ? "text" : "password"}
-              variant="bordered"
-              value={password}
-              onValueChange={setPassword}
-              isInvalid={!!error}
               endContent={
-                <button
+                <Button
+                  isIconOnly
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                  className="text-default-400 hover:text-foreground transition-colors min-w-6 h-6"
+                  size="sm"
                   type="button"
-                  onClick={() => setShowPassword(!showPassword)}
+                  variant="light"
+                  onPress={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
                     <Icon
-                      className="pointer-events-none text-2xl text-default-400"
+                      className="pointer-events-none text-xl text-default-400"
                       icon="solar:eye-closed-linear"
                     />
                   ) : (
                     <Icon
-                      className="pointer-events-none text-2xl text-default-400"
+                      className="pointer-events-none text-xl text-default-400"
                       icon="solar:eye-bold"
                     />
                   )}
-                </button>
+                </Button>
               }
+              isInvalid={!!error}
+              label="Password"
+              name="password"
+              placeholder="Enter your password"
+              type={showPassword ? "text" : "password"}
+              value={password}
+              variant="bordered"
+              onValueChange={setPassword}
             />
             <div className="flex w-full items-center justify-between px-1 py-2">
               <Checkbox
+                isSelected={rememberMe}
                 name="remember"
                 size="sm"
-                isSelected={rememberMe}
                 onValueChange={setRememberMe}
               >
                 Remember me
@@ -155,9 +161,9 @@ export function LoginModal({
             <Button
               className="w-full"
               color="primary"
-              type="submit"
-              isLoading={isLoading}
               isDisabled={!email || !password || isLoading}
+              isLoading={isLoading}
+              type="submit"
             >
               {isLoading ? "Signing in..." : "Sign In"}
             </Button>
@@ -171,20 +177,21 @@ export function LoginModal({
 
           <div className="flex flex-col gap-2">
             <Button
+              fullWidth
               startContent={<Icon icon="flat-color-icons:google" width={20} />}
               variant="bordered"
-              fullWidth
             >
               Continue with Google
             </Button>
             <Button
+              fullWidth
               startContent={<Icon icon="skill-icons:linkedin" width={20} />}
               variant="bordered"
-              fullWidth
             >
               Continue with LinkedIn
             </Button>
             <Button
+              fullWidth
               startContent={
                 <Icon
                   className="text-foreground"
@@ -193,7 +200,6 @@ export function LoginModal({
                 />
               }
               variant="bordered"
-              fullWidth
             >
               Continue with X
             </Button>
@@ -204,9 +210,9 @@ export function LoginModal({
           <p className="text-center text-small">
             Need to create an account?{" "}
             <Link
+              className="cursor-pointer"
               href="#"
               size="sm"
-              className="cursor-pointer"
               onClick={() => {
                 handleClose();
                 onSwitchToRegister();

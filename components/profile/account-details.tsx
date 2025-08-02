@@ -18,6 +18,7 @@ import {
 import { Icon } from "@iconify/react";
 
 import countries from "./countries";
+
 import { useAuth } from "@/contexts/auth-context";
 
 export default function AccountDetails(props: CardProps) {
@@ -34,8 +35,8 @@ export default function AccountDetails(props: CardProps) {
     console.log("Account details update:", data);
 
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     setIsLoading(false);
   };
 
@@ -43,7 +44,11 @@ export default function AccountDetails(props: CardProps) {
     <Card className="max-w-4xl w-full" {...props}>
       <CardHeader className="flex flex-col items-start px-6 pb-0 pt-6">
         <div className="flex items-center gap-3 mb-2">
-          <Icon icon="solar:user-id-linear" className="text-primary" width={24} />
+          <Icon
+            icon="solar:user-id-linear"
+            className="text-primary"
+            width={24}
+          />
           <p className="text-xl font-semibold">Account Details</p>
         </div>
         <div className="flex gap-4 py-4">
@@ -67,9 +72,12 @@ export default function AccountDetails(props: CardProps) {
             placement="bottom-right"
             shape="circle"
           >
-            <Avatar 
-              className="h-16 w-16" 
-              src={user?.avatar || "https://i.pravatar.cc/150?u=a04258114e29026708c"} 
+            <Avatar
+              className="h-16 w-16"
+              src={
+                user?.avatar ||
+                "https://i.pravatar.cc/150?u=a04258114e29026708c"
+              }
             />
           </Badge>
           <div className="flex flex-col items-start justify-center">
@@ -80,8 +88,8 @@ export default function AccountDetails(props: CardProps) {
           </div>
         </div>
         <p className="text-small text-default-400">
-          The photo will be used for your profile, and will be visible to other users of the
-          platform.
+          The photo will be used for your profile, and will be visible to other
+          users of the platform.
         </p>
       </CardHeader>
       <CardBody className="px-6">
@@ -90,66 +98,66 @@ export default function AccountDetails(props: CardProps) {
             {/* Username */}
             <Input
               isRequired
-              name="username"
+              defaultValue={user?.username || ""}
               label="Username"
               labelPlacement="outside"
+              name="username"
               placeholder="Enter username"
-              defaultValue={user?.username || ""}
               startContent={<Icon icon="solar:user-speak-linear" className="text-default-400" />}
             />
-            
+
             {/* Email */}
             <Input
               isRequired
-              name="email"
+              defaultValue={user?.email || ""}
               label="Email"
               labelPlacement="outside"
+              name="email"
               placeholder="Enter email"
-              type="email"
-              defaultValue={user?.email || ""}
               startContent={<Icon icon="solar:letter-linear" className="text-default-400" />}
+              type="email"
             />
-            
+
             {/* First Name */}
             <Input
               isRequired
-              name="firstName"
+              defaultValue=""
               label="First Name"
               labelPlacement="outside"
+              name="firstName"
               placeholder="Enter first name"
-              defaultValue=""
               startContent={<Icon icon="solar:user-linear" className="text-default-400" />}
             />
-            
+
             {/* Last Name */}
             <Input
               isRequired
-              name="lastName"
+              defaultValue=""
               label="Last Name"
               labelPlacement="outside"
+              name="lastName"
               placeholder="Enter last name"
-              defaultValue=""
               startContent={<Icon icon="solar:user-linear" className="text-default-400" />}
             />
-            
+
             {/* Phone Number */}
             <Input
               isRequired
-              name="phone"
+              defaultValue=""
               label="Phone Number"
               labelPlacement="outside"
+              name="phone"
               placeholder="Enter phone number"
-              defaultValue=""
               startContent={<Icon icon="solar:phone-linear" className="text-default-400" />}
             />
-            
+
             {/* Country */}
             <Autocomplete
               isRequired
-              name="country"
               defaultItems={countries}
               label="Country"
               labelPlacement="outside"
+              name="country"
               placeholder="Select country"
               showScrollIndicators={false}
               startContent={<Icon icon="solar:global-linear" className="text-default-400" />}
@@ -169,82 +177,82 @@ export default function AccountDetails(props: CardProps) {
                 </AutocompleteItem>
               )}
             </Autocomplete>
-            
+
             {/* State */}
-            <Input 
-              name="state"
+            <Input
+              defaultValue=""
               label="State/Province" 
               labelPlacement="outside" 
-              placeholder="Enter state or province" 
-              defaultValue=""
+              name="state" 
+              placeholder="Enter state or province"
               startContent={<Icon icon="solar:map-point-linear" className="text-default-400" />}
             />
-            
+
             {/* City */}
             <Input
-              name="city"
+              defaultValue=""
               label="City"
               labelPlacement="outside"
+              name="city"
               placeholder="Enter city"
-              defaultValue=""
               startContent={<Icon icon="solar:buildings-linear" className="text-default-400" />}
             />
-            
+
             {/* Address */}
             <Input
-              name="address"
+              defaultValue=""
               label="Address"
               labelPlacement="outside"
+              name="address"
               placeholder="Enter address"
-              defaultValue=""
               startContent={<Icon icon="solar:map-point-linear" className="text-default-400" />}
             />
-            
+
             {/* Zip Code */}
             <Input
-              name="zipCode"
+              defaultValue=""
               label="Zip Code"
               labelPlacement="outside"
+              name="zipCode"
               placeholder="Enter zip code"
-              defaultValue=""
               startContent={<Icon icon="solar:letter-linear" className="text-default-400" />}
             />
 
             {/* Company */}
             <Input
-              name="company"
+              defaultValue=""
               label="Company"
               labelPlacement="outside"
+              name="company"
               placeholder="Enter company name"
-              defaultValue=""
               startContent={<Icon icon="solar:buildings-3-linear" className="text-default-400" />}
             />
 
             {/* Job Title */}
             <Input
-              name="jobTitle"
+              defaultValue=""
               label="Job Title"
               labelPlacement="outside"
+              name="jobTitle"
               placeholder="Enter job title"
-              defaultValue=""
               startContent={<Icon icon="solar:case-linear" className="text-default-400" />}
             />
           </div>
 
           <div className="mt-8 flex w-full justify-end gap-3">
-            <Button 
+            <Button
               radius="full" 
-              variant="bordered"
               startContent={<Icon icon="solar:close-circle-linear" />}
+              variant="bordered"
             >
               Cancel
             </Button>
-            <Button 
+            <Button
               color="primary" 
-              radius="full" 
-              type="submit"
-              isLoading={isLoading}
+              isLoading={isLoading} 
+              radius="full"
               startContent={!isLoading ? <Icon icon="solar:diskette-linear" /> : undefined}
+              type="submit"
             >
               {isLoading ? "Saving..." : "Save Changes"}
             </Button>

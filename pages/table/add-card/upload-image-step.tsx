@@ -348,11 +348,17 @@ const UploadImageStep: React.FC<UploadImageStepProps> = ({
           <Button
             className="mx-auto w-fit px-8 font-semibold bg-gradient-to-r from-primary to-primary-600 text-white"
             color="primary"
-            size="lg"
+            endContent={
+              !isLoading && (
+                <Icon icon="solar:magic-stick-3-linear" width={18} />
+              )
+            }
             isDisabled={!frontImage || isLoading}
             isLoading={isLoading}
-            startContent={!isLoading && <Icon icon="solar:scanner-linear" width={20} />}
-            endContent={!isLoading && <Icon icon="solar:magic-stick-3-linear" width={18} />}
+            size="lg"
+            startContent={
+              !isLoading && <Icon icon="solar:scanner-linear" width={20} />
+            }
             onPress={handleUpload}
           >
             {isLoading ? "Processing..." : "Extract Information"}

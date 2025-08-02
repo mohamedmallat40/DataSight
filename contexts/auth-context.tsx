@@ -48,6 +48,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         if (token && userSession) {
           const userData = JSON.parse(userSession);
+
           setUser(userData);
         }
       } catch (error) {
@@ -97,6 +98,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       return { success: true };
     } catch (error) {
       console.error("Login error:", error);
+
       return {
         success: false,
         error: "Login failed. Please try again.",
@@ -133,8 +135,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuth() {
   const context = useContext(AuthContext);
+
   if (context === undefined) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
+
   return context;
 }

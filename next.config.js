@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: "export",
+  output: 'standalone', // Enable standalone build for Docker
   eslint: {
     ignoreDuringBuilds: true,
   },
@@ -10,10 +10,10 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  experimental: {
-    esmExternals: 'loose'
-  },
   transpilePackages: ['react-leaflet'],
+  // Standalone output allows proper Docker deployment
+  // Landing page (index.tsx) uses getStaticProps for SEO
+  // Other pages are server-rendered dynamically
 };
 
 module.exports = nextConfig;

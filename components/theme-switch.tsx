@@ -49,8 +49,8 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
   return (
     <Component
       aria-label={
-        (theme === "light" || resolvedTheme === "light") 
-          ? "Switch to dark mode" 
+        theme === "light" || resolvedTheme === "light"
+          ? "Switch to dark mode"
           : "Switch to light mode"
       }
       {...getBaseProps({
@@ -83,7 +83,7 @@ export const ThemeSwitch: FC<ThemeSwitchProps> = ({
           ),
         })}
       >
-        {(theme === "light" || resolvedTheme === "light") ? (
+        {theme === "light" || resolvedTheme === "light" ? (
           <MoonFilledIcon size={22} />
         ) : (
           <SunFilledIcon size={22} />

@@ -18,10 +18,10 @@ const UserCard = ({ user }: { user: User }) => (
     <CardBody className="p-4">
       <div className="flex items-center gap-3">
         <Avatar
-          src={user.avatar}
           alt={user.name}
-          size="md"
           className="flex-shrink-0"
+          size="md"
+          src={user.avatar}
         />
         <div className="flex-1 min-w-0">
           <h4 className="font-semibold text-foreground truncate">
@@ -29,7 +29,7 @@ const UserCard = ({ user }: { user: User }) => (
           </h4>
           <p className="text-sm text-default-500 truncate">{user.email}</p>
           <div className="flex items-center gap-2 mt-1">
-            <Chip size="sm" variant="flat" color="primary" className="text-xs">
+            <Chip className="text-xs" color="primary" size="sm" variant="flat">
               {user.role}
             </Chip>
             <span className="text-xs text-default-400">
@@ -77,6 +77,7 @@ const createCustomIcon = (userCount: number) => {
   try {
     const L = require("leaflet");
     const size = Math.min(Math.max(userCount * 8, 20), 50);
+
     return L.divIcon({
       className: "custom-marker",
       html: `
@@ -102,6 +103,7 @@ const createCustomIcon = (userCount: number) => {
     });
   } catch (error) {
     console.error("Error creating custom icon:", error);
+
     return null;
   }
 };
@@ -152,8 +154,8 @@ const LeafletMapComponent = ({
       <div className="w-full h-[500px] bg-content1 rounded-lg flex items-center justify-center">
         <div className="text-center">
           <Icon
-            icon="solar:danger-triangle-linear"
             className="text-danger mx-auto mb-2"
+            icon="solar:danger-triangle-linear"
             width={48}
           />
           <p className="text-danger">Failed to load map</p>
@@ -168,8 +170,8 @@ const LeafletMapComponent = ({
       <div className="w-full h-[500px] bg-content1 rounded-lg flex items-center justify-center">
         <div className="text-center">
           <Icon
-            icon="solar:map-linear"
             className="text-primary mx-auto mb-2"
+            icon="solar:map-linear"
             width={48}
           />
           <p className="text-default-500">Loading map...</p>
@@ -184,11 +186,11 @@ const LeafletMapComponent = ({
     return (
       <MapContainer
         center={[20, 0]}
-        zoom={2}
-        style={{ height: "500px", width: "100%" }}
         className="rounded-lg z-0"
-        zoomControl={true}
         scrollWheelZoom={true}
+        style={{ height: "500px", width: "100%" }}
+        zoom={2}
+        zoomControl={true}
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -197,17 +199,18 @@ const LeafletMapComponent = ({
 
         {countryStats.map((country) => {
           const icon = createCustomIcon(country.userCount);
+
           if (!icon) return null;
 
           return (
             <Marker
               key={country.country}
-              position={[country.lat, country.lng]}
-              icon={icon}
               eventHandlers={{
                 mouseover: () => onCountryHover(country.country),
                 mouseout: () => onCountryHover(null),
               }}
+              icon={icon}
+              position={[country.lat, country.lng]}
             >
               <Popup>
                 <div className="text-center p-2">
@@ -228,12 +231,13 @@ const LeafletMapComponent = ({
     );
   } catch (error) {
     console.error("Error rendering map:", error);
+
     return (
       <div className="w-full h-[500px] bg-content1 rounded-lg flex items-center justify-center">
         <div className="text-center">
           <Icon
-            icon="solar:danger-triangle-linear"
             className="text-danger mx-auto mb-2"
+            icon="solar:danger-triangle-linear"
             width={48}
           />
           <p className="text-danger">Map rendering error</p>

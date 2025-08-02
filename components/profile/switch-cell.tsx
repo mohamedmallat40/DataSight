@@ -38,7 +38,7 @@ const SwitchCell = React.forwardRef<HTMLInputElement, SwitchCellProps>(
           "inline-flex bg-content2 flex-row-reverse w-full max-w-full items-center",
           "justify-between cursor-pointer rounded-lg gap-2 p-4 border-2 border-transparent",
           "data-[selected=true]:border-primary",
-          classNames?.base
+          classNames?.base,
         ),
         wrapper: cn("p-0 h-4 overflow-visible", classNames?.wrapper),
         thumb: cn(
@@ -47,7 +47,7 @@ const SwitchCell = React.forwardRef<HTMLInputElement, SwitchCellProps>(
           "group-data-[selected=true]:ml-6",
           "group-data-[pressed=true]:w-7",
           "group-data-[selected]:group-data-[pressed]:ml-4",
-          classNames?.thumb
+          classNames?.thumb,
         ),
       }}
       {...props}
@@ -55,16 +55,13 @@ const SwitchCell = React.forwardRef<HTMLInputElement, SwitchCellProps>(
       <div className="flex flex-col gap-1">
         <p className="text-medium">{label}</p>
         <p
-          className={cn(
-            "text-tiny text-default-400",
-            classNames?.description
-          )}
+          className={cn("text-tiny text-default-400", classNames?.description)}
         >
           {description}
         </p>
       </div>
     </CustomSwitch>
-  )
+  ),
 );
 
 SwitchCell.displayName = "SwitchCell";

@@ -20,14 +20,14 @@ export default function MapsPage() {
       <div className="max-w-7xl mx-auto p-6 space-y-8">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-center space-y-4"
+          initial={{ opacity: 0, y: -20 }}
         >
           <div className="flex items-center justify-center gap-2 mb-4">
             <Icon
-              icon="solar:global-linear"
               className="text-primary"
+              icon="solar:global-linear"
               width={32}
             />
             <h1 className="text-3xl font-bold text-foreground">
@@ -70,16 +70,16 @@ export default function MapsPage() {
 
         {/* Interactive Instructions */}
         <motion.div
-          initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
+          initial={{ opacity: 0 }}
           transition={{ delay: 0.3 }}
         >
           <Card className="bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-950/20 dark:to-purple-950/20 border-1 border-primary/20">
             <CardBody className="p-4">
               <div className="flex items-center gap-3">
                 <Icon
-                  icon="solar:info-circle-linear"
                   className="text-primary flex-shrink-0"
+                  icon="solar:info-circle-linear"
                   width={24}
                 />
                 <div className="text-sm">
@@ -108,16 +108,16 @@ export default function MapsPage() {
 
         {/* World Map */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20 }}
           transition={{ delay: 0.4 }}
         >
           <Card className="shadow-lg">
             <CardHeader className="pb-2">
               <div className="flex items-center gap-2">
                 <Icon
-                  icon="solar:map-linear"
                   className="text-primary"
+                  icon="solar:map-linear"
                   width={24}
                 />
                 <h2 className="text-xl font-semibold text-foreground">
@@ -125,10 +125,10 @@ export default function MapsPage() {
                 </h2>
                 {hoveredCountry && (
                   <Chip
-                    color="primary"
-                    variant="flat"
-                    size="sm"
                     className="ml-auto"
+                    color="primary"
+                    size="sm"
+                    variant="flat"
                   >
                     Viewing: {hoveredCountry}
                   </Chip>
@@ -138,8 +138,8 @@ export default function MapsPage() {
             <CardBody className="p-6">
               <WorldMap
                 countryStats={countryStats}
-                onCountryHover={setHoveredCountry}
                 hoveredCountry={hoveredCountry}
+                onCountryHover={setHoveredCountry}
               />
             </CardBody>
           </Card>
@@ -147,8 +147,8 @@ export default function MapsPage() {
 
         {/* Country Statistics */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 20 }}
           transition={{ delay: 0.6 }}
         >
           <Card className="shadow-lg">
@@ -164,16 +164,16 @@ export default function MapsPage() {
 
         {/* Additional Insights */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8 }}
           className="grid md:grid-cols-3 gap-6"
+          initial={{ opacity: 0, y: 20 }}
+          transition={{ delay: 0.8 }}
         >
           <Card className="bg-gradient-to-br from-primary/5 to-transparent">
             <CardBody className="text-center p-6">
               <Icon
-                icon="solar:users-group-rounded-linear"
                 className="text-primary mx-auto mb-3"
+                icon="solar:users-group-rounded-linear"
                 width={32}
               />
               <h3 className="font-semibold text-foreground mb-2">
@@ -189,8 +189,8 @@ export default function MapsPage() {
           <Card className="bg-gradient-to-br from-success/5 to-transparent">
             <CardBody className="text-center p-6">
               <Icon
-                icon="solar:chart-square-linear"
                 className="text-success mx-auto mb-3"
+                icon="solar:chart-square-linear"
                 width={32}
               />
               <h3 className="font-semibold text-foreground mb-2">
@@ -205,8 +205,8 @@ export default function MapsPage() {
           <Card className="bg-gradient-to-br from-secondary/5 to-transparent">
             <CardBody className="text-center p-6">
               <Icon
-                icon="solar:medal-star-linear"
                 className="text-secondary mx-auto mb-3"
+                icon="solar:medal-star-linear"
                 width={32}
               />
               <h3 className="font-semibold text-foreground mb-2">Top Role</h3>

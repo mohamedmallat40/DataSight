@@ -35,9 +35,9 @@ export default function PricingSection() {
     <div className="flex max-w-6xl mx-auto flex-col items-center py-20">
       <div className="flex max-w-2xl flex-col text-center">
         <Chip
-          variant="flat"
-          color="primary"
           className="mb-4 bg-primary/10 text-primary"
+          color="primary"
+          variant="flat"
         >
           Pricing Plans
         </Chip>
@@ -55,9 +55,9 @@ export default function PricingSection() {
         classNames={{
           tab: "data-[hover-unselected=true]:opacity-90",
         }}
+        color="primary"
         radius="full"
         size="lg"
-        color="primary"
         onSelectionChange={onFrequencyChange}
       >
         <Tab
@@ -139,11 +139,11 @@ export default function PricingSection() {
               <Button
                 fullWidth
                 as={Link}
+                className="font-medium h-12"
                 color={tier.buttonColor}
                 href={tier.href}
-                variant={tier.buttonVariant}
                 radius="full"
-                className="font-medium h-12"
+                variant={tier.buttonVariant}
               >
                 {tier.buttonText}
               </Button>

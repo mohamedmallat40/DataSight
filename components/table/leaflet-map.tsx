@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
+
 import { Coordinates } from "@/utils/geocoding";
 
 interface LeafletMapProps {
@@ -32,6 +33,7 @@ const LeafletMap: React.FC<LeafletMapProps> = ({
         // Load Leaflet CSS
         if (!document.querySelector('link[href*="leaflet.css"]')) {
           const link = document.createElement("link");
+
           link.rel = "stylesheet";
           link.href = "https://unpkg.com/leaflet@1.9.4/dist/leaflet.css";
           link.integrity =
@@ -186,13 +188,13 @@ const LeafletMap: React.FC<LeafletMapProps> = ({
   return (
     <div
       ref={mapRef}
+      className="relative"
       style={{
         width: "100%",
         height,
         borderRadius: "8px",
         overflow: "hidden",
       }}
-      className="relative"
     />
   );
 };

@@ -1,4 +1,5 @@
 import React from "react";
+
 import { ReachabilityChip } from "./reachability-chip";
 import { WebsitePreview } from "./website-preview";
 
@@ -23,10 +24,10 @@ export const ReachabilityChipEnhanced: React.FC<
 }) => {
   const reachabilityChip = (
     <ReachabilityChip
-      type={type}
-      value={value}
       className={className}
       size={size}
+      type={type}
+      value={value}
       variant={variant}
     />
   );
@@ -34,7 +35,7 @@ export const ReachabilityChipEnhanced: React.FC<
   // Only wrap website chips with preview functionality
   if (type === "website" && enablePreview && value?.trim()) {
     return (
-      <WebsitePreview url={value} className={className}>
+      <WebsitePreview className={className} url={value}>
         {reachabilityChip}
       </WebsitePreview>
     );

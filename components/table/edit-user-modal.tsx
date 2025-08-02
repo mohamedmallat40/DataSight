@@ -1,3 +1,5 @@
+import type { Users } from "../../types/data";
+
 import React, { useState, useEffect, useCallback } from "react";
 import {
   Modal,
@@ -10,16 +12,9 @@ import {
   Textarea,
   Select,
   SelectItem,
-  Chip,
-  Card,
-  CardBody,
   addToast,
-  Divider,
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import { cn } from "@heroui/react";
-
-import type { Users } from "../../types/data";
 
 import apiClient from "@/config/api";
 
@@ -93,6 +88,7 @@ export default function EditUserModal({
         .split(",")
         .map((item) => item.trim())
         .filter((item) => item.length > 0);
+
       setFormData({
         ...formData,
         [field]: arrayValue.length > 0 ? arrayValue : [""],

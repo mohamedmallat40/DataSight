@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Chip, Tooltip } from "@heroui/react";
 import { Icon } from "@iconify/react";
+
 import {
   ReachabilityStatus,
   ReachabilityResult,
@@ -37,6 +38,7 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
       try {
         // Add a small delay for staggered animation effect
         const delay = Math.random() * 200;
+
         await new Promise((resolve) => setTimeout(resolve, delay));
 
         const result =
@@ -111,6 +113,7 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
         size: size === "sm" ? ("sm" as const) : size,
       };
     }
+
     return {
       className: `${className} ${baseAnimation} shadow-sm`,
       variant: "flat" as const,
@@ -153,7 +156,6 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
         className={chipStyling.className}
         color={color}
         size={chipStyling.size}
-        variant={chipStyling.variant}
         startContent={
           reachability.status !== "checking" ? (
             <Icon className="w-2.5 h-2.5" icon={icon} />
@@ -161,6 +163,7 @@ export const ReachabilityChip: React.FC<ReachabilityChipProps> = ({
             <Icon className="w-2.5 h-2.5 animate-spin" icon={icon} />
           )
         }
+        variant={chipStyling.variant}
       >
         {text && variant === "bold" && (
           <span className="text-xs font-medium">{text}</span>

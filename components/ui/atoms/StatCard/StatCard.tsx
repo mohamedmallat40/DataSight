@@ -1,4 +1,4 @@
-import { Card, CardBody, CardHeader } from "@heroui/card";
+import { Card, CardBody } from "@heroui/card";
 import { Icon } from "@iconify/react";
 import { motion } from "framer-motion";
 
@@ -26,17 +26,17 @@ export function StatCard({
 }: StatCardProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      whileHover={{ scale: 1.02 }}
+      initial={{ opacity: 0, y: 20 }}
       transition={{ duration: 0.2 }}
+      whileHover={{ scale: 1.02 }}
     >
       <Card className={`bg-gradient-to-r ${gradient} ${className}`}>
         <CardBody className="text-center py-4 px-6">
           {icon && (
             <Icon
-              icon={icon}
               className="text-primary mx-auto mb-2"
+              icon={icon}
               width={24}
             />
           )}

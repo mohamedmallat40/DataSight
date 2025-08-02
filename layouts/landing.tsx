@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { Icon } from "@iconify/react";
 
 import { Head } from "./head";
+
 import { LandingNavbar } from "@/components/landing-navbar";
 
 interface LandingLayoutProps {
@@ -46,8 +47,8 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
                 <div className="flex items-center gap-2">
                   <Icon icon="solar:letter-linear" width={16} />
                   <a
-                    href="mailto:mo.mallat@perla-it.com"
                     className="hover:text-orange-400 transition-colors"
+                    href="mailto:mo.mallat@perla-it.com"
                   >
                     mo.mallat@perla-it.com
                   </a>
@@ -55,8 +56,8 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
                 <div className="flex items-center gap-2">
                   <Icon icon="solar:calendar-linear" width={16} />
                   <a
-                    href="https://calendly.com/perla-ci"
                     className="hover:text-orange-400 transition-colors"
+                    href="https://calendly.com/perla-ci"
                   >
                     Schedule Meeting
                   </a>
@@ -64,26 +65,26 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
               </div>
               <div className="flex gap-3">
                 <a
-                  href="#"
                   className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-orange-600 transition-colors"
+                  href="#"
                 >
                   <Icon icon="solar:facebook-linear" width={16} />
                 </a>
                 <a
-                  href="#"
                   className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-orange-600 transition-colors"
+                  href="#"
                 >
                   <Icon icon="solar:twitter-linear" width={16} />
                 </a>
                 <a
-                  href="#"
                   className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-orange-600 transition-colors"
+                  href="#"
                 >
                   <Icon icon="solar:linkedin-linear" width={16} />
                 </a>
                 <a
-                  href="#"
                   className="w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center hover:bg-orange-600 transition-colors"
+                  href="#"
                 >
                   <Icon icon="solar:github-linear" width={16} />
                 </a>
@@ -95,22 +96,22 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
               <h4 className="font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2 text-sm text-gray-400">
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a className="hover:text-white transition-colors" href="#">
                     Home
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a className="hover:text-white transition-colors" href="#">
                     Features
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a className="hover:text-white transition-colors" href="#">
                     About Us
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a className="hover:text-white transition-colors" href="#">
                     Contact
                   </a>
                 </li>
@@ -122,22 +123,22 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
               <h4 className="font-semibold mb-4">Support</h4>
               <ul className="space-y-2 text-sm text-gray-400">
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a className="hover:text-white transition-colors" href="#">
                     Help Center
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a className="hover:text-white transition-colors" href="#">
                     Documentation
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a className="hover:text-white transition-colors" href="#">
                     Privacy Policy
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-white transition-colors">
+                  <a className="hover:text-white transition-colors" href="#">
                     Terms of Service
                   </a>
                 </li>
@@ -151,8 +152,8 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
                 <div className="flex items-center gap-2">
                   <Icon icon="solar:letter-linear" width={16} />
                   <a
-                    href="mailto:mo.mallat@perla-it.com"
                     className="hover:text-orange-400 transition-colors"
+                    href="mailto:mo.mallat@perla-it.com"
                   >
                     mo.mallat@perla-it.com
                   </a>
@@ -160,17 +161,17 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
                 <div className="flex items-center gap-2">
                   <Icon icon="solar:calendar-linear" width={16} />
                   <a
-                    href="https://calendly.com/perla-ci"
                     className="hover:text-orange-400 transition-colors"
+                    href="https://calendly.com/perla-ci"
                   >
                     Schedule Meeting
                   </a>
                 </div>
                 <div className="flex items-start gap-2">
                   <Icon
+                    className="mt-0.5"
                     icon="solar:location-linear"
                     width={16}
-                    className="mt-0.5"
                   />
                   <div>
                     AV Hedi Khfacha 2023
@@ -191,22 +192,22 @@ export default function LandingLayout({ children }: LandingLayoutProps) {
             </p>
             <div className="flex items-center gap-4 text-sm text-gray-400">
               <a
-                href="#"
                 className="hover:text-white transition-colors flex items-center gap-1"
+                href="#"
               >
                 <Icon icon="solar:shield-check-linear" width={14} />
                 Privacy
               </a>
               <a
-                href="#"
                 className="hover:text-white transition-colors flex items-center gap-1"
+                href="#"
               >
                 <Icon icon="solar:document-text-linear" width={14} />
                 Terms
               </a>
               <a
-                href="#"
                 className="hover:text-white transition-colors flex items-center gap-1"
+                href="#"
               >
                 <Icon icon="solar:settings-linear" width={14} />
                 Cookies

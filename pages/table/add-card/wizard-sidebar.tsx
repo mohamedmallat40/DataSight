@@ -1,6 +1,5 @@
 import React, { HTMLAttributes } from "react";
-import { Button, cn } from "@heroui/react";
-import { Icon } from "@iconify/react";
+import { cn } from "@heroui/react";
 
 import VerticalSteps from "./vertical-step";
 import RowSteps from "./row-steps";

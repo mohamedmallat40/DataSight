@@ -1,5 +1,5 @@
 import { Button } from "@heroui/button";
-import { Tooltip, Chip } from "@heroui/react";
+import { Tooltip } from "@heroui/react";
 import React, { memo, useState } from "react";
 import { Icon } from "@iconify/react";
 import { cn } from "@heroui/react";
@@ -163,8 +163,8 @@ export const PhoneList = memo(
             </div>
             <div className="flex items-center">
               <CallButton phone={phone} />
-              <WhatsAppButton phone={phone} className="-ml-1" />
-              <CopyButton text={phone} className="-ml-1" />
+              <WhatsAppButton className="-ml-1" phone={phone} />
+              <CopyButton className="-ml-1" text={phone} />
             </div>
           </div>
         ))}

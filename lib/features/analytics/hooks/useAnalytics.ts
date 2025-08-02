@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+
 import { GeographicData, User } from "../types";
 import { analyticsService } from "../services/analytics.service";
 
@@ -16,6 +17,7 @@ export function useAnalytics() {
       setLoading(true);
       setError(null);
       const analyticsData = await analyticsService.getGeographicData();
+
       setData(analyticsData);
     } catch (err) {
       setError(
@@ -41,6 +43,7 @@ export function useCountryUsers(countryCode: string | null) {
   useEffect(() => {
     if (!countryCode) {
       setUsers([]);
+
       return;
     }
 
@@ -49,6 +52,7 @@ export function useCountryUsers(countryCode: string | null) {
         setLoading(true);
         const countryUsers =
           await analyticsService.getUsersByCountry(countryCode);
+
         setUsers(countryUsers);
       } catch (error) {
         console.error("Failed to load country users:", error);

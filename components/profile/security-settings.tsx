@@ -25,14 +25,26 @@ import CellWrapper from "./cell-wrapper";
 
 export default function SecuritySettings(props: CardProps) {
   const [isLoading, setIsLoading] = useState(false);
-  const { isOpen: isPasswordModalOpen, onOpen: onPasswordModalOpen, onOpenChange: onPasswordModalOpenChange } = useDisclosure();
-  const { isOpen: is2FAModalOpen, onOpen: on2FAModalOpen, onOpenChange: on2FAModalOpenChange } = useDisclosure();
-  const { isOpen: isDeleteModalOpen, onOpen: onDeleteModalOpen, onOpenChange: onDeleteModalOpenChange } = useDisclosure();
+  const {
+    isOpen: isPasswordModalOpen,
+    onOpen: onPasswordModalOpen,
+    onOpenChange: onPasswordModalOpenChange,
+  } = useDisclosure();
+  const {
+    isOpen: is2FAModalOpen,
+    onOpen: on2FAModalOpen,
+    onOpenChange: on2FAModalOpenChange,
+  } = useDisclosure();
+  const {
+    isOpen: isDeleteModalOpen,
+    onOpen: onDeleteModalOpen,
+    onOpenChange: onDeleteModalOpenChange,
+  } = useDisclosure();
 
   const handleChangePassword = async () => {
     setIsLoading(true);
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     setIsLoading(false);
     onPasswordModalOpenChange();
   };
@@ -40,7 +52,7 @@ export default function SecuritySettings(props: CardProps) {
   const handleSetup2FA = async () => {
     setIsLoading(true);
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     setIsLoading(false);
     on2FAModalOpenChange();
   };
@@ -48,7 +60,7 @@ export default function SecuritySettings(props: CardProps) {
   const handleDeleteAccount = async () => {
     setIsLoading(true);
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise((resolve) => setTimeout(resolve, 3000));
     setIsLoading(false);
     onDeleteModalOpenChange();
   };
@@ -58,7 +70,11 @@ export default function SecuritySettings(props: CardProps) {
       <Card className="w-full max-w-4xl" {...props}>
         <CardHeader className="flex flex-col items-start px-6 pb-0 pt-6">
           <div className="flex items-center gap-3 mb-2">
-            <Icon icon="solar:shield-check-linear" className="text-primary" width={24} />
+            <Icon
+              className="text-primary"
+              icon="solar:shield-check-linear"
+              width={24}
+            />
             <p className="text-xl font-semibold">Security Settings</p>
           </div>
           <p className="text-small text-default-500">
@@ -70,7 +86,11 @@ export default function SecuritySettings(props: CardProps) {
           {/* Account Security */}
           <div>
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <Icon icon="solar:key-linear" className="text-primary" width={20} />
+              <Icon
+                className="text-primary"
+                icon="solar:key-linear"
+                width={20}
+              />
               Account Security
             </h3>
             <div className="space-y-4">
@@ -85,15 +105,15 @@ export default function SecuritySettings(props: CardProps) {
                 <div className="flex w-full flex-wrap items-center justify-end gap-6 sm:w-auto sm:flex-nowrap">
                   <div className="flex flex-col items-end">
                     <p className="font-medium">john.doe@mail.com</p>
-                    <Chip color="success" variant="flat" size="sm">
+                    <Chip color="success" size="sm" variant="flat">
                       Verified
                     </Chip>
                   </div>
                   <Button
                     endContent={<Icon icon="solar:pen-2-linear" />}
                     radius="full"
-                    variant="bordered"
                     size="sm"
+                    variant="bordered"
                   >
                     Edit
                   </Button>
@@ -108,12 +128,12 @@ export default function SecuritySettings(props: CardProps) {
                     Set a unique password to protect your account.
                   </p>
                 </div>
-                <Button 
-                  radius="full" 
-                  variant="bordered"
+                <Button
+                  radius="full"
                   size="sm"
-                  onPress={onPasswordModalOpen}
                   startContent={<Icon icon="solar:lock-password-linear" />}
+                  variant="bordered"
+                  onPress={onPasswordModalOpen}
                 >
                   Change
                 </Button>
@@ -128,16 +148,16 @@ export default function SecuritySettings(props: CardProps) {
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <Chip color="warning" variant="flat" size="sm">
+                  <Chip color="warning" size="sm" variant="flat">
                     Not Enabled
                   </Chip>
                   <Button
                     color="primary"
                     radius="full"
-                    variant="bordered"
                     size="sm"
-                    onPress={on2FAModalOpen}
                     startContent={<Icon icon="solar:shield-plus-linear" />}
+                    variant="bordered"
+                    onPress={on2FAModalOpen}
                   >
                     Enable
                   </Button>
@@ -151,31 +171,35 @@ export default function SecuritySettings(props: CardProps) {
           {/* Security Preferences */}
           <div>
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <Icon icon="solar:settings-linear" className="text-primary" width={20} />
+              <Icon
+                className="text-primary"
+                icon="solar:settings-linear"
+                width={20}
+              />
               Security Preferences
             </h3>
             <div className="space-y-4">
               <SwitchCell
                 defaultSelected
-                label="Password Reset Protection"
                 description="Require additional verification to reset your password"
+                label="Password Reset Protection"
               />
 
               <SwitchCell
                 defaultSelected
-                label="Login Notifications"
                 description="Get notified via email when someone logs into your account"
+                label="Login Notifications"
               />
 
               <SwitchCell
-                label="Require PIN for Sensitive Actions"
                 description="Require a PIN to access sensitive account functions"
+                label="Require PIN for Sensitive Actions"
               />
 
               <SwitchCell
                 defaultSelected
-                label="Session Timeout"
                 description="Automatically log out after 30 minutes of inactivity"
+                label="Session Timeout"
               />
             </div>
           </div>
@@ -185,24 +209,28 @@ export default function SecuritySettings(props: CardProps) {
           {/* Privacy Settings */}
           <div>
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <Icon icon="solar:eye-closed-linear" className="text-primary" width={20} />
+              <Icon
+                className="text-primary"
+                icon="solar:eye-closed-linear"
+                width={20}
+              />
               Privacy Settings
             </h3>
             <div className="space-y-4">
               <SwitchCell
-                label="Profile Visibility"
                 description="Make your profile visible to other users in the organization"
+                label="Profile Visibility"
               />
 
               <SwitchCell
                 defaultSelected
-                label="Activity Status"
                 description="Show when you were last active"
+                label="Activity Status"
               />
 
               <SwitchCell
-                label="Data Analytics"
                 description="Allow anonymous usage data to be collected for analytics"
+                label="Data Analytics"
               />
 
               <CellWrapper>
@@ -213,9 +241,9 @@ export default function SecuritySettings(props: CardProps) {
                   </p>
                 </div>
                 <Button
-                  variant="bordered"
                   size="sm"
                   startContent={<Icon icon="solar:download-linear" />}
+                  variant="bordered"
                 >
                   Export Data
                 </Button>
@@ -228,13 +256,21 @@ export default function SecuritySettings(props: CardProps) {
           {/* Active Sessions */}
           <div>
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <Icon icon="solar:monitor-linear" className="text-primary" width={20} />
+              <Icon
+                className="text-primary"
+                icon="solar:monitor-linear"
+                width={20}
+              />
               Active Sessions
             </h3>
             <div className="space-y-3">
               <CellWrapper className="bg-success/5 border-1 border-success/20">
                 <div className="flex items-center gap-3">
-                  <Icon icon="solar:laptop-linear" className="text-success" width={20} />
+                  <Icon
+                    className="text-success"
+                    icon="solar:laptop-linear"
+                    width={20}
+                  />
                   <div>
                     <p className="font-medium">Current Session</p>
                     <p className="text-small text-default-500">
@@ -242,14 +278,18 @@ export default function SecuritySettings(props: CardProps) {
                     </p>
                   </div>
                 </div>
-                <Chip color="success" variant="flat" size="sm">
+                <Chip color="success" size="sm" variant="flat">
                   Active Now
                 </Chip>
               </CellWrapper>
 
               <CellWrapper>
                 <div className="flex items-center gap-3">
-                  <Icon icon="solar:phone-linear" className="text-default-400" width={20} />
+                  <Icon
+                    className="text-default-400"
+                    icon="solar:phone-linear"
+                    width={20}
+                  />
                   <div>
                     <p className="font-medium">Mobile App</p>
                     <p className="text-small text-default-500">
@@ -259,9 +299,9 @@ export default function SecuritySettings(props: CardProps) {
                 </div>
                 <Button
                   color="danger"
-                  variant="light"
                   size="sm"
                   startContent={<Icon icon="solar:logout-2-linear" />}
+                  variant="light"
                 >
                   Sign Out
                 </Button>
@@ -269,9 +309,9 @@ export default function SecuritySettings(props: CardProps) {
 
               <Button
                 color="danger"
-                variant="bordered"
                 size="sm"
                 startContent={<Icon icon="solar:logout-3-linear" />}
+                variant="bordered"
               >
                 Sign Out All Devices
               </Button>
@@ -283,7 +323,11 @@ export default function SecuritySettings(props: CardProps) {
           {/* Danger Zone */}
           <div>
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2 text-danger">
-              <Icon icon="solar:danger-linear" className="text-danger" width={20} />
+              <Icon
+                className="text-danger"
+                icon="solar:danger-linear"
+                width={20}
+              />
               Danger Zone
             </h3>
             <div className="space-y-4">
@@ -291,15 +335,16 @@ export default function SecuritySettings(props: CardProps) {
                 <div>
                   <p className="font-medium">Deactivate Account</p>
                   <p className="text-small text-default-500">
-                    Temporarily deactivate your account. You can reactivate it later.
+                    Temporarily deactivate your account. You can reactivate it
+                    later.
                   </p>
                 </div>
-                <Button 
+                <Button
                   color="warning"
-                  radius="full" 
-                  variant="bordered"
+                  radius="full"
                   size="sm"
                   startContent={<Icon icon="solar:pause-linear" />}
+                  variant="bordered"
                 >
                   Deactivate
                 </Button>
@@ -312,13 +357,13 @@ export default function SecuritySettings(props: CardProps) {
                     Permanently delete your account and all associated data.
                   </p>
                 </div>
-                <Button 
-                  color="danger" 
-                  radius="full" 
-                  variant="flat"
+                <Button
+                  color="danger"
+                  radius="full"
                   size="sm"
-                  onPress={onDeleteModalOpen}
                   startContent={<Icon icon="solar:trash-bin-trash-linear" />}
+                  variant="flat"
+                  onPress={onDeleteModalOpen}
                 >
                   Delete
                 </Button>
@@ -329,39 +374,62 @@ export default function SecuritySettings(props: CardProps) {
       </Card>
 
       {/* Change Password Modal */}
-      <Modal isOpen={isPasswordModalOpen} onOpenChange={onPasswordModalOpenChange}>
+      <Modal
+        isOpen={isPasswordModalOpen}
+        onOpenChange={onPasswordModalOpenChange}
+      >
         <ModalContent>
           {(onClose) => (
             <>
               <ModalHeader className="flex flex-col gap-1">
                 <div className="flex items-center gap-2">
-                  <Icon icon="solar:lock-password-linear" className="text-primary" width={20} />
+                  <Icon
+                    className="text-primary"
+                    icon="solar:lock-password-linear"
+                    width={20}
+                  />
                   <span>Change Password</span>
                 </div>
               </ModalHeader>
               <ModalBody>
                 <div className="space-y-4">
                   <Input
-                    type="password"
                     label="Current Password"
                     placeholder="Enter your current password"
-                    startContent={<Icon icon="solar:lock-linear" className="text-default-400" />}
+                    startContent={
+                      <Icon
+                        className="text-default-400"
+                        icon="solar:lock-linear"
+                      />
+                    }
+                    type="password"
                   />
                   <Input
-                    type="password"
                     label="New Password"
                     placeholder="Enter your new password"
-                    startContent={<Icon icon="solar:lock-password-linear" className="text-default-400" />}
+                    startContent={
+                      <Icon
+                        className="text-default-400"
+                        icon="solar:lock-password-linear"
+                      />
+                    }
+                    type="password"
                   />
                   <Input
-                    type="password"
                     label="Confirm New Password"
                     placeholder="Confirm your new password"
-                    startContent={<Icon icon="solar:lock-password-linear" className="text-default-400" />}
+                    startContent={
+                      <Icon
+                        className="text-default-400"
+                        icon="solar:lock-password-linear"
+                      />
+                    }
+                    type="password"
                   />
                 </div>
                 <p className="text-small text-default-500">
-                  Password must be at least 8 characters long and include uppercase, lowercase, numbers, and special characters.
+                  Password must be at least 8 characters long and include
+                  uppercase, lowercase, numbers, and special characters.
                 </p>
               </ModalBody>
               <ModalFooter>
@@ -388,31 +456,49 @@ export default function SecuritySettings(props: CardProps) {
             <>
               <ModalHeader className="flex flex-col gap-1">
                 <div className="flex items-center gap-2">
-                  <Icon icon="solar:shield-plus-linear" className="text-primary" width={20} />
+                  <Icon
+                    className="text-primary"
+                    icon="solar:shield-plus-linear"
+                    width={20}
+                  />
                   <span>Enable Two-Factor Authentication</span>
                 </div>
               </ModalHeader>
               <ModalBody>
                 <div className="text-center space-y-4">
                   <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-primary/10 mx-auto">
-                    <Icon icon="solar:smartphone-linear" className="text-primary" width={32} />
+                    <Icon
+                      className="text-primary"
+                      icon="solar:smartphone-linear"
+                      width={32}
+                    />
                   </div>
                   <div>
                     <h3 className="font-semibold mb-2">Scan QR Code</h3>
                     <p className="text-small text-default-500">
-                      Use your authenticator app to scan this QR code and enter the verification code below.
+                      Use your authenticator app to scan this QR code and enter
+                      the verification code below.
                     </p>
                   </div>
                   <div className="bg-default-100 p-4 rounded-lg">
                     <div className="w-32 h-32 bg-default-200 rounded-lg mx-auto flex items-center justify-center">
-                      <Icon icon="solar:qr-code-linear" width={64} className="text-default-400" />
+                      <Icon
+                        className="text-default-400"
+                        icon="solar:qr-code-linear"
+                        width={64}
+                      />
                     </div>
                   </div>
                   <Input
                     label="Verification Code"
-                    placeholder="Enter 6-digit code"
                     maxLength={6}
-                    startContent={<Icon icon="solar:password-linear" className="text-default-400" />}
+                    placeholder="Enter 6-digit code"
+                    startContent={
+                      <Icon
+                        className="text-default-400"
+                        icon="solar:password-linear"
+                      />
+                    }
                   />
                 </div>
               </ModalBody>
@@ -440,17 +526,24 @@ export default function SecuritySettings(props: CardProps) {
             <>
               <ModalHeader className="flex flex-col gap-1">
                 <div className="flex items-center gap-2">
-                  <Icon icon="solar:danger-linear" className="text-danger" width={20} />
+                  <Icon
+                    className="text-danger"
+                    icon="solar:danger-linear"
+                    width={20}
+                  />
                   <span>Delete Account</span>
                 </div>
               </ModalHeader>
               <ModalBody>
                 <div className="space-y-4">
                   <p className="text-foreground">
-                    Are you sure you want to delete your account? This action cannot be undone.
+                    Are you sure you want to delete your account? This action
+                    cannot be undone.
                   </p>
                   <div className="bg-danger/10 border border-danger/20 rounded-lg p-4">
-                    <h4 className="font-semibold text-danger mb-2">This will permanently:</h4>
+                    <h4 className="font-semibold text-danger mb-2">
+                      This will permanently:
+                    </h4>
                     <ul className="text-small text-danger space-y-1">
                       <li>• Delete all your contacts and data</li>
                       <li>• Cancel your active subscription</li>
@@ -459,10 +552,10 @@ export default function SecuritySettings(props: CardProps) {
                     </ul>
                   </div>
                   <Input
+                    color="danger"
                     label="Type 'DELETE' to confirm"
                     placeholder="DELETE"
                     variant="bordered"
-                    color="danger"
                   />
                 </div>
               </ModalBody>

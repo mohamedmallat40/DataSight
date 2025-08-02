@@ -42,10 +42,10 @@ export default function NotificationsSettings(props: CardProps) {
 
   const handleSaveSettings = async () => {
     setIsLoading(true);
-    
+
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+
     console.log("Notification settings saved");
     setIsLoading(false);
   };
@@ -59,7 +59,7 @@ export default function NotificationsSettings(props: CardProps) {
     <Card className="w-full max-w-4xl" {...props}>
       <CardHeader className="flex flex-col items-start px-6 pb-0 pt-6">
         <div className="flex items-center gap-3 mb-2">
-          <Icon icon="solar:bell-linear" className="text-primary" width={24} />
+          <Icon className="text-primary" icon="solar:bell-linear" width={24} />
           <p className="text-xl font-semibold">Notification Settings</p>
         </div>
         <p className="text-small text-default-500">
@@ -71,19 +71,23 @@ export default function NotificationsSettings(props: CardProps) {
         {/* Global Controls */}
         <div>
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <Icon icon="solar:settings-linear" className="text-primary" width={20} />
+            <Icon
+              className="text-primary"
+              icon="solar:settings-linear"
+              width={20}
+            />
             Global Controls
           </h3>
           <div className="space-y-4">
-            <SwitchCell 
-              label="Pause All Notifications" 
+            <SwitchCell
               description="Temporarily disable all notifications across all channels"
+              label="Pause All Notifications"
             />
-            
+
             <SwitchCell
               defaultSelected
-              label="Do Not Disturb Mode"
               description="Pause notifications during your working hours (9 AM - 6 PM)"
+              label="Do Not Disturb Mode"
             />
 
             <CellWrapper>
@@ -96,7 +100,9 @@ export default function NotificationsSettings(props: CardProps) {
               <Select
                 className="max-w-xs"
                 selectedKeys={[digestTime]}
-                onSelectionChange={(keys) => setDigestTime(Array.from(keys)[0] as string)}
+                onSelectionChange={(keys) =>
+                  setDigestTime(Array.from(keys)[0] as string)
+                }
               >
                 {notificationTimes.map((time) => (
                   <SelectItem key={time.value} value={time.value}>
@@ -113,31 +119,35 @@ export default function NotificationsSettings(props: CardProps) {
         {/* Contact Management */}
         <div>
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <Icon icon="solar:users-group-rounded-linear" className="text-primary" width={20} />
+            <Icon
+              className="text-primary"
+              icon="solar:users-group-rounded-linear"
+              width={20}
+            />
             Contact Management
           </h3>
           <div className="space-y-4">
             <SwitchCell
               defaultSelected
-              label="New Contact Added" 
               description="Get notified when a new contact is added to your database"
-            />
-            
-            <SwitchCell
-              defaultSelected
-              label="Contact Updates"
-              description="Get notified when contact information is modified"
-            />
-            
-            <SwitchCell
-              label="Bulk Operations"
-              description="Get notified about the completion of bulk import/export operations"
+              label="New Contact Added"
             />
 
             <SwitchCell
               defaultSelected
-              label="Data Quality Alerts"
+              description="Get notified when contact information is modified"
+              label="Contact Updates"
+            />
+
+            <SwitchCell
+              description="Get notified about the completion of bulk import/export operations"
+              label="Bulk Operations"
+            />
+
+            <SwitchCell
+              defaultSelected
               description="Get notified about potential duplicate contacts or data inconsistencies"
+              label="Data Quality Alerts"
             />
           </div>
         </div>
@@ -147,31 +157,35 @@ export default function NotificationsSettings(props: CardProps) {
         {/* System & Security */}
         <div>
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <Icon icon="solar:shield-check-linear" className="text-primary" width={20} />
+            <Icon
+              className="text-primary"
+              icon="solar:shield-check-linear"
+              width={20}
+            />
             System & Security
           </h3>
           <div className="space-y-4">
             <SwitchCell
               defaultSelected
-              label="Login Alerts"
               description="Get notified when someone logs into your account"
-            />
-            
-            <SwitchCell
-              defaultSelected
-              label="Security Updates"
-              description="Get notified about important security updates and patches"
-            />
-            
-            <SwitchCell
-              label="System Maintenance"
-              description="Get notified about scheduled maintenance and downtime"
+              label="Login Alerts"
             />
 
             <SwitchCell
               defaultSelected
-              label="Unusual Activity"
+              description="Get notified about important security updates and patches"
+              label="Security Updates"
+            />
+
+            <SwitchCell
+              description="Get notified about scheduled maintenance and downtime"
+              label="System Maintenance"
+            />
+
+            <SwitchCell
+              defaultSelected
               description="Get notified about suspicious or unusual account activity"
+              label="Unusual Activity"
             />
           </div>
         </div>
@@ -181,31 +195,35 @@ export default function NotificationsSettings(props: CardProps) {
         {/* Subscription & Billing */}
         <div>
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <Icon icon="solar:crown-linear" className="text-primary" width={20} />
+            <Icon
+              className="text-primary"
+              icon="solar:crown-linear"
+              width={20}
+            />
             Subscription & Billing
           </h3>
           <div className="space-y-4">
             <SwitchCell
               defaultSelected
-              label="Payment Notifications"
               description="Get notified about successful payments and billing issues"
-            />
-            
-            <SwitchCell
-              defaultSelected
-              label="Usage Limits"
-              description="Get notified when you're approaching your plan limits"
-            />
-            
-            <SwitchCell
-              label="Plan Recommendations"
-              description="Get suggestions about plan upgrades based on your usage"
+              label="Payment Notifications"
             />
 
             <SwitchCell
               defaultSelected
-              label="Renewal Reminders"
+              description="Get notified when you're approaching your plan limits"
+              label="Usage Limits"
+            />
+
+            <SwitchCell
+              description="Get suggestions about plan upgrades based on your usage"
+              label="Plan Recommendations"
+            />
+
+            <SwitchCell
+              defaultSelected
               description="Get reminded before your subscription renews"
+              label="Renewal Reminders"
             />
           </div>
         </div>
@@ -215,7 +233,11 @@ export default function NotificationsSettings(props: CardProps) {
         {/* Communication Channels */}
         <div>
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <Icon icon="solar:letter-linear" className="text-primary" width={20} />
+            <Icon
+              className="text-primary"
+              icon="solar:letter-linear"
+              width={20}
+            />
             Communication Channels
           </h3>
           <div className="space-y-4">
@@ -227,13 +249,15 @@ export default function NotificationsSettings(props: CardProps) {
                 </p>
               </div>
               <div className="flex items-center gap-2">
-                <Chip color="success" variant="flat" size="sm">
+                <Chip color="success" size="sm" variant="flat">
                   Verified
                 </Chip>
                 <Select
                   className="max-w-xs"
                   selectedKeys={[emailSettings]}
-                  onSelectionChange={(keys) => setEmailSettings(Array.from(keys)[0] as string)}
+                  onSelectionChange={(keys) =>
+                    setEmailSettings(Array.from(keys)[0] as string)
+                  }
                 >
                   {emailFrequency.map((freq) => (
                     <SelectItem key={freq.value} value={freq.value}>
@@ -246,13 +270,13 @@ export default function NotificationsSettings(props: CardProps) {
 
             <SwitchCell
               defaultSelected
-              label="Browser Notifications"
               description="Show desktop notifications when the app is open"
+              label="Browser Notifications"
             />
 
             <SwitchCell
-              label="Push Notifications"
               description="Receive notifications on your mobile device (requires mobile app)"
+              label="Push Notifications"
             />
 
             <CellWrapper>
@@ -263,9 +287,9 @@ export default function NotificationsSettings(props: CardProps) {
                 </p>
               </div>
               <Button
-                variant="bordered"
                 size="sm"
                 startContent={<Icon icon="solar:phone-linear" />}
+                variant="bordered"
               >
                 Add Phone
               </Button>
@@ -278,19 +302,23 @@ export default function NotificationsSettings(props: CardProps) {
         {/* Advanced Settings */}
         <div>
           <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-            <Icon icon="solar:settings-2-linear" className="text-primary" width={20} />
+            <Icon
+              className="text-primary"
+              icon="solar:settings-2-linear"
+              width={20}
+            />
             Advanced Settings
           </h3>
           <div className="space-y-4">
             <SwitchCell
-              label="Notification Sound"
               description="Play a sound when receiving notifications"
+              label="Notification Sound"
             />
 
             <SwitchCell
               defaultSelected
-              label="Smart Grouping"
               description="Group related notifications together to reduce noise"
+              label="Smart Grouping"
             />
 
             <CellWrapper>
@@ -301,9 +329,9 @@ export default function NotificationsSettings(props: CardProps) {
                 </p>
               </div>
               <Button
-                variant="bordered"
                 size="sm"
                 startContent={<Icon icon="solar:eye-linear" />}
+                variant="bordered"
               >
                 View History
               </Button>
@@ -317,9 +345,9 @@ export default function NotificationsSettings(props: CardProps) {
                 </p>
               </div>
               <Button
-                variant="bordered"
                 size="sm"
                 startContent={<Icon icon="solar:download-linear" />}
+                variant="bordered"
               >
                 Export
               </Button>
@@ -329,18 +357,20 @@ export default function NotificationsSettings(props: CardProps) {
 
         {/* Action Buttons */}
         <div className="flex w-full justify-end gap-3 pt-4">
-          <Button 
-            variant="bordered"
+          <Button
             startContent={<Icon icon="solar:restart-linear" />}
+            variant="bordered"
             onPress={handleResetToDefault}
           >
             Reset to Default
           </Button>
-          <Button 
-            color="primary" 
+          <Button
+            color="primary"
             isLoading={isLoading}
+            startContent={
+              !isLoading ? <Icon icon="solar:diskette-linear" /> : undefined
+            }
             onPress={handleSaveSettings}
-            startContent={!isLoading ? <Icon icon="solar:diskette-linear" /> : undefined}
           >
             {isLoading ? "Saving..." : "Save Changes"}
           </Button>

@@ -25,6 +25,7 @@ class AnalyticsService {
 
   async getUsersByCountry(countryCode: string): Promise<User[]> {
     const users = await this.getUsers();
+
     return users.filter((user) => user.countryCode === countryCode);
   }
 
@@ -33,6 +34,7 @@ class AnalyticsService {
 
     users.forEach((user) => {
       const existing = countryMap.get(user.countryCode);
+
       if (existing) {
         existing.userCount++;
       } else {
@@ -79,6 +81,7 @@ class AnalyticsService {
       SA: "🇸🇦",
       AE: "🇦🇪",
     };
+
     return flagMap[countryCode] || "🏳️";
   }
 

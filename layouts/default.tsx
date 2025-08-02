@@ -4,6 +4,7 @@ import { Icon } from "@iconify/react";
 import { useState } from "react";
 
 import { Head } from "./head";
+
 import { Navbar } from "@/components/navbar";
 
 interface DefaultLayoutProps {
@@ -59,8 +60,8 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
                 href="mailto:mo.mallat@perla-it.com"
               >
                 <Icon
-                  icon="solar:letter-linear"
                   className="w-4 h-4 text-primary"
+                  icon="solar:letter-linear"
                 />
                 mo.mallat@perla-it.com
               </Link>
@@ -69,8 +70,8 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
                 href="https://calendly.com/perla-ci"
               >
                 <Icon
-                  icon="solar:calendar-linear"
                   className="w-4 h-4 text-primary"
+                  icon="solar:calendar-linear"
                 />
                 Schedule Meeting
               </Link>
@@ -81,21 +82,21 @@ export default function DefaultLayout({ children }: DefaultLayoutProps) {
                 className="text-default-500 hover:text-foreground transition-colors flex items-center gap-1"
                 href="/privacy"
               >
-                <Icon icon="solar:shield-check-linear" className="w-3 h-3" />
+                <Icon className="w-3 h-3" icon="solar:shield-check-linear" />
                 Privacy
               </Link>
               <Link
                 className="text-default-500 hover:text-foreground transition-colors flex items-center gap-1"
                 href="/terms"
               >
-                <Icon icon="solar:document-text-linear" className="w-3 h-3" />
+                <Icon className="w-3 h-3" icon="solar:document-text-linear" />
                 Terms
               </Link>
               <Link
                 className="text-default-500 hover:text-foreground transition-colors flex items-center gap-1"
                 href="mailto:mo.mallat@perla-it.com"
               >
-                <Icon icon="solar:letter-linear" className="w-3 h-3" />
+                <Icon className="w-3 h-3" icon="solar:letter-linear" />
                 Contact
               </Link>
             </div>

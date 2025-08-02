@@ -34,6 +34,7 @@ class ContactsService {
   async getContact(id: string): Promise<Contact | null> {
     // Mock implementation
     const contacts = this.getMockContacts();
+
     return contacts.find((contact) => contact.id === id) || null;
   }
 
@@ -54,6 +55,7 @@ class ContactsService {
   async updateContact(id: string, updates: Partial<Contact>): Promise<Contact> {
     // Mock implementation
     const contact = await this.getContact(id);
+
     if (!contact) {
       throw new Error("Contact not found");
     }
@@ -101,6 +103,7 @@ class ContactsService {
         const searchLower = filters.search.toLowerCase();
         const fullName =
           `${contact.firstName} ${contact.lastName}`.toLowerCase();
+
         if (
           !fullName.includes(searchLower) &&
           !contact.email.toLowerCase().includes(searchLower) &&

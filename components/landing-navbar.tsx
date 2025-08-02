@@ -1,6 +1,7 @@
 "use client";
 
 import type { NavbarProps } from "@heroui/react";
+
 import React from "react";
 import {
   Navbar,
@@ -15,7 +16,6 @@ import {
   Divider,
   cn,
 } from "@heroui/react";
-import { Icon } from "@iconify/react";
 
 const menuItems = [
   "Home",
@@ -32,6 +32,7 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
     const handleAuthAction = (action: "login" | "register") => {
       const eventName = action === "login" ? "openLogin" : "openRegister";
       const event = new CustomEvent(eventName);
+
       window.dispatchEvent(event);
     };
 
@@ -120,8 +121,8 @@ const LandingNavbar = React.forwardRef<HTMLElement, NavbarProps>(
         <NavbarContent className="hidden md:flex" justify="end">
           <NavbarItem className="ml-2 !flex gap-2">
             <Button
-              variant="light"
               radius="full"
+              variant="light"
               onPress={() => handleAuthAction("login")}
             >
               Login

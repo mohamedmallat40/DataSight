@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Card, CardBody, Avatar, Chip } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -16,21 +15,21 @@ interface CustomWorldMapProps {
 // User list component for hover
 const UserList = ({ users, country }: { users: User[]; country: string }) => (
   <motion.div
-    initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: -10 }}
     className="fixed top-20 right-4 z-[1000] pointer-events-none"
+    exit={{ opacity: 0, y: -10 }}
+    initial={{ opacity: 0, y: 10 }}
   >
     <Card className="w-80 shadow-lg border-1 border-primary/20 bg-content1/95 backdrop-blur-sm">
       <CardBody className="p-4">
         <div className="flex items-center gap-2 mb-3">
           <Icon
-            icon="solar:users-group-rounded-linear"
             className="text-primary"
+            icon="solar:users-group-rounded-linear"
             width={20}
           />
           <h4 className="font-semibold text-foreground">{country}</h4>
-          <Chip size="sm" color="primary" variant="flat">
+          <Chip color="primary" size="sm" variant="flat">
             {users.length} users
           </Chip>
         </div>
@@ -40,7 +39,7 @@ const UserList = ({ users, country }: { users: User[]; country: string }) => (
               key={user.id}
               className="flex items-center gap-3 p-2 rounded-md bg-default-50"
             >
-              <Avatar src={user.avatar} alt={user.name} size="sm" />
+              <Avatar alt={user.name} size="sm" src={user.avatar} />
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-sm text-foreground truncate">
                   {user.name}
@@ -50,10 +49,10 @@ const UserList = ({ users, country }: { users: User[]; country: string }) => (
                 </p>
               </div>
               <Chip
+                className="text-xs"
+                color="secondary"
                 size="sm"
                 variant="flat"
-                color="secondary"
-                className="text-xs"
               >
                 {user.role}
               </Chip>
@@ -82,10 +81,12 @@ const CountryCard = ({
 }) => {
   const getColorIntensity = (userCount: number, maxUsers: number) => {
     const intensity = userCount / maxUsers;
+
     if (intensity > 0.8) return "bg-primary-600";
     if (intensity > 0.6) return "bg-primary-500";
     if (intensity > 0.4) return "bg-primary-400";
     if (intensity > 0.2) return "bg-primary-300";
+
     return "bg-primary-200";
   };
 
@@ -138,9 +139,9 @@ export const CustomWorldMap = ({
         {/* World map background */}
         <div className="absolute inset-0 opacity-10">
           <svg
-            viewBox="0 0 1000 500"
             className="w-full h-full"
             fill="currentColor"
+            viewBox="0 0 1000 500"
           >
             {/* Simplified world continents */}
             {/* North America */}
@@ -161,6 +162,7 @@ export const CustomWorldMap = ({
         {/* Country markers */}
         {countryStats.map((country) => {
           const position = countryPositions[country.country];
+
           if (!position) return null;
 
           const users = getUsersByCountry(country.country);
@@ -173,8 +175,8 @@ export const CustomWorldMap = ({
             >
               <CountryCard
                 country={country}
-                users={users}
                 position={position}
+                users={users}
               />
             </div>
           );
@@ -198,8 +200,8 @@ export const CustomWorldMap = ({
         <div className="absolute top-4 left-4 bg-content1/90 backdrop-blur-sm rounded-lg p-3 shadow-lg">
           <div className="flex items-center gap-2">
             <Icon
-              icon="solar:global-linear"
               className="text-primary"
+              icon="solar:global-linear"
               width={20}
             />
             <h5 className="text-sm font-semibold text-foreground">
@@ -212,7 +214,7 @@ export const CustomWorldMap = ({
       {/* User list on hover */}
       <AnimatePresence>
         {hoveredCountry && hoveredUsers.length > 0 && (
-          <UserList users={hoveredUsers} country={hoveredCountry} />
+          <UserList country={hoveredCountry} users={hoveredUsers} />
         )}
       </AnimatePresence>
 
@@ -223,15 +225,15 @@ export const CustomWorldMap = ({
         </h5>
         <div className="flex items-center gap-3 text-xs">
           <div className="flex items-center gap-1">
-            <div className="w-3 h-3 rounded-full bg-primary-200"></div>
+            <div className="w-3 h-3 rounded-full bg-primary-200" />
             <span className="text-default-600">1</span>
           </div>
           <div className="flex items-center gap-1">
-            <div className="w-3 h-3 rounded-full bg-primary-400"></div>
+            <div className="w-3 h-3 rounded-full bg-primary-400" />
             <span className="text-default-600">2-3</span>
           </div>
           <div className="flex items-center gap-1">
-            <div className="w-3 h-3 rounded-full bg-primary-600"></div>
+            <div className="w-3 h-3 rounded-full bg-primary-600" />
             <span className="text-default-600">4+</span>
           </div>
         </div>
@@ -240,7 +242,7 @@ export const CustomWorldMap = ({
       {/* Interactive instructions */}
       <div className="absolute top-4 right-4 bg-content1/90 backdrop-blur-sm rounded-lg p-3 shadow-lg max-w-xs">
         <div className="text-xs text-default-600">
-          <Icon icon="solar:cursor-linear" className="inline mr-1" width={12} />
+          <Icon className="inline mr-1" icon="solar:cursor-linear" width={12} />
           Hover over country markers to see user details
         </div>
       </div>

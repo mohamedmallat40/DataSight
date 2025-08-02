@@ -36,9 +36,6 @@ import {
   Tab,
   Avatar,
   Link,
-  Card,
-  CardBody,
-  CardHeader,
 } from "@heroui/react";
 import { SearchIcon } from "@heroui/shared-icons";
 import React, { useMemo, useState, useEffect, useCallback } from "react";
@@ -49,9 +46,6 @@ import { useRouter } from "next/router";
 import { CountryFlag } from "../components/CountryFlag";
 import { EmailListEnhanced } from "../components/table/email-list-enhanced";
 import { PhoneListEnhanced } from "../components/table/phone-list-enhanced";
-import { EyeFilledIcon } from "../components/table/eye";
-import { EditLinearIcon } from "../components/table/edit";
-import { DeleteFilledIcon } from "../components/table/delete";
 import { useMemoizedCallback } from "../components/table/use-memoized-callback";
 import { columns, INITIAL_VISIBLE_COLUMNS } from "../types/data";
 import { HighlightedText, containsSearchTerm } from "../utils/search-highlight";
@@ -65,7 +59,6 @@ import { GenderIndicator } from "../components/table/gender-indicator";
 import EditUserModal from "../components/table/edit-user-modal";
 
 import UnifiedContactModal from "@/components/contacts/unified-contact-modal";
-
 import apiClient from "@/config/api";
 import DefaultLayout from "@/layouts/default";
 
@@ -246,6 +239,7 @@ export default function ContactsPage(): JSX.Element {
           setTimeout(() => reject(new Error("API timeout")), 5000),
         ),
       ])) as any;
+
       console.log("✅ API request successful!");
       const { data } = response;
 
@@ -569,6 +563,7 @@ export default function ContactsPage(): JSX.Element {
     } catch (error: unknown) {
       const errorMessage =
         error instanceof Error ? error.message : "AI enrichment failed";
+
       console.error("❌ Error during AI enrichment:", errorMessage);
       setEnrichmentResults({ error: errorMessage });
     } finally {
@@ -585,6 +580,7 @@ export default function ContactsPage(): JSX.Element {
           return (
             <div className="flex items-center gap-3">
               <Avatar
+                showFallback
                 className={`w-10 h-10 bg-transparent ${
                   user.gender === true
                     ? "border-2 border-blue-500 text-blue-500"
@@ -592,12 +588,8 @@ export default function ContactsPage(): JSX.Element {
                       ? "border-2 border-pink-500 text-pink-500"
                       : "border-2 border-default-400 text-default-400"
                 }`}
-                radius="lg"
-                showFallback
                 fallback={
                   <Icon
-                    icon="solar:user-linear"
-                    width={20}
                     className={
                       user.gender === true
                         ? "text-blue-500"
@@ -605,8 +597,11 @@ export default function ContactsPage(): JSX.Element {
                           ? "text-pink-500"
                           : "text-default-400"
                     }
+                    icon="solar:user-linear"
+                    width={20}
                   />
                 }
+                radius="lg"
                 src={
                   user.front_image_link ||
                   user.card_image_url ||
@@ -675,8 +670,8 @@ export default function ContactsPage(): JSX.Element {
             <div className="flex flex-col gap-0.5 min-w-0 max-w-[230px] w-[230px]">
               <p
                 className="text-small font-medium text-default-700 truncate overflow-hidden"
-                title={user.company_name || "No company"}
                 style={{ maxWidth: "230px" }}
+                title={user.company_name || "No company"}
               >
                 {user.company_name || "N/A"}
               </p>
@@ -699,11 +694,11 @@ export default function ContactsPage(): JSX.Element {
                     </a>
                   </WebsitePreview>
                   <ReachabilityChip
+                    className="text-tiny"
+                    size="sm"
                     type="website"
                     value={user.website}
-                    size="sm"
                     variant="subtle"
-                    className="text-tiny"
                   />
                 </div>
               )}
@@ -744,12 +739,12 @@ export default function ContactsPage(): JSX.Element {
                 </div>
                 <MapButton
                   address={user.address}
-                  street={user.street}
                   city={user.city}
-                  state={user.state}
-                  postal_code={user.postal_code}
-                  country={user.country}
                   contactName={user.full_name}
+                  country={user.country}
+                  postal_code={user.postal_code}
+                  state={user.state}
+                  street={user.street}
                   onPress={() => handleViewOnMap(user)}
                 />
               </div>
@@ -811,59 +806,62 @@ export default function ContactsPage(): JSX.Element {
             <div className="flex gap-1 justify-end items-center">
               <Button
                 isIconOnly
-                size="sm"
-                variant="light"
+                aria-label={`View details for ${user.full_name || "user"}`}
                 className="text-default-400 hover:text-primary hover:bg-primary/10 transition-all duration-200 min-w-8 h-8 rounded-lg"
+                size="sm"
+                title={`View details for ${user.full_name || "user"}`}
+                variant="light"
                 onPress={(e: any) => {
                   e?.stopPropagation?.();
                   handleViewUser(user);
                 }}
-                aria-label={`View details for ${user.full_name || "user"}`}
-                title={`View details for ${user.full_name || "user"}`}
               >
-                <Icon icon="solar:eye-linear" className="w-4 h-4" />
+                <Icon className="w-4 h-4" icon="solar:eye-linear" />
               </Button>
               <Button
                 isIconOnly
-                size="sm"
-                variant="light"
+                aria-label={`AI enrichment for ${user.full_name || "user"}`}
                 className="text-default-400 hover:text-secondary hover:bg-secondary/10 transition-all duration-200 min-w-8 h-8 rounded-lg"
+                size="sm"
+                title={`AI enrichment for ${user.full_name || "user"}`}
+                variant="light"
                 onPress={(e: any) => {
                   e?.stopPropagation?.();
                   handleAIEnrichment(user);
                 }}
-                aria-label={`AI enrichment for ${user.full_name || "user"}`}
-                title={`AI enrichment for ${user.full_name || "user"}`}
               >
-                <Icon icon="solar:magic-stick-3-linear" className="w-4 h-4" />
+                <Icon className="w-4 h-4" icon="solar:magic-stick-3-linear" />
               </Button>
               <Button
                 isIconOnly
-                size="sm"
-                variant="light"
+                aria-label={`Edit ${user.full_name || "user"}`}
                 className="text-default-400 hover:text-warning hover:bg-warning/10 transition-all duration-200 min-w-8 h-8 rounded-lg"
+                size="sm"
+                title={`Edit ${user.full_name || "user"}`}
+                variant="light"
                 onPress={(e: any) => {
                   e?.stopPropagation?.();
                   handleEditUser(user);
                 }}
-                aria-label={`Edit ${user.full_name || "user"}`}
-                title={`Edit ${user.full_name || "user"}`}
               >
-                <Icon icon="solar:pen-linear" className="w-4 h-4" />
+                <Icon className="w-4 h-4" icon="solar:pen-linear" />
               </Button>
               <Button
                 isIconOnly
-                size="sm"
-                variant="light"
+                aria-label={`Delete ${user.full_name || "user"}`}
                 className="text-default-400 hover:text-danger hover:bg-danger/10 transition-all duration-200 min-w-8 h-8 rounded-lg"
+                size="sm"
+                title={`Delete ${user.full_name || "user"}`}
+                variant="light"
                 onPress={(e: any) => {
                   e?.stopPropagation?.();
                   handleDeleteUser(user);
                 }}
-                aria-label={`Delete ${user.full_name || "user"}`}
-                title={`Delete ${user.full_name || "user"}`}
               >
-                <Icon icon="solar:trash-bin-minimalistic-linear" className="w-4 h-4" />
+                <Icon
+                  className="w-4 h-4"
+                  icon="solar:trash-bin-minimalistic-linear"
+                />
               </Button>
             </div>
           );
@@ -1200,142 +1198,190 @@ export default function ContactsPage(): JSX.Element {
                   Actions
                 </Button>
               </DropdownTrigger>
-              <DropdownMenu 
+              <DropdownMenu
                 aria-label="Selected Actions"
                 className="min-w-[200px]"
                 itemClasses={{
                   base: "gap-3 data-[hover=true]:bg-default-100 rounded-lg",
                 }}
               >
-                <DropdownItem 
+                <DropdownItem
                   key="export-csv"
-                  startContent={
-                    <Icon icon="solar:file-text-linear" className="text-success-600" width={18} />
-                  }
-                  description="Export as CSV file"
                   className="text-foreground"
+                  description="Export as CSV file"
+                  startContent={
+                    <Icon
+                      className="text-success-600"
+                      icon="solar:file-text-linear"
+                      width={18}
+                    />
+                  }
                 >
                   Export to CSV
                 </DropdownItem>
-                <DropdownItem 
+                <DropdownItem
                   key="export-excel"
-                  startContent={
-                    <Icon icon="solar:file-smile-linear" className="text-success-600" width={18} />
-                  }
-                  description="Export as Excel file"
                   className="text-foreground"
+                  description="Export as Excel file"
+                  startContent={
+                    <Icon
+                      className="text-success-600"
+                      icon="solar:file-smile-linear"
+                      width={18}
+                    />
+                  }
                 >
                   Export to Excel
                 </DropdownItem>
-                <DropdownItem 
+                <DropdownItem
                   key="export-vcf"
-                  startContent={
-                    <Icon icon="solar:user-id-linear" className="text-success-600" width={18} />
-                  }
-                  description="Export as vCard format"
                   className="text-foreground"
+                  description="Export as vCard format"
+                  startContent={
+                    <Icon
+                      className="text-success-600"
+                      icon="solar:user-id-linear"
+                      width={18}
+                    />
+                  }
                 >
                   Export to vCard
                 </DropdownItem>
-                <DropdownItem 
+                <DropdownItem
                   key="export-pdf"
-                  startContent={
-                    <Icon icon="solar:document-linear" className="text-success-600" width={18} />
-                  }
-                  description="Export as PDF report"
                   className="text-foreground"
+                  description="Export as PDF report"
+                  startContent={
+                    <Icon
+                      className="text-success-600"
+                      icon="solar:document-linear"
+                      width={18}
+                    />
+                  }
                 >
                   Export to PDF
                 </DropdownItem>
-                <DropdownItem 
+                <DropdownItem
                   key="divider-1"
                   className="opacity-0 pointer-events-none h-px"
                 />
-                <DropdownItem 
+                <DropdownItem
                   key="send-email"
-                  startContent={
-                    <Icon icon="solar:letter-linear" className="text-primary-600" width={18} />
-                  }
-                  description="Send bulk email campaign"
                   className="text-foreground"
+                  description="Send bulk email campaign"
+                  startContent={
+                    <Icon
+                      className="text-primary-600"
+                      icon="solar:letter-linear"
+                      width={18}
+                    />
+                  }
                 >
                   Send Email Campaign
                 </DropdownItem>
-                <DropdownItem 
+                <DropdownItem
                   key="send-sms"
-                  startContent={
-                    <Icon icon="solar:chat-round-linear" className="text-primary-600" width={18} />
-                  }
-                  description="Send bulk SMS messages"
                   className="text-foreground"
+                  description="Send bulk SMS messages"
+                  startContent={
+                    <Icon
+                      className="text-primary-600"
+                      icon="solar:chat-round-linear"
+                      width={18}
+                    />
+                  }
                 >
                   Send SMS Campaign
                 </DropdownItem>
-                <DropdownItem 
+                <DropdownItem
                   key="whatsapp-broadcast"
-                  startContent={
-                    <Icon icon="ic:baseline-whatsapp" className="text-success-600" width={18} />
-                  }
-                  description="Send WhatsApp broadcast"
                   className="text-foreground"
+                  description="Send WhatsApp broadcast"
+                  startContent={
+                    <Icon
+                      className="text-success-600"
+                      icon="ic:baseline-whatsapp"
+                      width={18}
+                    />
+                  }
                 >
                   WhatsApp Broadcast
                 </DropdownItem>
-                <DropdownItem 
+                <DropdownItem
                   key="divider-2"
                   className="opacity-0 pointer-events-none h-px"
                 />
-                <DropdownItem 
+                <DropdownItem
                   key="bulk-edit"
-                  startContent={
-                    <Icon icon="solar:pen-new-square-linear" className="text-warning-600" width={18} />
-                  }
-                  description="Edit multiple contacts"
                   className="text-foreground"
+                  description="Edit multiple contacts"
+                  startContent={
+                    <Icon
+                      className="text-warning-600"
+                      icon="solar:pen-new-square-linear"
+                      width={18}
+                    />
+                  }
                 >
                   Bulk Edit
                 </DropdownItem>
-                <DropdownItem 
+                <DropdownItem
                   key="bulk-tag"
-                  startContent={
-                    <Icon icon="solar:tag-linear" className="text-warning-600" width={18} />
-                  }
-                  description="Add tags to selected contacts"
                   className="text-foreground"
+                  description="Add tags to selected contacts"
+                  startContent={
+                    <Icon
+                      className="text-warning-600"
+                      icon="solar:tag-linear"
+                      width={18}
+                    />
+                  }
                 >
                   Add Tags
                 </DropdownItem>
-                <DropdownItem 
+                <DropdownItem
                   key="move-pool"
-                  startContent={
-                    <Icon icon="solar:move-to-folder-linear" className="text-secondary-600" width={18} />
-                  }
-                  description="Move to different pool"
                   className="text-foreground"
+                  description="Move to different pool"
+                  startContent={
+                    <Icon
+                      className="text-secondary-600"
+                      icon="solar:move-to-folder-linear"
+                      width={18}
+                    />
+                  }
                 >
                   Move to Pool
                 </DropdownItem>
-                <DropdownItem 
+                <DropdownItem
                   key="divider-3"
                   className="opacity-0 pointer-events-none h-px"
                 />
-                <DropdownItem 
+                <DropdownItem
                   key="archive"
-                  startContent={
-                    <Icon icon="solar:archive-linear" className="text-default-500" width={18} />
-                  }
-                  description="Archive selected contacts"
                   className="text-foreground"
+                  description="Archive selected contacts"
+                  startContent={
+                    <Icon
+                      className="text-default-500"
+                      icon="solar:archive-linear"
+                      width={18}
+                    />
+                  }
                 >
                   Archive Contacts
                 </DropdownItem>
-                <DropdownItem 
+                <DropdownItem
                   key="delete"
-                  startContent={
-                    <Icon icon="solar:trash-bin-minimalistic-linear" className="text-danger-600" width={18} />
-                  }
-                  description="Permanently delete contacts"
                   className="text-danger"
+                  description="Permanently delete contacts"
+                  startContent={
+                    <Icon
+                      className="text-danger-600"
+                      icon="solar:trash-bin-minimalistic-linear"
+                      width={18}
+                    />
+                  }
                 >
                   Delete Contacts
                 </DropdownItem>
@@ -1377,9 +1423,9 @@ export default function ContactsPage(): JSX.Element {
         </div>
         <Button
           className="bg-gradient-to-r from-primary to-primary-600 hover:from-primary-600 hover:to-primary-700 text-white font-semibold shadow-md hover:shadow-lg transition-all duration-200 border-0"
-          startContent={<Icon icon="solar:user-plus-bold" width={18} />}
           endContent={<Icon icon="solar:arrow-right-linear" width={16} />}
           size="md"
+          startContent={<Icon icon="solar:user-plus-bold" width={18} />}
           onPress={onOpen}
         >
           Add Contact
@@ -1541,16 +1587,16 @@ export default function ContactsPage(): JSX.Element {
 
         {/* AI Enrichment Modal */}
         <Modal
-          isOpen={isAIEnrichmentModalOpen}
-          size="4xl"
-          onOpenChange={onAIEnrichmentModalOpenChange}
-          scrollBehavior="inside"
           classNames={{
             base: "bg-content1",
             header: "border-b border-divider/30",
             footer: "border-t border-divider/30 bg-content1/50",
             closeButton: "hover:bg-default-100/50 active:bg-default-200/50",
           }}
+          isOpen={isAIEnrichmentModalOpen}
+          scrollBehavior="inside"
+          size="4xl"
+          onOpenChange={onAIEnrichmentModalOpenChange}
         >
           <ModalContent>
             {(onClose) => (
@@ -1596,13 +1642,13 @@ export default function ContactsPage(): JSX.Element {
                         profiles, company insights, and recent updates.
                       </p>
                       <Button
+                        className="font-medium px-6"
                         color="secondary"
                         size="md"
-                        variant="flat"
                         startContent={
                           <Icon icon="solar:magic-stick-3-linear" width={18} />
                         }
-                        className="font-medium px-6"
+                        variant="flat"
                         onPress={performAIEnrichment}
                       >
                         Start Enrichment
@@ -1633,7 +1679,7 @@ export default function ContactsPage(): JSX.Element {
                               borderTopColor:
                                 "rgb(var(--heroui-secondary) / 0.4)",
                             }}
-                          ></div>
+                          />
                         </div>
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div
@@ -1643,7 +1689,7 @@ export default function ContactsPage(): JSX.Element {
                               borderRightColor:
                                 "rgb(var(--heroui-secondary) / 0.2)",
                             }}
-                          ></div>
+                          />
                         </div>
 
                         {/* Floating particles */}
@@ -1657,7 +1703,7 @@ export default function ContactsPage(): JSX.Element {
                               animationDelay: "0s",
                               animationDuration: "1.5s",
                             }}
-                          ></div>
+                          />
                           <div
                             className="w-1.5 h-1.5 bg-secondary/30 rounded-full animate-bounce"
                             style={{
@@ -1667,7 +1713,7 @@ export default function ContactsPage(): JSX.Element {
                               animationDelay: "0.3s",
                               animationDuration: "1.8s",
                             }}
-                          ></div>
+                          />
                           <div
                             className="w-1 h-1 bg-secondary/20 rounded-full animate-bounce"
                             style={{
@@ -1677,7 +1723,7 @@ export default function ContactsPage(): JSX.Element {
                               animationDelay: "0.6s",
                               animationDuration: "2s",
                             }}
-                          ></div>
+                          />
                         </div>
                       </div>
 
@@ -1728,21 +1774,21 @@ export default function ContactsPage(): JSX.Element {
                       <div className="max-w-sm mx-auto">
                         <div className="flex items-center justify-between text-xs text-default-400 mb-2">
                           <span className="flex items-center gap-1">
-                            <div className="w-1.5 h-1.5 bg-secondary rounded-full animate-pulse"></div>
+                            <div className="w-1.5 h-1.5 bg-secondary rounded-full animate-pulse" />
                             Social Profiles
                           </span>
                           <span className="flex items-center gap-1">
                             <div
                               className="w-1.5 h-1.5 bg-secondary/60 rounded-full animate-pulse"
                               style={{ animationDelay: "0.5s" }}
-                            ></div>
+                            />
                             Company Data
                           </span>
                           <span className="flex items-center gap-1">
                             <div
                               className="w-1.5 h-1.5 bg-secondary/40 rounded-full animate-pulse"
                               style={{ animationDelay: "1s" }}
-                            ></div>
+                            />
                             Recent News
                           </span>
                         </div>
@@ -1754,7 +1800,7 @@ export default function ContactsPage(): JSX.Element {
                               animation:
                                 "pulse 2s ease-in-out infinite alternate",
                             }}
-                          ></div>
+                          />
                         </div>
                       </div>
                     </div>
@@ -1777,10 +1823,10 @@ export default function ContactsPage(): JSX.Element {
                           </span>
                         </div>
                         <Chip
-                          color="success"
-                          variant="flat"
-                          size="sm"
                           className="font-medium"
+                          color="success"
+                          size="sm"
+                          variant="flat"
                         >
                           {enrichmentResults.confidence}%
                         </Chip>
@@ -1833,19 +1879,19 @@ export default function ContactsPage(): JSX.Element {
                                     </span>
                                   </div>
                                   <Button
-                                    as={Link}
-                                    href={url as string}
-                                    size="sm"
-                                    variant="light"
-                                    color="primary"
                                     isExternal
+                                    as={Link}
+                                    className="font-medium text-xs h-6 px-2"
+                                    color="primary"
                                     endContent={
                                       <Icon
                                         icon="solar:external-link-linear"
                                         width={12}
                                       />
                                     }
-                                    className="font-medium text-xs h-6 px-2"
+                                    href={url as string}
+                                    size="sm"
+                                    variant="light"
                                   >
                                     Visit
                                   </Button>
@@ -1925,10 +1971,10 @@ export default function ContactsPage(): JSX.Element {
                                 </h5>
                                 <div className="flex items-center gap-2 mb-2">
                                   <Chip
+                                    className="text-xs h-5"
+                                    color="default"
                                     size="sm"
                                     variant="flat"
-                                    color="default"
-                                    className="text-xs h-5"
                                   >
                                     {news.source}
                                   </Chip>
@@ -1982,13 +2028,13 @@ export default function ContactsPage(): JSX.Element {
                                   </span>
                                 </div>
                                 <Button
-                                  size="sm"
-                                  variant="light"
+                                  className="font-medium text-xs h-6 px-2"
                                   color="default"
+                                  size="sm"
                                   startContent={
                                     <Icon icon="solar:copy-linear" width={12} />
                                   }
-                                  className="font-medium text-xs h-6 px-2"
+                                  variant="light"
                                   onPress={() =>
                                     navigator.clipboard.writeText(email)
                                   }
@@ -2021,11 +2067,11 @@ export default function ContactsPage(): JSX.Element {
                       </p>
                       <Button
                         color="danger"
-                        variant="flat"
                         size="sm"
                         startContent={
                           <Icon icon="solar:refresh-linear" width={16} />
                         }
+                        variant="flat"
                         onPress={performAIEnrichment}
                       >
                         Try Again
@@ -2035,22 +2081,22 @@ export default function ContactsPage(): JSX.Element {
                 </ModalBody>
                 <ModalFooter className="px-8 py-4 bg-content1/50">
                   <Button
-                    variant="light"
-                    onPress={onClose}
                     className="font-medium text-sm"
                     size="sm"
+                    variant="light"
+                    onPress={onClose}
                   >
                     Close
                   </Button>
                   {enrichmentResults && !enrichmentResults.error && (
                     <Button
+                      className="font-medium text-sm"
                       color="primary"
-                      variant="flat"
+                      size="sm"
                       startContent={
                         <Icon icon="solar:database-linear" width={16} />
                       }
-                      className="font-medium text-sm"
-                      size="sm"
+                      variant="flat"
                       onPress={() => {
                         // Here you would save the enriched data back to the contact
                         console.log("Saving enriched data...");
@@ -2084,15 +2130,15 @@ export default function ContactsPage(): JSX.Element {
         />
 
         <AddressMapModal
-          isOpen={isMapModalOpen}
-          onOpenChange={onMapModalOpenChange}
           address={userForMap?.address || ""}
-          street={userForMap?.street || undefined}
           city={userForMap?.city || ""}
-          state={userForMap?.state || undefined}
-          postal_code={userForMap?.postal_code || undefined}
-          country={userForMap?.country || ""}
           contactName={userForMap?.full_name}
+          country={userForMap?.country || ""}
+          isOpen={isMapModalOpen}
+          postal_code={userForMap?.postal_code || undefined}
+          state={userForMap?.state || undefined}
+          street={userForMap?.street || undefined}
+          onOpenChange={onMapModalOpenChange}
         />
       </div>
     </DefaultLayout>

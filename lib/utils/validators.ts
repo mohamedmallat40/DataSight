@@ -1,6 +1,7 @@
 // Email validation
 export function isValidEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
   return emailRegex.test(email);
 }
 
@@ -8,6 +9,7 @@ export function isValidEmail(email: string): boolean {
 export function isValidPhone(phone: string): boolean {
   const phoneRegex = /^[\+]?[1-9][\d]{0,15}$/;
   const cleaned = phone.replace(/[\s\-\(\)]/g, "");
+
   return phoneRegex.test(cleaned);
 }
 
@@ -15,6 +17,7 @@ export function isValidPhone(phone: string): boolean {
 export function isValidUrl(url: string): boolean {
   try {
     new URL(url);
+
     return true;
   } catch {
     return false;
@@ -73,6 +76,7 @@ export function validateField(
 
   if (rules.custom && value) {
     const customResult = rules.custom(value);
+
     if (typeof customResult === "string") {
       errors.push(customResult);
     } else if (!customResult) {
@@ -122,6 +126,7 @@ export function validateContact(contact: any): ValidationResult {
 
   Object.entries(contactValidationRules).forEach(([field, rules]) => {
     const result = validateField(contact[field], rules);
+
     if (!result.isValid) {
       allErrors.push(...result.errors.map((error) => `${field}: ${error}`));
     }

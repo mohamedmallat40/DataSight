@@ -55,8 +55,12 @@ const CompleteStep: React.FC<CompleteStepProps> = ({
                 <h2 className="text-2xl font-bold">
                   {businessCardData?.full_name || "Unknown"}
                 </h2>
-                <p className="text-default-500">{businessCardData?.job_title || ""}</p>
-                <p className="font-medium">{businessCardData?.company_name || ""}</p>
+                <p className="text-default-500">
+                  {businessCardData?.job_title || ""}
+                </p>
+                <p className="font-medium">
+                  {businessCardData?.company_name || ""}
+                </p>
               </div>
 
               <Divider className="my-4" />

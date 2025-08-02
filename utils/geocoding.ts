@@ -41,6 +41,7 @@ export async function geocodeAddress(
 
     if (data && data.length > 0) {
       const result = data[0];
+
       return {
         coordinates: {
           lat: parseFloat(result.lat),
@@ -54,6 +55,7 @@ export async function geocodeAddress(
     return null;
   } catch (error) {
     console.error("Geocoding error:", error);
+
     return null;
   }
 }
@@ -97,6 +99,7 @@ export function getFallbackCoordinates(
 
   // Try with country as well
   const countryKey = `${searchKey}, ${country.toLowerCase()}`;
+
   if (CITY_COORDINATES[countryKey]) {
     return CITY_COORDINATES[countryKey];
   }
@@ -115,6 +118,7 @@ export async function smartGeocode(
   // First try the full address with the API
   try {
     const result = await geocodeAddress(address);
+
     if (result) {
       return {
         coordinates: result.coordinates,
@@ -127,6 +131,7 @@ export async function smartGeocode(
 
   // Fallback to known city coordinates
   const fallbackCoords = getFallbackCoordinates(city, country);
+
   if (fallbackCoords) {
     return {
       coordinates: fallbackCoords,
@@ -137,6 +142,7 @@ export async function smartGeocode(
   // Last resort: try just the city name with API
   try {
     const cityResult = await geocodeAddress(`${city}, ${country}`);
+
     if (cityResult) {
       return {
         coordinates: cityResult.coordinates,

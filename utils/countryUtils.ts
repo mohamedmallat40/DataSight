@@ -1,7 +1,7 @@
 import type { Country } from "../data/countries";
 
 export function groupCountriesByContinent(
-  countries: Country[]
+  countries: Country[],
 ): Record<string, Country[]> {
   return countries.reduce(
     (acc, country) => {
@@ -12,29 +12,29 @@ export function groupCountriesByContinent(
 
       return acc;
     },
-    {} as Record<string, Country[]>
+    {} as Record<string, Country[]>,
   );
 }
 
 export function findCountryByCode(
   countries: Country[],
-  code: string
+  code: string,
 ): Country | undefined {
   return countries.find((country) => country.code === code);
 }
 
 export function findCountryByName(
   countries: Country[],
-  name: string
+  name: string,
 ): Country | undefined {
   return countries.find(
-    (country) => country.name.toLowerCase() === name.toLowerCase()
+    (country) => country.name.toLowerCase() === name.toLowerCase(),
   );
 }
 
 export function searchCountries(
   countries: Country[],
-  query: string
+  query: string,
 ): Country[] {
   const searchTerm = query.toLowerCase().trim();
 
@@ -43,6 +43,6 @@ export function searchCountries(
   return countries.filter(
     (country) =>
       country.name.toLowerCase().includes(searchTerm) ||
-      country.code.toLowerCase().includes(searchTerm)
+      country.code.toLowerCase().includes(searchTerm),
   );
 }

@@ -1,7 +1,5 @@
 "use client";
 
-import type { CardProps } from "@heroui/react";
-
 import React from "react";
 import { Card, Tabs, Tab } from "@heroui/react";
 import { Icon } from "@iconify/react";
@@ -16,7 +14,9 @@ export default function ProfilePage() {
     <DefaultLayout>
       <div className="max-w-5xl mx-auto p-6">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Profile Settings</h1>
+          <h1 className="text-3xl font-bold text-foreground mb-2">
+            Profile Settings
+          </h1>
           <p className="text-lg text-default-600">
             Manage your account, subscription, and application preferences
           </p>
@@ -44,7 +44,7 @@ export default function ProfilePage() {
             >
               <AccountDetails className="mx-6 mt-4 shadow-none" />
             </Tab>
-            
+
             <Tab
               key="subscription-settings"
               textValue="Subscription Settings"

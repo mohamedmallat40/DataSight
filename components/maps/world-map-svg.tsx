@@ -39,21 +39,21 @@ interface WorldMapSVGProps {
 // User list component for hover
 const UserList = ({ users, country }: { users: User[]; country: string }) => (
   <motion.div
-    initial={{ opacity: 0, y: 10 }}
     animate={{ opacity: 1, y: 0 }}
-    exit={{ opacity: 0, y: -10 }}
     className="fixed top-20 right-4 z-[1000] pointer-events-none"
+    exit={{ opacity: 0, y: -10 }}
+    initial={{ opacity: 0, y: 10 }}
   >
     <Card className="w-80 shadow-lg border-1 border-primary/20 bg-content1/95 backdrop-blur-sm">
       <CardBody className="p-4">
         <div className="flex items-center gap-2 mb-3">
           <Icon
-            icon="solar:users-group-rounded-linear"
             className="text-primary"
+            icon="solar:users-group-rounded-linear"
             width={20}
           />
           <h4 className="font-semibold text-foreground">{country}</h4>
-          <Chip size="sm" color="primary" variant="flat">
+          <Chip color="primary" size="sm" variant="flat">
             {users.length} users
           </Chip>
         </div>
@@ -63,7 +63,7 @@ const UserList = ({ users, country }: { users: User[]; country: string }) => (
               key={user.id}
               className="flex items-center gap-3 p-2 rounded-md bg-default-50"
             >
-              <Avatar src={user.avatar} alt={user.name} size="sm" />
+              <Avatar alt={user.name} size="sm" src={user.avatar} />
               <div className="flex-1 min-w-0">
                 <p className="font-medium text-sm text-foreground truncate">
                   {user.name}
@@ -73,10 +73,10 @@ const UserList = ({ users, country }: { users: User[]; country: string }) => (
                 </p>
               </div>
               <Chip
+                className="text-xs"
+                color="secondary"
                 size="sm"
                 variant="flat"
-                color="secondary"
-                className="text-xs"
               >
                 {user.role}
               </Chip>
@@ -106,6 +106,7 @@ export const WorldMapSVG = ({
     const country = countryStats.find(
       (c) => countryCodeMap[c.countryCode] === countryCode,
     );
+
     if (!country) return "#f1f5f9"; // Default light gray
 
     const maxUsers = Math.max(...countryStats.map((c) => c.userCount));
@@ -116,6 +117,7 @@ export const WorldMapSVG = ({
     if (intensity > 0.6) return "#338EF7"; // Medium primary
     if (intensity > 0.4) return "#66A3FF"; // Light primary
     if (intensity > 0.2) return "#99B8FF"; // Very light primary
+
     return "#CCE0FF"; // Lightest primary
   };
 
@@ -132,8 +134,8 @@ export const WorldMapSVG = ({
       <div className="w-full h-[500px] bg-content1 rounded-lg flex items-center justify-center">
         <div className="text-center">
           <Icon
-            icon="solar:danger-triangle-linear"
             className="text-danger mx-auto mb-2"
+            icon="solar:danger-triangle-linear"
             width={48}
           />
           <p className="text-danger">Failed to load map</p>
@@ -161,8 +163,8 @@ export const WorldMapSVG = ({
                   return (
                     <Geography
                       key={geo.rsmKey}
-                      geography={geo}
                       fill={getCountryColor(geo.id)}
+                      geography={geo}
                       stroke="#FFFFFF"
                       strokeWidth={0.5}
                       style={{
@@ -202,8 +204,8 @@ export const WorldMapSVG = ({
               coordinates={[country.lng, country.lat]}
             >
               <circle
-                r={Math.min(Math.max(country.userCount * 2, 4), 12)}
                 fill="#006FEE"
+                r={Math.min(Math.max(country.userCount * 2, 4), 12)}
                 stroke="#FFFFFF"
                 strokeWidth={2}
                 style={{
@@ -217,8 +219,6 @@ export const WorldMapSVG = ({
                 onMouseLeave={() => onCountryHover(null)}
               />
               <text
-                textAnchor="middle"
-                y={-15}
                 style={{
                   fontFamily: "system-ui",
                   fontSize: "10px",
@@ -226,6 +226,8 @@ export const WorldMapSVG = ({
                   fontWeight: "500",
                   pointerEvents: "none",
                 }}
+                textAnchor="middle"
+                y={-15}
               >
                 {country.userCount}
               </text>
@@ -237,8 +239,8 @@ export const WorldMapSVG = ({
           <div className="absolute inset-0 bg-content1 flex items-center justify-center">
             <div className="text-center">
               <Icon
-                icon="solar:map-linear"
                 className="text-primary mx-auto mb-2"
+                icon="solar:map-linear"
                 width={48}
               />
               <p className="text-default-500">Loading world map...</p>
@@ -250,7 +252,7 @@ export const WorldMapSVG = ({
       {/* User list on hover */}
       <AnimatePresence>
         {hoveredCountry && hoveredUsers.length > 0 && (
-          <UserList users={hoveredUsers} country={hoveredCountry} />
+          <UserList country={hoveredCountry} users={hoveredUsers} />
         )}
       </AnimatePresence>
 
@@ -261,15 +263,15 @@ export const WorldMapSVG = ({
         </h5>
         <div className="flex items-center gap-2 text-xs">
           <div className="flex items-center gap-1">
-            <div className="w-3 h-3 rounded bg-[#CCE0FF]"></div>
+            <div className="w-3 h-3 rounded bg-[#CCE0FF]" />
             <span className="text-default-600">Low</span>
           </div>
           <div className="flex items-center gap-1">
-            <div className="w-3 h-3 rounded bg-[#66A3FF]"></div>
+            <div className="w-3 h-3 rounded bg-[#66A3FF]" />
             <span className="text-default-600">Medium</span>
           </div>
           <div className="flex items-center gap-1">
-            <div className="w-3 h-3 rounded bg-[#006FEE]"></div>
+            <div className="w-3 h-3 rounded bg-[#006FEE]" />
             <span className="text-default-600">High</span>
           </div>
         </div>
